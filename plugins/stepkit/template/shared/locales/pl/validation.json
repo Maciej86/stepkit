@@ -1,0 +1,6 @@
+{
+  "required": "To pole jest wymagane.",
+  "email_invalid": "Podaj poprawny adres e-mail.",
+  "too_short": "Za mało znaków.",
+  "too_long": "Za dużo znaków."
+}

@@ -1,0 +1,12 @@
+{
+  "app_name": "Moja aplikacja",
+  "roles": {
+    "admin": "Administrator",
+    "user": "Użytkownik"
+  },
+  "nav": {
+    "home": "Strona główna",
+    "my_account": "Moje konto",
+    "dashboard": "Pulpit"
+  }
+}
