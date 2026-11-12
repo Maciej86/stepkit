@@ -48,7 +48,10 @@ Makieta to pierwsze, co użytkownik widzi, więc ma wyglądać jak dopracowany p
    obejrzyj każdy ekran w obu motywach.
 4. **W modułach** trzymasz się ustalonego motywu; `frontend-design` służy do dobrego układu ekranu, nie do zmiany
    kolorów. Motyw zmieniasz tylko na prośbę użytkownika.
-5. **Strona** może być wyrazista (to wizytówka). **Konto i panel** to narzędzia pracy: ten sam charakter, ale spokojnie,
+5. **Wersja na telefon** (dodatek: „Dodatki” w `OVERVIEW.md`, potem „Zasady wspólne” w `SPEC-GENERAL.md`): projektuj ekrany konta i panelu najpierw pod
+   telefon (jedna kolumna, duże przyciski, tabele jako karty na wąskim ekranie) i obejrzyj je przy szerokości 390 px
+   (`browser_resize`).
+6. **Strona** może być wyrazista (to wizytówka). **Konto i panel** to narzędzia pracy: ten sam charakter, ale spokojnie,
    czytelnie, gęsto tam, gdzie są dane (tabele, filtry), z wyraźną główną akcją na ekranie.
 
 ## Jak zrobić ekran modułu

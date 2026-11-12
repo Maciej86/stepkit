@@ -1,0 +1,15 @@
+schema_version: "1.1"
+name: start-extras
+description: Po akceptacji podsumowania skill proponuje dodatki dopasowane do aplikacji.
+runs: 2
+execution:
+  max_turns: 12
+  allowed_tools: [Read, Glob, Grep, Skill, Write, Edit]
+  append_system_prompt: "Środowisko testowe stepkit: komendy (npm, docker, git) są niedostępne, a node_modules nie są zainstalowane. Zakładaj, że npm run check przechodzi po poprawnych zmianach, i pracuj dalej na plikach."
+  prompt: "/stepkit:start Podsumowanie w docs/OVERVIEW.md jest zaakceptowane, wszystko się zgadza."
+context:
+  scaffold_script: fixture.sh
+graders:
+  - name: offers-extras
+    type: llm
+    criteria: Odpowiedź po polsku pokazuje ponumerowaną listę najwyżej 7 dodatków do wyboru, przy każdym krótko po co, z rekomendacją przy kilku z nich, i prosi o wybór (np. numerami). Lista pasuje do aplikacji urlopowej firmy produkcyjnej używanej z telefonu, np. dymki po akcjach, filtry na listach, import pracowników z Excela, wydruk wniosku, wersja na telefon. Nie proponuje rzeczy dla strony dla odwiedzających, której nie ma (SEO, statystyki odwiedzin, formularz kontaktowy). Nie przechodzi jeszcze do robienia makiety.

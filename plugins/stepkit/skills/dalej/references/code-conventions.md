@@ -40,6 +40,13 @@ czcionki i wygląd komponentów biorą się z `shared/src/theme.ts` i `shared/sr
 inaczej ciemny motyw i zmiana kolorów aplikacji przestają działać (test `frontend/src/test/colors.test.ts`).
 Gdy ekran potrzebuje własnych stylów, użyj pliku CSS Modules w folderze modułu (`<Ekran>.module.css`).
 
+**Dymki po akcjach** (gdy wybrane w dodatkach, „Zasady wspólne” w `SPEC-GENERAL.md`): jedna funkcja
+`notify.success(text)` / `notify.error(text)` w `frontend/src/core/notify.ts` i jej kopia w `mockups/src/common/notify.ts`
+(w makietach dopisz `<Notifications />` i `import '@mantine/notifications/styles.css'` w `main.tsx`). Zawsze
+`notifications.show` z Mantine: sukces zielony z ikoną `Check`, błąd czerwony z ikoną `X`, teksty z kluczy i18n, błąd
+zostaje dłużej. Dymek po udanym zapisie, usunięciu, wysłaniu i przy błędzie serwera; błędy pól formularza pod polem,
+nie w dymku; potwierdzenie usunięcia w oknie. Funkcja ma test.
+
 **Ikony:** tylko Lucide (`lucide-react`, nazwy ze strony https://lucide.dev/icons/), żadnej innej paczki ikon. Na ekranach
 importujesz je wprost: `import { CalendarDays } from 'lucide-react'`. Ikona pozycji nawigacji: nazwa z Lucide w polu
 `icon` w `navigation.config.ts` (np. `'calendar-days'`) i ta sama nazwa dopisana do `NAV_ICONS` w

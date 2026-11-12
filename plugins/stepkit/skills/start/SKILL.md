@@ -90,6 +90,9 @@ z „(polecam)”. Archiwum **sam proponujesz** (obszar 12).
 Pokaż podsumowanie, poprawiaj do akceptacji, zapisz `docs/OVERVIEW.md`. Dopasuj szablon według tabeli „Jak odpowiedzi
 zmieniają szkielet” (`interview.md`) i `references/project-skeleton.md` (część „Dopasowanie”). `npm run check` zielony.
 
+**Dodatki.** Po akceptacji podsumowania pokaż listę dodatków (`references/interview.md`, część „Dodatki”) i poczekaj na
+wybór. Wybrane dopisz do `docs/OVERVIEW.md`, niewybrane do `docs/IDEAS.md`.
+
 **Pomysły na później.** Jeśli w wywiadzie padło coś, co wykracza poza ustalony rdzeń (użytkownik sam mówi „kiedyś”,
 „może później”, albo wybrał to jako niewymagane na start), wpisz to do `docs/IDEAS.md` ze statusem `pomysł`, a nie do
 podsumowania. Po akceptacji powiedz:
@@ -114,6 +117,9 @@ Czytasz `../dalej/references/document-templates.md` (wzór `SPEC-GENERAL.md`) i 
 usunięciu dla każdej z nich, lista danych z archiwum, zakres historii zmian. Gdy historia jest włączona, **tylko zapisz
 w specu**, że moduł Logowanie doda tabelę `activity_log` zaraz po `users` (ma klucz obcy do `users`, więc wcześniej
 migracja by się nie udała).
+
+Dodatki z `docs/OVERVIEW.md` rozpisz według kolumny „Gdzie trafia” w `references/interview.md` („Dodatki”): wspólne do
+„Zasady wspólne”, pozostałe do modułów albo jako osobne moduły w kolejności.
 
 Kolejność modułów: **1. Logowanie** → moduł z obszaru 20 wywiadu → pozostałe pozycje nawigacji → **E-mail** (folder
 `email`) przed pierwszym modułem, który wysyła e-maile → na końcu zawsze **Publikacja** (folder `deploy`, zależny od

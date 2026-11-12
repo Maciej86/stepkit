@@ -86,7 +86,8 @@ Włączona: tak/nie. Zakres. Kto widzi.
 | # | Moduł | Folder | Zależy od | Dlaczego w tej kolejności |
 
 ## 8. Zasady wspólne
-Wzorce opcjonalne (wiele firm, dostęp nadawany), wyjątki od `code-conventions.md`.
+Wzorce opcjonalne (wiele firm, dostęp nadawany), dodatki wybrane dla wszystkich ekranów (np. dymki po akcjach,
+filtry na listach, wersja na telefon), wyjątki od `code-conventions.md`.
 
 ## 9. Ostatnie decyzje (archiwum)
 ```

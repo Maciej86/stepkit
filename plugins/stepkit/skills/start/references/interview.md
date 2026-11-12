@@ -94,7 +94,39 @@ zaakceptuje. Zapisz do `docs/OVERVIEW.md`:
 - Języki: …
 - Publikacja: …
 - Najważniejsze na start: …
+- Dodatki: … (wybrane w kroku „Dodatki”)
 ```
+
+## Dodatki (koniec kroku 5, po akceptacji podsumowania)
+
+Pokaż **ponumerowaną listę 5–7 dodatków** wybranych z katalogu poniżej, tylko tych, które pasują do tej aplikacji
+(np. bez SEO, gdy nie ma strony dla odwiedzających; bez zdjęć profilowych w małym narzędziu). Przy każdym jedno zdanie
+po co, przy 2–3 najważniejszych „(polecam)”. Zapytaj: „Które dodatki dołączamy? Napisz numery, np. »1, 3, 4«, albo
+»żadne«. Pozostałe zapiszę w pomysłach na później.” Nie przechodź do makiety przed odpowiedzią.
+
+Wybrane: dopisz do `docs/OVERVIEW.md` („Dodatki”) i uwzględnij w specu ogólnym (krok 7): dodatki dotyczące wszystkich
+ekranów do „Zasady wspólne”, pozostałe do modułu, którego dotyczą, albo jako osobny moduł. Niewybrane: wiersze
+w `docs/IDEAS.md` ze statusem `pomysł`.
+
+| Dodatek | Proponuj, gdy | Po co (dla użytkownika) | Gdzie trafia |
+|---|---|---|---|
+| Dymki po akcjach | prawie zawsze | po „Zapisz”, „Usuń”, „Wyślij” widać, że się udało | zasady wspólne |
+| Wyszukiwarka, filtry, sortowanie list | są listy, które urosną | szybko znajdziesz osobę, wniosek, klienta | zasady wspólne |
+| Stronicowanie list | setki wierszy | długie listy nie zwalniają | zasady wspólne |
+| Wygodna wersja na telefon | ktoś będzie używał głównie telefonu | ekrany projektowane pod kciuk | zasady wspólne (wpływa na makiety) |
+| Import z Excela | dużo danych na start (ludzie, produkty, klienci) | nie wpisujesz ręcznie 50 pozycji | moduł tych danych |
+| Eksport do Excela / PDF, wydruk | dokumenty do podpisu, zestawienia | wniosek do podpisu, zestawienie dla księgowej | moduł tych danych |
+| Pulpit z liczbami i wykresami | kilka ról z codziennymi zadaniami | po zalogowaniu widać, co czeka | moduł „Pulpit” |
+| Zaproszenie e-mailem | konta zakłada administrator | osoba sama ustawia hasło | Logowanie + E-mail |
+| Reset hasła przez e-mail | logowanie hasłem | zapomniane hasło bez telefonu do szefa | Logowanie + E-mail |
+| Ustawienia własnego konta, zdjęcie | wielu użytkowników | każdy zmienia swoje dane i hasło | konto |
+| Logo i nazwa firmy w aplikacji | wiele firm albo aplikacja dla klientów | aplikacja wygląda jak „Twoja” | ustawienia |
+| Polityka prywatności, regulamin, cookies | strona dla odwiedzających, rejestracja, dane osobowe | wymagania prawne (RODO) | strona |
+| Formularz kontaktowy | strona dla odwiedzających | klienci piszą bez szukania adresu | strona |
+| Podstawy SEO | strona dla odwiedzających | Google dobrze pokazuje stronę | strona |
+| Statystyki odwiedzin | strona dla odwiedzających | wiesz, ilu ludzi wchodzi | strona |
+| Strona „nie znaleziono” i przerwa techniczna | zawsze przy publikacji | czytelny komunikat zamiast błędu | zasady wspólne |
+| Wylogowanie po bezczynności | wspólne komputery (biuro, produkcja) | nikt nie zostanie zalogowany na cudzym koncie | Logowanie |
 
 ## Jak odpowiedzi zmieniają szkielet
 
