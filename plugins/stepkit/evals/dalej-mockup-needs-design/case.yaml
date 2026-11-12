@@ -1,0 +1,20 @@
+schema_version: "1.1"
+name: dalej-mockup-needs-design
+description: Bez skilla frontend-design makieta nie powstaje; skill prosi o instalację.
+runs: 2
+execution:
+  max_turns: 30
+  allowed_tools: [Read, Glob, Grep, Skill, Write, Edit]
+  append_system_prompt: "Środowisko testowe stepkit: komendy (npm, docker, git) są niedostępne, a node_modules nie są zainstalowane. Zakładaj, że npm run check przechodzi po poprawnych zmianach, i pracuj dalej na plikach."
+  prompt: /stepkit:dalej
+context:
+  scaffold_script: fixture.sh
+graders:
+  # W piaskownicy evali ładuje się tylko stepkit, więc frontend-design jest tu zawsze niedostępny.
+  - name: install-command
+    type: regex
+    pattern: 'frontend-design@claude-plugins-official'
+    arm: with-only
+  - name: stops-for-install
+    type: llm
+    criteria: Odpowiedź po polsku mówi, że do zrobienia makiety modułu Klienci potrzebny jest dodatek frontend-design, podaje komendę instalacji i prosi o restart Claude Code, a potem o ponowne wpisanie /stepkit:dalej. Nie twierdzi, że makieta jest gotowa, i nie prosi o oglądanie makiety ani odpowiedzi na pytania do niej.

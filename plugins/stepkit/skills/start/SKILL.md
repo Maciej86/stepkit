@@ -59,8 +59,8 @@ komputera, a sprawdzasz tylko narzędzia z listy.
 Czytasz `references/install-windows.md` albo `references/install-macos.md`. Sprawdzasz po kolei: `node --version`,
 `git --version`, `docker --version` i `docker info`, plugin Playwright, plugin superpowers, plugin frontend-design, opcjonalnie `gh --version`.
 Przy brakach prowadzisz po jednym programie. **Nie przechodzisz dalej**, dopóki nie działają Node, Git i Docker oraz nie
-ma Playwright. Brak superpowers nie blokuje: zapisz w `docs/STATUS.md` („Ostatnie decyzje”), że pracujemy na wzorach
-stepkit. Brak frontend-design też nie blokuje, ale przypomnij o nim przed makietą (krok 6). (`docs/STATUS.md` tworzysz w kroku 2; do tego czasu pamiętaj ustalenia.)
+ma pluginów Playwright i frontend-design. Brak superpowers nie blokuje: zapisz w `docs/STATUS.md` („Ostatnie decyzje”),
+że pracujemy na wzorach stepkit. (`docs/STATUS.md` tworzysz w kroku 2; do tego czasu pamiętaj ustalenia.)
 
 ## Krok 2: szkielet i repo
 

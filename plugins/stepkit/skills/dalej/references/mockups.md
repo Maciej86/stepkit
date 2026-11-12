@@ -28,9 +28,11 @@ const role = useMockupRole();
 
 Makieta to pierwsze, co użytkownik widzi, więc ma wyglądać jak dopracowany produkt, a nie jak goły szablon.
 
-1. **Zanim narysujesz ekrany, wywołaj skill `frontend-design`** (narzędziem Skill). Nie ma go → poproś o instalację
-   (`/plugin install frontend-design@claude-plugins-official`, potem restart Claude Code) i do tego czasu trzymaj się
-   zasad z tej sekcji.
+1. **Zanim narysujesz ekrany, wywołaj skill `frontend-design`** (narzędziem Skill). Jest **wymagany**. Nie ma go na
+   liście skilli → **nie rób makiety** (żadnych plików w `mockups/`, nawet „wstępnej”). Napisz: „Do makiety potrzebuję
+   dodatku frontend-design, dzięki niemu ekrany będą wyglądać jak dopracowany produkt. Wpisz w Claude Code
+   `/plugin install frontend-design@claude-plugins-official`, zamknij i otwórz Claude Code ponownie, a potem w nowej
+   rozmowie wpisz `/stepkit:dalej`.” (w kroku 6 startu: `/stepkit:start`) i zakończ.
 2. **Jeden wygląd dla makiet i prawdziwej aplikacji:** `shared/src/theme.ts` (motyw Mantine: kolory, czcionki,
    zaokrąglenia, wygląd komponentów) i `shared/src/theme.css` (import czcionek, style globalne). Oba miejsca czytają
    je same; nie ustawiaj wyglądu osobno w `mockups/` ani we `frontend/`.
