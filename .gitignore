@@ -1,0 +1,5 @@
+node_modules/
+.env
+dist/
+plugins/stepkit/evals/results/
+.superpowers/
