@@ -99,6 +99,13 @@ Nowa akcja: dopisz ją do `BUTTON_ICONS` we froncie i w makietach oraz do tabeli
 
 ## Nazwy i stałe
 
+- **Słownik zamiast listy w kodzie.** Gdy rodzajów czegoś jest dużo i różnią się między firmami (rodzaje urlopu
+  i nieobecności, kategorie, stanowiska, typy dokumentów), to tabela, którą administrator prowadzi w panelu, a każdy
+  rodzaj ma właściwości zamiast warunków w kodzie (np. `deducts_from_allowance`, `requires_attachment`,
+  `yearly_limit_days`, `color`). Na start wpisz kilka najczęstszych (migracja z danymi) i powiedz, że to propozycja,
+  nie pełna lista. Stałe w kodzie (`shared/src/constants/`) tylko dla tego, od czego zależy logika aplikacji, np.
+  statusy wniosku.
+
 - **Identyfikatory po angielsku:** foldery, pliki, funkcje, zmienne, typy, tabele, kolumny, adresy URL.
   `orders/OrderList.tsx`, tabela `orders`, kolumna `created_at`. **Nie:** `zamowienia/ListaZamowien.tsx`, `data_utworzenia`.
 - **Po polsku tylko to, co czyta człowiek:** teksty w plikach `locales`, treść dokumentów, opisy commitów.
@@ -127,8 +134,9 @@ Nowa akcja: dopisz ją do `BUTTON_ICONS` we froncie i w makietach oraz do tabeli
 - **Dni robocze i święta:** `getPolishHolidays(rok)` (z nazwą: `translateKey(t, holiday.label)`), `isHoliday`,
   `isWorkingDay`, `countWorkingDays(od, do)` z `@app/shared`. Jedna funkcja dla frontu i backendu, więc liczba dni
   urlopu wszędzie wychodzi ta sama. Nowe święto ustawowe: wpis w `FIXED_HOLIDAYS` z `fromYear`.
-- Moduł urlopów lub czasu pracy: zapytaj w makiecie, jak firma oddaje dzień wolny za święto w sobotę (Kodeks pracy
-  tego wymaga; `countWorkingDays` tego nie liczy).
+- Moduł urlopów lub czasu pracy: zapytaj w makiecie, co firma robi, gdy święto wypada w sobotę (`countWorkingDays`
+  tego nie liczy). Czy nieobecność odejmuje dni z puli, zależy od jej rodzaju (właściwość w słowniku rodzajów), nie
+  od reguły w kodzie.
 
 ## Teksty
 

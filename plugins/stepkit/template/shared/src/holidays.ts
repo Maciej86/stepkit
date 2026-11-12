@@ -5,9 +5,8 @@ import { ISO_DATE_FORMAT } from './constants/dates';
  * Polskie święta ustawowo wolne od pracy. Jedna funkcja dla backendu, frontu i makiet, żeby wszędzie wychodziła
  * ta sama liczba dni roboczych (np. dni urlopu). Daty zawsze jako tekst `RRRR-MM-DD`.
  *
- * Zmiana przepisów = jeden wpis w FIXED_HOLIDAYS z `fromYear` / `toYear` (np. Wigilia wolna od 2025).
- * Święto w sobotę: Kodeks pracy każe oddać inny dzień wolny. Tego tu nie liczymy; moduł urlopów lub czasu pracy
- * pyta w wywiadzie, jak firma to robi.
+ * Nowe albo zniesione święto = jeden wpis w FIXED_HOLIDAYS z `fromYear` / `toYear` (np. Wigilia wolna od 2025).
+ * Święto w sobotę nie jest tu liczone; moduł urlopów lub czasu pracy pyta w makiecie, co firma wtedy robi.
  */
 export type HolidayKey =
   | 'new_year'

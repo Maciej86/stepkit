@@ -52,6 +52,13 @@ Zasady (zawsze):
 - **Pomiń obszar**, który nie dotyczy tej aplikacji (np. „Wiele firm” przy sklepie jednej firmy: potwierdź jednym
   zdaniem albo pomiń).
 - Gdy coś jest niejasne, daj **warianty a/b/c**, przy jednym dopisz „(polecam)” i jednym zdaniem dlaczego.
+- **Nie powołuj się na przepisy.** Żadnego „według Kodeksu pracy”, „prawo wymaga”, „zgodnie z RODO”: nie jesteś
+  doradcą prawnym, przepisy się zmieniają, a firmy stosują je różnie. Uzasadniaj tym, jak działa aplikacja i co
+  ułatwia („żeby od razu było widać, ile dni zostało”). Pytaj o to, jak firma robi to dziś. Gdy coś może mieć
+  znaczenie prawne, powiedz tylko: „to warto potwierdzić z kadrami albo księgową”.
+- **Listy rodzajów to propozycja, nie całość.** Gdy proponujesz rodzaje (urlopów, nieobecności, kategorii), powiedz,
+  że to kilka najczęstszych na start, a pełną listę użytkownik uzupełni w panelu; każdy rodzaj ma swoje ustawienia
+  (np. czy odejmuje dni z puli). Nie zakładaj, że wszystkie działają tak samo.
 - Zapisuj odpowiedzi na bieżąco (do podsumowania w kroku 5).
 
 Obszary, dokładnie w tej kolejności. Przykład pod każdym to wzór, nie tekst do odczytania.
@@ -163,7 +170,7 @@ w `docs/IDEAS.md` ze statusem `pomysł`.
 | Reset hasła przez e-mail | logowanie hasłem | zapomniane hasło bez telefonu do szefa | Logowanie + E-mail |
 | Ustawienia własnego konta, zdjęcie | wielu użytkowników | każdy zmienia swoje dane i hasło | konto |
 | Logo i nazwa firmy w aplikacji | wiele firm albo aplikacja dla klientów | aplikacja wygląda jak „Twoja” | ustawienia |
-| Polityka prywatności, regulamin, cookies | strona dla odwiedzających, rejestracja, dane osobowe | wymagania prawne (RODO) | strona |
+| Polityka prywatności, regulamin, cookies | strona dla odwiedzających, rejestracja, dane osobowe | odwiedzający wiedzą, co dzieje się z ich danymi (treść przygotowuje firma) | strona |
 | Formularz kontaktowy | strona dla odwiedzających | klienci piszą bez szukania adresu | strona |
 | Podstawy SEO | strona dla odwiedzających | Google dobrze pokazuje stronę | strona |
 | Statystyki odwiedzin | strona dla odwiedzających | wiesz, ilu ludzi wchodzi | strona |
