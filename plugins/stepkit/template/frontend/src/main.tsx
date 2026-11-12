@@ -10,12 +10,12 @@ import '@app/shared/theme.css';
 import { App } from './App';
 import { NOTIFICATION_AUTOCLOSE_MS } from './config/constants';
 import { AuthProvider } from './core/auth/AuthProvider';
-import { theme } from '@app/shared/theme';
+import { colorSchemeProps, theme } from '@app/shared/theme';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <I18nextProvider i18n={createI18n()}>
-      <MantineProvider theme={theme}>
+      <MantineProvider theme={theme} {...colorSchemeProps()}>
         <Notifications autoClose={NOTIFICATION_AUTOCLOSE_MS} />
         <AuthProvider>
           <App />

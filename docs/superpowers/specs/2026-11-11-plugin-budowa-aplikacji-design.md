@@ -231,7 +231,7 @@ Logowanie, bo zmienia tabelę użytkowników **[decyzja Claude'a]**:
    zarchiwizowanych kont, gdy archiwum obejmuje użytkowników).
 4. Pierwsze API.
 5. Kolejne pozycje nawigacji jako osobne moduły, w kolejności z pliku stanu. Moduł wskazany w wywiadzie jako
-   „najważniejszy na start” (obszar 19) idzie zaraz po logowaniu.
+   „najważniejszy na start” (obszar 20) idzie zaraz po logowaniu.
 6. **Publikacja** jako ostatni moduł (§7.4) **[właściciel]**.
 
 Kroki 2–4 to pierwszy moduł, „Logowanie” **[decyzja Claude'a]**. Rejestracja i zarządzanie użytkownikami, jeśli są,
@@ -335,9 +335,10 @@ Obszary, w tej kolejności (1–7 decydują o szkielecie, więc idą pierwsze; 8
 14. **E-maile:** czy aplikacja wysyła e-maile, do kogo i przy jakich zdarzeniach?
 15. **Pliki:** zdjęcia, dokumenty?
 16. **Raporty i eksporty:** podsumowania, pobieranie do Excela?
-17. **Języki:** tylko polski czy później inne (czy zaplanować przełącznik języka)?
-18. **Publikacja:** czy jest już domena lub serwer? Jeśli nie, domyślnie OVH na końcu budowy.
-19. **Co najważniejsze na start:** gdyby aplikacja miała umieć tylko jedną rzecz, to którą?
+17. **Wygląd:** kolory (firmowe, nastrój albo wybiera Claude) i przełącznik jasny/ciemny motyw.
+18. **Języki:** tylko polski czy później inne (czy zaplanować przełącznik języka)?
+19. **Publikacja:** czy jest już domena lub serwer? Jeśli nie, domyślnie OVH na końcu budowy.
+20. **Co najważniejsze na start:** gdyby aplikacja miała umieć tylko jedną rzecz, to którą?
 
 ## 7. Przebieg `/stepkit:dalej`
 

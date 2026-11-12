@@ -58,15 +58,21 @@ Obszary, dokładnie w tej kolejności. Przykład pod każdym to wzór, nie tekst
 14. **E-maile.** „Czy aplikacja ma wysyłać e-maile, do kogo i kiedy (np. potwierdzenie zamówienia, reset hasła)?”
 15. **Pliki.** Zdjęcia, dokumenty, załączniki.
 16. **Raporty i eksporty.** Podsumowania, pobieranie do Excela.
-17. **Języki.** „Na start aplikacja jest po polsku. Czy kiedyś mają być inne języki?” (Teksty i tak są w plikach
+17. **Wygląd.** Dwa pytania, po kolei:
+    - Kolory: „W jakich kolorach ma być aplikacja? a) w kolorach mojej firmy (podaj je, wklej logo albo adres swojej
+      strony, odczytam z nich kolory); b) opiszę nastrój, np. spokojna i elegancka, energiczna, naturalna; c) wybierz
+      sam, dobiorę kolory do branży i pokażę je w makiecie (polecam, jeśli nie masz kolorów firmowych).”
+    - Ciemny motyw: „Czy aplikacja ma mieć przełącznik jasny/ciemny motyw? a) tak, w koncie i panelu (polecam, jeśli
+      ludzie będą w niej pracować długo, np. wieczorem); b) tylko jasny (prościej; przełącznik można dodać później).”
+18. **Języki.** „Na start aplikacja jest po polsku. Czy kiedyś mają być inne języki?” (Teksty i tak są w plikach
     językowych; chodzi o to, czy zaplanować przełącznik języka.)
-18. **Publikacja.** „Czy masz już domenę albo serwer? Jeśli nie, na końcu budowy przeprowadzę Cię przez OVH.”
-19. **Najważniejsze na start.** „Gdyby aplikacja miała umieć tylko jedną rzecz, to którą?”
+19. **Publikacja.** „Czy masz już domenę albo serwer? Jeśli nie, na końcu budowy przeprowadzę Cię przez OVH.”
+20. **Najważniejsze na start.** „Gdyby aplikacja miała umieć tylko jedną rzecz, to którą?”
 
 ## Krok 5: podsumowanie
 
 Pokaż podsumowanie w punktach (części aplikacji, role i co mogą, główne dane, główna czynność, archiwum, historia,
-e-maile, najważniejsze na start). Zapytaj: **„Czy wszystko się zgadza? Co poprawić?”** Poprawiaj, aż użytkownik
+e-maile, wygląd, najważniejsze na start). Zapytaj: **„Czy wszystko się zgadza? Co poprawić?”** Poprawiaj, aż użytkownik
 zaakceptuje. Zapisz do `docs/OVERVIEW.md`:
 
 ```markdown
@@ -84,6 +90,7 @@ zaakceptuje. Zapisz do `docs/OVERVIEW.md`:
 - Historia zmian: tak/nie, zakres, kto widzi
 - Archiwum: co, kto przywraca, usuwanie na stałe
 - Powiadomienia / e-maile / pliki / raporty: …
+- Wygląd: kolory (firmowe: … / nastrój: … / wybiera Claude), przełącznik jasny/ciemny: tak/nie
 - Języki: …
 - Publikacja: …
 - Najważniejsze na start: …
@@ -100,5 +107,6 @@ zaakceptuje. Zapisz do `docs/OVERVIEW.md`:
 | 11 | historia zmian: zapisz w `SPEC-GENERAL.md`; tabelę `activity_log` dodaje moduł Logowanie, jako migrację zaraz po `users` |
 | 12 | lista danych z archiwum w `SPEC-GENERAL.md` |
 | 14 | moduł „E-mail” w kolejności modułów |
-| 18 | moduł „Publikacja” (zawsze ostatni) |
-| 19 | moduł zaraz po „Logowanie” |
+| 17 | kolory zapisz w `OVERVIEW.md` (ustawiasz je w kroku 6 w `shared/src/theme.ts`); przełącznik „tak” → `COLOR_SCHEME_TOGGLE = true` w `shared/src/theme.ts` |
+| 19 | moduł „Publikacja” (zawsze ostatni) |
+| 20 | moduł zaraz po „Logowanie” |

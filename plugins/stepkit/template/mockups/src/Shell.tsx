@@ -1,5 +1,7 @@
 import type { ComponentType, ReactNode } from 'react';
 import { AppShell, Box, Group, NavLink, SegmentedControl, Text } from '@mantine/core';
+import { COLOR_SCHEME_TOGGLE } from '@app/shared/theme';
+import { ColorSchemeToggle } from './common/ColorSchemeToggle';
 import { NavLink as RouterLink, useLocation, useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import {
@@ -86,17 +88,20 @@ export function Shell({ areas, navigation, accountNavigation, publicNavigation, 
           ) : (
             <span />
           )}
-          {showRoles && (
-            <Group gap="xs">
-              <Text size="sm">{t('mockup.viewing_as')}</Text>
-              <SegmentedControl
-                aria-label={t('mockup.viewing_as')}
-                value={role}
-                onChange={(value) => onRoleChange(value as Role)}
-                data={ROLES.map((r) => ({ value: r, label: translateKey(t, ROLE_LABELS[r]) }))}
-              />
-            </Group>
-          )}
+          <Group gap="md">
+            {COLOR_SCHEME_TOGGLE && <ColorSchemeToggle />}
+            {showRoles && (
+              <Group gap="xs">
+                <Text size="sm">{t('mockup.viewing_as')}</Text>
+                <SegmentedControl
+                  aria-label={t('mockup.viewing_as')}
+                  value={role}
+                  onChange={(value) => onRoleChange(value as Role)}
+                  data={ROLES.map((r) => ({ value: r, label: translateKey(t, ROLE_LABELS[r]) }))}
+                />
+              </Group>
+            )}
+          </Group>
         </Group>
       </AppShell.Header>
       <AppShell.Navbar p="xs">

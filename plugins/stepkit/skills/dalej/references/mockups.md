@@ -35,10 +35,17 @@ Makieta to pierwsze, co użytkownik widzi, więc ma wyglądać jak dopracowany p
    rozmowie wpisz `/stepkit:dalej`.” (w kroku 6 startu: `/stepkit:start`) i zakończ.
 2. **Jeden wygląd dla makiet i prawdziwej aplikacji:** `shared/src/theme.ts` (motyw Mantine: kolory, czcionki,
    zaokrąglenia, wygląd komponentów) i `shared/src/theme.css` (import czcionek, style globalne). Oba miejsca czytają
-   je same; nie ustawiaj wyglądu osobno w `mockups/` ani we `frontend/`.
-3. **Kierunek wyglądu ustalasz raz**, w makiecie ogólnej (krok 6 `/stepkit:start`): z dziedziny aplikacji i jej
-   użytkowników (kwiaciarnia ≠ kancelaria ≠ warsztat). Własna paleta (10 odcieni w `colors`), przemyślana czcionka,
-   nie domyślne niebieskie Mantine. Opisz go użytkownikowi jednym, dwoma zdaniami i zapytaj o zdanie w pytaniach.
+   je same; nie ustawiaj wyglądu osobno w `mockups/` ani we `frontend/`. **Kolory tylko z motywu:** w ekranach kolory
+   Mantine (`color="grape"`, `c="dimmed"`, `var(--mantine-color-…)`), nigdy `#fff`, `rgb(…)` itp.; pilnuje tego test
+   `frontend/src/test/colors.test.ts`.
+3. **Kierunek wyglądu ustalasz raz**, w makiecie ogólnej (krok 6 `/stepkit:start`), według odpowiedzi z wywiadu
+   („Wygląd” w `docs/OVERVIEW.md`): kolory firmowe (z podanych kolorów, logo albo strony), nastrój, albo, gdy wybór
+   należy do Ciebie, z dziedziny aplikacji i jej użytkowników (kwiaciarnia ≠ kancelaria ≠ warsztat). Własna paleta
+   (10 odcieni w `colors`), przemyślana czcionka, nie domyślne niebieskie Mantine. Opisz go użytkownikowi jednym, dwoma
+   zdaniami i zapytaj o zdanie w pytaniach.
+   **Przełącznik jasny/ciemny** (`COLOR_SCHEME_TOGGLE` w `shared/src/theme.ts`): włączony → zaprojektuj oba motywy
+   (kolory czytelne na jasnym i ciemnym tle), przełącznik pojawia się sam w pasku makiety i w nagłówku konta i panelu;
+   obejrzyj każdy ekran w obu motywach.
 4. **W modułach** trzymasz się ustalonego motywu; `frontend-design` służy do dobrego układu ekranu, nie do zmiany
    kolorów. Motyw zmieniasz tylko na prośbę użytkownika.
 5. **Strona** może być wyrazista (to wizytówka). **Konto i panel** to narzędzia pracy: ten sam charakter, ale spokojnie,

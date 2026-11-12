@@ -3,6 +3,8 @@ import { Outlet } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { ACCOUNT_NAVIGATION } from '@app/shared';
 import { useAuth } from '../core/auth/AuthProvider';
+import { COLOR_SCHEME_TOGGLE } from '@app/shared/theme';
+import { ColorSchemeToggle } from './ColorSchemeToggle';
 import { LogoutButton } from './LogoutButton';
 import { NavMenu } from './NavMenu';
 
@@ -20,7 +22,10 @@ export function AccountLayout() {
               <NavMenu items={ACCOUNT_NAVIGATION} user={user} />
             </Group>
           </Group>
-          {user && <LogoutButton />}
+          <Group gap="xs">
+            {COLOR_SCHEME_TOGGLE && <ColorSchemeToggle />}
+            {user && <LogoutButton />}
+          </Group>
         </Group>
       </AppShell.Header>
       <AppShell.Main>

@@ -29,6 +29,8 @@ Nowa pozycja nawigacji: wpis w `NAVIGATION` (panel, ścieżka od `/admin`), `ACC
 
 **Wygląd:** prawdziwy ekran we `frontend/` odtwarza układ zaakceptowanej makiety modułu (bez panelu pytań). Kolory,
 czcionki i wygląd komponentów biorą się z `shared/src/theme.ts` i `shared/src/theme.css`; nie ustawiaj ich w module.
+Żadnych kolorów wpisanych na sztywno (`#fff`, `rgb(…)`): tylko kolory Mantine i zmienne `var(--mantine-color-…)`,
+inaczej ciemny motyw i zmiana kolorów aplikacji przestają działać (test `frontend/src/test/colors.test.ts`).
 Gdy ekran potrzebuje własnych stylów, użyj pliku CSS Modules w folderze modułu (`<Ekran>.module.css`).
 
 ## Nazwy i stałe

@@ -3,6 +3,8 @@ import { Outlet } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import { NAVIGATION } from '@app/shared';
 import { useAuth } from '../core/auth/AuthProvider';
+import { COLOR_SCHEME_TOGGLE } from '@app/shared/theme';
+import { ColorSchemeToggle } from './ColorSchemeToggle';
 import { LogoutButton } from './LogoutButton';
 import { NavMenu } from './NavMenu';
 
@@ -15,7 +17,10 @@ export function AppLayout() {
       <AppShell.Header>
         <Group h="100%" px="md" justify="space-between">
           <Text fw={700}>{t('app_name')}</Text>
-          {user && <LogoutButton />}
+          <Group gap="xs">
+            {COLOR_SCHEME_TOGGLE && <ColorSchemeToggle />}
+            {user && <LogoutButton />}
+          </Group>
         </Group>
       </AppShell.Header>
       <AppShell.Navbar p="xs">

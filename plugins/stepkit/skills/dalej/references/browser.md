@@ -15,6 +15,8 @@ Czytasz ten plik na etapie **testy** każdego modułu, zanim poprosisz użytkown
    to usterka do naprawy.
 4. Porównaj z makietą tego modułu (`http://localhost:5174`): układ i teksty mają się zgadzać, chyba że `QUESTIONS.md`
    mówi inaczej.
+   Gdy `COLOR_SCHEME_TOGGLE` w `shared/src/theme.ts` jest włączony: przełącz motyw przyciskiem w nagłówku i zrób zrzuty
+   ekranów modułu także w ciemnym motywie. Nieczytelny tekst albo zlewające się kolory to usterka.
 5. Usterka: napraw ją (najpierw test, który ją pokazuje), `npm run check`, i przejdź scenariusz od nowa.
 6. Dopiero gdy wszystko przechodzi: `npm run test:e2e`, a potem prośba do użytkownika:
    „Sprawdziłem moduł w przeglądarce dla ról: … Teraz Ty: otwórz http://localhost:5173 i przejdź listę z

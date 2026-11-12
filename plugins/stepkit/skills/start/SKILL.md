@@ -81,7 +81,7 @@ pytanie.
 
 ## Krok 4: wywiad
 
-Czytasz `references/interview.md` (część „Krok 4”). 19 obszarów w podanej kolejności, dopasowanych do opisu: to, co
+Czytasz `references/interview.md` (część „Krok 4”). 20 obszarów w podanej kolejności, dopasowanych do opisu: to, co
 wynika z opisu, tylko potwierdzasz; obszar, który nie dotyczy aplikacji, pomijasz; przy niejasnościach warianty a/b/c
 z „(polecam)”. Archiwum **sam proponujesz** (obszar 12).
 
@@ -115,7 +115,7 @@ usunięciu dla każdej z nich, lista danych z archiwum, zakres historii zmian. G
 w specu**, że moduł Logowanie doda tabelę `activity_log` zaraz po `users` (ma klucz obcy do `users`, więc wcześniej
 migracja by się nie udała).
 
-Kolejność modułów: **1. Logowanie** → moduł z obszaru 19 wywiadu → pozostałe pozycje nawigacji → **E-mail** (folder
+Kolejność modułów: **1. Logowanie** → moduł z obszaru 20 wywiadu → pozostałe pozycje nawigacji → **E-mail** (folder
 `email`) przed pierwszym modułem, który wysyła e-maile → na końcu zawsze **Publikacja** (folder `deploy`, zależny od
 wszystkich). Każdy moduł z kolumną „Zależy od”. Decyzje nie z rozmowy oznacz **[decyzja AI]**. Poproś o akceptację.
 

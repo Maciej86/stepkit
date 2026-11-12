@@ -24,6 +24,7 @@ Po kroku 7 porównaj `docs/SPEC-GENERAL.md` z sekcją „Oczekiwane”.
 - Historia zmian: tak, kto dodał / zmienił / usunął / zatwierdził; widzi administrator.
 - Archiwum: tak, pracownicy (zwolniony pracownik nie znika z historii godzin i urlopów).
 - E-maile: tak, decyzje we wnioskach, przypomnienia o badaniach, weryfikacja adresu, reset hasła.
+- Wygląd: kolory wybiera Claude; przełącznik jasny/ciemny: tak.
 - Najważniejsze na start: czas pracy i wnioski urlopowe.
 
 ## Oczekiwane
@@ -53,7 +54,7 @@ wnioski urlopowe (typ, daty, status), badania lekarskie, historia zmian. Każda 
 zmian włączona (jak `activity_log` w Antalo); e-maile → moduł „E-mail” przed pierwszym modułem, który go potrzebuje.
 
 **Kolejność modułów:** 1. Logowanie (z rejestracją firmy albo zaraz po nim), potem pracownicy i grupy, czas pracy,
-wnioski urlopowe (obszar 19), …, na końcu Publikacja.
+wnioski urlopowe (obszar 20), …, na końcu Publikacja.
 
 ## Kryterium zaliczenia
 
