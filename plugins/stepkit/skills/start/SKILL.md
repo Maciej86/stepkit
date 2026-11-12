@@ -30,11 +30,18 @@ Zanim cokolwiek sprawdzisz albo zainstalujesz, napisz krótko (ok. 10 linii), co
 **to głównie narzędzia Twojej (Claude'a) pracy**; użytkownik instaluje je raz i nie musi się ich uczyć, a dzięki nim
 praca jest szybsza, stabilniejsza i bezpieczniejsza:
 
-- **Node.js**: silnik, na którym działa aplikacja; dzięki niemu sam ją uruchamiasz i testujesz, zamiast zgadywać.
-- **Docker**: „pudełko” z bazą danych, które działa tak samo na każdym komputerze i na serwerze.
-- **Git i GitHub**: punkty zapisu jak w grze; po każdej działającej części zapis, do którego zawsze można wrócić.
+- **Node.js** (https://nodejs.org, wersja LTS): silnik, na którym działa aplikacja; dzięki niemu sam ją uruchamiasz
+  i testujesz, zamiast zgadywać.
+- **Docker Desktop** (https://www.docker.com/products/docker-desktop): „pudełko” z bazą danych, które działa tak samo na
+  każdym komputerze i na serwerze.
+- **Git** (https://git-scm.com/downloads) **i konto GitHub** (https://github.com/signup): punkty zapisu jak w grze; po
+  każdej działającej części zapis, do którego zawsze można wrócić.
 - **superpowers**: sprawdzone sposoby pracy (specyfikacja, plan, przegląd kodu), dzięki którym mniej się mylisz.
 - **Playwright**: pozwala Ci samemu klikać w aplikacji i sprawdzać ją, zanim poprosisz o to użytkownika.
+
+Linki podaj dokładnie takie, jak wyżej. Dopisz jedno zdanie: „Nie pobieraj jeszcze niczego: za chwilę sprawdzę, co już
+masz, i poprowadzę przez instalację tylko tego, czego brakuje. superpowers i Playwright to dodatki do Claude Code,
+instaluje się je komendą, pokażę jaką.”
 
 Zakończ zdaniem: „Ty mówisz, co ma działać, a narzędziami zajmuję się ja.” i zapytaj, czy ma Windows czy Maca
 (jeśli nie wiesz z systemu).

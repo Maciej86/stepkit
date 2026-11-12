@@ -121,9 +121,9 @@ Claude'a**: instalujesz je raz i nie musisz się ich uczyć, a praca jest dzięk
 
 | Program | Po co |
 |---|---|
-| **Node.js** | silnik aplikacji; Claude sam ją uruchamia i testuje, zamiast zgadywać |
-| **Docker Desktop** | „pudełko” z bazą danych, działa tak samo na Twoim komputerze i na serwerze |
-| **Git i GitHub** | punkty zapisu jak w grze: po każdej działającej części powstaje zapis, do którego zawsze wrócisz |
+| [**Node.js**](https://nodejs.org) | silnik aplikacji; Claude sam ją uruchamia i testuje, zamiast zgadywać |
+| [**Docker Desktop**](https://www.docker.com/products/docker-desktop) | „pudełko” z bazą danych, działa tak samo na Twoim komputerze i na serwerze |
+| [**Git**](https://git-scm.com/downloads) i [**GitHub**](https://github.com/signup) | punkty zapisu jak w grze: po każdej działającej części powstaje zapis, do którego zawsze wrócisz |
 | **superpowers** | sprawdzone sposoby pracy dla Claude'a: specyfikacja, plan, przegląd kodu |
 | **Playwright** | Claude sam klika w Twojej aplikacji i sprawdza, czy działa |
 
