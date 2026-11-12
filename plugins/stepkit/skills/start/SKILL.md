@@ -1,8 +1,112 @@
 ---
 name: start
-description: Użyj, gdy użytkownik chce zacząć nową aplikację www lub SaaS z pomocą stepkit, wpisuje /stepkit:start albo wraca do nieskończonego startu projektu (planowanie, wywiad, makieta, spec ogólny).
+description: Użyj, gdy użytkownik wpisuje /stepkit:start, chce zacząć nową aplikację www lub SaaS ze stepkit albo wraca do nieskończonego planowania aplikacji (sprawdzenie komputera, opis, wywiad, makieta, spec ogólny).
 ---
 
 # stepkit: start nowej aplikacji
 
-(Treść powstaje w Task 7.)
+Prowadzisz osobę, która **nie programuje**, od pomysłu do planu aplikacji. Mówisz po polsku, prosto, każde pojęcie
+techniczne wyjaśniasz jednym zdaniem. **Jedno pytanie na raz.** Nigdy nie wykonujesz kilku kroków naraz ani nie
+piszesz kodu modułów: ten skill kończy się planem, a budowa to `/stepkit:dalej`.
+
+Pliki pomocnicze leżą w `references/` obok tego pliku (ścieżka: katalog bazowy tego skilla). Czytaj je dopiero w kroku,
+który ich potrzebuje.
+
+## Gdzie jesteśmy
+
+Najpierw sprawdź, czy w folderze projektu jest `docs/STATUS.md`:
+
+- **Nie ma** → pierwsze uruchomienie: zacznij od kroku 0.
+- **Jest i w sekcji „Start aplikacji” są nieodhaczone kroki** → powiedz jednym zdaniem, na czym skończyliście,
+  i kontynuuj od pierwszego nieodhaczonego. Kroku 0 nie powtarzaj.
+- **Wszystkie kroki odhaczone** → powiedz: „Plan aplikacji jest gotowy. Otwórz nową rozmowę i wpisz `/stepkit:dalej`.”
+  i zakończ.
+
+Po każdym kroku odhacz go w `docs/STATUS.md` (`- [x]`) i zaktualizuj „Następny krok”.
+
+## Krok 0: powitanie (tylko przy pierwszym uruchomieniu)
+
+Zanim cokolwiek sprawdzisz albo zainstalujesz, napisz krótko (ok. 10 linii), co będzie potrzebne i po co. Nacisk:
+**to głównie narzędzia Twojej (Claude'a) pracy**; użytkownik instaluje je raz i nie musi się ich uczyć, a dzięki nim
+praca jest szybsza, stabilniejsza i bezpieczniejsza:
+
+- **Node.js**: silnik, na którym działa aplikacja; dzięki niemu sam ją uruchamiasz i testujesz, zamiast zgadywać.
+- **Docker**: „pudełko” z bazą danych, które działa tak samo na każdym komputerze i na serwerze.
+- **Git i GitHub**: punkty zapisu jak w grze; po każdej działającej części zapis, do którego zawsze można wrócić.
+- **superpowers**: sprawdzone sposoby pracy (specyfikacja, plan, przegląd kodu), dzięki którym mniej się mylisz.
+- **Playwright**: pozwala Ci samemu klikać w aplikacji i sprawdzać ją, zanim poprosisz o to użytkownika.
+
+Zakończ zdaniem: „Ty mówisz, co ma działać, a narzędziami zajmuję się ja.” i zapytaj, czy ma Windows czy Maca
+(jeśli nie wiesz z systemu).
+
+## Krok 1: sprawdzenie komputera
+
+Czytasz `references/install-windows.md` albo `references/install-macos.md`. Sprawdzasz po kolei: `node --version`,
+`git --version`, `docker --version` i `docker info`, plugin Playwright, plugin superpowers, opcjonalnie `gh --version`.
+Przy brakach prowadzisz po jednym programie. **Nie przechodzisz dalej**, dopóki nie działają Node, Git i Docker oraz nie
+ma Playwright. Brak superpowers nie blokuje: zapisz w `docs/STATUS.md` („Ostatnie decyzje”), że pracujemy na wzorach
+stepkit. (`docs/STATUS.md` tworzysz w kroku 2; do tego czasu pamiętaj ustalenia.)
+
+## Krok 2: szkielet i repo
+
+Czytasz `references/project-skeleton.md` (kopiowanie) i `references/github.md`. Wynik: projekt skopiowany z szablonu,
+`.env` z wygenerowanymi sekretami, `npm install`, `npx playwright install chromium`, `npm run check` zielony, baza
+działa (`npm run db`, `npm run migrate`), prywatne repo na GitHubie z pierwszym zapisem, `.env` nie jest wysyłany.
+Odhacz kroki 1 i 2 w `docs/STATUS.md` (plik pochodzi z szablonu; wpisz nazwę projektu w tytule).
+
+## Krok 3: opis
+
+Czytasz `references/interview.md` (część „Krok 3”). Zapytaj: „Opisz własnymi słowami, co chcesz stworzyć. Kto będzie
+z tego korzystał i co ma się dziać?”
+
+Opis bywa krótki („chcę zbierać zamówienia”). **Nigdy go nie odrzucaj i nie przechodź z nim dalej.** Zadaj **jedno**
+pytanie o pierwszą brakującą rzecz (kto używa / co się dzieje krok po kroku / jakie dane), poczekaj na odpowiedź,
+i tak do skutku. Jeśli użytkownik wpisał opis razem z poleceniem `/stepkit:start`, traktuj go jako odpowiedź na to
+pytanie.
+
+## Krok 4: wywiad
+
+Czytasz `references/interview.md` (część „Krok 4”). 19 obszarów w podanej kolejności, dopasowanych do opisu: to, co
+wynika z opisu, tylko potwierdzasz; obszar, który nie dotyczy aplikacji, pomijasz; przy niejasnościach warianty a/b/c
+z „(polecam)”. Archiwum **sam proponujesz** (obszar 12).
+
+## Krok 5: podsumowanie
+
+Pokaż podsumowanie, poprawiaj do akceptacji, zapisz `docs/OVERVIEW.md`. Dopasuj szablon według tabeli „Jak odpowiedzi
+zmieniają szkielet” (`interview.md`) i `references/project-skeleton.md` (część „Dopasowanie”). `npm run check` zielony.
+
+## Krok 6: makieta ogólna
+
+Czytasz `../dalej/references/mockups.md`. W `mockups/`: włączone części, pełne `PUBLIC_NAVIGATION`,
+`ACCOUNT_NAVIGATION` i `NAVIGATION` w `shared/src/navigation.config.ts`, prosty ekran na zmyślonych danych dla każdej
+pozycji, pytania w `<Question>`. Najważniejsza jest **nawigacja**: każda pozycja to później osobny moduł. Uruchom
+`npm run dev` i poproś o obejrzenie `http://localhost:5174` i odpowiedzi na pytania. Odpowiedzi zapisz w `docs/OVERVIEW.md`.
+
+## Krok 7: spec ogólny
+
+Czytasz `../dalej/references/document-templates.md` (wzór `SPEC-GENERAL.md`) i `../dalej/references/code-conventions.md`
+(„Baza danych”, „Archiwum”, „Historia zmian”, „Wzorce opcjonalne”). Projekt bazy z tabelą relacji i regułą przy
+usunięciu dla każdej z nich, lista danych z archiwum, zakres historii zmian. Gdy historia jest włączona, od razu
+skopiuj `backend/src/db/sql/activity_log.sql` do migracji (po tabeli `users`, więc w module Logowanie, zapisz to w
+specu).
+
+Kolejność modułów: **1. Logowanie** → moduł z obszaru 19 wywiadu → pozostałe pozycje nawigacji → **E-mail** (folder
+`email`) przed pierwszym modułem, który wysyła e-maile → na końcu zawsze **Publikacja** (folder `deploy`, zależny od
+wszystkich). Każdy moduł z kolumną „Zależy od”. Decyzje nie z rozmowy oznacz **[decyzja AI]**. Poproś o akceptację.
+
+## Krok 8: plik stanu i pożegnanie
+
+Tabela modułów w `docs/STATUS.md` (format z `document-templates.md`, wszystkie moduły `czeka`, etap `makieta`), zapis
+na GitHubie („Plan aplikacji gotowy”, `git push`, przedtem `git check-ignore .env`). Zakończ dokładnie:
+
+> „Plan jest gotowy. Postęp zobaczysz na http://localhost:5174/progress. Otwórz nową rozmowę i wpisz `/stepkit:dalej`.”
+
+Wyjaśnij jednym zdaniem, dlaczego nowa rozmowa: krótsza rozmowa to mniej tokenów i mniej pomyłek.
+
+## Zakazy
+
+- Nie piszesz kodu modułów (logowanie, zamówienia itd.); to robi `/stepkit:dalej`.
+- Nie zmieniasz stosu i nie dodajesz bibliotek spoza szablonu.
+- Nie usuwasz makiet.
+- `.env` nigdy nie trafia na GitHub ani do rozmowy.
+- Nie zadajesz kilku pytań naraz.

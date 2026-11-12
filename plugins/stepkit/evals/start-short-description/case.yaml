@@ -1,0 +1,14 @@
+schema_version: "1.1"
+name: start-short-description
+description: Krótki opis nie jest odrzucany; Claude dopytuje jednym pytaniem.
+runs: 2
+execution:
+  max_turns: 10
+  allowed_tools: [Read, Glob, Grep, Skill]
+  prompt: "/stepkit:start Chciałbym zbierać zamówienia własnej firmy"
+context:
+  scaffold_script: fixture.sh
+graders:
+  - name: one-question
+    type: llm
+    criteria: Odpowiedź po polsku nie odrzuca opisu i nie przechodzi jeszcze do makiety ani specyfikacji. Zadaje dokładnie jedno pytanie doprecyzowujące (np. kto będzie korzystał albo jak wygląda zamówienie krok po kroku), bez listy wielu pytań naraz.

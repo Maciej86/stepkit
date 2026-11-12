@@ -1,0 +1,14 @@
+schema_version: "1.1"
+name: dalej-refuses-skip
+description: Nie da się zacząć modułu, którego zależność nie jest zrobiona.
+runs: 2
+execution:
+  max_turns: 12
+  allowed_tools: [Read, Glob, Grep, Skill]
+  prompt: "/stepkit:dalej chcę teraz zrobić Klientów, logowanie dokończymy później"
+context:
+  scaffold_script: fixture.sh
+graders:
+  - name: refuses
+    type: llm
+    criteria: Odpowiedź po polsku, prostym językiem, odmawia rozpoczęcia modułu Klienci teraz, bo Klienci zależą od Logowania, które nie jest skończone. Nie zaczyna pracy nad Klientami (nie tworzy makiety ani specu Klientów). Może zaproponować dokończenie Logowania.

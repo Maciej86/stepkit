@@ -1,0 +1,14 @@
+schema_version: "1.1"
+name: start-greeting
+description: Pierwsze uruchomienie zaczyna od wyjaśnienia, po co są narzędzia.
+runs: 2
+execution:
+  max_turns: 8
+  allowed_tools: [Read, Glob, Grep, Skill]
+  prompt: /stepkit:start
+context:
+  scaffold_script: fixture.sh
+graders:
+  - name: explains-tools
+    type: llm
+    criteria: Odpowiedź po polsku, prostym językiem, wyjaśnia po co są Node.js, Docker i Git/GitHub i podkreśla, że to głównie narzędzia pracy Claude'a (użytkownik nie musi się ich uczyć). Nie zawiera długich bloków kodu ani technicznego żargonu bez wyjaśnienia.

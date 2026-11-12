@@ -1,0 +1,18 @@
+schema_version: "1.1"
+name: dalej-no-status
+description: Bez pliku stanu kieruje do /stepkit:start.
+runs: 2
+execution:
+  max_turns: 8
+  allowed_tools: [Read, Glob, Grep, Skill]
+  prompt: /stepkit:dalej
+context:
+  scaffold_script: fixture.sh
+graders:
+  - name: sends-to-start
+    type: regex
+    pattern: 'stepkit:start'
+    arm: with-only
+  - name: explains
+    type: llm
+    criteria: Odpowiedź po polsku mówi, że nie ma jeszcze planu aplikacji (pliku stanu) i trzeba zacząć od polecenia /stepkit:start. Nie zaczyna budować żadnego modułu.
