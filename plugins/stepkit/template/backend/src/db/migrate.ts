@@ -12,6 +12,11 @@ export function pendingMigrations(files: string[], applied: string[]): string[] 
   return files.filter((f) => MIGRATION_FILE.test(f) && !done.has(f)).sort();
 }
 
+/**
+ * Uwaga: MySQL zatwierdza zmiany struktury (CREATE, ALTER, DROP) od razu, więc transakcja nie cofnie ich po błędzie.
+ * Dlatego jedna migracja = jedna zmiana struktury. Gdy migracja przerwie się w połowie, cofnij ręcznie to, co
+ * zdążyła utworzyć (opis błędu podaje nazwę pliku), popraw plik i uruchom ponownie.
+ */
 export async function runMigrations(conn: mysql.Connection, dir = MIGRATIONS_DIR): Promise<string[]> {
   await conn.query(
     'CREATE TABLE IF NOT EXISTS schema_migrations (name VARCHAR(255) PRIMARY KEY, applied_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP) ENGINE=InnoDB',

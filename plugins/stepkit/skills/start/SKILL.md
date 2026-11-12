@@ -86,9 +86,9 @@ pozycji, pytania w `<Question>`. Najważniejsza jest **nawigacja**: każda pozyc
 
 Czytasz `../dalej/references/document-templates.md` (wzór `SPEC-GENERAL.md`) i `../dalej/references/code-conventions.md`
 („Baza danych”, „Archiwum”, „Historia zmian”, „Wzorce opcjonalne”). Projekt bazy z tabelą relacji i regułą przy
-usunięciu dla każdej z nich, lista danych z archiwum, zakres historii zmian. Gdy historia jest włączona, od razu
-skopiuj `backend/src/db/sql/activity_log.sql` do migracji (po tabeli `users`, więc w module Logowanie, zapisz to w
-specu).
+usunięciu dla każdej z nich, lista danych z archiwum, zakres historii zmian. Gdy historia jest włączona, **tylko zapisz
+w specu**, że moduł Logowanie doda tabelę `activity_log` zaraz po `users` (ma klucz obcy do `users`, więc wcześniej
+migracja by się nie udała).
 
 Kolejność modułów: **1. Logowanie** → moduł z obszaru 19 wywiadu → pozostałe pozycje nawigacji → **E-mail** (folder
 `email`) przed pierwszym modułem, który wysyła e-maile → na końcu zawsze **Publikacja** (folder `deploy`, zależny od

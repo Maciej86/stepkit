@@ -97,7 +97,7 @@ zaakceptuje. Zapisz do `docs/OVERVIEW.md`:
 | 2–5 | `ROLES` i `ROLE_LABELS` (`shared/src/constants/roles.ts`, etykiety w `shared/locales/pl/common.json`), `ROLE_HOME`, trzy nawigacje |
 | 6–7 | wzorce opcjonalne z `../../dalej/references/code-conventions.md` (dostęp nadawany, wiele firm) |
 | 8 | model danych w `SPEC-GENERAL.md` z regułą usuwania przy każdej relacji |
-| 11 | historia zmian: migracja `activity_log` od razu w szkielecie |
+| 11 | historia zmian: zapisz w `SPEC-GENERAL.md`; tabelę `activity_log` dodaje moduł Logowanie, jako migrację zaraz po `users` |
 | 12 | lista danych z archiwum w `SPEC-GENERAL.md` |
 | 14 | moduł „E-mail” w kolejności modułów |
 | 18 | moduł „Publikacja” (zawsze ostatni) |

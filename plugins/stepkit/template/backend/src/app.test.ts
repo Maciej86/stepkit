@@ -56,6 +56,12 @@ describe('health', () => {
   });
 });
 
+describe('behind a proxy (Caddy on the server)', () => {
+  it('trusts one proxy so the login limit counts each visitor separately', () => {
+    expect(createApp().get('trust proxy')).toBe(1);
+  });
+});
+
 describe('unknown address', () => {
   it('returns 404 with a message key', async () => {
     const res = await request(createApp()).get('/api/does-not-exist');

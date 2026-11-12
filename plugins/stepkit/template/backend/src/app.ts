@@ -15,6 +15,8 @@ interface AppOptions {
 
 export function createApp(options: AppOptions = {}) {
   const app = express();
+  // Na serwerze aplikacja stoi za Caddy: bez tego limit logowania liczyłby wszystkich jako jedną osobę.
+  app.set('trust proxy', 1);
   app.use(helmet());
   app.use(cors({ origin: env.FRONTEND_URL, credentials: true }));
   app.use(express.json());

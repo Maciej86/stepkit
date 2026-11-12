@@ -17,7 +17,7 @@ Jeśli komenda nie zadziała, poproś: „Kliknij jabłko w lewym górnym rogu �
 
 ## 1. Node.js
 
-- Sprawdź: `node --version` (wymagane 20 lub nowsze).
+- Sprawdź: `node --version`: wymagane **22.12 lub nowsze** (najlepiej 24 LTS). Starsza wersja = zainstaluj nową tak samo jak przy braku.
 - Brak:
   1. Wejdź na https://nodejs.org i pobierz wersję **LTS** dla macOS (plik `.pkg`).
   2. Otwórz pobrany plik i przejdź instalator bez zmieniania ustawień.
@@ -53,7 +53,7 @@ Te wpisuje użytkownik **w Claude Code**:
 
 Sprawdzenie i postępowanie przy braku: jak w `install-windows.md`, część 4.
 
-## 5. GitHub CLI (opcjonalnie)
+## 5. GitHub CLI (na Macu wymagany do GitHuba)
 
 - Sprawdź: `gh --version`.
 - Brak i użytkownik chce: instalator `.pkg` z https://cli.github.com (Homebrew nie jest potrzebny).

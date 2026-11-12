@@ -32,7 +32,7 @@ const role = useMockupRole();
    w `mockups/src/modules/<module>/data.ts`.
 4. Teksty jako klucze w `shared/locales/pl/<module>.json` (ten sam plik, którego użyje prawdziwa aplikacja), plik
    dopisany w `shared/src/i18n.ts`. Teksty, które są tylko zmyślonymi danymi (imiona, kwoty), mogą zostać w `data.ts`.
-5. Pozycja w nawigacji (`shared/src/navigation.config.ts`) i wpis w `mockups/src/screens.ts`.
+5. Pozycja w nawigacji (`shared/src/navigation.config.ts`) i wpis w `mockups/src/screens.tsx`.
 6. Pozostałe stany ekranu też pokaż: pusta lista (komunikat zachęcający, np. „Nie masz jeszcze zamówień. Dodaj
    pierwsze.”), błąd formularza, okno potwierdzenia usunięcia.
 
@@ -69,10 +69,12 @@ Odpowiedzi zapisz w `QUESTIONS.md` z datą. Jeśli odpowiedź zmienia ekran, pop
 
 ## Zamknięcie modułu
 
-Gdy moduł jest **zrobiony** (użytkownik potwierdził testy), w `mockups/src/screens.ts` zamień wpis na zaślepkę:
+Gdy moduł jest **zrobiony** (użytkownik potwierdził testy), w `mockups/src/screens.tsx` zamień wpis na zaślepkę
+z etykietą pozycji nawigacji modułu (ten sam klucz co w `navigation.config.ts`):
 
 ```tsx
-orders: () => <Done module="Zamówienia" />,
+import { Done } from './common/Done';
+orders: () => <Done labelKey="common.nav.orders" />,
 ```
 
 Pliki ekranu (`mockups/src/modules/orders/`) **zostają**. Nie usuwaj ich.

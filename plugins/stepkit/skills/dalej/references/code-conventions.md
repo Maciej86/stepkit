@@ -25,7 +25,7 @@ Jedna pozycja nawigacji = jeden moduł = jedna nazwa folderu (po angielsku, mał
 
 Nowa pozycja nawigacji: wpis w `NAVIGATION` (panel, ścieżka od `/admin`), `ACCOUNT_NAVIGATION` (konto, ścieżka od
 `/account`) albo `PUBLIC_NAVIGATION` (strona); wpis w `frontend/src/core/routes/pages.ts` i
-`mockups/src/screens.ts`; trasy API dopisane w `backend/src/app.ts` (`api.use('/<module>', <module>Routes)`).
+`mockups/src/screens.tsx`; trasy API dopisane w `backend/src/app.ts` (`api.use('/<module>', <module>Routes)`).
 
 ## Nazwy i stałe
 
@@ -76,6 +76,9 @@ Nowa pozycja nawigacji: wpis w `NAVIGATION` (panel, ścieżka od `/admin`), `ACC
 - Każda zmiana bazy = nowy plik `backend/migrations/NNN_<opis>.sql` (kolejny numer, np. `003_orders.sql`), potem
   `npm run migrate`. **Nigdy** nie zmieniaj bazy ręcznie w phpMyAdmin i nie edytuj migracji, która już została
   zastosowana; napisz nową.
+- **Jedna zmiana struktury na plik migracji** (jedno `CREATE TABLE` albo jedno `ALTER TABLE`). MySQL zatwierdza
+  zmiany struktury od razu, więc migracja przerwana w połowie zostawia część zmian. Wtedy: cofnij ręcznie to, co
+  zdążyła zrobić (np. `DROP TABLE` nowej tabeli), popraw plik, uruchom `npm run migrate` ponownie.
 - Tabele `ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_polish_ci`, klucz `id INT UNSIGNED AUTO_INCREMENT`,
   `created_at DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP`, `updated_at DATETIME NULL ON UPDATE CURRENT_TIMESTAMP`.
 - **Każda relacja ma klucz obcy** z indeksem i z regułą przy usunięciu. Regułę zapisz w specu (tabela relacji):
@@ -117,8 +120,8 @@ Dla danych z listy „Archiwum” w `docs/SPEC-GENERAL.md`:
 
 Gdy `docs/SPEC-GENERAL.md` ma włączoną historię:
 
-- Raz, przed modułem Logowanie (albo w nim, po tabeli `users`): skopiuj `backend/src/db/sql/activity_log.sql`
-  do `backend/migrations/` jako kolejną migrację.
+- W module Logowanie, jako migrację **zaraz po** tabeli `users` (ma do niej klucz obcy): skopiuj
+  `backend/src/db/sql/activity_log.sql` do `backend/migrations/` z kolejnym numerem.
 - Każda zmiana z zakresu historii, w **tej samej transakcji** co zmiana:
   ```ts
   import { diffChanges, logActivity } from '../../db/activityLog';
@@ -153,9 +156,13 @@ Zmiana `SessionUser` = zmiana w `shared/src/navigation.ts`, `backend/src/auth/to
 - `POST /api/auth/login` (`loginLimiter`, `validateBody`), `POST /api/auth/logout`, `GET /api/auth/me`
   (zwraca `{ user }` albo 401). Hasła `bcryptjs` z kosztem `BCRYPT_COST`. Token i ciasteczko przez
   `signToken`, `setAuthCookie`, `clearAuthCookie` z `backend/src/auth/token.ts`.
+- `loginLimiter` liczy tylko nieudane próby i rozpoznaje osoby za serwerem Caddy (`trust proxy` w `app.ts`); nie
+  zmieniaj tych ustawień.
 - Zły e-mail i złe hasło dają ten sam komunikat (`server.login_failed`), żeby nie zdradzać, które konta istnieją.
 - Pierwszy administrator: skrypt `backend/src/scripts/createAdmin.ts` (`npm run admin -w @app/backend`), pyta
-  w terminalu o imię, e-mail i hasło.
+  w terminalu o imię, e-mail i hasło. **Ty nie możesz odpowiadać na pytania w terminalu**, więc poproś użytkownika:
+  „Otwórz terminal (w VS Code: menu Terminal → New Terminal), wejdź do folderu projektu i wpisz
+  `npm run admin -w @app/backend`. Hasło wpisujesz tylko tam, nie w rozmowie.”
 - Ekran `/login` (`frontend/src/modules/login/`, wpis `login` w `PAGES`); po zalogowaniu `refresh()` z `useAuth`
   i przejście do `ROLE_HOME[user.role]`.
 

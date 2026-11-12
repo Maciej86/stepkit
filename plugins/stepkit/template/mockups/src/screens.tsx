@@ -5,7 +5,7 @@ import { MyAccountMockup } from './modules/my-account/MyAccountMockup';
 
 /**
  * Ekran makiety dla każdej pozycji nawigacji (klucz = NavItem.key).
- * Po zamknięciu modułu: zamień wpis na () => <Done module="…" />, a pliki ekranu zostaw.
+ * Po zamknięciu modułu: zamień wpis na () => <Done labelKey="<etykieta z nawigacji>" /> (zob. mockups.md), a pliki ekranu zostaw.
  */
 export const SCREENS: Record<string, ComponentType> = {
   home: HomeMockup,

@@ -47,7 +47,7 @@ Nigdy nie przeskakujesz nieskończonego modułu i nigdy nie masz dwóch modułó
 | plan | jak wyżej | `PLAN.md` z testami w każdym kroku | akceptuje |
 | implementacja | `references/superpowers.md`, `references/code-conventions.md` | kod; **najpierw test, potem kod**, po każdym kroku `npm run check` i odhaczenie w `PLAN.md`; na koniec przegląd kodu | — |
 | testy | `references/browser.md` | Ty klikasz w przeglądarce, `npm run test:e2e`, potem użytkownik przechodzi `TESTS.md` | potwierdza „działa” |
-| zamknięcie | `references/mockups.md` | `<Done>` w `mockups/src/screens.ts`, `STATUS.md` (`zrobiony`, nowy „Następny krok”), zapis „Moduł <nazwa> gotowy” + `git push` | — |
+| zamknięcie | `references/mockups.md` | `<Done labelKey=…>` w `mockups/src/screens.tsx`, `STATUS.md` (`zrobiony`, nowy „Następny krok”), zapis „Moduł <nazwa> gotowy” + `git push` | — |
 
 Moduły specjalne: **E-mail** → najpierw `references/email-mailgun.md`; **Publikacja** → `references/deploy-ovh.md`
 (bez makiety). Prośba „wgraj nową wersję” → procedura z sekcji „Wgraj nową wersję” w `STATUS.md`.

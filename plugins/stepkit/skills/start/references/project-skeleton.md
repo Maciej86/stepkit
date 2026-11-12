@@ -14,13 +14,12 @@ na początku treści skilla jako „Base directory for this skill”).
    tar -C "<ścieżka do template>" --exclude=node_modules --exclude=dist --exclude=test-results -cf - . | tar -xf -
    ```
 3. Zmień `"name"` w głównym `package.json` na nazwę projektu (małe litery, myślniki).
-4. `.env`:
+4. `.env` z losowymi sekretami, **bez wypisywania ich** (hasła nie mogą pojawić się w rozmowie):
    ```bash
    cp .env.example .env
-   node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"
+   node -e "const fs=require('fs'),c=require('crypto'),r=n=>c.randomBytes(n).toString('hex');let s=fs.readFileSync('.env','utf8');s=s.replace(/^JWT_SECRET=.*$/m,'JWT_SECRET='+r(48)).replace(/^DB_PASSWORD=.*$/m,'DB_PASSWORD='+r(16)).replace(/^MYSQL_ROOT_PASSWORD=.*$/m,'MYSQL_ROOT_PASSWORD='+r(16));fs.writeFileSync('.env',s)"
    ```
-   Wpisz wynik jako `JWT_SECRET=` w `.env`. Wymyśl dwa losowe hasła i wpisz je jako `DB_PASSWORD` i
-   `MYSQL_ROOT_PASSWORD` (zwykłe litery i cyfry, bez znaków specjalnych).
+   Nie wyświetlaj potem zawartości `.env` (`cat .env` itp.).
 5. `npm install` (powiedz: „Pobieram biblioteki, to potrwa kilka minut za pierwszym razem.”).
 6. `npx playwright install chromium` (powiedz: „Pobieram przeglądarkę do testów, jednorazowo.”).
 7. `npm run check` musi przejść.
@@ -37,7 +36,7 @@ Co jest w szkielecie (żeby wiedzieć, gdzie zmieniać):
 | `shared/src/constants/` | role, klucze komunikatów serwera, stałe modułów |
 | `shared/locales/pl/` | wszystkie teksty (`common`, `server`, `validation`, `email`, jeden plik na moduł) |
 | `frontend/src/core/routes/pages.ts` | ekran prawdziwej aplikacji dla każdej pozycji nawigacji |
-| `mockups/src/screens.ts` | ekran makiety dla każdej pozycji nawigacji |
+| `mockups/src/screens.tsx` | ekran makiety dla każdej pozycji nawigacji |
 | `backend/src/app.ts` | miejsce dopisania tras modułów |
 | `backend/src/db/sql/activity_log.sql` | gotowa tabela historii zmian (kopiowana tylko, gdy historia jest włączona) |
 | `docs/STATUS.md` | plik stanu |

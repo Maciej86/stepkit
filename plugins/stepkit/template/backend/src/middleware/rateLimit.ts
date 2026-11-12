@@ -6,6 +6,8 @@ import { LOGIN_RATE_LIMIT } from '../config/constants';
 export const loginLimiter = rateLimit({
   windowMs: LOGIN_RATE_LIMIT.windowMs,
   limit: LOGIN_RATE_LIMIT.max,
+  // Udane logowania się nie liczą: limit dotyczy tylko błędnych prób.
+  skipSuccessfulRequests: true,
   standardHeaders: true,
   legacyHeaders: false,
   message: { error: { message: SERVER_MESSAGES.tooManyLogins } },

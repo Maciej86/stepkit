@@ -14,7 +14,7 @@ istnieje. Jeśli jeszcze nie, sprawdzanie po prostu zacznie się od nowa i szybk
 
 ## 1. Node.js
 
-- Sprawdź: `node --version` (wymagane 20 lub nowsze).
+- Sprawdź: `node --version`: wymagane **22.12 lub nowsze** (najlepiej 24 LTS). Starsza wersja = zainstaluj nową tak samo jak przy braku.
 - Brak:
   1. Wejdź na https://nodejs.org i pobierz wersję oznaczoną **LTS** (plik `.msi`).
   2. Uruchom instalator, klikaj „Next” bez zmieniania ustawień.
