@@ -8,5 +8,10 @@
     "home": "Strona główna",
     "my_account": "Moje konto",
     "dashboard": "Pulpit"
-  }
+  },
+  "login": "Zaloguj się",
+  "logout": "Wyloguj",
+  "missing_screen": "Ten ekran jeszcze nie powstał.",
+  "no_connection": "Brak połączenia z serwerem. Czy backend działa? (npm run dev)",
+  "loading": "Wczytywanie…"
 }
