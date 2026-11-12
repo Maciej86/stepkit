@@ -27,6 +27,14 @@ function renderMockup(areas: Areas = all, path = '/admin') {
 }
 
 describe('mockup shell', () => {
+  it('has a phone menu button that closes the menu after choosing a page', async () => {
+    renderMockup();
+    fireEvent.click(screen.getByLabelText('Pokaż menu'));
+    expect(screen.getByLabelText('Schowaj menu')).toBeInTheDocument();
+    fireEvent.click(screen.getByText('Postęp'));
+    expect(await screen.findByLabelText('Pokaż menu')).toBeInTheDocument();
+  });
+
   it('always shows the MAKIETA bar', () => {
     renderMockup();
     expect(screen.getByText('MAKIETA: to nie jest prawdziwa aplikacja')).toBeInTheDocument();

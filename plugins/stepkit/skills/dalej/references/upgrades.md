@@ -181,3 +181,9 @@ Zasady (bez zmian w kodzie, chyba że przegląd coś znajdzie):
   `// format-ok: <powód>`, gdy to obliczenie).
 - **Połącz** `docs/DESIGN.md` („Układ”: ekrany panelu i konta na całą szerokość). Ekrany panelu i konta zamknięte
   w `Container` albo z `maw` na całej stronie: usuń ograniczenie (makieta i aplikacja).
+- **Połącz** `shared/src/navigation.ts` (`rolesFor` łączy role wszystkich pozycji o tym samym kluczu) i test.
+  Moduł z pozycją w koncie i w panelu (np. powiadomienia) dostaje wtedy dostęp dla obu ról.
+- Nowy `frontend/src/common/SideMenuLayout.tsx` z testem; `AppLayout.tsx` i `AccountLayout.tsx` z szablonu (projekt
+  zwykle ich nie zmieniał; jeśli zmienił, przenieś zmiany do `SideMenuLayout`). **Połącz** `mockups/src/Shell.tsx`
+  (przycisk menu, przełączniki makiety w menu na telefonie) i jego test, klucze `menu_open`, `menu_close`
+  w `common.json`. Obejrzyj panel i konto przy 390 px.

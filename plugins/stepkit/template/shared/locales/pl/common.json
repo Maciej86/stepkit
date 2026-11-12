@@ -64,5 +64,7 @@
     "christmas_eve": "Wigilia Bożego Narodzenia",
     "christmas_day": "Boże Narodzenie (pierwszy dzień)",
     "second_christmas_day": "Boże Narodzenie (drugi dzień)"
-  }
+  },
+  "menu_open": "Pokaż menu",
+  "menu_close": "Schowaj menu"
 }

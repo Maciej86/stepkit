@@ -137,6 +137,12 @@ describe('rolesFor', () => {
   it('returns null for a key that is not in the navigation', () => {
     expect(rolesFor('missing', [item('p', ['admin'])])).toBeNull();
   });
+
+  it('joins the roles of a module that is in both the account and the panel menu', () => {
+    const account = [item('notifications', ['user'])];
+    const panel = [item('dashboard', ['admin']), item('notifications', ['admin'])];
+    expect(rolesFor('notifications', [...panel, ...account])?.sort()).toEqual(['admin', 'user']);
+  });
 });
 
 describe('activeNavKey', () => {

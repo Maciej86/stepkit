@@ -22,7 +22,8 @@ użytkownik nie zdecyduje inaczej. Zmiana = wpis w „Historii zmian wyglądu”
 
 ## Układ
 
-**Panel i konto** (`AppLayout`, `AccountLayout`): menu po lewej, górna belka z nazwą aplikacji, przełącznikiem motywu
+**Panel i konto** (`AppLayout`, `AccountLayout`, oba przez `SideMenuLayout`): menu po lewej (na telefonie schowane
+pod przyciskiem w belce), górna belka z nazwą aplikacji, przełącznikiem motywu
 i wylogowaniem, treść w środku na tle `--app-panel-background` (innym niż karty). Pozycja menu bieżącego ekranu jest
 podświetlona, także na jego podstronach (`/admin/orders/5` podświetla „Zamówienia”). Każdy ekran panelu i konta
 zajmuje całą szerokość obszaru treści (bez `Container`, `maw` ani `w` na całej stronie), także gdy ma mało danych.

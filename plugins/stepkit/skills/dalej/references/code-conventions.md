@@ -110,6 +110,8 @@ Nowa akcja: dopisz ją do `BUTTON_ICONS` we froncie i w makietach oraz do tabeli
 
 - **Identyfikatory po angielsku:** foldery, pliki, funkcje, zmienne, typy, tabele, kolumny, adresy URL.
   `orders/OrderList.tsx`, tabela `orders`, kolumna `created_at`. **Nie:** `zamowienia/ListaZamowien.tsx`, `data_utworzenia`.
+- Nazwy folderów modułów różnią się czymś więcej niż liczbą pojedynczą i mnogą (`new-request` i `leave-requests`,
+  nie `leave-request` i `leave-requests`).
 - **Po polsku tylko to, co czyta człowiek:** teksty w plikach `locales`, treść dokumentów, opisy commitów.
 - **Zero „magicznych” liczb i tekstów w logice.** Statusy modułu:
   ```ts
@@ -376,6 +378,8 @@ Zmiana `SessionUser` = zmiana w `shared/src/navigation.ts`, `backend/src/auth/to
   w terminalu o imię, e-mail i hasło. **Ty nie możesz odpowiadać na pytania w terminalu**, więc poproś użytkownika:
   „Otwórz terminal (w VS Code: menu Terminal → New Terminal), wejdź do folderu projektu i wpisz
   `npm run admin -w @app/backend`. Hasło wpisujesz tylko tam, nie w rozmowie.”
+- Gdy spec przewiduje wymuszoną zmianę hasła (`must_change_password`), ekran „Ustaw nowe hasło” po zalogowaniu
+  należy do modułu Logowanie, nie do „Moje konto”.
 - Ekran `/login` (`frontend/src/modules/login/`, wpis `login` w `PAGES`); po zalogowaniu `refresh()` z `useAuth`
   i przejście do `ROLE_HOME[user.role]`.
 

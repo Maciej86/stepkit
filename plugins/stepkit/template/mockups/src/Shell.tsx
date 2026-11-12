@@ -1,5 +1,6 @@
-import type { ComponentType, ReactNode } from 'react';
-import { AppShell, Box, Group, NavLink, SegmentedControl, Text } from '@mantine/core';
+import { useEffect, type ComponentType, type ReactNode } from 'react';
+import { AppShell, Box, Burger, Divider, Group, NavLink, SegmentedControl, Stack, Text, useMantineTheme } from '@mantine/core';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { COLOR_SCHEME_TOGGLE } from '@app/shared/theme';
 import { ColorSchemeToggle } from './common/ColorSchemeToggle';
 import { NavIcon } from './common/icons';
@@ -80,46 +81,82 @@ export function Shell({ areas, navigation, accountNavigation, publicNavigation, 
   const current = pathname === '/progress' ? null : partOf(pathname);
   const parts = (['public', 'account', 'admin'] as Part[]).filter((p) => areas[p]);
   const showRoles = current === 'account' || current === 'admin' || current === null;
+  const [menuOpened, { toggle: toggleMenu, close: closeMenu }] = useDisclosure(false);
+  useEffect(closeMenu, [pathname, closeMenu]);
+  // Na telefonie przełączniki makiety nie mieszczą się w belce: trafiają na górę wysuwanego menu.
+  const theme = useMantineTheme();
+  const isPhone = useMediaQuery(`(max-width: ${theme.breakpoints.sm})`) ?? false;
+
+  const partSwitch =
+    parts.length > 1 ? (
+      <SegmentedControl
+        aria-label={t('mockup.part')}
+        value={current ?? 'admin'}
+        onChange={(value) => {
+          const part = value as Part;
+          onRoleChange(defaultRole(part));
+          navigate(PART_HOME[part]);
+        }}
+        data={parts.map((p) => ({ value: p, label: t(`mockup.part_${p}`) }))}
+      />
+    ) : null;
+  const roleSwitch = showRoles ? (
+    <Group gap="xs" wrap="nowrap">
+      <Text size="sm">{t('mockup.viewing_as')}</Text>
+      <SegmentedControl
+        aria-label={t('mockup.viewing_as')}
+        value={role}
+        onChange={(value) => onRoleChange(value as Role)}
+        data={ROLES.map((r) => ({ value: r, label: translateKey(t, ROLE_LABELS[r]) }))}
+      />
+    </Group>
+  ) : null;
+  const toggles = (
+    <Group gap="md" wrap="nowrap">
+      <VariantSwitch />
+      {COLOR_SCHEME_TOGGLE && <ColorSchemeToggle />}
+    </Group>
+  );
 
   return (
-    <AppShell header={{ height: 96 }} navbar={{ width: 240, breakpoint: 'sm' }} padding="md">
+    <AppShell
+      header={{ height: 96 }}
+      navbar={{ width: 240, breakpoint: 'sm', collapsed: { mobile: !menuOpened } }}
+      padding="md"
+    >
       <AppShell.Header>
         <Box bg="yellow.4" px="md" py={4}>
           <Text fw={700} size="sm">{t('mockup.bar')}</Text>
         </Box>
-        <Group px="md" h={60} justify="space-between">
-          {parts.length > 1 ? (
-            <SegmentedControl
-              aria-label={t('mockup.part')}
-              value={current ?? 'admin'}
-              onChange={(value) => {
-                const part = value as Part;
-                onRoleChange(defaultRole(part));
-                navigate(PART_HOME[part]);
-              }}
-              data={parts.map((p) => ({ value: p, label: t(`mockup.part_${p}`) }))}
-            />
+        <Group px="md" h={60} justify="space-between" wrap="nowrap">
+          <Burger
+            opened={menuOpened}
+            onClick={toggleMenu}
+            hiddenFrom="sm"
+            size="sm"
+            aria-label={t(menuOpened ? 'menu_close' : 'menu_open')}
+          />
+          {isPhone ? (
+            toggles
           ) : (
-            <span />
-          )}
-          <Group gap="md">
-            <VariantSwitch />
-            {COLOR_SCHEME_TOGGLE && <ColorSchemeToggle />}
-            {showRoles && (
-              <Group gap="xs">
-                <Text size="sm">{t('mockup.viewing_as')}</Text>
-                <SegmentedControl
-                  aria-label={t('mockup.viewing_as')}
-                  value={role}
-                  onChange={(value) => onRoleChange(value as Role)}
-                  data={ROLES.map((r) => ({ value: r, label: translateKey(t, ROLE_LABELS[r]) }))}
-                />
+            <>
+              {partSwitch ?? <span />}
+              <Group gap="md" wrap="nowrap">
+                {toggles}
+                {roleSwitch}
               </Group>
-            )}
-          </Group>
+            </>
+          )}
         </Group>
       </AppShell.Header>
       <AppShell.Navbar p="xs">
+        {isPhone && (partSwitch || roleSwitch) && (
+          <Stack gap="xs" mb="xs">
+            {partSwitch}
+            {roleSwitch}
+            <Divider />
+          </Stack>
+        )}
         {current === 'public' &&
           publicNavigation.map((item) => (
             <NavLink key={item.key} component={RouterLink} to={item.path} label={translateKey(t, item.label)} active={item.key === activeNavKey(publicNavigation, pathname)} />
