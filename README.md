@@ -90,7 +90,7 @@ Postęp całego projektu widzisz w każdej chwili na stronie **Postęp** w makie
 
 ## 📦 Co dostajesz
 
-Nie zabawkę, tylko aplikację zbudowaną tak, jak robią to zawodowcy:
+Aplikację zbudowaną krok po kroku według sprawdzonego procesu. W środku znajdziesz:
 
 - 🌐 **trzy części** (wybierasz, które są potrzebne): strona dla odwiedzających, konto użytkownika, panel
   administracyjny,
@@ -101,6 +101,13 @@ Nie zabawkę, tylko aplikację zbudowaną tak, jak robią to zawodowcy:
 - 🧪 **testy**: automatyczne testy kodu, formularzy i całych ścieżek w przeglądarce, uruchamiane jedną komendą,
 - 🌍 **teksty w osobnych plikach**, więc kolejna wersja językowa to tłumaczenie, a nie przepisywanie,
 - 🚀 **publikacja** na serwerze VPS (domyślnie OVH) z certyfikatem HTTPS i kopiami zapasowymi bazy.
+
+> ⚖️ **Uczciwie o jakości.** stepkit sam w sobie nie gwarantuje najlepszego kodu: pisze go Claude, a Claude też
+> popełnia błędy. stepkit pilnuje za to **procesu**: makieta przed kodem, spec i plan przed implementacją, test przed
+> każdym kawałkiem kodu, przegląd kodu i sprawdzenie w przeglądarce na końcu każdej części. Taki proces daje wyraźnie
+> lepszy, łatwiejszy do poprawiania kod niż aplikacja wygenerowana jednym promptem w jednej długiej rozmowie.
+> Przed udostępnieniem aplikacji klientom, zwłaszcza gdy przechowuje dane osobowe albo płatności, warto pokazać ją
+> doświadczonemu programiście.
 
 <details>
 <summary><b>Technologie (dla ciekawych)</b></summary>
