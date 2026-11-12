@@ -55,6 +55,13 @@ WSL2, ale Ty nie musisz z niej korzystać, instalator włączy ją sam.”
   „To ustawienie komputera, nie programu. Wpisz w wyszukiwarkę: »włączenie wirtualizacji BIOS« i nazwę producenta
   komputera (np. Lenovo, Dell). Jeśli nie czujesz się pewnie, poproś kogoś technicznego, to jednorazowa zmiana.”
   Nie zgaduj ustawień BIOS-u za użytkownika.
+- **Brak uprawnień administratora** (instalator prosi o hasło administratora, którego użytkownik nie zna, albo nie da
+  się go uruchomić): nie próbuj obejść. Powiedz: „Ten komputer nie pozwala instalować programów. Docker jest
+  konieczny, bo w nim działa baza danych. Poproś dział IT o instalację Docker Desktop albo użyj innego komputera.”
+  Zapisz to w `docs/STATUS.md` i zakończ krok 1.
+- **Claude Code działa w WSL** (polecenie `uname -a` w terminalu Claude zawiera `microsoft` albo `WSL`): `docker`
+  w WSL działa dopiero po włączeniu w Docker Desktop: Settings → Resources → WSL integration → przełącznik przy tej
+  dystrybucji (np. Ubuntu) → Apply & restart. Potem sprawdź `docker info` jeszcze raz.
 
 ## 4. Pluginy Claude Code
 
