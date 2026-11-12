@@ -14,6 +14,8 @@ import {
   isRole,
   rolesFor,
   activeNavKey,
+  findVisibleNavItem,
+  initials,
   visibleNav,
   type NavItem,
   type SessionUser,
@@ -176,5 +178,30 @@ describe('activeNavKey', () => {
     expect(activeNavKey(pub, '/')).toBe('home');
     expect(activeNavKey(pub, '/pricing')).toBe('pricing');
     expect(activeNavKey(pub, '/login')).toBeNull();
+  });
+});
+
+describe('initials', () => {
+  it('takes the first letters of the first and last name', () => {
+    expect(initials('Jan Kowalski')).toBe('JK');
+    expect(initials('anna maria nowak')).toBe('AN');
+    expect(initials('Łukasz Żak')).toBe('ŁŻ');
+    expect(initials('Anna')).toBe('A');
+    expect(initials('  ')).toBe('?');
+  });
+});
+
+describe('findVisibleNavItem', () => {
+  const account = [item('my-account', ['user'])];
+  const panel = [item('dashboard', ['admin']), item('my-account', ['admin'])];
+
+  it('finds the item the person can see in any of the menus', () => {
+    expect(findVisibleNavItem('my-account', [account, panel], user)?.path).toBe('/admin/my-account');
+    expect(findVisibleNavItem('my-account', [account, panel], admin)?.roles).toEqual(['admin']);
+  });
+
+  it('returns null when the person cannot see it', () => {
+    expect(findVisibleNavItem('my-account', [panel], user)).toBeNull();
+    expect(findVisibleNavItem('my-account', [account], null)).toBeNull();
   });
 });

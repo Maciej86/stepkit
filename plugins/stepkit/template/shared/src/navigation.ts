@@ -79,3 +79,27 @@ export function activeNavKey(items: { key: string; path: string }[], pathname: s
   if (matches.length === 0) return null;
   return matches.reduce((best, item) => (item.path.length > best.path.length ? item : best)).key;
 }
+
+/** Pozycja menu o kluczu `key`, którą ta osoba widzi (z kilku menu naraz), albo null. Np. „Moje konto” w menu użytkownika. */
+export function findVisibleNavItem(
+  key: string,
+  menus: NavItem[][],
+  user: SessionUser | null,
+): NavItem | null {
+  for (const items of menus) {
+    const found = flattenNav(visibleNav(items, user)).find((item) => item.key === key);
+    if (found) return found;
+  }
+  return null;
+}
+
+/** Inicjały do kółka w menu użytkownika: „Jan Kowalski” → „JK”, „Anna” → „A”. */
+export function initials(name: string): string {
+  const letters = name
+    .trim()
+    .split(/\s+/)
+    .filter(Boolean)
+    .map((part) => part[0]!.toLocaleUpperCase('pl'));
+  if (letters.length === 0) return '?';
+  return letters.length === 1 ? letters[0]! : letters[0]! + letters[letters.length - 1]!;
+}

@@ -35,6 +35,13 @@ describe('mockup shell', () => {
     expect(await screen.findByLabelText('Pokaż menu')).toBeInTheDocument();
   });
 
+  it('shows the app header with the person chosen in "Oglądam jako"', async () => {
+    renderMockup(all, '/account');
+    expect(await screen.findByText('Ekran konta')).toBeInTheDocument();
+    expect(screen.getByText('Moja aplikacja')).toBeInTheDocument();
+    expect(screen.getByText('JK')).toBeInTheDocument();
+  });
+
   it('always shows the MAKIETA bar', () => {
     renderMockup();
     expect(screen.getByText('MAKIETA: to nie jest prawdziwa aplikacja')).toBeInTheDocument();

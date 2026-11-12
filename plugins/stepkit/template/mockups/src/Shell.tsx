@@ -1,14 +1,17 @@
 import { useEffect, type ComponentType, type ReactNode } from 'react';
-import { AppShell, Box, Burger, Divider, Group, NavLink, SegmentedControl, Stack, Text, useMantineTheme } from '@mantine/core';
+import { AppShell, Burger, Divider, Group, NavLink, SegmentedControl, Stack, Text, useMantineTheme } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { COLOR_SCHEME_TOGGLE } from '@app/shared/theme';
 import { ColorSchemeToggle } from './common/ColorSchemeToggle';
 import { NavIcon } from './common/icons';
+import { mockUserName } from './common/mockUsers';
+import { UserMenu } from './common/UserMenu';
 import { VariantSwitch } from './appearance/ThemeVariants';
 import { NavLink as RouterLink, useLocation, useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import {
   activeNavKey,
+  findVisibleNavItem,
   flattenNav,
   ROLE_HOME,
   ROLE_LABELS,
@@ -90,6 +93,7 @@ export function Shell({ areas, navigation, accountNavigation, publicNavigation, 
   const partSwitch =
     parts.length > 1 ? (
       <SegmentedControl
+        size={isPhone ? 'sm' : 'xs'}
         aria-label={t('mockup.part')}
         value={current ?? 'admin'}
         onChange={(value) => {
@@ -104,6 +108,7 @@ export function Shell({ areas, navigation, accountNavigation, publicNavigation, 
     <Group gap="xs" wrap="nowrap">
       <Text size="sm">{t('mockup.viewing_as')}</Text>
       <SegmentedControl
+        size={isPhone ? 'sm' : 'xs'}
         aria-label={t('mockup.viewing_as')}
         value={role}
         onChange={(value) => onRoleChange(value as Role)}
@@ -111,42 +116,50 @@ export function Shell({ areas, navigation, accountNavigation, publicNavigation, 
       />
     </Group>
   ) : null;
-  const toggles = (
-    <Group gap="md" wrap="nowrap">
-      <VariantSwitch />
-      {COLOR_SCHEME_TOGGLE && <ColorSchemeToggle />}
-    </Group>
-  );
+  const mockUser = { id: 0, name: mockUserName(role, t), role };
+  const accountPath = findVisibleNavItem('my-account', [accountNavigation, navigation], mockUser)?.path ?? null;
+  const loggedIn = current === 'account' || current === 'admin' || current === null;
 
   return (
     <AppShell
-      header={{ height: 96 }}
+      header={{ height: isPhone ? 92 : 100 }}
       navbar={{ width: 240, breakpoint: 'sm', collapsed: { mobile: !menuOpened } }}
       padding="md"
     >
       <AppShell.Header>
-        <Box bg="yellow.4" px="md" py={4}>
-          <Text fw={700} size="sm">{t('mockup.bar')}</Text>
-        </Box>
-        <Group px="md" h={60} justify="space-between" wrap="nowrap">
-          <Burger
-            opened={menuOpened}
-            onClick={toggleMenu}
-            hiddenFrom="sm"
-            size="sm"
-            aria-label={t(menuOpened ? 'menu_close' : 'menu_open')}
-          />
-          {isPhone ? (
-            toggles
-          ) : (
-            <>
-              {partSwitch ?? <span />}
-              <Group gap="md" wrap="nowrap">
-                {toggles}
-                {roleSwitch}
-              </Group>
-            </>
+        {/* Żółty pasek: tylko narzędzia makiety. Na telefonie przełączniki są na górze wysuwanego menu. */}
+        <Group bg="yellow.4" c="dark.9" px="md" h={isPhone ? 32 : 40} justify="space-between" wrap="nowrap">
+          <Text fw={700} size="sm" truncate>
+            {t('mockup.bar')}
+          </Text>
+          {!isPhone && (
+            <Group gap="md" wrap="nowrap">
+              {partSwitch}
+              {roleSwitch}
+              <VariantSwitch />
+            </Group>
           )}
+        </Group>
+        {/* Belka taka jak w prawdziwej aplikacji (SideMenuLayout). */}
+        <Group px="md" h={60} justify="space-between" wrap="nowrap">
+          <Group gap="sm" wrap="nowrap">
+            <Burger
+              opened={menuOpened}
+              onClick={toggleMenu}
+              hiddenFrom="sm"
+              size="sm"
+              aria-label={t(menuOpened ? 'menu_close' : 'menu_open')}
+            />
+            <Text fw={700} truncate>
+              {t('app_name')}
+            </Text>
+          </Group>
+          <Group gap="xs" wrap="nowrap">
+            {COLOR_SCHEME_TOGGLE && <ColorSchemeToggle />}
+            {loggedIn && (
+              <UserMenu name={mockUser.name} accountPath={accountPath} onLogout={() => navigate(PART_HOME.public)} />
+            )}
+          </Group>
         </Group>
       </AppShell.Header>
       <AppShell.Navbar p="xs">
@@ -154,6 +167,7 @@ export function Shell({ areas, navigation, accountNavigation, publicNavigation, 
           <Stack gap="xs" mb="xs">
             {partSwitch}
             {roleSwitch}
+            <VariantSwitch />
             <Divider />
           </Stack>
         )}

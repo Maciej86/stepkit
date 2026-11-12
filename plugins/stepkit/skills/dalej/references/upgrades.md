@@ -187,3 +187,7 @@ Zasady (bez zmian w kodzie, chyba że przegląd coś znajdzie):
   zwykle ich nie zmieniał; jeśli zmienił, przenieś zmiany do `SideMenuLayout`). **Połącz** `mockups/src/Shell.tsx`
   (przycisk menu, przełączniki makiety w menu na telefonie) i jego test, klucze `menu_open`, `menu_close`
   w `common.json`. Obejrzyj panel i konto przy 390 px.
+- Belka z menu użytkownika: nowe `frontend/src/common/UserMenu.tsx` i `mockups/src/common/UserMenu.tsx` (z testami),
+  `mockups/src/common/mockUsers.ts` (zmyślone osoby dla ról projektu); **połącz** `shared/src/navigation.ts`
+  (`findVisibleNavItem`, `initials`), `SideMenuLayout.tsx` i `mockups/src/Shell.tsx` z szablonem, klucz `user_menu`
+  w `common.json`. `LogoutButton.tsx` usuń, jeśli nic go już nie używa. **Połącz** `docs/DESIGN.md` („Górna belka”).

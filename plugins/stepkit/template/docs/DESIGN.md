@@ -23,8 +23,11 @@ użytkownik nie zdecyduje inaczej. Zmiana = wpis w „Historii zmian wyglądu”
 ## Układ
 
 **Panel i konto** (`AppLayout`, `AccountLayout`, oba przez `SideMenuLayout`): menu po lewej (na telefonie schowane
-pod przyciskiem w belce), górna belka z nazwą aplikacji, przełącznikiem motywu
-i wylogowaniem, treść w środku na tle `--app-panel-background` (innym niż karty). Pozycja menu bieżącego ekranu jest
+pod przyciskiem w belce), treść w środku na tle `--app-panel-background` (innym niż karty).
+**Górna belka** (panel i konto): po lewej przycisk menu (tylko na telefonie), logo i nazwa firmy lub aplikacji; po
+prawej przełącznik jasny/ciemny, dzwonek powiadomień (gdy aplikacja je ma) i menu użytkownika: kółko z inicjałami
+i imię (na telefonie same inicjały), a w nim „Moje konto” i „Wyloguj”. Makieta pokazuje tę samą belkę; przełączniki
+makiety są tylko w żółtym pasku nad nią. Pozycja menu bieżącego ekranu jest
 podświetlona, także na jego podstronach (`/admin/orders/5` podświetla „Zamówienia”). Każdy ekran panelu i konta
 zajmuje całą szerokość obszaru treści (bez `Container`, `maw` ani `w` na całej stronie), także gdy ma mało danych.
 Węższe mogą być tylko elementy w środku: formularz w oknie (`Modal`) albo w siatce (`SimpleGrid`, `Grid`), pole

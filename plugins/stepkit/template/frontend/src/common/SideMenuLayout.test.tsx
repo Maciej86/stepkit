@@ -23,8 +23,10 @@ function show() {
 }
 
 describe('SideMenuLayout', () => {
-  it('shows the menu and the page content', () => {
+  it('shows the company name, the user menu, the menu and the page content', () => {
     show();
+    expect(screen.getByText('Moja aplikacja')).toBeInTheDocument();
+    expect(screen.getByText('A')).toBeInTheDocument();
     expect(screen.getByText('Pulpit')).toBeInTheDocument();
     expect(screen.getByText('Pulpit treść')).toBeInTheDocument();
   });
