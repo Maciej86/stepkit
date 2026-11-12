@@ -13,5 +13,30 @@
   "logout": "Wyloguj",
   "missing_screen": "Ten ekran jeszcze nie powstał.",
   "no_connection": "Brak połączenia z serwerem. Czy backend działa? (npm run dev)",
-  "loading": "Wczytywanie…"
+  "loading": "Wczytywanie…",
+  "mockup": {
+    "bar": "MAKIETA: to nie jest prawdziwa aplikacja",
+    "part": "Część aplikacji",
+    "part_public": "Strona",
+    "part_account": "Konto",
+    "part_admin": "Panel",
+    "viewing_as": "Oglądam jako:",
+    "role_cannot_see": "Ta rola nie widzi tego ekranu.",
+    "progress": "Postęp",
+    "question": "Pytanie {{number}}",
+    "recommended": "(polecam)",
+    "done": "Tę część już wykonano.",
+    "done_link": "Zobacz ją w prawdziwej aplikacji: http://localhost:5173",
+    "progress_title": "Postęp budowy",
+    "next_step": "Następny krok",
+    "start_steps": "Start aplikacji",
+    "modules": "Moduły",
+    "col_number": "#",
+    "col_module": "Moduł",
+    "col_status": "Status",
+    "col_stage": "Etap",
+    "col_depends": "Zależy od",
+    "no_modules": "Lista modułów pojawi się po zaplanowaniu aplikacji.",
+    "status_error": "Nie udało się odczytać docs/STATUS.md"
+  }
 }
