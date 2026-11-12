@@ -36,6 +36,7 @@ Wyłączenie bazy: `npm run db:stop`. Dane zostają, przy następnym `npm run db
 | `docs/OVERVIEW.md` | opis aplikacji z wywiadu |
 | `docs/SPEC-GENERAL.md` | plan całej aplikacji: role, nawigacja, kolejność modułów |
 | `docs/modules/` | specyfikacje, plany i listy testów kolejnych modułów |
+| `docs/IDEAS.md` | pomysły na rozwój na później; dopisuj w każdej chwili, nie zmieniają obecnej budowy |
 | `.env` | hasła i ustawienia tego komputera; **nigdy nie trafia na GitHub** |
 
 ## Sprawdzenie, czy wszystko działa

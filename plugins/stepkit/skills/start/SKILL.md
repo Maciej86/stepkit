@@ -88,6 +88,14 @@ z „(polecam)”. Archiwum **sam proponujesz** (obszar 12).
 Pokaż podsumowanie, poprawiaj do akceptacji, zapisz `docs/OVERVIEW.md`. Dopasuj szablon według tabeli „Jak odpowiedzi
 zmieniają szkielet” (`interview.md`) i `references/project-skeleton.md` (część „Dopasowanie”). `npm run check` zielony.
 
+**Pomysły na później.** Jeśli w wywiadzie padło coś, co wykracza poza ustalony rdzeń (użytkownik sam mówi „kiedyś”,
+„może później”, albo wybrał to jako niewymagane na start), wpisz to do `docs/IDEAS.md` ze statusem `pomysł`, a nie do
+podsumowania. Po akceptacji powiedz:
+
+> „Jeśli w trakcie budowy wpadnie Ci pomysł na rozbudowę (np. dodanie czasu pracy), po prostu napisz go w dowolnej
+> chwili. Zapiszę go w pliku `docs/IDEAS.md` i zajmiemy się nim, gdy zbudujemy to, co właśnie ustaliliśmy.
+> Pomysły nie zmieniają obecnego planu.”
+
 ## Krok 6: makieta ogólna
 
 Czytasz `../dalej/references/mockups.md`. W `mockups/`: włączone części, pełne `PUBLIC_NAVIGATION`,

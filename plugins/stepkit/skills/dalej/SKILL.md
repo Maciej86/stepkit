@@ -19,14 +19,22 @@ Nie czytaj folderów innych modułów ani całego kodu „na zapas”.
 
 Potem jedno zdanie: „Jesteśmy przy: <moduł>, <etap>. Teraz: <co robimy>.”
 
+**Pomysł na później.** Gdy użytkownik (w tej wiadomości albo w trakcie pracy) zgłasza nową funkcję spoza ustaleń
+bieżącego modułu i `SPEC-GENERAL.md` („mam pomysł”, „a może dodać”, „kiedyś chciałbym”), dopisz wiersz do
+`docs/IDEAS.md` (data, pomysł jednym zdaniem, `pomysł`; brak pliku → utwórz go z tabelą `| Data | Pomysł | Status | Uwagi |`) i potwierdź: „Zapisałem w `docs/IDEAS.md`. Zajmiemy się tym
+po zbudowaniu tego, co ustaliliśmy.” **Nie** dodajesz go do tabeli modułów, nie zmieniasz planu ani speca i wracasz
+do bieżącego modułu. Wyjątek: użytkownik wprost chce zmienić bieżący moduł („w logowaniu dodajmy jeszcze…”); wtedy
+to zmiana ustaleń: zapisz w `SPEC.md` i `PLAN.md` modułu, przedtem powiedz, co zmieni się w planie.
+
 ## 2. Który moduł
 
 Dokładnie w tej kolejności:
 1. Moduł ze statusem `w toku` → **kontynuuj go** od etapu i kroku zapisanego w `STATUS.md` i `PLAN.md`.
 2. Brak `w toku` → moduł `wstrzymany` o najniższym numerze.
 3. Brak wstrzymanych → pierwszy `czeka`, którego wszystkie „Zależy od” są `zrobiony`.
-4. Wszystkie `zrobiony` → gratulacje, adres aplikacji (jeśli opublikowana), przypomnienie „Wgraj nową wersję”, nowe
-   pomysły dopisz jako moduły przed „Publikacja” (albo po niej, jeśli już zrobiona).
+4. Wszystkie `zrobiony` → gratulacje, adres aplikacji (jeśli opublikowana), przypomnienie „Wgraj nową wersję”. Pokaż
+   pomysły ze statusem `pomysł` z `docs/IDEAS.md` i zapytaj, który budujemy. Wybrany dopisz jako moduł przed
+   „Publikacja” (albo po niej, jeśli już zrobiona), a w `IDEAS.md` zmień status na `zaplanowany`.
 
 Nigdy nie przeskakujesz nieskończonego modułu i nigdy nie masz dwóch modułów `w toku`.
 

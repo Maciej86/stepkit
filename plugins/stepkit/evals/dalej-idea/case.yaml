@@ -1,0 +1,19 @@
+schema_version: "1.1"
+name: dalej-idea
+description: Pomysł zgłoszony w trakcie modułu trafia do docs/IDEAS.md, a praca wraca do bieżącego modułu.
+runs: 2
+execution:
+  max_turns: 12
+  allowed_tools: [Read, Glob, Grep, Skill, Write, Edit]
+  append_system_prompt: "Środowisko testowe stepkit: komendy (npm, docker, git) są niedostępne, a node_modules nie są zainstalowane. Zakładaj, że npm run check przechodzi po poprawnych zmianach, i pracuj dalej na plikach."
+  prompt: "/stepkit:dalej Zanim pójdziemy dalej, mam pomysł na później: ewidencja czasu pracy pracowników."
+context:
+  scaffold_script: fixture.sh
+graders:
+  - name: mentions-ideas-file
+    type: regex
+    pattern: 'IDEAS\.md'
+    arm: with-only
+  - name: parks-idea
+    type: llm
+    criteria: Odpowiedź po polsku potwierdza, że pomysł z ewidencją czasu pracy został zapisany na później w pliku z pomysłami (docs/IDEAS.md) i że zajmiemy się nim po zbudowaniu tego, co ustalono. Nie zaczyna budować czasu pracy, nie dodaje go jako nowego modułu w STATUS.md i nie zmienia planu Logowania. Wraca do modułu Logowanie (krok 3) albo proponuje kontynuację Logowania.
