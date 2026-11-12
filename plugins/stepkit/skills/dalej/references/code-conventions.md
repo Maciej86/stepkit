@@ -23,6 +23,7 @@ samo na dwa sposoby.
 | przesyłanie plików | `multer` |
 | zadania o stałej porze | `cron` |
 | Excel (eksport, import) | `exceljs` |
+| PDF tworzony na serwerze (załącznik e-maila, zestawienie, dokument do archiwum) | `pdfmake` |
 | dziennik serwera | `winston` |
 | HTML od użytkownika (np. edytor treści) | `sanitize-html` |
 | wykresy | `@mantine/charts` z `recharts` |
@@ -38,7 +39,7 @@ samo na dwa sposoby.
    sprawdzone narzędzie, używa jej wiele firm. Zgadzasz się?” Bez zgody szukasz innej drogi.
 4. Dopisz ją do „Bibliotek” w `SPEC-GENERAL.md`. Kolejne moduły używają tej samej paczki, nie drugiej do tego samego.
 
-Nigdy: drugiej biblioteki komponentów, drugiej paczki ikon, axios (jest `fetch` w `core/api/client.ts`), moment,
+Nigdy: przeglądarki uruchamianej na serwerze do PDF (puppeteer, playwright), drugiej biblioteki komponentów, drugiej paczki ikon, axios (jest `fetch` w `core/api/client.ts`), moment,
 date-fns, lodash.
 
 **Kalendarze:** `@mantine/schedule` w tej samej wersji co `@mantine/core`, w obu miejscach naraz
@@ -214,6 +215,36 @@ Gdy moduł przyjmuje pliki (zdjęcia, dokumenty, załączniki). Pomocnik: `backe
   (`scripts/backup-db.sh`). `uploads/` jest w `.gitignore`.
 - Testy: zły typ i za duży plik → 400; pobranie cudzego pliku → 404; bez logowania → 401; usunięcie rekordu na stałe
   usuwa jego pliki.
+
+## PDF i wydruk
+
+Dwa przypadki, dwie drogi:
+- **Wydruk ekranu** (wniosek do podpisu, zamówienie na kartce, „zapisz jako PDF” przez użytkownika): ekran z wersją
+  do druku, bez biblioteki. Przycisk „Drukuj” (`ButtonIcon action="print"`, `window.print()`), a w
+  `<Ekran>.module.css` `@media print` ukrywa menu, przyciski i panel; treść na białym tle, tabela bez przewijania.
+  Zawsze zacznij od tej drogi.
+- **PDF tworzony przez serwer** (dołączany do e-maila, zapisywany w archiwum, zestawienie zamówień albo stanów
+  magazynu do pobrania): `pdfmake` w backendzie (`npm install -w @app/backend pdfmake`). Jeden plik
+  `backend/src/pdf/renderPdf.ts`:
+  ```ts
+  import { createRequire } from 'node:module';
+  import { dirname } from 'node:path';
+  const require = createRequire(import.meta.url);
+  const pdfmake = require('pdfmake');
+  const Roboto = require('pdfmake/fonts/Roboto'); // polskie znaki
+  const fontsDir = dirname(require.resolve('pdfmake/fonts/Roboto'));
+  pdfmake.addFonts(Roboto);
+  pdfmake.setUrlAccessPolicy(() => false); // dokument nigdy nie pobiera nic z internetu
+  pdfmake.setLocalAccessPolicy((path: string) => path.startsWith(fontsDir)); // ani plików z serwera
+  export function renderPdf(doc: object): Promise<Buffer> {
+    return pdfmake.createPdf({ defaultStyle: { font: 'Roboto' }, ...doc }).getBuffer();
+  }
+  ```
+  Treść dokumentu buduje funkcja modułu (np. `orders.pdf.ts`) z danych z bazy: teksty z i18n, daty przez
+  `formatDate`, kwoty i liczby przez wspólną funkcję formatowania. Trasa `GET /api/<moduł>/:id/pdf` z tymi samymi
+  uprawnieniami co rekord, odpowiedź `Content-Type: application/pdf` i `Content-Disposition: attachment`. Obrazki
+  (np. logo) tylko z plików aplikacji, dołączone jako dane, nigdy z adresu podanego przez użytkownika.
+  Testy: odpowiedź zaczyna się od `%PDF`, bez logowania 401, cudzy rekord 404.
 
 ## Na żywo (WebSocket)
 
