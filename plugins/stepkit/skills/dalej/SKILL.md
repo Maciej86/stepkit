@@ -88,6 +88,14 @@ użytkownikowi prostymi słowami i nie wgrywaj jej bez zgody.
 
 Moduł jest `zrobiony` **dopiero po potwierdzeniu użytkownika** na etapie testów.
 
+**Duży moduł dzielisz na części.** Po pytaniach, przed specem, oceń wielkość: moduł jest duży, gdy plan miałby więcej
+niż ok. 15 kroków albo gdy ma fragmenty, które mogą działać później (np. komentarze, powiadomienia, wydruk, eksport).
+Wtedy `SPEC.md` modułu to spec ogólny z tabelą „Części” (numer, nazwa, zakres, dlaczego osobno); **część 1 musi dać
+działający, używalny moduł**. Każda część ma własne `SPEC-<n>.md`, `PLAN-<n>.md`, `TESTS-<n>.md` w folderze modułu
+i przechodzi spec → plan → implementacja → testy. W `STATUS.md` etap z częścią, np. `implementacja, część 2/3
+(krok 4/9)`. Moduł jest `zrobiony` po ostatniej części; podział pokaż użytkownikowi i poproś o akceptację jak przy
+specu.
+
 **Ściągawka `README.md`** w projekcie to miejsce, gdzie użytkownik sprawdza, jak uruchomić aplikację i gdzie co
 podejrzeć. Gdy zmieniasz port, dodajesz usługę z adresem (np. Mailpit) albo nowe polecenie `npm run`, popraw README
 w tym samym zapisie. Na pytania „jak uruchomić”, „gdzie zobaczyć”, „jak się zalogować do bazy” odpowiadaj i wskaż
@@ -95,13 +103,16 @@ README.
 
 ## 4. Granice rozmów
 
-Po każdym etapie zaktualizuj w `STATUS.md` kolumnę Etap i „Następny krok”. Jeśli za Tobą jest więcej niż jeden etap
-w tej rozmowie albo ponad ok. 5 kroków implementacji, zakończ dokładnie:
+Po każdym etapie zaktualizuj w `STATUS.md` kolumnę Etap i „Następny krok” (w implementacji także krok, np.
+`implementacja (krok 7/12)`), żeby po przerwie dało się wrócić w to samo miejsce. **Jedna rozmowa = jeden moduł albo
+jedna jego część**, od makiety (albo specu części) do zamknięcia; implementację robisz od pierwszego do ostatniego
+kroku planu bez przerywania. Po zamknięciu modułu lub części zakończ dokładnie:
 
-> „Otwórz nową rozmowę i wpisz `/stepkit:dalej`.”
+> „<Moduł albo część> gotowy. Otwórz nową rozmowę i wpisz `/stepkit:dalej`.”
 
-i jednym zdaniem dlaczego (krótsza rozmowa = mniej tokenów i mniej pomyłek). Postęp pokazuje
-http://localhost:5174/progress.
+Wcześniej nową rozmowę proponujesz tylko wtedy, gdy ta zrobiła się bardzo długa (Claude Code ją już skracał): dokończ
+bieżący krok, zapisz stan w `STATUS.md` i `PLAN.md`, potem: „Ta rozmowa zrobiła się długa. Otwórz nową i wpisz
+`/stepkit:dalej`, zacznę dokładnie od tego miejsca.” Postęp pokazuje http://localhost:5174/progress.
 
 ## Zakazy
 

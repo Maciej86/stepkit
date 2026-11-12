@@ -149,6 +149,12 @@ Wartości liczone przez serwer (nie brane z żądania): …
 | dashboard | boks „Moje zadania na dziś” | `countTodayTasks(userId)` | liczba |
 ## Teksty
 Plik `shared/locales/pl/<module>.json`: najważniejsze klucze.
+## Części (tylko duży moduł, `SKILL.md` „Duży moduł dzielisz na części”)
+| # | Część | Zakres | Dlaczego osobno |
+|---|---|---|---|
+| 1 | Rozpatrywanie | lista wniosków, filtry, zatwierdzenie, odrzucenie z komentarzem, odjęcie dni | bez tego moduł nie działa; sama część 1 jest już używalna |
+| 2 | Anulowanie i wydruk | prośba o anulowanie, decyzja, zwrot dni, wydruk wniosku | rzadsze czynności, mogą dojść później |
+Każda część: `SPEC-<n>.md`, `PLAN-<n>.md`, `TESTS-<n>.md` (wzory jak niżej). Ten plik zostaje specem ogólnym modułu.
 ## Poza zakresem
 ```
 
