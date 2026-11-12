@@ -75,7 +75,9 @@ z dwóch plików w katalogu domowym (Windows: `%USERPROFILE%\.claude\…`, macOS
 
 W kroku 1 najpierw poproś o odświeżenie listy dodatków: „Wpisz w Claude Code
 `/plugin marketplace update claude-plugins-official`, a potem `/reload-plugins`.” (to także aktualizuje
-zainstalowane dodatki z tego źródła). Potem porównaj. Zainstalowana starsza → **nie idź dalej**: „Masz starszą wersję
+zainstalowane dodatki z tego źródła). Potem porównaj. Wersje równe → „frontend-design jest w najnowszej wersji
+(X).” (nie pisz „zaktualizowany”, jeśli numer się nie zmienił). Zainstalowana była starsza, a po odświeżeniu jest
+równa → „frontend-design został zaktualizowany z X do Y.” Zainstalowana nadal starsza → **nie idź dalej**: „Masz starszą wersję
 dodatku frontend-design (X), a dostępna jest Y. Nowsza lepiej projektuje ekrany. Wpisz
 `/plugin install frontend-design@claude-plugins-official`, zamknij i otwórz Claude Code ponownie.” Po restarcie
 porównaj jeszcze raz. Nie da się odczytać plików (inna instalacja, brak internetu) → powiedz jednym zdaniem, że nie

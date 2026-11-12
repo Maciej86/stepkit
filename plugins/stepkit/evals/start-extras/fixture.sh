@@ -2,7 +2,7 @@ mkdir -p docs
 cat > docs/STATUS.md <<'MD'
 # Stan projektu: Urlopy
 
-**Wersja stepkit:** 0.1.17
+**Wersja stepkit:** 0.1.18
 
 **Następny krok:** Podsumowanie wywiadu (akceptacja), potem makieta ogólna.
 
