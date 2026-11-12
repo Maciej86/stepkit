@@ -40,6 +40,11 @@ czcionki i wygląd komponentów biorą się z `shared/src/theme.ts` i `shared/sr
 inaczej ciemny motyw i zmiana kolorów aplikacji przestają działać (test `frontend/src/test/colors.test.ts`).
 Gdy ekran potrzebuje własnych stylów, użyj pliku CSS Modules w folderze modułu (`<Ekran>.module.css`).
 
+**Ikony:** tylko Lucide (`lucide-react`, nazwy ze strony https://lucide.dev/icons/), żadnej innej paczki ikon. Na ekranach
+importujesz je wprost: `import { CalendarDays } from 'lucide-react'`. Ikona pozycji nawigacji: nazwa z Lucide w polu
+`icon` w `navigation.config.ts` (np. `'calendar-days'`) i ta sama nazwa dopisana do `NAV_ICONS` w
+`frontend/src/common/icons.tsx` **i** `mockups/src/common/icons.tsx` (test pilnuje, że każda jest na liście).
+
 ## Nazwy i stałe
 
 - **Identyfikatory po angielsku:** foldery, pliki, funkcje, zmienne, typy, tabele, kolumny, adresy URL.

@@ -148,7 +148,7 @@ jakiś czas odświeżać.
 - **Teksty jako klucze:** `i18next` + `react-i18next` od początku **[właściciel]**.
 
 Zestaw bibliotek w szablonie, na podstawie Antalo **[decyzja Claude'a]**:
-- **front:** `react-router`, `@mantine/core`, `hooks`, `form`, `notifications`, `dates`, `dayjs`, `@tabler/icons-react`,
+- **front:** `react-router`, `@mantine/core`, `hooks`, `form`, `notifications`, `dates`, `dayjs`, `lucide-react`,
   `mantine-form-zod-resolver`, `zod`, `axios`, `i18next`, `react-i18next`.
   **Bez** Redux, redux-saga i styled-components.
 - **backend:** `express`, `mysql2`, `zod`, `bcryptjs`, `jsonwebtoken`, `cookie-parser` (token w ciasteczku httpOnly,

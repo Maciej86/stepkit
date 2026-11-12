@@ -5,7 +5,7 @@ import { NavMenu } from './NavMenu';
 import { renderWithProviders } from '../test/render';
 
 const items: NavItem[] = [
-  { key: 'dashboard', path: '/admin', label: 'common.nav.dashboard', icon: 'home', roles: ['admin', 'user'] },
+  { key: 'dashboard', path: '/admin', label: 'common.nav.dashboard', icon: 'house', roles: ['admin', 'user'] },
   { key: 'my-account', path: '/admin/secret', label: 'common.nav.my_account', icon: 'user', roles: ['admin'] },
 ];
 

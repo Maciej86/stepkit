@@ -12,7 +12,7 @@ describe('useMockupRole', () => {
   it('gives screens the role chosen in the bar', async () => {
     renderWithProviders(
       <MockupApp
-        navigation={[{ key: 'dashboard', path: '/admin', label: 'common.nav.dashboard', icon: 'home', roles: ['admin', 'user'] }]}
+        navigation={[{ key: 'dashboard', path: '/admin', label: 'common.nav.dashboard', icon: 'house', roles: ['admin', 'user'] }]}
         screens={{ dashboard: RoleProbe }}
         initialPath="/admin"
       />,

@@ -11,7 +11,7 @@ export interface NavItem {
   key: string;
   path: string;
   label: string;
-  /** Nazwa ikony z @tabler/icons-react bez przedrostka, np. 'home'. */
+  /** Nazwa ikony z Lucide (https://lucide.dev/icons/), np. 'house', 'calendar-days'. Mapa: common/icons.tsx. */
   icon: string;
   roles: Role[];
   children?: NavItem[];

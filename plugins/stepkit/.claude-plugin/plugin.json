@@ -1,6 +1,6 @@
 {
   "name": "stepkit",
-  "version": "0.1.10",
+  "version": "0.1.11",
   "description": "Buduj własną aplikację www z Claude krok po kroku, bez programowania. Działa w Claude Code w terminalu i w VS Code.",
   "license": "MIT",
   "keywords": [

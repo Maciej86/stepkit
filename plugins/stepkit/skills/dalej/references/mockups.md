@@ -59,7 +59,9 @@ Makieta to pierwsze, co użytkownik widzi, więc ma wyglądać jak dopracowany p
    w `mockups/src/modules/<module>/data.ts`.
 4. Teksty jako klucze w `shared/locales/pl/<module>.json` (ten sam plik, którego użyje prawdziwa aplikacja), plik
    dopisany w `shared/src/i18n.ts`. Teksty, które są tylko zmyślonymi danymi (imiona, kwoty), mogą zostać w `data.ts`.
-5. Pozycja w nawigacji (`shared/src/navigation.config.ts`) i wpis w `mockups/src/screens.tsx`.
+5. Pozycja w nawigacji (`shared/src/navigation.config.ts`, z ikoną z Lucide, zob. „Ikony” w `code-conventions.md`;
+   tę samą nazwę dopisz do `NAV_ICONS` w `mockups/src/common/icons.tsx` i `frontend/src/common/icons.tsx`) i wpis
+   w `mockups/src/screens.tsx`.
 6. Pozostałe stany ekranu też pokaż: pusta lista (komunikat zachęcający, np. „Nie masz jeszcze zamówień. Dodaj
    pierwsze.”), błąd formularza, okno potwierdzenia usunięcia.
 

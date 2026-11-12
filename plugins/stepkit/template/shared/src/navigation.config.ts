@@ -20,5 +20,5 @@ export const ACCOUNT_NAVIGATION: NavItem[] = [
 
 /** Panel administracyjny (adres /admin). */
 export const NAVIGATION: NavItem[] = [
-  { key: 'dashboard', path: '/admin', label: 'common.nav.dashboard', icon: 'home', roles: ['admin'] },
+  { key: 'dashboard', path: '/admin', label: 'common.nav.dashboard', icon: 'house', roles: ['admin'] },
 ];

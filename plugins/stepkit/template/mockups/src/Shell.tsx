@@ -2,6 +2,7 @@ import type { ComponentType, ReactNode } from 'react';
 import { AppShell, Box, Group, NavLink, SegmentedControl, Text } from '@mantine/core';
 import { COLOR_SCHEME_TOGGLE } from '@app/shared/theme';
 import { ColorSchemeToggle } from './common/ColorSchemeToggle';
+import { NavIcon } from './common/icons';
 import { NavLink as RouterLink, useLocation, useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import {
@@ -46,7 +47,15 @@ function MenuLinks({ items, role }: { items: NavItem[]; role: Role }) {
   const { pathname } = useLocation();
   const render = (list: NavItem[]): ReactNode =>
     list.map((item) => (
-      <NavLink key={item.key} component={RouterLink} to={item.path} end label={translateKey(t, item.label)} active={pathname === item.path}>
+      <NavLink
+        key={item.key}
+        component={RouterLink}
+        to={item.path}
+        end
+        label={translateKey(t, item.label)}
+        leftSection={<NavIcon name={item.icon} />}
+        active={pathname === item.path}
+      >
         {item.children ? render(item.children) : undefined}
       </NavLink>
     ));

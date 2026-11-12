@@ -8,8 +8,8 @@ const admin: SessionUser = { id: 1, name: 'Anna', role: 'admin' };
 const user: SessionUser = { id: 2, name: 'Jan', role: 'user' };
 const Page = () => <p>Strona testowa</p>;
 
-const adminOnly: NavItem = { key: 'reports', path: '/admin/reports', label: 'common.nav.dashboard', icon: 'home', roles: ['admin'] };
-const noPage: NavItem = { key: 'orders', path: '/admin/orders', label: 'common.nav.dashboard', icon: 'home', roles: ['admin'] };
+const adminOnly: NavItem = { key: 'reports', path: '/admin/reports', label: 'common.nav.dashboard', icon: 'house', roles: ['admin'] };
+const noPage: NavItem = { key: 'orders', path: '/admin/orders', label: 'common.nav.dashboard', icon: 'house', roles: ['admin'] };
 
 describe('buildRoutes', () => {
   it('shows a placeholder for an item without a page', async () => {

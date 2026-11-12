@@ -4,8 +4,8 @@ import { MockupApp } from './App';
 import { renderWithProviders } from './test/render';
 
 const nav: NavItem[] = [
-  { key: 'dashboard', path: '/admin', label: 'common.nav.dashboard', icon: 'home', roles: ['admin'] },
-  { key: 'missing', path: '/admin/missing', label: 'common.nav.home', icon: 'home', roles: ['admin', 'user'] },
+  { key: 'dashboard', path: '/admin', label: 'common.nav.dashboard', icon: 'house', roles: ['admin'] },
+  { key: 'missing', path: '/admin/missing', label: 'common.nav.home', icon: 'house', roles: ['admin', 'user'] },
 ];
 const account: NavItem[] = [
   { key: 'my-account', path: '/account', label: 'common.nav.my_account', icon: 'user', roles: ['user'] },
