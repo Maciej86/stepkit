@@ -10,9 +10,17 @@
     "mockups"
   ],
   "scripts": {
-    "test": "npm test --workspaces --if-present"
+    "dev": "concurrently -n backend,frontend,mockups -c blue,green,yellow \"npm run dev -w @app/backend\" \"npm run dev -w @app/frontend\" \"npm run dev -w @app/mockups\"",
+    "db": "docker compose up -d",
+    "db:stop": "docker compose down",
+    "migrate": "npm run migrate -w @app/backend",
+    "check": "npm run typecheck --workspaces --if-present && npm test --workspaces --if-present",
+    "test": "npm test --workspaces --if-present",
+    "test:e2e": "playwright test -c e2e"
   },
   "devDependencies": {
+    "@playwright/test": "^1.65.0",
+    "concurrently": "^10.0.7",
     "typescript": "^7.0.2",
     "vitest": "^5.1.0"
   }
