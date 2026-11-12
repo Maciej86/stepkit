@@ -50,6 +50,7 @@ Te wpisuje użytkownik **w Claude Code**:
 
 - **superpowers** (wymagany): `/plugin install superpowers@claude-plugins-official`
 - **Playwright** (wymagany): `/plugin install playwright@claude-plugins-official`
+- **frontend-design** (polecany, do wyglądu makiet): `/plugin install frontend-design@claude-plugins-official`
 
 Sprawdzenie i postępowanie przy braku: jak w `install-windows.md`, część 4.
 

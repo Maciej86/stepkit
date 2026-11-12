@@ -5,7 +5,7 @@
 **Zbuduj własną aplikację www z Claude, krok po kroku, bez programowania.**
 
 [![Licencja: MIT](https://img.shields.io/badge/licencja-MIT-green.svg)](LICENSE)
-![Wersja](https://img.shields.io/badge/wersja-0.1.5-blue.svg)
+![Wersja](https://img.shields.io/badge/wersja-0.1.6-blue.svg)
 ![Claude Code](https://img.shields.io/badge/Claude%20Code-plugin-d97757.svg)
 ![Język](https://img.shields.io/badge/język-polski-red.svg)
 
@@ -43,6 +43,7 @@ W Claude Code (w terminalu albo w VS Code) wpisz po kolei:
 /plugin install stepkit@stepkit
 /plugin install superpowers@claude-plugins-official
 /plugin install playwright@claude-plugins-official
+/plugin install frontend-design@claude-plugins-official
 ```
 
 Zamknij i otwórz Claude Code ponownie. Gotowe.
@@ -75,7 +76,7 @@ potrzebna jest historia zmian…), pokazuje makietę całej aplikacji i rozpisuj
 
 | Etap | Co się dzieje | Co robisz Ty |
 |---|---|---|
-| 🖼️ **Makieta** | Claude rysuje ekrany modułu, pytania wpisuje prosto w makietę | oglądasz w przeglądarce |
+| 🖼️ **Makieta** | Claude projektuje ekrany modułu, pytania zbiera w panelu nad makietą | oglądasz w przeglądarce |
 | ❓ **Pytania** | doprecyzowanie szczegółów | odpowiadasz |
 | 📋 **Spec** | dokładny opis, co moduł robi | akceptujesz |
 | 🗺️ **Plan** | lista kroków, każdy z testem | akceptujesz |
@@ -138,6 +139,7 @@ Claude'a**: instalujesz je raz i nie musisz się ich uczyć, a praca jest dzięk
 | [**Git**](https://git-scm.com/downloads) i [**GitHub**](https://github.com/signup) | punkty zapisu jak w grze: po każdej działającej części powstaje zapis, do którego zawsze wrócisz |
 | **superpowers** | sprawdzone sposoby pracy dla Claude'a: specyfikacja, plan, przegląd kodu |
 | **Playwright** | Claude sam klika w Twojej aplikacji i sprawdza, czy działa |
+| **frontend-design** | wiedza projektanta: makiety i aplikacja wyglądają jak dopracowany produkt, nie jak szablon |
 
 ## 🔒 Bezpieczeństwo
 

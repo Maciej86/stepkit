@@ -27,6 +27,10 @@ Nowa pozycja nawigacji: wpis w `NAVIGATION` (panel, ścieżka od `/admin`), `ACC
 `/account`) albo `PUBLIC_NAVIGATION` (strona); wpis w `frontend/src/core/routes/pages.ts` i
 `mockups/src/screens.tsx`; trasy API dopisane w `backend/src/app.ts` (`api.use('/<module>', <module>Routes)`).
 
+**Wygląd:** prawdziwy ekran we `frontend/` odtwarza układ zaakceptowanej makiety modułu (bez panelu pytań). Kolory,
+czcionki i wygląd komponentów biorą się z `shared/src/theme.ts` i `shared/src/theme.css`; nie ustawiaj ich w module.
+Gdy ekran potrzebuje własnych stylów, użyj pliku CSS Modules w folderze modułu (`<Ekran>.module.css`).
+
 ## Nazwy i stałe
 
 - **Identyfikatory po angielsku:** foldery, pliki, funkcje, zmienne, typy, tabele, kolumny, adresy URL.

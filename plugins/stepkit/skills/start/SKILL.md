@@ -42,10 +42,12 @@ praca jest szybsza, stabilniejsza i bezpieczniejsza:
   każdej działającej części zapis, do którego zawsze można wrócić.
 - **superpowers**: sprawdzone sposoby pracy (specyfikacja, plan, przegląd kodu), dzięki którym mniej się mylisz.
 - **Playwright**: pozwala Ci samemu klikać w aplikacji i sprawdzać ją, zanim poprosisz o to użytkownika.
+- **frontend-design**: wiedza projektanta wyglądu, dzięki której makiety i aplikacja wyglądają jak dopracowany produkt,
+  a nie jak szablon.
 
 Linki podaj dokładnie takie, jak wyżej. Dopisz jedno zdanie: „Nie pobieraj jeszcze niczego: za chwilę sprawdzę, które
-z tych narzędzi już masz, i poprowadzę przez instalację tylko tego, czego brakuje. superpowers i Playwright to dodatki
-do Claude Code, instaluje się je komendą, pokażę jaką.”
+z tych narzędzi już masz, i poprowadzę przez instalację tylko tego, czego brakuje. superpowers, Playwright i frontend-design to
+dodatki do Claude Code, instaluje się je komendą, pokażę jaką.”
 
 Zakończ zdaniem: „Ty mówisz, co ma działać, a narzędziami zajmuję się ja.” Jeśli nie wiesz z systemu, zapytaj, czy ma
 Windows czy Maca. Na końcu zapytaj dokładnie tak: „Czy mogę sprawdzić, jakie narzędzia masz zainstalowane na
@@ -55,10 +57,10 @@ komputera, a sprawdzasz tylko narzędzia z listy.
 ## Krok 1: sprawdzenie komputera
 
 Czytasz `references/install-windows.md` albo `references/install-macos.md`. Sprawdzasz po kolei: `node --version`,
-`git --version`, `docker --version` i `docker info`, plugin Playwright, plugin superpowers, opcjonalnie `gh --version`.
+`git --version`, `docker --version` i `docker info`, plugin Playwright, plugin superpowers, plugin frontend-design, opcjonalnie `gh --version`.
 Przy brakach prowadzisz po jednym programie. **Nie przechodzisz dalej**, dopóki nie działają Node, Git i Docker oraz nie
 ma Playwright. Brak superpowers nie blokuje: zapisz w `docs/STATUS.md` („Ostatnie decyzje”), że pracujemy na wzorach
-stepkit. (`docs/STATUS.md` tworzysz w kroku 2; do tego czasu pamiętaj ustalenia.)
+stepkit. Brak frontend-design też nie blokuje, ale przypomnij o nim przed makietą (krok 6). (`docs/STATUS.md` tworzysz w kroku 2; do tego czasu pamiętaj ustalenia.)
 
 ## Krok 2: szkielet i repo
 
@@ -98,9 +100,11 @@ podsumowania. Po akceptacji powiedz:
 
 ## Krok 6: makieta ogólna
 
-Czytasz `../dalej/references/mockups.md`. W `mockups/`: włączone części, pełne `PUBLIC_NAVIGATION`,
-`ACCOUNT_NAVIGATION` i `NAVIGATION` w `shared/src/navigation.config.ts`, prosty ekran na zmyślonych danych dla każdej
-pozycji, pytania w `<Question>`. Najważniejsza jest **nawigacja**: każda pozycja to później osobny moduł. Uruchom
+Czytasz `../dalej/references/mockups.md`. **Najpierw wygląd** (sekcja „Wygląd”): wywołaj skill `frontend-design`,
+ustal kierunek wyglądu dla tej aplikacji i zapisz go w `shared/src/theme.ts` i `shared/src/theme.css`. Potem
+w `mockups/`: włączone części, pełne `PUBLIC_NAVIGATION`, `ACCOUNT_NAVIGATION` i `NAVIGATION`
+w `shared/src/navigation.config.ts`, ekran na zmyślonych danych dla każdej pozycji, pytania w panelu `<Questions>` na
+górze ekranu (jedno z pytań: czy wygląd się podoba). Najważniejsza jest **nawigacja**: każda pozycja to później osobny moduł. Uruchom
 `npm run dev` i poproś o obejrzenie `http://localhost:5174` i odpowiedzi na pytania. Odpowiedzi zapisz w `docs/OVERVIEW.md`.
 
 ## Krok 7: spec ogólny

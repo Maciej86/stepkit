@@ -49,7 +49,7 @@ Nigdy nie przeskakujesz nieskończonego modułu i nigdy nie masz dwóch modułó
 
 | Etap | Czytasz | Wynik | Użytkownik |
 |---|---|---|---|
-| makieta | `references/mockups.md` | ekrany w `mockups/src/modules/<folder>/` z pytaniami, `QUESTIONS.md` | ogląda http://localhost:5174 |
+| makieta | `references/mockups.md`, skill `frontend-design` | ekrany w `mockups/src/modules/<folder>/` z panelem pytań na górze, `QUESTIONS.md` | ogląda http://localhost:5174 |
 | pytania | `references/mockups.md` | odpowiedzi w `QUESTIONS.md`, poprawiona makieta | odpowiada |
 | spec | `references/superpowers.md`, `references/code-conventions.md`, `references/document-templates.md` | `SPEC.md` | akceptuje |
 | plan | jak wyżej | `PLAN.md` z testami w każdym kroku | akceptuje |

@@ -24,6 +24,24 @@ const role = useMockupRole();
 {role === 'admin' && <Button color="red">{t('delete')}</Button>}
 ```
 
+## Wygląd
+
+Makieta to pierwsze, co użytkownik widzi, więc ma wyglądać jak dopracowany produkt, a nie jak goły szablon.
+
+1. **Zanim narysujesz ekrany, wywołaj skill `frontend-design`** (narzędziem Skill). Nie ma go → poproś o instalację
+   (`/plugin install frontend-design@claude-plugins-official`, potem restart Claude Code) i do tego czasu trzymaj się
+   zasad z tej sekcji.
+2. **Jeden wygląd dla makiet i prawdziwej aplikacji:** `shared/src/theme.ts` (motyw Mantine: kolory, czcionki,
+   zaokrąglenia, wygląd komponentów) i `shared/src/theme.css` (import czcionek, style globalne). Oba miejsca czytają
+   je same; nie ustawiaj wyglądu osobno w `mockups/` ani we `frontend/`.
+3. **Kierunek wyglądu ustalasz raz**, w makiecie ogólnej (krok 6 `/stepkit:start`): z dziedziny aplikacji i jej
+   użytkowników (kwiaciarnia ≠ kancelaria ≠ warsztat). Własna paleta (10 odcieni w `colors`), przemyślana czcionka,
+   nie domyślne niebieskie Mantine. Opisz go użytkownikowi jednym, dwoma zdaniami i zapytaj o zdanie w pytaniach.
+4. **W modułach** trzymasz się ustalonego motywu; `frontend-design` służy do dobrego układu ekranu, nie do zmiany
+   kolorów. Motyw zmieniasz tylko na prośbę użytkownika.
+5. **Strona** może być wyrazista (to wizytówka). **Konto i panel** to narzędzia pracy: ten sam charakter, ale spokojnie,
+   czytelnie, gęsto tam, gdzie są dane (tabele, filtry), z wyraźną główną akcją na ekranie.
+
 ## Jak zrobić ekran modułu
 
 1. Folder: `mockups/src/modules/<module>/` (ta sama nazwa folderu co w `frontend/` i `backend/`, po angielsku).
@@ -38,22 +56,30 @@ const role = useMockupRole();
 
 ## Pytania na ekranach
 
-Każdą niejasność, której nie rozstrzygnął spec ogólny, wpisz **na ekranie, w miejscu, którego dotyczy**:
+Każdą niejasność, której nie rozstrzygnął spec ogólny, wpisz jako pytanie. **Wszystkie pytania ekranu są w jednym
+panelu `<Questions>` na samej górze ekranu**, nad makietą. Nigdy nie wstawiaj pytań pomiędzy części makiety: zasłaniają
+ją i rozbijają układ. Część ekranu, której pytanie dotyczy, podaj w `about`:
 
 ```tsx
-import { Question } from '../../common/Question';
+import { Question, Questions } from '../../common/Question';
 
-<Question
-  number={3}
-  options={[
-    { id: 'a', text: 'Usunięcie klienta przenosi go do archiwum' },
-    { id: 'b', text: 'Klienta z zamówieniami nie da się usunąć' },
-  ]}
-  recommended="a"
->
-  Co ma się stać z zamówieniami, gdy usuniesz klienta?
-</Question>
+<Questions>
+  <Question
+    number={3}
+    about="Tabela klientów"
+    options={[
+      { id: 'a', text: 'Usunięcie klienta przenosi go do archiwum' },
+      { id: 'b', text: 'Klienta z zamówieniami nie da się usunąć' },
+    ]}
+    recommended="a"
+  >
+    Co ma się stać z zamówieniami, gdy usuniesz klienta?
+  </Question>
+</Questions>
+{/* dalej sama makieta ekranu */}
 ```
+
+Panel da się zwinąć przyciskiem „Zwiń pytania”, żeby obejrzeć ekran w całości.
 
 - Numeracja pytań = numeracja w `docs/modules/<module>/QUESTIONS.md`. Wpisz je tam od razu (pytanie, warianty,
   rekomendacja, puste pole „Odpowiedź”).
@@ -63,9 +89,10 @@ import { Question } from '../../common/Question';
 
 Po zrobieniu ekranów: uruchom `npm run dev` (jeśli nie działa), podaj adres i poproś:
 „Otwórz http://localhost:5174, przełącz się na <część> i obejrzyj ekrany modułu <nazwa>. Odpowiedz na pytania
-w żółtych ramkach, możesz po kolei: »1a, 2b, …« albo własnymi słowami.”
+w żółtym panelu na górze ekranu, możesz po kolei: »1a, 2b, …« albo własnymi słowami.”
 
-Odpowiedzi zapisz w `QUESTIONS.md` z datą. Jeśli odpowiedź zmienia ekran, popraw makietę i usuń ramkę z tym pytaniem.
+Odpowiedzi zapisz w `QUESTIONS.md` z datą. Jeśli odpowiedź zmienia ekran, popraw makietę. Pytania z odpowiedzią usuń
+z panelu; gdy nie zostało żadne, usuń cały `<Questions>`.
 
 ## Zamknięcie modułu
 

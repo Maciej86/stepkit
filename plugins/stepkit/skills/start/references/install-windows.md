@@ -62,9 +62,11 @@ Te wpisuje użytkownik **w Claude Code** (nie w terminalu systemu):
 
 - **superpowers** (wymagany): `/plugin install superpowers@claude-plugins-official`
 - **Playwright** (wymagany): `/plugin install playwright@claude-plugins-official`
+- **frontend-design** (polecany, do wyglądu makiet): `/plugin install frontend-design@claude-plugins-official`
 
 Po instalacji: „Zamknij i otwórz Claude Code ponownie.” Sprawdzenie Playwright: czy masz narzędzia `browser_navigate`
-(lub podobne `mcp__…playwright…`). Sprawdzenie superpowers: czy widzisz skill `superpowers:writing-plans`.
+(lub podobne `mcp__…playwright…`). Sprawdzenie superpowers: czy widzisz skill `superpowers:writing-plans`. Sprawdzenie frontend-design: czy widzisz skill
+`frontend-design` (albo `frontend-design:frontend-design`).
 
 Gdy superpowers nie da się zainstalować: zapisz w `docs/STATUS.md` w „Ostatnie decyzje” „superpowers niedostępny:
 pracujemy na wzorach stepkit” i idź dalej. Bez Playwright nie idź dalej.
