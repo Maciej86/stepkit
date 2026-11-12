@@ -1,0 +1,15 @@
+{
+  "name": "stepkit",
+  "owner": { "name": "stepkit" },
+  "metadata": {
+    "description": "Buduj własną aplikację www z Claude krok po kroku, bez programowania.",
+    "version": "0.1.0"
+  },
+  "plugins": [
+    {
+      "name": "stepkit",
+      "description": "Buduj własną aplikację www z Claude krok po kroku, bez programowania. Działa w Claude Code w terminalu i w VS Code.",
+      "source": "./plugins/stepkit"
+    }
+  ]
+}
