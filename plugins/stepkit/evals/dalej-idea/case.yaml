@@ -16,4 +16,4 @@ graders:
     arm: with-only
   - name: parks-idea
     type: llm
-    criteria: Odpowiedź po polsku potwierdza, że pomysł z ewidencją czasu pracy został zapisany na później w pliku z pomysłami (docs/IDEAS.md) i że zajmiemy się nim po zbudowaniu tego, co ustalono. Nie zaczyna budować czasu pracy, nie dodaje go jako nowego modułu w STATUS.md i nie zmienia planu Logowania. Wraca do modułu Logowanie (krok 3) albo proponuje kontynuację Logowania.
+    criteria: Odpowiedź po polsku potwierdza, że pomysł z ewidencją czasu pracy został zapisany na później w pliku z pomysłami (docs/IDEAS.md) i że zajmiemy się nim po zbudowaniu tego, co ustalono. Nie zaczyna budować czasu pracy, nie dodaje go jako nowego modułu w STATUS.md i nie zmienia planu Logowania z powodu pomysłu. Zgłoszenie, że plan Logowania nie zgadza się z plikami projektu, i propozycja naprawy (np. powtórzenia kroków) są w porządku i nie są zmianą z powodu pomysłu. Wraca do modułu Logowanie (krok 3) albo proponuje kontynuację Logowania.

@@ -26,6 +26,13 @@ po zbudowaniu tego, co ustaliliśmy.” **Nie** dodajesz go do tabeli modułów,
 do bieżącego modułu. Wyjątek: użytkownik wprost chce zmienić bieżący moduł („w logowaniu dodajmy jeszcze…”); wtedy
 to zmiana ustaleń: zapisz w `SPEC.md` i `PLAN.md` modułu, przedtem powiedz, co zmieni się w planie.
 
+**Pomysł na teraz.** Gdy użytkownik chce zbudować nowy pomysł wcześniej, nie na końcu („zbudujmy to teraz”, „przed
+Klientami”): bieżącego modułu nie przerywasz. Zaproponuj nowy moduł zaraz za bieżącym (albo w miejscu, które wskazał,
+ale nie przed modułami, od których zależy), pokaż nową kolejność całej listy modułów i zapytaj: „Czy tak ustawić?”.
+Dopiero po „tak”: wiersz w tabeli modułów w `STATUS.md` (nazwa po polsku, folder po angielsku, `czeka`, etap
+`makieta`, „Zależy od”), przenumerowanie, w `IDEAS.md` status `zaplanowany`, wpis w „Ostatnie decyzje”. Potem wracasz
+do bieżącego modułu; nowy zacznie się sam, gdy przyjdzie jego kolej.
+
 ## 2. Który moduł
 
 Dokładnie w tej kolejności:
