@@ -32,6 +32,8 @@ Wyłączenie bazy: `npm run db:stop`. Dane zostają, przy następnym `npm run db
 
 | Plik | Co w nim jest |
 |---|---|
+| `CLAUDE.md` | najważniejsze zasady projektu; Claude czyta je sam w każdej rozmowie, także bez stepkit |
+| `docs/CONVENTIONS.md` | pełne zasady kodu (kopia ze stepkit, odświeżana przy aktualizacji) |
 | `docs/STATUS.md` | stan prac; od niego Claude zaczyna każdą nową rozmowę |
 | `docs/OVERVIEW.md` | opis aplikacji z wywiadu |
 | `docs/SPEC-GENERAL.md` | plan całej aplikacji: role, nawigacja, kolejność modułów |

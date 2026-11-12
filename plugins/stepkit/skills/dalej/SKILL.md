@@ -1,6 +1,6 @@
 ---
 name: dalej
-description: Użyj, gdy użytkownik wpisuje /stepkit:dalej, chce kontynuować budowę aplikacji zaczętej przez stepkit, prosi o kolejny moduł, o inny moduł niż bieżący, o publikację albo o „wgraj nową wersję”.
+description: Użyj, gdy użytkownik wpisuje /stepkit:dalej, chce kontynuować budowę aplikacji zaczętej przez stepkit, prosi o kolejny moduł, o inny moduł niż bieżący, o publikację, o „wgraj nową wersję” albo o poprawkę lub drobną zmianę w aplikacji zbudowanej ze stepkit.
 ---
 
 # stepkit: dalej
@@ -36,6 +36,18 @@ Dopiero po „tak”: wiersz w tabeli modułów w `STATUS.md` (nazwa po polsku, 
 `makieta`, „Zależy od”), przenumerowanie, w `IDEAS.md` status `zaplanowany`, wpis w „Ostatnie decyzje”. Potem wracasz
 do bieżącego modułu; nowy zacznie się sam, gdy przyjdzie jego kolej.
 
+**Drobna zmiana albo błąd.** Gdy prośba dotyczy rzeczy już zrobionej („dodaj kolumnę z telefonem”, „zmień napis”,
+„to się nie zapisuje”), nie uruchamiaj pełnego procesu modułu. Drobna zmiana: jeden zrobiony moduł, bez nowego ekranu,
+nowej roli, nowej tabeli i nowej trasy API (nowa kolumna w istniejącej tabeli jest w porządku). Kolejno:
+1. Jednym zdaniem: co zmienisz i gdzie to będzie widać. Przy zmianie (nie błędzie) poczekaj na „tak”.
+2. Test, który nie przechodzi; kod (makieta i aplikacja, gdy zmienia się ekran; migracja, gdy baza); `npm run check`.
+3. Użytkownik sprawdza w przeglądarce; zmianę ustaleń dopisz do `SPEC.md` tego modułu.
+4. Zapis „Poprawka: <co>” i `git push`. Po publikacji przypomnij o „wgraj nową wersję”.
+
+Błąd naprawiasz zawsze, także w trakcie innego modułu (potem wracasz do niego). Drobną zmianę w trakcie modułu
+`w toku` zapisz w `docs/IDEAS.md` i zrób po jego zamknięciu, chyba że użytkownik chce teraz. Większe niż drobna (nowy
+ekran, tabela, rola) → „Pomysł na teraz” albo „Pomysł na później”.
+
 ## 2. Który moduł
 
 Dokładnie w tej kolejności:
@@ -69,7 +81,10 @@ Nigdy nie przeskakujesz nieskończonego modułu i nigdy nie masz dwóch modułó
 
 Moduły specjalne: **Wygląd** → `references/appearance.md` (własne etapy: makieta z wariantami, pytania, zamknięcie);
 **E-mail** → najpierw `references/email-mailgun.md`; **Publikacja** → `references/deploy-ovh.md`
-(bez makiety). Prośba „wgraj nową wersję” → procedura z sekcji „Wgraj nową wersję” w `STATUS.md`.
+(bez makiety). Prośba „wgraj nową wersję” → procedura z sekcji „Wgraj nową wersję” w `STATUS.md`, a przed nią
+na komputerze `npm run check` i `npm audit --omit=dev`. Luki „high” lub „critical”: `npm audit fix` (bez `--force`),
+`npm run check`, zapis „Łatki bezpieczeństwa”. Gdy łatka wymaga nowej dużej wersji biblioteki, powiedz o tym
+użytkownikowi prostymi słowami i nie wgrywaj jej bez zgody.
 
 Moduł jest `zrobiony` **dopiero po potwierdzeniu użytkownika** na etapie testów.
 
@@ -92,7 +107,8 @@ http://localhost:5174/progress.
 
 - Nie usuwasz makiety modułu, który nie jest zamknięty, nawet na prośbę (wyjaśnij, że makiety są osobno: 5174
   vs 5173).
-- Nie zmieniasz stosu i nie dodajesz bibliotek spoza listy w `code-conventions.md`.
+- Nie zmieniasz stosu i nie dodajesz bibliotek spoza listy w `code-conventions.md` bez zgody użytkownika
+  („Biblioteki”).
 - Nie piszesz kodu bez testu, który najpierw nie przechodzi.
 - Nie oznaczasz modułu jako zrobionego bez potwierdzenia użytkownika.
 - Hasła i klucze nigdy w rozmowie ani w repo.

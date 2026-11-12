@@ -117,6 +117,7 @@ Dopisz do `docs/STATUS.md`:
 ## Wgraj nową wersję
 
 Na swoim komputerze: zapis na GitHubie (`git push`). Potem napisz do Claude'a: „wgraj nową wersję”. Claude wykona:
+# na komputerze: npm run check, npm audit --omit=dev (łatki bezpieczeństwa: npm audit fix, check, zapis, push)
 ssh -i ~/.ssh/<nazwa-projektu> app@<IP>
 cd app && git pull
 docker run --rm -v "$PWD":/app -w /app node:24-alpine sh -c "npm ci && npm run build"

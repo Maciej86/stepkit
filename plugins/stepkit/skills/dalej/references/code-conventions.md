@@ -1,5 +1,9 @@
 # Zasady kodu aplikacji
 
+> Kopia tego pliku jest w projekcie jako `docs/CONVENTIONS.md` (czyta ją `CLAUDE.md`, także bez pluginu stepkit).
+> Aktualizacja stepkit podmienia ją w całości: wyjątki tego projektu zapisuj w „Zasadach wspólnych” w
+> `SPEC-GENERAL.md`, nie tutaj.
+
 Czytasz ten plik na etapach **spec**, **plan** i **implementacja** (oraz w kroku 7 `/stepkit:start` przy projekcie
 bazy). To są reguły, nie propozycje. Stos jest stały: React + Vite + TypeScript + Mantine, Express + mysql2 +
 TypeScript, zod, i18next, dayjs, MySQL w Dockerze.

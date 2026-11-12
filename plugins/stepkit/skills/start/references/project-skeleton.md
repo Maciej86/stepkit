@@ -14,7 +14,9 @@ na początku treści skilla jako „Base directory for this skill”).
    ```bash
    tar -C "<ścieżka do template>" --exclude=node_modules --exclude=dist --exclude=test-results --exclude=package-lock.json -cf - . | tar -xf -
    ```
-3. Zmień `"name"` w głównym `package.json` na nazwę projektu (małe litery, myślniki).
+3. Zmień `"name"` w głównym `package.json` na nazwę projektu (małe litery, myślniki), a tytuł `# Moja aplikacja`
+   w `CLAUDE.md` na nazwę aplikacji. Skopiuj zasady kodu do projektu, żeby działały także bez pluginu:
+   `cp "<katalog bazowy tego skilla>/../dalej/references/code-conventions.md" docs/CONVENTIONS.md`.
 4. `.env` z losowymi sekretami, **bez wypisywania ich** (hasła nie mogą pojawić się w rozmowie):
    ```bash
    cp .env.example .env

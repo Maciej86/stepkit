@@ -1,6 +1,6 @@
 # Aktualizacja projektu do nowej wersji stepkit
 
-**Aktualna wersja stepkit:** 0.1.16
+**Aktualna wersja stepkit:** 0.1.17
 
 Szablon kopiuje się do projektu tylko raz, przy `/stepkit:start`. Gdy stepkit się zmienia, starsze projekty nie mają
 nowych plików, a nowe zasady o nich mówią. Ten plik mówi, co przenieść.
@@ -21,10 +21,14 @@ Wersję projektu podaje linia `**Wersja stepkit:** X.Y.Z` w `docs/STATUS.md`. Br
    - **Plik, który projekt mógł zmienić** (oznaczony „połącz”): nie nadpisuj. Dopisz tylko opisaną zmianę, zachowując
      wszystko, co dodały moduły (pozycje menu, ekrany, teksty).
    - Po każdej sekcji: `npm run check` zielony, zapis na GitHubie („Aktualizacja stepkit: <sekcja>”).
-3. Na końcu ustaw w `docs/STATUS.md` linię `**Wersja stepkit:** <aktualna wersja z góry tego pliku>` (zaraz pod
+3. Zawsze podmień `docs/CONVENTIONS.md` na aktualny `code-conventions.md` (obok tego pliku); projekt go nie
+   zmienia, wyjątki są w `SPEC-GENERAL.md`. Na końcu ustaw w `docs/STATUS.md` linię `**Wersja stepkit:** <aktualna wersja z góry tego pliku>` (zaraz pod
    tytułem; dopisz, jeśli jej nie ma) i wpis w „Ostatnie decyzje”. Potem wróć do zwykłej pracy.
 4. Moduł w toku: aktualizację rób przed dalszą pracą nad nim; jego plików nie ruszaj poza tym, co opisuje sekcja.
-5. „Nie teraz”: pracuj dalej, ale przy następnym `/stepkit:dalej` zapytaj ponownie. Przed etapem **makieta** aktualizacja
+5. **Aplikacja opublikowana i wszystkie moduły zrobione:** aktualizację proponuj tylko wtedy, gdy któraś z brakujących
+   sekcji dotyczy bezpieczeństwa (oznaczone „bezpieczeństwo”) albo gdy użytkownik zaczyna nowy moduł. Działającej
+   aplikacji nie przebudowujesz dla samych nowości stepkit.
+6. „Nie teraz”: pracuj dalej, ale przy następnym `/stepkit:dalej` zapytaj ponownie. Przed etapem **makieta** aktualizacja
    jest konieczna (makiety korzystają z motywu i panelu pytań).
 
 ## 0.1.4: ściągawka w README
@@ -142,3 +146,12 @@ Zasady (bez zmian w kodzie, chyba że przegląd coś znajdzie):
 - Przejrzyj trasy zrobionych modułów pod kątem „Serwer jest jedynym źródłem prawdy” (`code-conventions.md`): pola
   właściciela, roli, firmy i wartości wyliczane brane z żądania popraw, z testem.
 - Moduły zależne od siebie: dopisz „Powiązania” do ich `SPEC.md` przy następnej pracy nad nimi.
+
+## 0.1.17: zasady w projekcie (CLAUDE.md), drobne zmiany, łatki bezpieczeństwa
+
+- Nowy plik `CLAUDE.md` z szablonu (tytuł: nazwa aplikacji). Projekt ma już `CLAUDE.md` → **połącz**: dopisz sekcje
+  szablonu, zachowaj to, co projekt dodał.
+- Nowy plik `docs/CONVENTIONS.md`: kopia `code-conventions.md` (krok 3 w „Jak”).
+- **Połącz** `README.md`: wiersze `CLAUDE.md` i `docs/CONVENTIONS.md` w „Ważne pliki”.
+- Projekt opublikowany: w sekcji „Wgraj nową wersję” w `STATUS.md` dopisz linię z `npm run check` i
+  `npm audit --omit=dev` (wzór w `deploy-ovh.md`).
