@@ -60,7 +60,16 @@ Obszary, dokładnie w tej kolejności. Przykład pod każdym to wzór, nie tekst
    formularz), konto użytkownika (np. klient widzi swoje zamówienia) i panel administracyjny (Ty i pracownicy
    obsługujecie wszystko). Które są potrzebne?”
 2. **Kto używa.** Grupy ludzi → z nich powstają role. „Kto będzie się logował: Ty, pracownicy, klienci?”
-3. **Logowanie.** Kto się loguje, a kto korzysta bez konta.
+3. **Logowanie.** Kto się loguje, a kto korzysta bez konta. Potem **czym się logują**; nie zakładaj, że każdy ma
+   e-mail (produkcja, magazyn, sklep, kierowcy często go nie mają): „Czy każda osoba, która będzie się logować, ma
+   własny adres e-mail (firmowy albo prywatny)?”
+   a) tak, każdy: logowanie e-mailem i hasłem (polecam, gdy to prawda),
+   b) nie wszyscy: logowanie loginem (np. `jan.kowalski`) i hasłem, e-mail podawany, gdy ktoś go ma (polecam przy
+      pracownikach bez firmowej poczty),
+   c) nie wszyscy, ale mogą podać prywatny: logowanie e-mailem, a przy zakładaniu konta pole na adres prywatny.
+   Przy b): osoby bez e-maila nie dostaną powiadomień ani linku do zmiany hasła; powiadomienia widzą w aplikacji,
+   a hasło zmienia im administrator. Powiedz to jednym zdaniem i zapisz w ustaleniach (wpływa na moduły Logowanie,
+   E-mail i Powiadomienia).
    *Dla Ciebie:* gdy jest logowanie, zapisz w ustaleniach, że **wszystko poza wyraźnie publicznym wymaga logowania**,
    a każda część danych jest dostępna tylko dla ról, które ją widzą (tak działa szablon; nie pytaj o to użytkownika).
    Gdy jest **strona dla odwiedzających z kilkoma podstronami**, ustal, co jest publiczne, a co tylko po zalogowaniu:
