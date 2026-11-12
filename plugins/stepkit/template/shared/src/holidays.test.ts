@@ -59,4 +59,10 @@ describe('Polish holidays', () => {
     expect(countWorkingDays('2026-12-21', '2027-01-03')).toBe(7);
     expect(countWorkingDays('2026-11-13', '2026-11-09')).toBe(0);
   });
+
+  it('skips extra company days off', () => {
+    expect(isWorkingDay('2026-11-10', ['2026-11-10'])).toBe(false);
+    expect(countWorkingDays('2026-11-09', '2026-11-13', new Set(['2026-11-10']))).toBe(3);
+    expect(countWorkingDays('2026-11-09', '2026-11-13', [])).toBe(4);
+  });
 });

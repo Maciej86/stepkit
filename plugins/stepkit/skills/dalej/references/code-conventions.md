@@ -132,7 +132,8 @@ Nowa akcja: dopisz ją do `BUTTON_ICONS` we froncie i w makietach oraz do tabeli
   wysłano) jako `Date`, w JSON tekst ISO.
 - Obliczenia na datach: `dayjs` z `@app/shared` (`dayjs(a).add(1, 'day')`), dzisiaj: `todayIsoDate()`.
 - **Dni robocze i święta:** `getPolishHolidays(rok)` (z nazwą: `translateKey(t, holiday.label)`), `isHoliday`,
-  `isWorkingDay`, `countWorkingDays(od, do)` z `@app/shared`. Jedna funkcja dla frontu i backendu, więc liczba dni
+  `isWorkingDay`, `countWorkingDays(od, do, dodatkoweDniWolne?)` z `@app/shared`. Dodatkowe dni wolne firmy to tabela
+  prowadzona przez administratora; backend i front przekazują je jako listę `RRRR-MM-DD`. Jedna funkcja dla frontu i backendu, więc liczba dni
   urlopu wszędzie wychodzi ta sama. Nowe święto ustawowe: wpis w `FIXED_HOLIDAYS` z `fromYear`.
 - Moduł urlopów lub czasu pracy: zapytaj w makiecie, co firma robi, gdy święto wypada w sobotę (`countWorkingDays`
   tego nie liczy). Czy nieobecność odejmuje dni z puli, zależy od jej rodzaju (właściwość w słowniku rodzajów), nie

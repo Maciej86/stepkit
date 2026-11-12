@@ -120,13 +120,25 @@ export function isWeekend(value: DateInput): boolean {
   return weekday === 0 || weekday === 6;
 }
 
-/** Dzień roboczy: nie sobota, nie niedziela, nie święto. */
-export function isWorkingDay(value: DateInput): boolean {
-  return toIsoDate(value) !== null && !isWeekend(value) && !isHoliday(value);
+/**
+ * Dni wolne ustalone przez firmę (np. dzień za święto w sobotę, wigilia firmowa), `RRRR-MM-DD`. Pochodzą z tabeli,
+ * którą prowadzi administrator; przekaż je do isWorkingDay / countWorkingDays.
+ */
+export type ExtraDaysOff = ReadonlySet<string> | readonly string[];
+
+function isExtraDayOff(date: string, extra?: ExtraDaysOff): boolean {
+  if (!extra) return false;
+  return 'has' in extra ? extra.has(date) : extra.includes(date);
+}
+
+/** Dzień roboczy: nie sobota, nie niedziela, nie święto, nie dodatkowy dzień wolny firmy. */
+export function isWorkingDay(value: DateInput, extraDaysOff?: ExtraDaysOff): boolean {
+  const date = toIsoDate(value);
+  return date !== null && !isWeekend(date) && !isHoliday(date) && !isExtraDayOff(date, extraDaysOff);
 }
 
 /** Liczba dni roboczych od `from` do `to` włącznie (0, gdy `to` jest przed `from`). */
-export function countWorkingDays(from: DateInput, to: DateInput): number {
+export function countWorkingDays(from: DateInput, to: DateInput, extraDaysOff?: ExtraDaysOff): number {
   const start = toIsoDate(from);
   const end = toIsoDate(to);
   if (!start || !end) return 0;
@@ -134,7 +146,7 @@ export function countWorkingDays(from: DateInput, to: DateInput): number {
   const last = dayjs(end, ISO_DATE_FORMAT);
   let count = 0;
   while (!day.isAfter(last, 'day')) {
-    if (isWorkingDay(day.format(ISO_DATE_FORMAT))) count += 1;
+    if (isWorkingDay(day.format(ISO_DATE_FORMAT), extraDaysOff)) count += 1;
     day = day.add(1, 'day');
   }
   return count;
