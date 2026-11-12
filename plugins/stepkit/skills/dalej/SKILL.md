@@ -67,7 +67,8 @@ Nigdy nie przeskakujesz nieskończonego modułu i nigdy nie masz dwóch modułó
 | testy | `references/browser.md` | Ty klikasz w przeglądarce, `npm run test:e2e`, potem użytkownik przechodzi `TESTS.md` | potwierdza „działa” |
 | zamknięcie | `references/mockups.md` | `<Done labelKey=…>` w `mockups/src/screens.tsx`, `STATUS.md` (`zrobiony`, nowy „Następny krok”), zapis „Moduł <nazwa> gotowy” + `git push` | — |
 
-Moduły specjalne: **E-mail** → najpierw `references/email-mailgun.md`; **Publikacja** → `references/deploy-ovh.md`
+Moduły specjalne: **Wygląd** → `references/appearance.md` (własne etapy: makieta z wariantami, pytania, zamknięcie);
+**E-mail** → najpierw `references/email-mailgun.md`; **Publikacja** → `references/deploy-ovh.md`
 (bez makiety). Prośba „wgraj nową wersję” → procedura z sekcji „Wgraj nową wersję” w `STATUS.md`.
 
 Moduł jest `zrobiony` **dopiero po potwierdzeniu użytkownika** na etapie testów.

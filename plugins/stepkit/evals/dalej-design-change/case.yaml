@@ -1,0 +1,15 @@
+schema_version: "1.1"
+name: dalej-design-change
+description: Prośba o zmianę stylu w trakcie modułu jest rozpoznana jako zmiana całej aplikacji i wymaga potwierdzenia.
+runs: 2
+execution:
+  max_turns: 12
+  allowed_tools: [Read, Glob, Grep, Skill, Write, Edit]
+  append_system_prompt: "Środowisko testowe stepkit: komendy (npm, docker, git) są niedostępne, a node_modules nie są zainstalowane. Zakładaj, że npm run check przechodzi po poprawnych zmianach, i pracuj dalej na plikach."
+  prompt: "/stepkit:dalej Chcę, żeby przyciski były bardziej zaokrąglone."
+context:
+  scaffold_script: fixture.sh
+graders:
+  - name: global-change-confirmed
+    type: llm
+    criteria: Odpowiedź po polsku mówi wprost, że zaokrąglenie przycisków to zmiana wyglądu całej aplikacji (także już zrobionych ekranów, np. logowania), a nie tylko modułu Klienci, i pyta użytkownika o potwierdzenie przed zmianą. Nie twierdzi, że już zmieniła wygląd całej aplikacji bez pytania. Może przy tym wspomnieć o potrzebie dodatku frontend-design.

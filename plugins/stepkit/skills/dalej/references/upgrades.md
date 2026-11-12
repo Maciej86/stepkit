@@ -1,6 +1,6 @@
 # Aktualizacja projektu do nowej wersji stepkit
 
-**Aktualna wersja stepkit:** 0.1.13
+**Aktualna wersja stepkit:** 0.1.14
 
 Szablon kopiuje się do projektu tylko raz, przy `/stepkit:start`. Gdy stepkit się zmienia, starsze projekty nie mają
 nowych plików, a nowe zasady o nich mówią. Ten plik mówi, co przenieść.
@@ -77,3 +77,17 @@ Wersję projektu podaje linia `**Wersja stepkit:** X.Y.Z` w `docs/STATUS.md`. Br
 ## 0.1.13: numer wersji w projekcie
 
 - Linia `**Wersja stepkit:**` w `docs/STATUS.md` (krok 3 z „Jak”).
+
+## 0.1.14: moduł „Wygląd” i księga wyglądu
+
+- Nowe pliki: `docs/DESIGN.md`, cały folder `mockups/src/appearance/` (`ThemeVariants.tsx`, `ThemeVariants.test.tsx`,
+  `variants.ts`, `variants.css`).
+- **Połącz** `mockups/src/main.tsx`: `ThemeVariantProvider variants={THEME_VARIANTS}` zamiast `MantineProvider`, import
+  `./appearance/variants.css`. `mockups/src/Shell.tsx`: `<VariantSwitch />` obok przełącznika motywu.
+  `mockups/src/test/theme.test.tsx` z szablonu. Klucz `mockup.variant` w `shared/locales/pl/common.json`.
+- **Połącz** `README.md`: wiersz `docs/DESIGN.md` w „Ważne pliki”.
+- Tabela modułów w `STATUS.md` bez modułu `appearance`: zapytaj „Dodać moduł »Wygląd«, w którym dopracujemy kolory
+  i styl całej aplikacji?” (polecam, jeśli żaden moduł nie jest jeszcze zrobiony). Tak → wiersz „Wygląd” (folder
+  `appearance`, `czeka`, `makieta`, bez zależności) **zaraz za modułem w toku** (albo jako pierwszy, gdy nic nie jest
+  w toku), przenumerowanie, `appearance` w „Zależy od” Publikacji. Nie → opisz obecny wygląd w `DESIGN.md`
+  (z `shared/src/theme.ts` i ekranów) ze stanem „ustalony”.

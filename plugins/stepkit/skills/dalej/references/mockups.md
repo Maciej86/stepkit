@@ -38,16 +38,14 @@ Makieta to pierwsze, co użytkownik widzi, więc ma wyglądać jak dopracowany p
    je same; nie ustawiaj wyglądu osobno w `mockups/` ani we `frontend/`. **Kolory tylko z motywu:** w ekranach kolory
    Mantine (`color="grape"`, `c="dimmed"`, `var(--mantine-color-…)`), nigdy `#fff`, `rgb(…)` itp.; pilnuje tego test
    `frontend/src/test/colors.test.ts`.
-3. **Kierunek wyglądu ustalasz raz**, w makiecie ogólnej (krok 6 `/stepkit:start`), według odpowiedzi z wywiadu
-   („Wygląd” w `docs/OVERVIEW.md`): kolory firmowe (z podanych kolorów, logo albo strony), nastrój, albo, gdy wybór
-   należy do Ciebie, z dziedziny aplikacji i jej użytkowników (kwiaciarnia ≠ kancelaria ≠ warsztat). Własna paleta
-   (10 odcieni w `colors`), przemyślana czcionka, nie domyślne niebieskie Mantine. Opisz go użytkownikowi jednym, dwoma
-   zdaniami i zapytaj o zdanie w pytaniach.
-   **Przełącznik jasny/ciemny** (`COLOR_SCHEME_TOGGLE` w `shared/src/theme.ts`): włączony → zaprojektuj oba motywy
-   (kolory czytelne na jasnym i ciemnym tle), przełącznik pojawia się sam w pasku makiety i w nagłówku konta i panelu;
-   obejrzyj każdy ekran w obu motywach.
-4. **W modułach** trzymasz się ustalonego motywu; `frontend-design` służy do dobrego układu ekranu, nie do zmiany
-   kolorów. Motyw zmieniasz tylko na prośbę użytkownika.
+3. **Kierunek wyglądu ustala moduł „Wygląd”** (`appearance.md`), pierwszy w kolejności: warianty do porównania,
+   poprawki, potem motyw i księga wyglądu `docs/DESIGN.md`. W makiecie ogólnej (krok 6 `/stepkit:start`) wygląd jest
+   prosty i neutralny, a frontend-design służy do dobrego układu ekranów.
+   **Przełącznik jasny/ciemny** (`COLOR_SCHEME_TOGGLE` w `shared/src/theme.ts`): włączony → kolory czytelne na jasnym
+   i ciemnym tle, przełącznik pojawia się sam w pasku makiety i w nagłówku konta i panelu; obejrzyj ekrany w obu.
+4. **W modułach** najpierw przeczytaj `docs/DESIGN.md` i używaj opisanych tam wzorców; `frontend-design` służy do
+   dobrego układu ekranu, nie do zmiany stylu. Prośby o zmianę wyglądu: `appearance.md`, „Zmiany wyglądu w późniejszych
+   modułach” (ten ekran / cała aplikacja / nowy wzorzec).
 5. **Wersja na telefon** (dodatek: „Dodatki” w `OVERVIEW.md`, potem „Zasady wspólne” w `SPEC-GENERAL.md`): projektuj ekrany konta i panelu najpierw pod
    telefon (jedna kolumna, duże przyciski, tabele jako karty na wąskim ekranie) i obejrzyj je przy szerokości 390 px
    (`browser_resize`).

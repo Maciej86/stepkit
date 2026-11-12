@@ -104,12 +104,17 @@ podsumowania. Po akceptacji powiedz:
 
 ## Krok 6: makieta ogólna
 
-Czytasz `../dalej/references/mockups.md`. **Najpierw wygląd** (sekcja „Wygląd”): wywołaj skill `frontend-design`,
-ustal kierunek wyglądu dla tej aplikacji i zapisz go w `shared/src/theme.ts` i `shared/src/theme.css`. Potem
-w `mockups/`: włączone części, pełne `PUBLIC_NAVIGATION`, `ACCOUNT_NAVIGATION` i `NAVIGATION`
-w `shared/src/navigation.config.ts`, ekran na zmyślonych danych dla każdej pozycji, pytania w panelu `<Questions>` na
-górze ekranu (jedno z pytań: czy wygląd się podoba). Najważniejsza jest **nawigacja**: każda pozycja to później osobny moduł. Uruchom
-`npm run dev` i poproś o obejrzenie `http://localhost:5174` i odpowiedzi na pytania. Odpowiedzi zapisz w `docs/OVERVIEW.md`.
+Czytasz `../dalej/references/mockups.md` (wywołaj skill `frontend-design` dla dobrego układu ekranów; kolory zostają
+neutralne). W `mockups/`: włączone części, pełne `PUBLIC_NAVIGATION`, `ACCOUNT_NAVIGATION` i `NAVIGATION`
+w `shared/src/navigation.config.ts`, prosty ekran na zmyślonych danych dla każdej pozycji, pytania w panelu
+`<Questions>` na górze ekranu. Najważniejsza jest **nawigacja**: każda pozycja to później osobny moduł. Uruchom
+`npm run dev` i poproś o obejrzenie `http://localhost:5174` i odpowiedzi na pytania. Powiedz przy tym:
+
+> „To szkic całej aplikacji: jakie są części, co jest w menu i co mniej więcej będzie na każdym ekranie. Szczegóły
+> ekranów omówimy później, przy budowie każdej części, a wygląd (kolory, czcionki, styl) w osobnym module »Wygląd«,
+> od którego zaczniemy budowę. Teraz sprawdź, czy niczego nie brakuje i czy menu ma sens.”
+
+Odpowiedzi zapisz w `docs/OVERVIEW.md`.
 
 ## Krok 7: spec ogólny
 
@@ -122,7 +127,8 @@ migracja by się nie udała).
 Dodatki z `docs/OVERVIEW.md` rozpisz według kolumny „Gdzie trafia” w `references/interview.md` („Dodatki”): wspólne do
 „Zasady wspólne”, pozostałe do modułów albo jako osobne moduły w kolejności.
 
-Kolejność modułów: **1. Logowanie** → moduł z obszaru 20 wywiadu → pozostałe pozycje nawigacji → **E-mail** (folder
+Kolejność modułów: **1. Wygląd** (folder `appearance`, bez zależności; `../dalej/references/appearance.md`) →
+**2. Logowanie** (zależy od `appearance`) → moduł z obszaru 20 wywiadu → pozostałe pozycje nawigacji → **E-mail** (folder
 `email`) przed pierwszym modułem, który wysyła e-maile → na końcu zawsze **Publikacja** (folder `deploy`, zależny od
 wszystkich). Każdy moduł z kolumną „Zależy od”. Decyzje nie z rozmowy oznacz **[decyzja AI]**. Poproś o akceptację.
 

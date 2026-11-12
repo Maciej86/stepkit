@@ -11,8 +11,9 @@ describe('STATUS.md example in document-templates.md', () => {
   it('parses with the template parser', () => {
     const result = parseStatus(example);
     if (!result.ok) throw new Error(result.reason);
-    expect(result.status.modules).toHaveLength(5);
-    expect(result.status.modules[4].dependsOn).toEqual(['login', 'orders', 'email', 'customers']);
+    expect(result.status.modules).toHaveLength(6);
+    expect(result.status.modules[0].folder).toBe('appearance');
+    expect(result.status.modules[5].dependsOn).toEqual(['appearance', 'login', 'orders', 'email', 'customers']);
     expect(result.status.startSteps).toHaveLength(8);
   });
 });

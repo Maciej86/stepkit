@@ -53,11 +53,11 @@ wnioski urlopowe (typ, daty, status), badania lekarskie, historia zmian. Każda 
 **Wzorce:** wiele firm włączone; archiwum pracowników zaproponowane przez plugin (jak archiwizacja w Antalo); historia
 zmian włączona (jak `activity_log` w Antalo); e-maile → moduł „E-mail” przed pierwszym modułem, który go potrzebuje.
 
-**Kolejność modułów:** 1. Logowanie (z rejestracją firmy albo zaraz po nim), potem pracownicy i grupy, czas pracy,
+**Kolejność modułów:** 1. Wygląd, 2. Logowanie (z rejestracją firmy albo zaraz po nim), potem pracownicy i grupy, czas pracy,
 wnioski urlopowe (obszar 20), …, na końcu Publikacja.
 
 ## Kryterium zaliczenia
 
-„Porównywalne” = te same role (co do zakresu), wszystkie główne obszary nawigacji, Logowanie jako pierwszy moduł,
+„Porównywalne” = te same role (co do zakresu), wszystkie główne obszary nawigacji, Wygląd i Logowanie jako pierwsze moduły,
 wiele firm + archiwum + historia zaproponowane lub ustalone. Brak któregoś punktu → poprawka w `interview.md` albo
 `start/SKILL.md` i powtórka testu.

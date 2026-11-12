@@ -3,6 +3,7 @@ import { AppShell, Box, Group, NavLink, SegmentedControl, Text } from '@mantine/
 import { COLOR_SCHEME_TOGGLE } from '@app/shared/theme';
 import { ColorSchemeToggle } from './common/ColorSchemeToggle';
 import { NavIcon } from './common/icons';
+import { VariantSwitch } from './appearance/ThemeVariants';
 import { NavLink as RouterLink, useLocation, useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import {
@@ -98,6 +99,7 @@ export function Shell({ areas, navigation, accountNavigation, publicNavigation, 
             <span />
           )}
           <Group gap="md">
+            <VariantSwitch />
             {COLOR_SCHEME_TOGGLE && <ColorSchemeToggle />}
             {showRoles && (
               <Group gap="xs">

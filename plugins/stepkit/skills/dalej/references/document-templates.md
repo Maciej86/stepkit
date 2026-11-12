@@ -12,7 +12,7 @@ kolumn, wartości statusów), bo strona „Postęp” go odczytuje. Maks. ok. 60
 ```markdown
 # Stan projektu: Sklep z zamówieniami
 
-**Wersja stepkit:** 0.1.13
+**Wersja stepkit:** 0.1.14
 
 **Następny krok:** Moduł Logowanie, implementacja: krok 3 z 7 (formularz logowania).
 
@@ -31,11 +31,12 @@ kolumn, wartości statusów), bo strona „Postęp” go odczytuje. Maks. ok. 60
 
 | # | Moduł | Folder | Status | Etap | Zależy od |
 |---|---|---|---|---|---|
-| 1 | Logowanie | login | w toku | implementacja (krok 3/7) | — |
-| 2 | Zamówienia | orders | czeka | makieta | login |
-| 3 | E-mail | email | czeka | makieta | login |
-| 4 | Klienci | customers | czeka | makieta | login, orders |
-| 5 | Publikacja | deploy | czeka | makieta | login, orders, email, customers |
+| 1 | Wygląd | appearance | zrobiony | zamknięcie | — |
+| 2 | Logowanie | login | w toku | implementacja (krok 3/7) | appearance |
+| 3 | Zamówienia | orders | czeka | makieta | login |
+| 4 | E-mail | email | czeka | makieta | login |
+| 5 | Klienci | customers | czeka | makieta | login, orders |
+| 6 | Publikacja | deploy | czeka | makieta | appearance, login, orders, email, customers |
 
 ## Ostatnie decyzje
 

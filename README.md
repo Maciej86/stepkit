@@ -5,7 +5,7 @@
 **Zbuduj własną aplikację www z Claude, krok po kroku, bez programowania.**
 
 [![Licencja: MIT](https://img.shields.io/badge/licencja-MIT-green.svg)](LICENSE)
-![Wersja](https://img.shields.io/badge/wersja-0.1.13-blue.svg)
+![Wersja](https://img.shields.io/badge/wersja-0.1.14-blue.svg)
 ![Claude Code](https://img.shields.io/badge/Claude%20Code-plugin-d97757.svg)
 ![Język](https://img.shields.io/badge/język-polski-red.svg)
 
@@ -84,7 +84,9 @@ potrzebna jest historia zmian…), pokazuje makietę całej aplikacji i rozpisuj
 | 🧪 **Testy** | Claude klika w aplikacji, potem lista do sprawdzenia dla Ciebie | potwierdzasz „działa” |
 | 🏁 **Zamknięcie** | zapis na GitHubie, makieta modułu oznaczona jako wykonana | — |
 
-Kolejność modułów proponuje stepkit: najpierw baza danych i logowanie, potem kolejne części, na końcu publikacja.
+Kolejność modułów proponuje stepkit: najpierw **Wygląd** (porównujesz 3 warianty na swoich ekranach i dopracowujesz
+wybrany, choćby przez kilka rozmów), potem logowanie, kolejne części, na końcu publikacja. Ustalony wygląd trafia do
+„księgi wyglądu” (`docs/DESIGN.md`), więc każda kolejna część wygląda spójnie z resztą.
 Nie da się przeskoczyć do następnego modułu, zanim obecny nie będzie gotowy (chyba że świadomie go wstrzymasz).
 
 Postęp całego projektu widzisz w każdej chwili na stronie **Postęp** w makietach.

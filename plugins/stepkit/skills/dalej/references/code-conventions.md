@@ -34,7 +34,8 @@ Nowa pozycja nawigacji: wpis w `NAVIGATION` (panel, ścieżka od `/admin`), `ACC
 `/account`) albo `PUBLIC_NAVIGATION` (strona); wpis w `frontend/src/core/routes/pages.ts` i
 `mockups/src/screens.tsx`; trasy API dopisane w `backend/src/app.ts` (`api.use('/<module>', <module>Routes)`).
 
-**Wygląd:** prawdziwy ekran we `frontend/` odtwarza układ zaakceptowanej makiety modułu (bez panelu pytań). Kolory,
+**Wygląd:** prawdziwy ekran we `frontend/` odtwarza układ zaakceptowanej makiety modułu (bez panelu pytań) i trzyma się
+wzorców z `docs/DESIGN.md`. Kolory,
 czcionki i wygląd komponentów biorą się z `shared/src/theme.ts` i `shared/src/theme.css`; nie ustawiaj ich w module.
 Żadnych kolorów wpisanych na sztywno (`#fff`, `rgb(…)`): tylko kolory Mantine i zmienne `var(--mantine-color-…)`,
 inaczej ciemny motyw i zmiana kolorów aplikacji przestają działać (test `frontend/src/test/colors.test.ts`).

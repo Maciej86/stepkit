@@ -20,8 +20,9 @@ describe('shared theme', () => {
 
   it('is used by the app entry point together with the shared styles', () => {
     const main = readFileSync(resolve(process.cwd(), 'src/main.tsx'), 'utf8');
-    expect(main).toContain("from '@app/shared/theme'");
     expect(main).toContain("import '@app/shared/theme.css'");
-    expect(main).toMatch(/<MantineProvider theme=\{theme\}/);
+    // Motyw podaje ThemeVariantProvider: bez wariantów to motyw z @app/shared/theme (test w appearance/).
+    expect(main).toMatch(/<ThemeVariantProvider variants=\{THEME_VARIANTS\}>/);
+    expect(readFileSync(resolve(process.cwd(), 'src/appearance/ThemeVariants.tsx'), 'utf8')).toContain("from '@app/shared/theme'");
   });
 });
