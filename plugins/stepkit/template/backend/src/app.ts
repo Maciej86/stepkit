@@ -6,11 +6,14 @@ import { SERVER_MESSAGES } from '@app/shared';
 import { env } from './env';
 import { authenticate } from './middleware/authenticate';
 import { sendError } from './middleware/errors';
+import { requireAuth } from './middleware/requireRole';
 import { healthRoutes } from './modules/health/health.routes';
 
 interface AppOptions {
-  /** Dodatkowe trasy pod /api (moduły dopisują się w routes poniżej; testy podają własne). */
+  /** Dodatkowe trasy wymagające logowania (moduły dopisują się niżej; testy podają własne). */
   extraRoutes?: Router;
+  /** Dodatkowe trasy publiczne, bez logowania (tylko w testach; w aplikacji dopisuj je niżej). */
+  publicRoutes?: Router;
 }
 
 export function createApp(options: AppOptions = {}) {
@@ -24,8 +27,16 @@ export function createApp(options: AppOptions = {}) {
   app.use(authenticate);
 
   const api = express.Router();
+
+  // 1. Trasy PUBLICZNE (bez logowania): tylko te z „Mapy dostępu” w docs/SPEC-GENERAL.md,
+  //    np. api.use('/auth', authPublicRoutes); formularze strony dla odwiedzających z limitem zapytań.
   api.use(healthRoutes);
-  // Tu moduły dopisują swoje trasy, np.: api.use('/orders', ordersRoutes);
+  if (options.publicRoutes) api.use(options.publicRoutes);
+
+  // 2. Od tego miejsca KAŻDA trasa wymaga logowania, także ta, przy której zapomniano requireRole.
+  api.use(requireAuth);
+
+  // 3. Moduły, z rolami ich pozycji w navigation.config.ts: mountModule(api, 'employees', employeesRoutes);
   if (options.extraRoutes) api.use(options.extraRoutes);
   app.use('/api', api);
 

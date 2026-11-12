@@ -35,6 +35,11 @@ Obszary, dokładnie w tej kolejności. Przykład pod każdym to wzór, nie tekst
    obsługujecie wszystko). Które są potrzebne?”
 2. **Kto używa.** Grupy ludzi → z nich powstają role. „Kto będzie się logował: Ty, pracownicy, klienci?”
 3. **Logowanie.** Kto się loguje, a kto korzysta bez konta.
+   *Dla Ciebie:* gdy jest logowanie, zapisz w ustaleniach, że **wszystko poza wyraźnie publicznym wymaga logowania**,
+   a każda część danych jest dostępna tylko dla ról, które ją widzą (tak działa szablon; nie pytaj o to użytkownika).
+   Gdy jest **strona dla odwiedzających z kilkoma podstronami**, ustal, co jest publiczne, a co tylko po zalogowaniu:
+   zaproponuj podział (np. „Oferta, Cennik i Kontakt widzi każdy; Moje zamówienia i Faktury tylko zalogowany klient”)
+   i poproś o potwierdzenie albo poprawki. Wynik trafia do „Mapy dostępu” w specu ogólnym (krok 7).
 4. **Rejestracja.** a) konta zakłada administrator (polecam przy pracownikach), b) każdy zakłada konto sam (polecam
    przy klientach), c) oba.
 5. **Role i uprawnienia.** Co każda grupa widzi i może zmieniać. Przy kilku rolach zrób w głowie tabelkę rola × czynność
@@ -84,6 +89,7 @@ zaakceptuje. Zapisz do `docs/OVERVIEW.md`:
 ## Ustalenia z wywiadu (<data>)
 - Części aplikacji: …
 - Role: … (kto co może)
+- Dostęp: co jest publiczne (podstrony strony, formularze), co tylko po zalogowaniu, co tylko dla wybranych ról
 - Dane: …
 - Główna czynność: …
 - Statusy: …

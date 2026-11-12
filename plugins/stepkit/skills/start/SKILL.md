@@ -119,7 +119,9 @@ Odpowiedzi zapisz w `docs/OVERVIEW.md`.
 ## Krok 7: spec ogólny
 
 Czytasz `../dalej/references/document-templates.md` (wzór `SPEC-GENERAL.md`) i `../dalej/references/code-conventions.md`
-(„Baza danych”, „Archiwum”, „Historia zmian”, „Wzorce opcjonalne”). Projekt bazy z tabelą relacji i regułą przy
+(„Baza danych”, „Archiwum”, „Historia zmian”, „Wzorce opcjonalne”, „API i bezpieczeństwo”). **Mapa dostępu**
+(sekcja w `SPEC-GENERAL.md`): strony i podstrony każdej części z tym, kto ma do nich dostęp, według „Dostęp” w
+`OVERVIEW.md`; publiczne tylko to, co ustalono jako publiczne. Projekt bazy z tabelą relacji i regułą przy
 usunięciu dla każdej z nich, lista danych z archiwum, zakres historii zmian. Gdy historia jest włączona, **tylko zapisz
 w specu**, że moduł Logowanie doda tabelę `activity_log` zaraz po `users` (ma klucz obcy do `users`, więc wcześniej
 migracja by się nie udała).

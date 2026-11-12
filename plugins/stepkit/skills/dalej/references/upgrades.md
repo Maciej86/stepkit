@@ -1,6 +1,6 @@
 # Aktualizacja projektu do nowej wersji stepkit
 
-**Aktualna wersja stepkit:** 0.1.14
+**Aktualna wersja stepkit:** 0.1.15
 
 Szablon kopiuje się do projektu tylko raz, przy `/stepkit:start`. Gdy stepkit się zmienia, starsze projekty nie mają
 nowych plików, a nowe zasady o nich mówią. Ten plik mówi, co przenieść.
@@ -91,3 +91,14 @@ Wersję projektu podaje linia `**Wersja stepkit:** X.Y.Z` w `docs/STATUS.md`. Br
   `appearance`, `czeka`, `makieta`, bez zależności) **zaraz za modułem w toku** (albo jako pierwszy, gdy nic nie jest
   w toku), przenumerowanie, `appearance` w „Zależy od” Publikacji. Nie → opisz obecny wygląd w `DESIGN.md`
   (z `shared/src/theme.ts` i ekranów) ze stanem „ustalony”.
+
+## 0.1.15: API domyślnie zamknięte, uprawnienia z nawigacji
+
+- Nowy plik `backend/src/middleware/mountModule.ts`; **połącz** `shared/src/navigation.ts` (funkcja `rolesFor`)
+  i testy (`backend/src/app.test.ts`, `shared/src/navigation.test.ts`) z szablonem.
+- **Połącz** `backend/src/app.ts`: trasy publiczne (health, logowanie, formularze strony) przed
+  `api.use(requireAuth)`, wszystkie moduły po nim przez `mountModule`. Sprawdź każdy istniejący moduł: rola z
+  nawigacji zgadza się z tym, co miał w `requireRole`? Różnica → zapytaj użytkownika, która jest dobra.
+- Dopisz „Mapę dostępu” do `SPEC-GENERAL.md` (strony z nawigacji, trasy istniejących modułów); co do stron dla
+  odwiedzających zaproponuj podział publiczne / po zalogowaniu i poproś o potwierdzenie.
+- Moduł Logowanie zrobiony: `authenticate` z aktualną rolą z bazy (`code-conventions.md`, „Moduł Logowanie”) z testami.

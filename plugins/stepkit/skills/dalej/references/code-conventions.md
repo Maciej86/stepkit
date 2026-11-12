@@ -83,9 +83,15 @@ importujesz je wprost: `import { CalendarDays } from 'lucide-react'`. Ikona pozy
 
 ## API i bezpieczeństwo
 
-- **Każda trasa modułu ma `requireRole(...)`.** Ukrycie pozycji w menu nie jest zabezpieczeniem.
-- Trasy strony publicznej (formularze dla odwiedzających) nie mają `requireRole`, ale mają `validateBody` i limit
-  zapytań (`express-rate-limit`, ustawienia w `backend/src/config/constants.ts`).
+- **Domyślnie zamknięte.** W `backend/src/app.ts` są dwie części: trasy publiczne (przed `api.use(requireAuth)`) i cała
+  reszta, która wymaga logowania. Publiczne są **tylko** adresy oznaczone tak w „Mapie dostępu” w `SPEC-GENERAL.md`
+  (logowanie, formularze strony dla odwiedzających); zawsze z `validateBody` i limitem zapytań (`express-rate-limit`,
+  ustawienia w `backend/src/config/constants.ts`).
+- **Moduł podpinasz przez `mountModule(api, '<klucz>', <module>Routes)`** (`backend/src/middleware/mountModule.ts`):
+  bierze role pozycji nawigacji o tym kluczu, więc menu i API mają te same uprawnienia. Moduł bez pozycji w nawigacji:
+  role jawnie, `mountModule(api, 'email', emailRoutes, ['admin'])`. Węższe uprawnienia pojedynczej trasy („usuwa tylko
+  admin”): `requireRole('admin')` przy tej trasie. Ukrycie pozycji w menu nie jest zabezpieczeniem.
+- Każda trasa modułu ma wiersz w „Mapie dostępu” (`SPEC-GENERAL.md`); `SPEC.md` modułu wymienia trasy z rolami.
 - W koncie użytkownika dane są **zawsze** filtrowane po `req.user.id` (klient nie zobaczy cudzych zamówień, nawet
   gdy zmieni numer w adresie).
 - `validateBody(schema)` z tym samym schematem co formularz (`zodResolver(schema)` z `mantine-form-zod-resolver`
@@ -179,8 +185,14 @@ Zmiana `SessionUser` = zmiana w `shared/src/navigation.ts`, `backend/src/auth/to
 
 - Migracja `users`: `id`, `name`, `email` (unikalny), `password_hash`, `role`, `created_at`, `updated_at`;
   `archived_at`, `archived_by` gdy archiwum obejmuje użytkowników; `company_id` gdy wiele firm.
-- `POST /api/auth/login` (`loginLimiter`, `validateBody`), `POST /api/auth/logout`, `GET /api/auth/me`
-  (zwraca `{ user }` albo 401). Hasła `bcryptjs` z kosztem `BCRYPT_COST`. Token i ciasteczko przez
+- `POST /api/auth/login` (`loginLimiter`, `validateBody`) i `POST /api/auth/logout` to trasy **publiczne** (część 1
+  w `app.ts`); `GET /api/auth/me` (zwraca `{ user }` albo 401) za logowaniem.
+- **Aktualna rola i konto przy każdym żądaniu:** po migracji `users` zmień `authenticate`
+  (`backend/src/middleware/authenticate.ts`), żeby po odczytaniu tokenu pobrał z bazy użytkownika o tym `id`
+  (`SELECT id, name, role FROM users WHERE id = ? AND archived_at IS NULL`, bez `archived_at`, gdy archiwum nie
+  obejmuje użytkowników). Brak takiego konta → niezalogowany; `req.user` z bazy, nie z tokenu. Dzięki temu odebranie
+  roli albo archiwizacja (np. zwolnienie) działa od razu, a nie po wygaśnięciu tokenu. Testy: konto zarchiwizowane →
+  401, zmieniona rola → nowa rola. Hasła `bcryptjs` z kosztem `BCRYPT_COST`. Token i ciasteczko przez
   `signToken`, `setAuthCookie`, `clearAuthCookie` z `backend/src/auth/token.ts`.
 - `loginLimiter` liczy tylko nieudane próby i rozpoznaje osoby za serwerem Caddy (`trust proxy` w `app.ts`); nie
   zmieniaj tych ustawień.
@@ -209,7 +221,8 @@ Najpierw test, potem kod (TDD). Krok planu jest zrobiony dopiero po `npm run che
 
 Używaj jej, gdy nie ma `superpowers:requesting-code-review`:
 
-- [ ] każda trasa ma `requireRole` (albo świadomie jest publiczna z limitem)
+- [ ] moduł podpięty przez `mountModule`; trasy publiczne tylko te z „Mapy dostępu”, z limitem i `validateBody`
+- [ ] każda trasa jest w „Mapie dostępu”, a testy sprawdzają 401 bez logowania i 403 dla złej roli
 - [ ] SQL tylko z `?`, dane konta filtrowane po `req.user.id`, przy wielu firmach po `company_id`
 - [ ] każda relacja ma klucz obcy z regułą zgodną ze specem
 - [ ] brak polskich tekstów i liczb „z ręki” w kodzie

@@ -12,7 +12,7 @@ kolumn, wartości statusów), bo strona „Postęp” go odczytuje. Maks. ok. 60
 ```markdown
 # Stan projektu: Sklep z zamówieniami
 
-**Wersja stepkit:** 0.1.14
+**Wersja stepkit:** 0.1.15
 
 **Następny krok:** Moduł Logowanie, implementacja: krok 3 z 7 (formularz logowania).
 
@@ -76,6 +76,16 @@ Strona / konto / panel: które są i po co.
 
 ## 5. Nawigacja
 Pozycje każdej części (nazwa, folder, kto widzi).
+
+### Mapa dostępu
+Wszystko, czego tu nie ma jako publiczne, wymaga logowania (tak działa szablon). Każdy moduł dopisuje swoje adresy API.
+| Adres (strona albo API) | Kto ma dostęp | Uwagi |
+|---|---|---|
+| `/`, `/cennik` | każdy | strona dla odwiedzających |
+| `POST /api/auth/login` | każdy | limit prób logowania |
+| `/admin/employees`, `/api/employees` | admin | `mountModule(api, 'employees', …)` |
+| `DELETE /api/employees/:id` | admin | węższe niż moduł: `requireRole('admin')` |
+| `/account/orders`, `/api/my-orders` | user | tylko własne dane (`req.user.id`) |
 
 ## 6. Dane
 ### Tabele (zarys)

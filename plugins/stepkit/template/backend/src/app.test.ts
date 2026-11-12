@@ -16,19 +16,26 @@ const { requireRole } = await import('./middleware/requireRole');
 const { validateBody } = await import('./middleware/validateBody');
 const { AUTH_COOKIE_NAME } = await import('./config/constants');
 
+const { mountModule } = await import('./middleware/mountModule');
+
 function appWithTestRoutes() {
   const extra = express.Router();
   extra.get('/test/admin-only', requireRole('admin'), (_req, res) => {
     res.json({ ok: true });
   });
-  extra.post(
+  // Trasa, przy której „zapomniano” requireRole: i tak wymaga logowania.
+  extra.get('/test/forgotten', (_req, res) => {
+    res.json({ ok: true });
+  });
+  const publicRoutes = express.Router();
+  publicRoutes.post(
     '/test/form',
     validateBody(z.object({ email: z.email('validation.email_invalid') })),
     (req, res) => {
       res.json({ body: req.body });
     },
   );
-  return createApp({ extraRoutes: extra });
+  return createApp({ extraRoutes: extra, publicRoutes });
 }
 
 const cookie = (token: string) => `${AUTH_COOKIE_NAME}=${token}`;
@@ -63,10 +70,64 @@ describe('behind a proxy (Caddy on the server)', () => {
 });
 
 describe('unknown address', () => {
-  it('returns 404 with a message key', async () => {
-    const res = await request(createApp()).get('/api/does-not-exist');
+  it('returns 404 with a message key to a logged-in user', async () => {
+    const token = signToken({ id: 2, name: 'Jan', role: 'user' });
+    const res = await request(createApp()).get('/api/does-not-exist').set('Cookie', cookie(token));
     expect(res.status).toBe(404);
     expect(res.body.error.message).toBe('server.not_found');
+  });
+
+  it('asks a logged-out visitor to log in instead of revealing what exists', async () => {
+    const res = await request(createApp()).get('/api/does-not-exist');
+    expect(res.status).toBe(401);
+  });
+});
+
+describe('protected by default', () => {
+  it('requires login on a route that forgot requireRole', async () => {
+    const res = await request(appWithTestRoutes()).get('/api/test/forgotten');
+    expect(res.status).toBe(401);
+    expect(res.body.error.message).toBe('server.login_required');
+  });
+
+  it('lets any logged-in user through such a route', async () => {
+    const token = signToken({ id: 2, name: 'Jan', role: 'user' });
+    const res = await request(appWithTestRoutes()).get('/api/test/forgotten').set('Cookie', cookie(token));
+    expect(res.status).toBe(200);
+  });
+
+  it('keeps routes from publicRoutes open to visitors', async () => {
+    const res = await request(appWithTestRoutes()).post('/api/test/form').send({ email: 'anna@example.com' });
+    expect(res.status).toBe(200);
+  });
+});
+
+describe('mountModule', () => {
+  function appWithModule(roles?: Parameters<typeof mountModule>[3]) {
+    const moduleRoutes = express.Router();
+    moduleRoutes.get('/', (_req, res) => {
+      res.json({ ok: true });
+    });
+    const extra = express.Router();
+    mountModule(extra, 'dashboard', moduleRoutes, roles);
+    return createApp({ extraRoutes: extra });
+  }
+
+  it('takes the roles of the navigation item (dashboard: admin only)', async () => {
+    const user = signToken({ id: 2, name: 'Jan', role: 'user' });
+    const admin = signToken({ id: 1, name: 'Anna', role: 'admin' });
+    expect((await request(appWithModule()).get('/api/dashboard').set('Cookie', cookie(user))).status).toBe(403);
+    expect((await request(appWithModule()).get('/api/dashboard').set('Cookie', cookie(admin))).status).toBe(200);
+  });
+
+  it('accepts explicit roles for a module without a navigation item', async () => {
+    const user = signToken({ id: 2, name: 'Jan', role: 'user' });
+    const res = await request(appWithModule(['admin', 'user'])).get('/api/dashboard').set('Cookie', cookie(user));
+    expect(res.status).toBe(200);
+  });
+
+  it('refuses to start with a module that is not in the navigation and has no roles', () => {
+    expect(() => mountModule(express.Router(), 'no-such-module', express.Router())).toThrow(/no-such-module/);
   });
 });
 

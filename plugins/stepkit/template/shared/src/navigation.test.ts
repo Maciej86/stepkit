@@ -12,6 +12,7 @@ import {
   createI18n,
   flattenNav,
   isRole,
+  rolesFor,
   visibleNav,
   type NavItem,
   type SessionUser,
@@ -122,5 +123,17 @@ describe('navigation config', () => {
       expect(home).toBeDefined();
       expect(home === '/admin' ? AREAS.admin : AREAS.account).toBe(true);
     }
+  });
+});
+
+describe('rolesFor', () => {
+  it('returns the roles of a navigation item together with its children', () => {
+    const items = [item('p', ['admin'], [item('c', ['user'])])];
+    expect(rolesFor('p', items)?.sort()).toEqual(['admin', 'user']);
+    expect(rolesFor('c', items)).toEqual(['user']);
+  });
+
+  it('returns null for a key that is not in the navigation', () => {
+    expect(rolesFor('missing', [item('p', ['admin'])])).toBeNull();
   });
 });

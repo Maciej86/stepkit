@@ -55,3 +55,13 @@ export function visibleNav(items: NavItem[], user: SessionUser | null): NavItem[
 export function flattenNav(items: NavItem[]): NavItem[] {
   return items.flatMap((item) => [item, ...flattenNav(item.children ?? [])]);
 }
+
+/**
+ * Role, które mają dostęp do modułu pozycji nawigacji `key` (jej role i role pozycji pod nią) albo null, gdy takiej
+ * pozycji nie ma. Z tego korzysta mountModule w backendzie: menu i API mają jedno źródło uprawnień.
+ */
+export function rolesFor(key: string, items: NavItem[]): Role[] | null {
+  const found = flattenNav(items).find((item) => item.key === key);
+  if (!found) return null;
+  return [...new Set(flattenNav([found]).flatMap((item) => item.roles))];
+}
