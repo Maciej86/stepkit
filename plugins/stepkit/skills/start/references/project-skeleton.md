@@ -1,0 +1,57 @@
+# Szkielet projektu
+
+Czytasz ten plik w kroku 2 `/stepkit:start` (kopiowanie) i w kroku 5 (dopasowanie po wywiadzie).
+
+## Kopiowanie (krok 2)
+
+Szablon leży w folderze pluginu: `<katalog bazowy tego skilla>/../../template/` (katalog bazowy skilla jest podany
+na początku treści skilla jako „Base directory for this skill”).
+
+1. Folder projektu musi być pusty albo zawierać tylko ukryte pliki (np. `.git`). Jeśli są inne pliki, zapytaj, czy na
+   pewno to ten folder. **Nigdy nie nadpisuj istniejących plików użytkownika.**
+2. Skopiuj szablon bez `node_modules` i `dist`:
+   ```bash
+   tar -C "<ścieżka do template>" --exclude=node_modules --exclude=dist --exclude=test-results -cf - . | tar -xf -
+   ```
+3. Zmień `"name"` w głównym `package.json` na nazwę projektu (małe litery, myślniki).
+4. `.env`:
+   ```bash
+   cp .env.example .env
+   node -e "console.log(require('crypto').randomBytes(48).toString('hex'))"
+   ```
+   Wpisz wynik jako `JWT_SECRET=` w `.env`. Wymyśl dwa losowe hasła i wpisz je jako `DB_PASSWORD` i
+   `MYSQL_ROOT_PASSWORD` (zwykłe litery i cyfry, bez znaków specjalnych).
+5. `npm install` (powiedz: „Pobieram biblioteki, to potrwa kilka minut za pierwszym razem.”).
+6. `npx playwright install chromium` (powiedz: „Pobieram przeglądarkę do testów, jednorazowo.”).
+7. `npm run check` musi przejść.
+8. Porty: jeśli `npm run dev` zgłosi, że port jest zajęty (`Port 5173 is in use`), odkomentuj w `.env` odpowiednią
+   linię (`FRONTEND_PORT`, `MOCKUPS_PORT`, `PHPMYADMIN_PORT`, `PORT`) z innym numerem.
+9. Baza: `npm run db`, poczekaj ok. 20 sekund, `npm run migrate` musi wypisać „Baza jest aktualna.”. Błąd połączenia
+   zaraz po starcie: poczekaj jeszcze chwilę i powtórz `npm run migrate`.
+
+Co jest w szkielecie (żeby wiedzieć, gdzie zmieniać):
+
+| Gdzie | Co |
+|---|---|
+| `shared/src/navigation.config.ts` | `AREAS`, `ROLE_HOME`, `PUBLIC_NAVIGATION`, `ACCOUNT_NAVIGATION`, `NAVIGATION` |
+| `shared/src/constants/` | role, klucze komunikatów serwera, stałe modułów |
+| `shared/locales/pl/` | wszystkie teksty (`common`, `server`, `validation`, `email`, jeden plik na moduł) |
+| `frontend/src/core/routes/pages.ts` | ekran prawdziwej aplikacji dla każdej pozycji nawigacji |
+| `mockups/src/screens.ts` | ekran makiety dla każdej pozycji nawigacji |
+| `backend/src/app.ts` | miejsce dopisania tras modułów |
+| `backend/src/db/sql/activity_log.sql` | gotowa tabela historii zmian (kopiowana tylko, gdy historia jest włączona) |
+| `docs/STATUS.md` | plik stanu |
+
+## Dopasowanie po wywiadzie (krok 5)
+
+Według tabeli „Jak odpowiedzi zmieniają szkielet” w `interview.md`:
+
+1. `AREAS`: ustaw `public`, `account`, `admin`. Wyłączona część: usuń jej pozycje z nawigacji, wpisy w `PAGES`
+   i `SCREENS` oraz foldery jej ekranów startowych (`home`, `my-account`, `dashboard`) w `frontend/src/modules/`
+   i `mockups/src/modules/`, a także ich pliki tekstów w `shared/locales/pl/` i importy w `shared/src/i18n.ts`.
+2. `ROLES` (identyfikatory po angielsku, np. `admin`, `employee`, `customer`), `ROLE_LABELS` (klucze
+   `common.roles.<rola>`, polskie nazwy w `common.json`), `ROLE_HOME`.
+3. Trzy nawigacje: na tym etapie tylko pozycje ze startowymi ekranami; pełna nawigacja powstaje w makiecie (krok 6).
+4. Wzorce opcjonalne: według `../../dalej/references/code-conventions.md`.
+5. `npm run check` musi przejść (test `navigation.test.ts` pilnuje, że każda rola ma stronę domową w włączonej części
+   i każda etykieta ma polski tekst).
