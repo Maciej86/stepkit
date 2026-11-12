@@ -16,7 +16,8 @@
     "migrate": "npm run migrate -w @app/backend",
     "check": "npm run typecheck --workspaces --if-present && npm test --workspaces --if-present",
     "test": "npm test --workspaces --if-present",
-    "test:e2e": "playwright test -c e2e"
+    "test:e2e": "playwright test -c e2e",
+    "build": "npm run build -w @app/frontend"
   },
   "devDependencies": {
     "@playwright/test": "^1.65.0",
