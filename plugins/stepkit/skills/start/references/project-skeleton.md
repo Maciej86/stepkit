@@ -24,9 +24,15 @@ na początku treści skilla jako „Base directory for this skill”).
 6. `npx playwright install chromium` (powiedz: „Pobieram przeglądarkę do testów, jednorazowo.”).
 7. `npm run check` musi przejść.
 8. Porty: jeśli `npm run dev` zgłosi, że port jest zajęty (`Port 5173 is in use`), odkomentuj w `.env` odpowiednią
-   linię (`FRONTEND_PORT`, `MOCKUPS_PORT`, `PHPMYADMIN_PORT`, `PORT`) z innym numerem.
+   linię (`FRONTEND_PORT`, `MOCKUPS_PORT`, `PHPMYADMIN_PORT`, `PORT`) z innym numerem. Gdy zmieniasz
+   `FRONTEND_PORT`, zmień też port w `FRONTEND_URL` (serwer używa go w linkach w e-mailach). Sprawdź wolne porty od
+   razu, zanim użytkownik zobaczy błąd: `npm run db` i `npm run dev` też zgłoszą zajęty port.
 9. Baza: `npm run db`, poczekaj ok. 20 sekund, `npm run migrate` musi wypisać „Baza jest aktualna.”. Błąd połączenia
    zaraz po starcie: poczekaj jeszcze chwilę i powtórz `npm run migrate`.
+10. **Ściągawka:** `README.md` projektu to miejsce, gdzie użytkownik sprawdza, jak uruchomić aplikację i gdzie co
+    podejrzeć. Jeśli zmieniłeś jakiś port, popraw go w tabeli „Gdzie co podejrzeć” (adresy mają się zgadzać z `.env`).
+    Powiedz użytkownikowi: „Jak uruchomić aplikację, pod jakimi adresami co jest i jak zalogować się do podglądu bazy,
+    znajdziesz w pliku `README.md` w folderze projektu. Będę go uzupełniać na bieżąco.”
 
 Co jest w szkielecie (żeby wiedzieć, gdzie zmieniać):
 

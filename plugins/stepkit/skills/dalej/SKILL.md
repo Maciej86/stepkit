@@ -54,6 +54,11 @@ Moduły specjalne: **E-mail** → najpierw `references/email-mailgun.md`; **Publ
 
 Moduł jest `zrobiony` **dopiero po potwierdzeniu użytkownika** na etapie testów.
 
+**Ściągawka `README.md`** w projekcie to miejsce, gdzie użytkownik sprawdza, jak uruchomić aplikację i gdzie co
+podejrzeć. Gdy zmieniasz port, dodajesz usługę z adresem (np. Mailpit) albo nowe polecenie `npm run`, popraw README
+w tym samym zapisie. Na pytania „jak uruchomić”, „gdzie zobaczyć”, „jak się zalogować do bazy” odpowiadaj i wskaż
+README.
+
 ## 4. Granice rozmów
 
 Po każdym etapie zaktualizuj w `STATUS.md` kolumnę Etap i „Następny krok”. Jeśli za Tobą jest więcej niż jeden etap

@@ -14,7 +14,7 @@ services:
     volumes:
       - mysql_data:/var/lib/mysql
 
-  # Podgląd bazy w przeglądarce: http://localhost:8080
+  # Podgląd bazy w przeglądarce: http://localhost:8080 (albo port z PHPMYADMIN_PORT w .env; zobacz README.md)
   phpmyadmin:
     image: phpmyadmin:5
     restart: unless-stopped

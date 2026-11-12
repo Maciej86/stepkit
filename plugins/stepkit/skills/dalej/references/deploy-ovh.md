@@ -124,4 +124,19 @@ docker compose -f docker-compose.prod.yml up -d --build
 docker compose -f docker-compose.prod.yml exec backend npm run migrate -w @app/backend
 ```
 
+Dopisz do `README.md` sekcję (bez haseł):
+
+```markdown
+## Aplikacja w internecie
+
+| Co | Gdzie |
+|---|---|
+| aplikacja | https://<domena> |
+| serwer (VPS) | panel OVH: https://www.ovh.com/manager/ |
+| e-maile (jeśli są) | panel Mailgun: https://app.mailgun.com/ |
+| kopie zapasowe bazy | na serwerze w `~/backups`, codziennie o 3:00 |
+
+Nowa wersja: zapisz zmiany (`git push`) i napisz do Claude'a „wgraj nową wersję”.
+```
+
 Makiety **nigdy** nie są uruchamiane na serwerze (`docker-compose.prod.yml` ich nie zawiera).

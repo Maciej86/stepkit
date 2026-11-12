@@ -28,6 +28,8 @@ aplikacja wyśle, i pokazuje to w przeglądarce. Prawdziwą wysyłkę przez Mail
    EMAIL_FROM=no-reply@localhost
    ```
 3. `npm install -w @app/backend nodemailer` i `npm install -w @app/backend -D @types/nodemailer`, potem `npm run db`.
+4. Dopisz do tabeli „Gdzie co podejrzeć” w `README.md` wiersz:
+   `| http://localhost:8025 | skrzynka testowa (Mailpit): e-maile wysłane przez aplikację | npm run db |`.
 
 ## Kod
 
