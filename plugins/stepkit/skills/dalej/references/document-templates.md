@@ -12,6 +12,8 @@ kolumn, wartości statusów), bo strona „Postęp” go odczytuje. Maks. ok. 60
 ```markdown
 # Stan projektu: Sklep z zamówieniami
 
+**Wersja stepkit:** 0.1.13
+
 **Następny krok:** Moduł Logowanie, implementacja: krok 3 z 7 (formularz logowania).
 
 ## Start aplikacji
@@ -40,6 +42,8 @@ kolumn, wartości statusów), bo strona „Postęp” go odczytuje. Maks. ok. 60
 - 2026-11-12: Klient z zamówieniami trafia do archiwum zamiast usunięcia (moduł Klienci, pytanie 3).
 ```
 
+- **Wersja stepkit:** wersja, z której powstał albo do której zaktualizowano projekt (`upgrades.md`). Zmienia ją tylko
+  aktualizacja projektu.
 - **Status:** `zrobiony`, `w toku`, `wstrzymany`, `czeka`. W toku najwyżej jeden moduł.
 - **Etap:** `makieta`, `pytania`, `spec`, `plan`, `implementacja`, `testy`, `zamknięcie`; w nawiasie dopisek, gdzie
   wrócić, np. `implementacja (krok 3/7)`. Wstrzymany moduł: etap, w którym przerwano, np. `spec (wstrzymany 2026-11-12)`.

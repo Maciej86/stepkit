@@ -1,0 +1,15 @@
+schema_version: "1.1"
+name: dalej-upgrade
+description: Projekt założony starszą wersją stepkit dostaje propozycję aktualizacji przed dalszą pracą.
+runs: 2
+execution:
+  max_turns: 12
+  allowed_tools: [Read, Glob, Grep, Skill, Write, Edit]
+  append_system_prompt: "Środowisko testowe stepkit: komendy (npm, docker, git) są niedostępne, a node_modules nie są zainstalowane. Zakładaj, że npm run check przechodzi po poprawnych zmianach, i pracuj dalej na plikach."
+  prompt: /stepkit:dalej
+context:
+  scaffold_script: fixture.sh
+graders:
+  - name: offers-upgrade
+    type: llm
+    criteria: Odpowiedź po polsku mówi, że stepkit został zaktualizowany, a projekt powstał na starszej wersji, wymienia prostym językiem, co trzeba w projekcie poprawić (np. wspólny wygląd makiet i aplikacji, panel pytań w makietach, ikony, plik z pomysłami), i pyta, czy zrobić to teraz. Nie kontynuuje jeszcze modułu Logowanie (nie pisze kodu kroku 3) przed odpowiedzią użytkownika.

@@ -17,6 +17,9 @@ Nie czytaj folderów innych modułów ani całego kodu „na zapas”.
 - W sekcji „Start aplikacji” są nieodhaczone kroki → „Planowanie nie jest skończone: wpisz `/stepkit:start`, dokończymy
   je.” i koniec.
 
+**Wersja projektu.** Porównaj linię `**Wersja stepkit:**` w `STATUS.md` z `references/upgrades.md` („Kiedy”). Projekt
+starszy (albo bez tej linii) → najpierw zaproponuj aktualizację według `upgrades.md` i poczekaj na odpowiedź.
+
 Potem jedno zdanie: „Jesteśmy przy: <moduł>, <etap>. Teraz: <co robimy>.”
 
 **Pomysł na później.** Gdy użytkownik (w tej wiadomości albo w trakcie pracy) zgłasza nową funkcję spoza ustaleń

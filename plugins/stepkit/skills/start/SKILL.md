@@ -18,7 +18,8 @@ Najpierw sprawdź, czy w folderze projektu jest `docs/STATUS.md`:
 
 - **Nie ma** → pierwsze uruchomienie: zacznij od kroku 0.
 - **Jest i w sekcji „Start aplikacji” są nieodhaczone kroki** → powiedz jednym zdaniem, na czym skończyliście,
-  i kontynuuj od pierwszego nieodhaczonego. Kroku 0 nie powtarzaj.
+  i kontynuuj od pierwszego nieodhaczonego. Kroku 0 nie powtarzaj. Jeśli krok 2 jest odhaczony, najpierw sprawdź
+  wersję projektu według `../dalej/references/upgrades.md` („Kiedy”) i w razie potrzeby zaproponuj aktualizację.
 - **Wszystkie kroki odhaczone** → powiedz: „Plan aplikacji jest gotowy. Otwórz nową rozmowę i wpisz `/stepkit:dalej`.”
   i zakończ.
 
