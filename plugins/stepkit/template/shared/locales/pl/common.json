@@ -47,5 +47,22 @@
   "color_scheme": {
     "to_dark": "Włącz ciemny motyw",
     "to_light": "Włącz jasny motyw"
+  },
+  "empty_value": "brak",
+  "holidays": {
+    "new_year": "Nowy Rok",
+    "epiphany": "Święto Trzech Króli",
+    "easter_sunday": "Wielkanoc",
+    "easter_monday": "Poniedziałek Wielkanocny",
+    "labour_day": "Święto Pracy",
+    "constitution_day": "Święto Konstytucji 3 Maja",
+    "pentecost": "Zielone Świątki",
+    "corpus_christi": "Boże Ciało",
+    "assumption": "Wniebowzięcie Najświętszej Maryi Panny",
+    "all_saints": "Wszystkich Świętych",
+    "independence_day": "Narodowe Święto Niepodległości",
+    "christmas_eve": "Wigilia Bożego Narodzenia",
+    "christmas_day": "Boże Narodzenie (pierwszy dzień)",
+    "second_christmas_day": "Boże Narodzenie (drugi dzień)"
   }
 }

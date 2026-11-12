@@ -2,9 +2,46 @@
 
 Czytasz ten plik na etapach **spec**, **plan** i **implementacja** (oraz w kroku 7 `/stepkit:start` przy projekcie
 bazy). To są reguły, nie propozycje. Stos jest stały: React + Vite + TypeScript + Mantine, Express + mysql2 +
-TypeScript, zod, i18next, MySQL w Dockerze. **Nie dodawaj bibliotek spoza szablonu**, poza tymi, gdy moduł ich
-wymaga: `nodemailer` (e-mail), `multer` (pliki), `cron`, `exceljs`, `winston`, `sanitize-html`, `@mantine/charts`
-z `recharts` (wykresy).
+TypeScript, zod, i18next, dayjs, MySQL w Dockerze.
+
+## Biblioteki
+
+Użytkownik nie oceni, czy paczka jest dobra, więc to Ty pilnujesz, żeby nie przybywało ich bez potrzeby. Każda
+biblioteka to cudzy kod z dostępem do danych aplikacji, coś do aktualizowania i ryzyko, że moduły zaczną robić to
+samo na dwa sposoby.
+
+**Lista zatwierdzona** (instalujesz, gdy moduł ich potrzebuje, bez pytania; zapisz w „Bibliotekach” w
+`SPEC-GENERAL.md`):
+
+| Potrzeba | Biblioteka |
+|---|---|
+| e-mail | `nodemailer` |
+| przesyłanie plików | `multer` |
+| zadania o stałej porze | `cron` |
+| Excel (eksport, import) | `exceljs` |
+| dziennik serwera | `winston` |
+| HTML od użytkownika (np. edytor treści) | `sanitize-html` |
+| wykresy | `@mantine/charts` z `recharts` |
+| kalendarz, grafik, kalendarz zespołu | `@mantine/schedule` |
+| czat i powiadomienia na żywo | `socket.io` (backend) i `socket.io-client` (front) |
+| edycja grafiki w przeglądarce (jeden moduł, nie cała aplikacja) | `fabric` |
+
+**Spoza listy** (np. paczka do PDF, mapy, płatności):
+1. Sprawdź, czy nie wystarczy to, co już jest: Mantine (`@mantine/*`), dayjs, przeglądarka, Node.
+2. Jeśli nie: w `SPEC.md` modułu punkt „Nowa biblioteka”: nazwa, do czego, jakie alternatywy, czy jest utrzymywana
+   (ostatnie wydanie w ostatnim roku, licencja MIT, Apache albo BSD).
+3. Zapytaj użytkownika prostym językiem: „Do <czego> potrzebna jest dodatkowa biblioteka <nazwa>. To popularne,
+   sprawdzone narzędzie, używa jej wiele firm. Zgadzasz się?” Bez zgody szukasz innej drogi.
+4. Dopisz ją do „Bibliotek” w `SPEC-GENERAL.md`. Kolejne moduły używają tej samej paczki, nie drugiej do tego samego.
+
+Nigdy: drugiej biblioteki komponentów, drugiej paczki ikon, axios (jest `fetch` w `core/api/client.ts`), moment,
+date-fns, lodash.
+
+**Kalendarze:** `@mantine/schedule` w tej samej wersji co `@mantine/core`, w obu miejscach naraz
+(`npm install -w @app/frontend -w @app/mockups @mantine/schedule@<wersja>`, `import '@mantine/schedule/styles.css';`
+w obu `main.tsx`). Kalendarz zespołu (osoby w wierszach, dni w kolumnach): `ResourcesMonthView` albo
+`ResourcesWeekView`; osoby to `resources`, urlopy, wydarzenia i zadania to `events`. Daty zawsze jako `RRRR-MM-DD`
+i `locale="pl"` (z `import 'dayjs/locale/pl'`); święta z `getPolishHolidays` jako wyszarzone dni.
 
 **Wykresy:** tylko `@mantine/charts` (`BarChart`, `LineChart`, `AreaChart`, `PieChart`, `DonutChart` …). Instalujesz go
 w module, który pierwszy potrzebuje wykresu, w obu miejscach naraz:
@@ -35,21 +72,24 @@ Nowa pozycja nawigacji: wpis w `NAVIGATION` (panel, ścieżka od `/admin`), `ACC
 `mockups/src/screens.tsx`; trasy API dopisane w `backend/src/app.ts` (`api.use('/<module>', <module>Routes)`).
 
 **Wygląd:** prawdziwy ekran we `frontend/` odtwarza układ zaakceptowanej makiety modułu (bez panelu pytań) i trzyma się
-wzorców z `docs/DESIGN.md`. Kolory,
+wzorców z `docs/DESIGN.md`. Gotowe klocki są w `common/` (we froncie i w makietach te same): `InfoCard` (boks z
+nagłówkiem, treścią i akcjami na dole, np. na pulpicie), `PageSection` (sekcja strony dla odwiedzających z tłem na całą
+szerokość), `ButtonIcon` (ikona akcji przycisku), `DateText` (data). Każda tabela jest w
+`<Table.ScrollContainer minWidth={TABLE_MIN_WIDTH}>` (test `tables.test.ts`). Kolory,
 czcionki i wygląd komponentów biorą się z `shared/src/theme.ts` i `shared/src/theme.css`; nie ustawiaj ich w module.
 Żadnych kolorów wpisanych na sztywno (`#fff`, `rgb(…)`): tylko kolory Mantine i zmienne `var(--mantine-color-…)`,
 inaczej ciemny motyw i zmiana kolorów aplikacji przestają działać (test `frontend/src/test/colors.test.ts`).
 Gdy ekran potrzebuje własnych stylów, użyj pliku CSS Modules w folderze modułu (`<Ekran>.module.css`).
 
-**Dymki po akcjach** (gdy wybrane w dodatkach, „Zasady wspólne” w `SPEC-GENERAL.md`): jedna funkcja
-`notify.success(text)` / `notify.error(text)` w `frontend/src/core/notify.ts` i jej kopia w `mockups/src/common/notify.ts`
-(w makietach dopisz `<Notifications />` i `import '@mantine/notifications/styles.css'` w `main.tsx`). Zawsze
-`notifications.show` z Mantine: sukces zielony z ikoną `Check`, błąd czerwony z ikoną `X`, teksty z kluczy i18n, błąd
-zostaje dłużej. Dymek po udanym zapisie, usunięciu, wysłaniu i przy błędzie serwera; błędy pól formularza pod polem,
-nie w dymku; potwierdzenie usunięcia w oknie. Funkcja ma test.
+**Dymki po akcjach** (zawsze, chyba że użytkownik zdecydował inaczej w „Zasadach wspólnych” `SPEC-GENERAL.md`):
+`notify.success(t(...))` / `notify.error(t(...))` z `frontend/src/core/notify.ts` (w makietach
+`mockups/src/common/notify.ts`). Dymek po udanym zapisie, usunięciu, wysłaniu i przy błędzie serwera; błędy pól
+formularza pod polem, nie w dymku; potwierdzenie usunięcia w oknie. Nie wołaj `notifications.show` w modułach.
 
 **Ikony:** tylko Lucide (`lucide-react`, nazwy ze strony https://lucide.dev/icons/), żadnej innej paczki ikon. Na ekranach
-importujesz je wprost: `import { CalendarDays } from 'lucide-react'`. Ikona pozycji nawigacji: nazwa z Lucide w polu
+importujesz je wprost: `import { CalendarDays } from 'lucide-react'`. **Przyciski akcji mają ikonę** z `ButtonIcon`:
+`<Button leftSection={<ButtonIcon action="save" />}>` (Zapisz = dyskietka, Usuń = kosz, pełna lista w `DESIGN.md`).
+Nowa akcja: dopisz ją do `BUTTON_ICONS` we froncie i w makietach oraz do tabeli w `DESIGN.md`. Ikona pozycji nawigacji: nazwa z Lucide w polu
 `icon` w `navigation.config.ts` (np. `'calendar-days'`) i ta sama nazwa dopisana do `NAV_ICONS` w
 `frontend/src/common/icons.tsx` **i** `mockups/src/common/icons.tsx` (test pilnuje, że każda jest na liście).
 
@@ -70,6 +110,22 @@ importujesz je wprost: `import { CalendarDays } from 'lucide-react'`. Ikona pozy
 - `.env` tylko na hasła i ustawienia zależne od komputera (porty, adresy). Wszystko inne to stałe w kodzie:
   `shared/src/constants/`, `backend/src/config/constants.ts`, `frontend/src/config/constants.ts`.
 
+## Daty i święta
+
+- **Wyświetlanie tylko przez `@app/shared`:** `formatDate`, `formatDateTime`, `formatTime` (backend: e-maile, Excel,
+  PDF) i `<DateText value={...} withTime? dimmed? />` na ekranach. Format `DD.MM.RRRR`, z godziną `DD.MM.RRRR GG:MM`
+  w strefie `Europe/Warsaw`. Nigdy `toLocaleDateString`, `Intl.DateTimeFormat` ani składania z `getMonth()` (test
+  `dates.test.ts`); przeglądarka po angielsku pokazałaby `8/3/2026`.
+- **Kolumna `DATE`** (dzień bez godziny: urlop, termin) przychodzi z bazy jako tekst `RRRR-MM-DD` (`dateStrings` w
+  `backend/src/db/pool.ts`) i tak idzie w API i w schematach zod (`z.iso.date()`). **`DATETIME`** (chwila: utworzono,
+  wysłano) jako `Date`, w JSON tekst ISO.
+- Obliczenia na datach: `dayjs` z `@app/shared` (`dayjs(a).add(1, 'day')`), dzisiaj: `todayIsoDate()`.
+- **Dni robocze i święta:** `getPolishHolidays(rok)` (z nazwą: `translateKey(t, holiday.label)`), `isHoliday`,
+  `isWorkingDay`, `countWorkingDays(od, do)` z `@app/shared`. Jedna funkcja dla frontu i backendu, więc liczba dni
+  urlopu wszędzie wychodzi ta sama. Nowe święto ustawowe: wpis w `FIXED_HOLIDAYS` z `fromYear`.
+- Moduł urlopów lub czasu pracy: zapytaj w makiecie, jak firma oddaje dzień wolny za święto w sobotę (Kodeks pracy
+  tego wymaga; `countWorkingDays` tego nie liczy).
+
 ## Teksty
 
 - Żaden tekst dla człowieka nie jest wpisany w kod. Klucz `<module>.<ekran>.<element>`, np. `orders.list.empty`.
@@ -82,6 +138,16 @@ importujesz je wprost: `import { CalendarDays } from 'lucide-react'`. Ikona pozy
 - Nowy język: skopiuj `shared/locales/pl/` do `shared/locales/en/`, przetłumacz wartości, dopisz `en` w `resources`.
 
 ## API i bezpieczeństwo
+
+**Serwer jest jedynym źródłem prawdy.** Front może być zmieniony przez każdego, kto otworzy narzędzia przeglądarki,
+więc backend sprawdza wszystko sam, nawet jeśli formularz już to sprawdził:
+- kto: zawsze `req.user` (z bazy), nigdy `userId`, `role`, `companyId`, `createdBy` z treści żądania;
+- co wolno: rola i właściciel rekordu sprawdzane przy każdej trasie, także przy odczycie pojedynczego rekordu po `id`;
+- co zapisać: tylko pola ze schematu zod (zod po cichu usuwa nieznane pola; nie używaj `.passthrough()` ani
+  `.loose()`; `validateBody` podmienia `req.body` na dane po sprawdzeniu), a wartości wyliczane (cena, suma, status po akcji, liczba dni urlopu, data utworzenia) liczy serwer,
+  nawet gdy front wysłał swoją;
+- przejścia statusów (np. „wysłane” nie wraca do „nowe”) i limity (np. dni urlopu) sprawdza serwer, a front tylko
+  ukrywa niedostępne przyciski.
 
 - **Domyślnie zamknięte.** W `backend/src/app.ts` są dwie części: trasy publiczne (przed `api.use(requireAuth)`) i cała
   reszta, która wymaga logowania. Publiczne są **tylko** adresy oznaczone tak w „Mapie dostępu” w `SPEC-GENERAL.md`
@@ -102,6 +168,31 @@ importujesz je wprost: `import { CalendarDays } from 'lucide-react'`. Ikona pozy
   z danymi od użytkownika.
 - Kilka zapisów, które muszą się udać razem: transakcja (`const conn = await pool.getConnection();
   await conn.beginTransaction(); … await conn.commit()` / `rollback()` / `conn.release()`).
+
+## Powiązania między modułami
+
+Moduły jednej aplikacji korzystają ze swoich danych: zadania pokazują, że osoba będzie na urlopie, pulpit zbiera
+boksy z modułów, kalendarz pokazuje urlopy, wydarzenia i zadania naraz. Zasady:
+- Powiązania są w `SPEC.md` modułu, sekcja „Powiązania”: co ten moduł pokazuje z innych i co inne pokazują z niego.
+- Moduł sięga po dane innego modułu przez jego funkcję (`<module>.service.ts` albo `<module>.queries.ts`, eksport
+  nazwany np. `getAbsences(userIds, from, to)`), nie przez własne zapytania do cudzych tabel.
+- Uprawnienia zostają: kto ma dostęp do zadań, a nie do urlopów, widzi tylko „nieobecny 12–16.11”, bez rodzaju
+  urlopu, powodu i dokumentów. Funkcja dla innych modułów zwraca tylko te pola.
+- Gdy moduł dochodzi później (np. zadania po urlopach), jego makieta pokazuje powiązania ze zrobionymi modułami,
+  a te dostają drobną zmianę (np. boks na pulpicie) jako osobny krok planu z testem.
+
+## Na żywo (WebSocket)
+
+Tylko gdy moduł naprawdę tego potrzebuje (czat, powiadomienie w chwili zdarzenia). Licznik nowych rzeczy odświeżany co
+kilkanaście sekund nie potrzebuje WebSocketu. Biblioteka: `socket.io`.
+- WebSocket **omija** `requireAuth`, `mountModule` i `requireRole`. Przy połączeniu sprawdź ciasteczko logowania tak
+  jak `authenticate` (token, potem konto w bazie, bez zarchiwizowanych); bez konta rozłącz.
+- Każde zdarzenie od klienta sprawdza uprawnienia (czy ta osoba należy do tej rozmowy) i dane (schemat zod).
+- Zapis idzie zwykłą trasą API (`validateBody`, testy 401/403), a WebSocket tylko powiadamia innych („nowa wiadomość
+  w rozmowie 5”), żeby pobrali ją przez API.
+- Ścieżka pod `/api`, żeby Caddy i Vite przekazały ją do backendu bez zmian w `Caddyfile`:
+  `new Server(httpServer, { path: '/api/socket.io' })` i `io({ path: '/api/socket.io' })`; w `frontend/vite.config.ts`
+  proxy `/api` dostaje `ws: true`.
 
 ## Baza danych
 
@@ -227,5 +318,10 @@ Używaj jej, gdy nie ma `superpowers:requesting-code-review`:
 - [ ] każda relacja ma klucz obcy z regułą zgodną ze specem
 - [ ] brak polskich tekstów i liczb „z ręki” w kodzie
 - [ ] te same schematy zod na froncie i w backendzie
+- [ ] backend nie bierze z żądania właściciela, roli, firmy ani wartości wyliczanych; sprawdza przejścia statusów
+- [ ] daty przez `formatDate` / `DateText`, dni robocze przez `countWorkingDays`; tabele w `Table.ScrollContainer`
+- [ ] przyciski akcji z `ButtonIcon`, dymki przez `notify`
+- [ ] nowe biblioteki tylko z listy zatwierdzonej albo ze zgodą użytkownika (zapisane w `SPEC-GENERAL.md`)
+- [ ] dane z innych modułów przez ich funkcje, z polami dozwolonymi dla roli
 - [ ] testy dla każdej trasy i formularza, `npm run check` zielony
 - [ ] `.env` nie jest w repo (`git check-ignore .env`)

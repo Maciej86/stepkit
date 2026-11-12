@@ -1,7 +1,7 @@
 import { NavLink } from '@mantine/core';
 import { NavLink as RouterLink, useLocation } from 'react-router';
 import { useTranslation } from 'react-i18next';
-import { translateKey, visibleNav, type NavItem, type SessionUser } from '@app/shared';
+import { activeNavKey, flattenNav, translateKey, visibleNav, type NavItem, type SessionUser } from '@app/shared';
 import { NavIcon } from './icons';
 
 interface Props {
@@ -12,6 +12,8 @@ interface Props {
 export function NavMenu({ items, user }: Props) {
   const { t } = useTranslation();
   const { pathname } = useLocation();
+  const visible = visibleNav(items, user);
+  const activeKey = activeNavKey(flattenNav(visible), pathname);
   const render = (list: NavItem[]) =>
     list.map((item) => (
       <NavLink
@@ -21,11 +23,11 @@ export function NavMenu({ items, user }: Props) {
         end
         label={translateKey(t, item.label)}
         leftSection={<NavIcon name={item.icon} />}
-        active={pathname === item.path}
+        active={item.key === activeKey}
         defaultOpened={item.children?.some((c) => pathname.startsWith(c.path))}
       >
         {item.children ? render(item.children) : undefined}
       </NavLink>
     ));
-  return <>{render(visibleNav(items, user))}</>;
+  return <>{render(visible)}</>;
 }

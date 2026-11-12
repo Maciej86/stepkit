@@ -13,6 +13,7 @@ import {
   flattenNav,
   isRole,
   rolesFor,
+  activeNavKey,
   visibleNav,
   type NavItem,
   type SessionUser,
@@ -135,5 +136,39 @@ describe('rolesFor', () => {
 
   it('returns null for a key that is not in the navigation', () => {
     expect(rolesFor('missing', [item('p', ['admin'])])).toBeNull();
+  });
+});
+
+describe('activeNavKey', () => {
+  const items = [
+    { key: 'dashboard', path: '/admin' },
+    { key: 'orders', path: '/admin/orders' },
+    { key: 'order-reports', path: '/admin/orders-reports' },
+  ];
+
+  it('highlights the exact item', () => {
+    expect(activeNavKey(items, '/admin')).toBe('dashboard');
+    expect(activeNavKey(items, '/admin/orders')).toBe('orders');
+  });
+
+  it('highlights the module on its subpages, not the dashboard', () => {
+    expect(activeNavKey(items, '/admin/orders/5')).toBe('orders');
+    expect(activeNavKey(items, '/admin/orders/5/edit')).toBe('orders');
+  });
+
+  it('does not mix up paths that only share a prefix', () => {
+    expect(activeNavKey(items, '/admin/orders-reports')).toBe('order-reports');
+    expect(activeNavKey(items, '/admin/settings')).toBe('dashboard');
+  });
+
+  it('returns null outside the menu', () => {
+    expect(activeNavKey(items, '/login')).toBeNull();
+  });
+
+  it('highlights the public home page only on itself', () => {
+    const pub = [{ key: 'home', path: '/' }, { key: 'pricing', path: '/pricing' }];
+    expect(activeNavKey(pub, '/')).toBe('home');
+    expect(activeNavKey(pub, '/pricing')).toBe('pricing');
+    expect(activeNavKey(pub, '/login')).toBeNull();
   });
 });

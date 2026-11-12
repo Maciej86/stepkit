@@ -9,9 +9,10 @@ na początku treści skilla jako „Base directory for this skill”).
 
 1. Folder projektu musi być pusty albo zawierać tylko ukryte pliki (np. `.git`). Jeśli są inne pliki, zapytaj, czy na
    pewno to ten folder. **Nigdy nie nadpisuj istniejących plików użytkownika.**
-2. Skopiuj szablon bez `node_modules` i `dist`:
+2. Skopiuj szablon bez `node_modules`, `dist` i `package-lock.json` (projekt dostanie najnowsze poprawki bibliotek
+   w ramach wersji z `package.json`, np. Mantine 9.x, a nie te z dnia, w którym powstał szablon):
    ```bash
-   tar -C "<ścieżka do template>" --exclude=node_modules --exclude=dist --exclude=test-results -cf - . | tar -xf -
+   tar -C "<ścieżka do template>" --exclude=node_modules --exclude=dist --exclude=test-results --exclude=package-lock.json -cf - . | tar -xf -
    ```
 3. Zmień `"name"` w głównym `package.json` na nazwę projektu (małe litery, myślniki).
 4. `.env` z losowymi sekretami, **bez wypisywania ich** (hasła nie mogą pojawić się w rozmowie):
@@ -22,7 +23,12 @@ na początku treści skilla jako „Base directory for this skill”).
    Nie wyświetlaj potem zawartości `.env` (`cat .env` itp.).
 5. `npm install` (powiedz: „Pobieram biblioteki, to potrwa kilka minut za pierwszym razem.”).
 6. `npx playwright install chromium` (powiedz: „Pobieram przeglądarkę do testów, jednorazowo.”).
-7. `npm run check` musi przejść.
+7. `npm run check` musi przejść. Gdy nie przechodzi, a błąd pochodzi z nowszej wersji biblioteki (kod szablonu bez
+   zmian, błąd w typach lub testach komponentów Mantine, React, routera): wróć do sprawdzonych wersji szablonu,
+   `cp "<ścieżka do template>/package-lock.json" . && rm -rf node_modules && npm ci`, i `npm run check` jeszcze raz.
+   Zapisz w `docs/STATUS.md` („Ostatnie decyzje”), że projekt jest na wersjach z szablonu. Od teraz `package-lock.json`
+   projektu trafia do repo i trzyma wersje stałe przez całą budowę; podnoszenie bibliotek tylko świadomie
+   (aktualizacja stepkit albo prośba użytkownika), z `npm run check`.
 8. Porty: jeśli `npm run dev` zgłosi, że port jest zajęty (`Port 5173 is in use`), odkomentuj w `.env` odpowiednią
    linię (`FRONTEND_PORT`, `MOCKUPS_PORT`, `PHPMYADMIN_PORT`, `PORT`) z innym numerem. Gdy zmieniasz
    `FRONTEND_PORT`, zmień też port w `FRONTEND_URL` (serwer używa go w linkach w e-mailach). Sprawdź wolne porty od

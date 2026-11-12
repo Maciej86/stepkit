@@ -28,7 +28,7 @@ export function AccountLayout() {
           </Group>
         </Group>
       </AppShell.Header>
-      <AppShell.Main>
+      <AppShell.Main bg="var(--app-panel-background)">
         <Outlet />
       </AppShell.Main>
     </AppShell>

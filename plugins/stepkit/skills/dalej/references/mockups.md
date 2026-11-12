@@ -32,7 +32,9 @@ Makieta to pierwsze, co użytkownik widzi, więc ma wyglądać jak dopracowany p
    liście skilli → **nie rób makiety** (żadnych plików w `mockups/`, nawet „wstępnej”). Napisz: „Do makiety potrzebuję
    dodatku frontend-design, dzięki niemu ekrany będą wyglądać jak dopracowany produkt. Wpisz w Claude Code
    `/plugin install frontend-design@claude-plugins-official`, zamknij i otwórz Claude Code ponownie, a potem w nowej
-   rozmowie wpisz `/stepkit:dalej`.” (w kroku 6 startu: `/stepkit:start`) i zakończ.
+   rozmowie wpisz `/stepkit:dalej`.” (w kroku 6 startu: `/stepkit:start`) i zakończ. Jest, ale zainstalowana wersja
+   jest starsza niż w pliku marketplace („Aktualność frontend-design” w `../../start/references/install-windows.md`;
+   tu bez prośby o `/plugin marketplace update`) → poproś o aktualizację i nie rób makiety przed nią.
 2. **Jeden wygląd dla makiet i prawdziwej aplikacji:** `shared/src/theme.ts` (motyw Mantine: kolory, czcionki,
    zaokrąglenia, wygląd komponentów) i `shared/src/theme.css` (import czcionek, style globalne). Oba miejsca czytają
    je same; nie ustawiaj wyglądu osobno w `mockups/` ani we `frontend/`. **Kolory tylko z motywu:** w ekranach kolory
@@ -43,7 +45,10 @@ Makieta to pierwsze, co użytkownik widzi, więc ma wyglądać jak dopracowany p
    prosty i neutralny, a frontend-design służy do dobrego układu ekranów.
    **Przełącznik jasny/ciemny** (`COLOR_SCHEME_TOGGLE` w `shared/src/theme.ts`): włączony → kolory czytelne na jasnym
    i ciemnym tle, przełącznik pojawia się sam w pasku makiety i w nagłówku konta i panelu; obejrzyj ekrany w obu.
-4. **W modułach** najpierw przeczytaj `docs/DESIGN.md` i używaj opisanych tam wzorców; `frontend-design` służy do
+4. **W modułach** najpierw przeczytaj `docs/DESIGN.md` i używaj opisanych tam wzorców oraz klocków z
+   `mockups/src/common/` (`InfoCard`, `PageSection`, `ButtonIcon`, `DateText`, `notify`; tabele w
+   `Table.ScrollContainer`). Ekrany modułu, który ma „Powiązania” (`code-conventions.md`), pokazują dane z tamtych
+   modułów (np. znacznik „na urlopie” przy zadaniu), a w pytaniach makiety jest pytanie o te powiązania; `frontend-design` służy do
    dobrego układu ekranu, nie do zmiany stylu. Prośby o zmianę wyglądu: `appearance.md`, „Zmiany wyglądu w późniejszych
    modułach” (ten ekran / cała aplikacja / nowy wzorzec).
 5. **Wersja na telefon** (dodatek: „Dodatki” w `OVERVIEW.md`, potem „Zasady wspólne” w `SPEC-GENERAL.md`): projektuj ekrany konta i panelu najpierw pod

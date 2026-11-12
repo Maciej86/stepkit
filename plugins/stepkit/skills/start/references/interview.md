@@ -17,6 +17,32 @@ pytanie o pierwszą brakującą rzecz, np.:
 
 Powtarzaj, aż opis ma te trzy rzeczy. Potem jednym zdaniem streść, co zrozumiałeś, i przejdź do wywiadu.
 
+### Zakres stepkit
+
+stepkit buduje **aplikacje do pracy z danymi**: ludzie wpisują, przeglądają, zatwierdzają i zestawiają informacje
+(panel firmy, konto klienta, strona dla odwiedzających). Do tego są wzorce, testy i wygląd w szablonie.
+
+Poza zakresem (jako **cała** aplikacja): edytor grafiki, wideo albo dźwięku, gra, aplikacja do pobrania ze sklepu
+albo instalowana na komputerze, sklep z setkami produktów i płatnościami (lepiej gotowa platforma), serwis
+z milionami odwiedzających, komunikator jako główny produkt. Gdy opis wygląda na taki projekt, powiedz to uczciwie,
+zanim zaczniesz wywiad:
+
+> „To, co opisujesz, to głównie <edytor grafiki>. stepkit najlepiej buduje aplikacje do zbierania i porządkowania
+> danych, a <edytor> potrzebuje innych narzędzi i innego sposobu pracy. Mogę zbudować część z danymi (np. konta,
+> projekty klientów, zamówienia), a edytor zostawić jako osobny moduł z dodatkową biblioteką, albo możemy tu skończyć.
+> Co wybierasz?”
+
+Pojedynczy moduł spoza zakresu w aplikacji z danymi (np. przycinanie zdjęcia, czat pracowników, prosty edytor
+grafiki) jest w porządku: zapisz go w podsumowaniu jako moduł z dodatkową biblioteką (`code-conventions.md`,
+„Biblioteki”).
+
+### „Na wzór …”
+
+Gdy użytkownik pisze, że chce coś „jak Asana”, „na wzór Booksy”: zapytaj (albo zgadnij z opisu i potwierdź), co mu
+się tam podoba (układ, sposób pracy, konkretna funkcja), i zapisz to w podsumowaniu jako inspirację. Budujemy
+podobnie, nie identycznie: bez nazwy, logo, kolorów i tekstów tamtej aplikacji, tylko z tym, co pasuje do jego
+potrzeb. Pozostałe funkcje tamtej aplikacji nie wchodzą same; najwyżej do `docs/IDEAS.md`.
+
 ## Krok 4: wywiad
 
 Zasady (zawsze):
@@ -116,7 +142,6 @@ w `docs/IDEAS.md` ze statusem `pomysł`.
 
 | Dodatek | Proponuj, gdy | Po co (dla użytkownika) | Gdzie trafia |
 |---|---|---|---|
-| Dymki po akcjach | prawie zawsze | po „Zapisz”, „Usuń”, „Wyślij” widać, że się udało | zasady wspólne |
 | Wyszukiwarka, filtry, sortowanie list | są listy, które urosną | szybko znajdziesz osobę, wniosek, klienta | zasady wspólne |
 | Stronicowanie list | setki wierszy | długie listy nie zwalniają | zasady wspólne |
 | Wygodna wersja na telefon | ktoś będzie używał głównie telefonu | ekrany projektowane pod kciuk | zasady wspólne (wpływa na makiety) |

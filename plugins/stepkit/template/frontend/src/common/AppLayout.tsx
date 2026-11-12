@@ -26,7 +26,7 @@ export function AppLayout() {
       <AppShell.Navbar p="xs">
         <NavMenu items={NAVIGATION} user={user} />
       </AppShell.Navbar>
-      <AppShell.Main>
+      <AppShell.Main bg="var(--app-panel-background)">
         <Outlet />
       </AppShell.Main>
     </AppShell>

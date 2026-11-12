@@ -12,4 +12,7 @@ export const pool = mysql.createPool({
   connectionLimit: 10,
   namedPlaceholders: false,
   charset: 'utf8mb4',
+  // Kolumny DATE jako tekst RRRR-MM-DD: bez tego mysql2 robi z nich północ czasu serwera, a po zamianie na JSON
+  // dzień potrafi przesunąć się o jeden wstecz. Formatowanie: formatDate z @app/shared.
+  dateStrings: ['DATE'],
 });

@@ -68,6 +68,19 @@ Po instalacji: „Zamknij i otwórz Claude Code ponownie.” Sprawdzenie Playwri
 (lub podobne `mcp__…playwright…`). Sprawdzenie superpowers: czy widzisz skill `superpowers:writing-plans`. Sprawdzenie frontend-design: czy widzisz skill
 `frontend-design` (albo `frontend-design:frontend-design`).
 
+**Aktualność frontend-design** (sprawdzasz w kroku 1 i przed każdą makietą, `mockups.md`): porównaj `version`
+z dwóch plików w katalogu domowym (Windows: `%USERPROFILE%\.claude\…`, macOS i Linux: `~/.claude/…`):
+- zainstalowana: `.claude/plugins/installed_plugins.json`, wpis `frontend-design@claude-plugins-official`;
+- najnowsza znana: `.claude/plugins/marketplaces/claude-plugins-official/plugins/frontend-design/.claude-plugin/plugin.json`.
+
+W kroku 1 najpierw poproś o odświeżenie listy dodatków: „Wpisz w Claude Code
+`/plugin marketplace update claude-plugins-official`, a potem `/reload-plugins`.” (to także aktualizuje
+zainstalowane dodatki z tego źródła). Potem porównaj. Zainstalowana starsza → **nie idź dalej**: „Masz starszą wersję
+dodatku frontend-design (X), a dostępna jest Y. Nowsza lepiej projektuje ekrany. Wpisz
+`/plugin install frontend-design@claude-plugins-official`, zamknij i otwórz Claude Code ponownie.” Po restarcie
+porównaj jeszcze raz. Nie da się odczytać plików (inna instalacja, brak internetu) → powiedz jednym zdaniem, że nie
+udało się sprawdzić wersji, i idź dalej.
+
 Gdy superpowers nie da się zainstalować: zapisz w `docs/STATUS.md` w „Ostatnie decyzje” „superpowers niedostępny:
 pracujemy na wzorach stepkit” i idź dalej. Bez Playwright i bez frontend-design nie idź dalej.
 

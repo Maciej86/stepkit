@@ -1,5 +1,6 @@
 import { Badge, Code, List, Stack, Table, Text, ThemeIcon, Title } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
+import { TABLE_MIN_WIDTH } from '@app/shared';
 import statusText from '../../../docs/STATUS.md?raw';
 import { parseStatus, type ModuleStatus } from './parseStatus';
 
@@ -47,30 +48,32 @@ export function ProgressPage({ source = statusText }: { source?: string }) {
       {modules.length === 0 ? (
         <Text c="dimmed">{t('mockup.no_modules')}</Text>
       ) : (
-        <Table striped>
-          <Table.Thead>
-            <Table.Tr>
-              <Table.Th>{t('mockup.col_number')}</Table.Th>
-              <Table.Th>{t('mockup.col_module')}</Table.Th>
-              <Table.Th>{t('mockup.col_status')}</Table.Th>
-              <Table.Th>{t('mockup.col_stage')}</Table.Th>
-              <Table.Th>{t('mockup.col_depends')}</Table.Th>
-            </Table.Tr>
-          </Table.Thead>
-          <Table.Tbody>
-            {modules.map((m) => (
-              <Table.Tr key={m.number}>
-                <Table.Td>{m.number}</Table.Td>
-                <Table.Td>{m.name}</Table.Td>
-                <Table.Td>
-                  <Badge color={COLORS[m.status]}>{m.status}</Badge>
-                </Table.Td>
-                <Table.Td>{m.stage}</Table.Td>
-                <Table.Td>{m.dependsOn.join(', ') || '—'}</Table.Td>
+        <Table.ScrollContainer minWidth={TABLE_MIN_WIDTH}>
+          <Table striped>
+            <Table.Thead>
+              <Table.Tr>
+                <Table.Th>{t('mockup.col_number')}</Table.Th>
+                <Table.Th>{t('mockup.col_module')}</Table.Th>
+                <Table.Th>{t('mockup.col_status')}</Table.Th>
+                <Table.Th>{t('mockup.col_stage')}</Table.Th>
+                <Table.Th>{t('mockup.col_depends')}</Table.Th>
               </Table.Tr>
-            ))}
-          </Table.Tbody>
-        </Table>
+            </Table.Thead>
+            <Table.Tbody>
+              {modules.map((m) => (
+                <Table.Tr key={m.number}>
+                  <Table.Td>{m.number}</Table.Td>
+                  <Table.Td>{m.name}</Table.Td>
+                  <Table.Td>
+                    <Badge color={COLORS[m.status]}>{m.status}</Badge>
+                  </Table.Td>
+                  <Table.Td>{m.stage}</Table.Td>
+                  <Table.Td>{m.dependsOn.join(', ') || '—'}</Table.Td>
+                </Table.Tr>
+              ))}
+            </Table.Tbody>
+          </Table>
+        </Table.ScrollContainer>
       )}
     </Stack>
   );

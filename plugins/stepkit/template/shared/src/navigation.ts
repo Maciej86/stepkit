@@ -65,3 +65,16 @@ export function rolesFor(key: string, items: NavItem[]): Role[] | null {
   if (!found) return null;
   return [...new Set(flattenNav([found]).flatMap((item) => item.roles))];
 }
+
+/**
+ * Klucz pozycji menu, która ma być podświetlona dla adresu `pathname`: ta, której adres jest równy albo jest początkiem
+ * bieżącego (`/admin/orders` dla `/admin/orders/5`). Wygrywa najdłuższy, więc „Pulpit” pod `/admin` nie świeci
+ * na każdej podstronie panelu.
+ */
+export function activeNavKey(items: { key: string; path: string }[], pathname: string): string | null {
+  const matches = items.filter(
+    (item) => pathname === item.path || (item.path !== '/' && pathname.startsWith(`${item.path}/`)),
+  );
+  if (matches.length === 0) return null;
+  return matches.reduce((best, item) => (item.path.length > best.path.length ? item : best)).key;
+}

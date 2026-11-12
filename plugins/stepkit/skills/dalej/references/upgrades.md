@@ -1,6 +1,6 @@
 # Aktualizacja projektu do nowej wersji stepkit
 
-**Aktualna wersja stepkit:** 0.1.15
+**Aktualna wersja stepkit:** 0.1.16
 
 Szablon kopiuje się do projektu tylko raz, przy `/stepkit:start`. Gdy stepkit się zmienia, starsze projekty nie mają
 nowych plików, a nowe zasady o nich mówią. Ten plik mówi, co przenieść.
@@ -102,3 +102,43 @@ Wersję projektu podaje linia `**Wersja stepkit:** X.Y.Z` w `docs/STATUS.md`. Br
 - Dopisz „Mapę dostępu” do `SPEC-GENERAL.md` (strony z nawigacji, trasy istniejących modułów); co do stron dla
   odwiedzających zaproponuj podział publiczne / po zalogowaniu i poproś o potwierdzenie.
 - Moduł Logowanie zrobiony: `authenticate` z aktualną rolą z bazy (`code-conventions.md`, „Moduł Logowanie”) z testami.
+
+## 0.1.16: daty i święta, wzorce startowe wyglądu, menu, zasady serwera i bibliotek
+
+Daty i święta:
+- Nowe pliki: `shared/src/constants/dates.ts`, `shared/src/constants/ui.ts`, `shared/src/date.ts`,
+  `shared/src/holidays.ts` z testami (`date.test.ts`, `holidays.test.ts`). **Połącz** `shared/src/index.ts` (eksport
+  `./date` i `./holidays`), `shared/src/constants/index.ts` (`./dates`, `./ui`), `shared/package.json` (`dayjs`),
+  `shared/locales/pl/common.json` (klucze `empty_value` i `holidays`), potem `npm install`.
+- **Połącz** `frontend/src/config/constants.ts`: `NOTIFICATION_AUTOCLOSE_MS` z `@app/shared` (usuń lokalną liczbę).
+- **Połącz** `backend/src/db/pool.ts`: `dateStrings: ['DATE']`. Potem przejrzyj moduły: kod, który z kolumny `DATE`
+  dostawał `Date` (np. `.toISOString()`, `new Date(row.start_date)`), dostaje teraz tekst `RRRR-MM-DD`; popraw go
+  i testy.
+- Nowe pliki `frontend/src/common/DateText.tsx` i `mockups/src/common/DateText.tsx` (z testami) oraz
+  `frontend/src/test/dates.test.ts`. Gdy test znajdzie w modułach własne formatowanie dat (`toLocaleDateString`,
+  `getMonth()` …), zamień je na `formatDate` / `DateText`; własne listy świąt zamień na `getPolishHolidays`.
+
+Wygląd i menu:
+- Nowe pliki w `frontend/src/common/` i `mockups/src/common/`: `InfoCard.tsx`, `PageSection.tsx`, `ButtonIcon.tsx`;
+  `frontend/src/core/notify.ts` i `mockups/src/common/notify.ts` z testami (jeśli projekt ma już `notify.ts`, zostaw
+  jego, dopisz tylko brakujące stałe i test); testy `tables.test.ts` w `frontend/src/test/` i `mockups/src/test/`.
+- **Połącz** `mockups/src/main.tsx`: `<Notifications />` i `import '@mantine/notifications/styles.css'`.
+- **Połącz** `shared/src/navigation.ts` (funkcja `activeNavKey`) i jej testy; `frontend/src/common/NavMenu.tsx`
+  i `mockups/src/Shell.tsx`: `active={item.key === activeKey}` zamiast `pathname === item.path`.
+- **Połącz** `shared/src/theme.css` (zmienna `--app-panel-background`), `AppShell.Main` w `AppLayout.tsx`,
+  `AccountLayout.tsx` i `mockups/src/Shell.tsx` z tym tłem.
+- **Połącz** `frontend/src/common/PublicLayout.tsx`: `padding={0}` i podświetlona bieżąca podstrona. Ekrany strony dla
+  odwiedzających, które liczyły na odstęp od brzegu, owiń w `PageSection`.
+- Gdy `tables.test.ts` znajdzie tabelę bez `Table.ScrollContainer`, owiń ją.
+- **Połącz** `docs/DESIGN.md`: sekcje „Układ”, wiersze „Wzorce” oznaczone „szablon”, „Ikony przycisków”. Jeśli wygląd
+  jest już ustalony i różni się od wzorców startowych (np. menu u góry), zostaw ustalenie projektu i zapytaj
+  użytkownika tylko o różnice.
+
+Nowe projekty (bez zmian w istniejących): `/stepkit:start` nie kopiuje już `package-lock.json` szablonu, tylko
+instaluje najnowsze poprawki bibliotek w ramach wersji z `package.json`.
+
+Zasady (bez zmian w kodzie, chyba że przegląd coś znajdzie):
+- Dopisz do `SPEC-GENERAL.md` sekcję „Biblioteki” (paczki spoza szablonu, które projekt już ma, z modułem).
+- Przejrzyj trasy zrobionych modułów pod kątem „Serwer jest jedynym źródłem prawdy” (`code-conventions.md`): pola
+  właściciela, roli, firmy i wartości wyliczane brane z żądania popraw, z testem.
+- Moduły zależne od siebie: dopisz „Powiązania” do ich `SPEC.md` przy następnej pracy nad nimi.

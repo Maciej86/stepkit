@@ -7,6 +7,8 @@ import { VariantSwitch } from './appearance/ThemeVariants';
 import { NavLink as RouterLink, useLocation, useNavigate } from 'react-router';
 import { useTranslation } from 'react-i18next';
 import {
+  activeNavKey,
+  flattenNav,
   ROLE_HOME,
   ROLE_LABELS,
   ROLES,
@@ -46,6 +48,8 @@ interface Props {
 function MenuLinks({ items, role }: { items: NavItem[]; role: Role }) {
   const { t } = useTranslation();
   const { pathname } = useLocation();
+  const visible = visibleNav(items, { id: 0, name: 'Makieta', role });
+  const activeKey = activeNavKey(flattenNav(visible), pathname);
   const render = (list: NavItem[]): ReactNode =>
     list.map((item) => (
       <NavLink
@@ -55,12 +59,12 @@ function MenuLinks({ items, role }: { items: NavItem[]; role: Role }) {
         end
         label={translateKey(t, item.label)}
         leftSection={<NavIcon name={item.icon} />}
-        active={pathname === item.path}
+        active={item.key === activeKey}
       >
         {item.children ? render(item.children) : undefined}
       </NavLink>
     ));
-  return <>{render(visibleNav(items, { id: 0, name: 'Makieta', role }))}</>;
+  return <>{render(visible)}</>;
 }
 
 function ProgressLink() {
@@ -118,13 +122,13 @@ export function Shell({ areas, navigation, accountNavigation, publicNavigation, 
       <AppShell.Navbar p="xs">
         {current === 'public' &&
           publicNavigation.map((item) => (
-            <NavLink key={item.key} component={RouterLink} to={item.path} label={translateKey(t, item.label)} active={pathname === item.path} />
+            <NavLink key={item.key} component={RouterLink} to={item.path} label={translateKey(t, item.label)} active={item.key === activeNavKey(publicNavigation, pathname)} />
           ))}
         {current === 'account' && <MenuLinks items={accountNavigation} role={role} />}
         {(current === 'admin' || current === null) && <MenuLinks items={navigation} role={role} />}
         <ProgressLink />
       </AppShell.Navbar>
-      <AppShell.Main>{children}</AppShell.Main>
+      <AppShell.Main bg={current === 'public' ? undefined : 'var(--app-panel-background)'}>{children}</AppShell.Main>
     </AppShell>
   );
 }

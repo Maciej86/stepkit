@@ -23,7 +23,11 @@ czym stanęliście.
    `headings`, `defaultRadius`, wygląd komponentów) w `THEME_VARIANTS`; czcionki wariantów w
    `mockups/src/appearance/variants.css`.
 3. Warianty pokazują się na **prawdziwych ekranach makiety** (przełącznik „Wariant wyglądu” w pasku). Zadbaj, żeby
-   makieta ogólna miała co najmniej: listę w tabeli, formularz, ekran z liczbami albo statusami.
+   makieta ogólna miała co najmniej: pulpit z boksami (`InfoCard`), listę w tabeli, formularz z przyciskami z ikonami,
+   a przy stronie dla odwiedzających stronę główną z nagłówkiem ze zdjęciem i sekcjami (`PageSection`).
+   Wzorce startowe z `docs/DESIGN.md` (układ, boksy, ikony przycisków, dymki, tabele) obowiązują we wszystkich
+   wariantach; warianty różnią się kolorem, czcionką, zaokrągleniami i nastrojem. Gdy użytkownik chce inaczej (np.
+   menu u góry zamiast z boku, bez dymków), zapisz to w `DESIGN.md` jako zmianę wzorca startowego.
 4. Powiedz: „Otwórz http://localhost:5174 i przełączaj »Wariant wyglądu« w żółtym pasku. Który kierunek jest
    najbliższy? Możesz mieszać, np. »B, ale kolory z A«.” Przy włączonym przełączniku jasny/ciemny niech obejrzy też
    ciemny motyw.

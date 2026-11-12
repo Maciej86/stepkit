@@ -12,7 +12,7 @@ kolumn, wartości statusów), bo strona „Postęp” go odczytuje. Maks. ok. 60
 ```markdown
 # Stan projektu: Sklep z zamówieniami
 
-**Wersja stepkit:** 0.1.15
+**Wersja stepkit:** 0.1.16
 
 **Następny krok:** Moduł Logowanie, implementacja: krok 3 z 7 (formularz logowania).
 
@@ -101,8 +101,15 @@ Włączona: tak/nie. Zakres. Kto widzi.
 | # | Moduł | Folder | Zależy od | Dlaczego w tej kolejności |
 
 ## 8. Zasady wspólne
-Wzorce opcjonalne (wiele firm, dostęp nadawany), dodatki wybrane dla wszystkich ekranów (np. dymki po akcjach,
-filtry na listach, wersja na telefon), wyjątki od `code-conventions.md`.
+Wzorce opcjonalne (wiele firm, dostęp nadawany), dodatki wybrane dla wszystkich ekranów (np. filtry na listach,
+wersja na telefon), wyjątki od `code-conventions.md` i od wzorców startowych w `DESIGN.md` (np. „bez dymków po
+akcjach”).
+
+### Biblioteki
+Biblioteki spoza szablonu, które weszły do projektu (`code-conventions.md`, „Biblioteki”).
+| Biblioteka | Do czego | Moduł | Zgoda |
+|---|---|---|---|
+| `@mantine/schedule` | kalendarz zespołu | absences | lista zatwierdzona |
 
 ## 9. Ostatnie decyzje (archiwum)
 ```
@@ -134,6 +141,12 @@ Każdy ekran: co widać, kto widzi (rola), akcje, pusta lista, błędy.
 Nowe tabele i kolumny (migracje), relacje z regułą przy usunięciu, archiwum, wpisy historii zmian.
 ## API
 | Metoda i adres | Kto | Dane wejściowe (schemat) | Odpowiedź | Błędy |
+Wartości liczone przez serwer (nie brane z żądania): …
+## Powiązania
+| Z modułem | Co ten moduł pokazuje stamtąd / co tamten pokazuje stąd | Funkcja | Pola widoczne dla roli |
+|---|---|---|---|
+| absences | zadanie przypisane osobie na urlopie ma znacznik „nieobecny 12–16.11” | `getAbsences(userIds, from, to)` | tylko daty, bez rodzaju i powodu |
+| dashboard | boks „Moje zadania na dziś” | `countTodayTasks(userId)` | liczba |
 ## Teksty
 Plik `shared/locales/pl/<module>.json`: najważniejsze klucze.
 ## Poza zakresem

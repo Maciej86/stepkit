@@ -29,7 +29,9 @@ Po każdym kroku odhacz go w `docs/STATUS.md` (`- [x]`) i zaktualizuj „Następ
 
 Zacznij od jednego zdania, czym jest stepkit: „stepkit służy do budowy aplikacji, które działają w internecie, pod
 własnym adresem www (np. twojafirma.pl) i otwiera się je w przeglądarce, także na telefonie. Nie zbudujemy tu aplikacji
-do pobrania ze sklepu (App Store, Google Play) ani programu instalowanego na komputerze.”
+do pobrania ze sklepu (App Store, Google Play) ani programu instalowanego na komputerze. Najlepiej sprawdza się
+w aplikacjach, w których zbiera się i porządkuje dane: panel dla firmy, wnioski, zamówienia, rezerwacje, grafik,
+klienci, zadania, często razem ze stroną dla odwiedzających.”
 
 Zanim cokolwiek sprawdzisz albo zainstalujesz, napisz krótko (ok. 10 linii), co będzie potrzebne i po co. Nacisk:
 **to głównie narzędzia Twojej (Claude'a) pracy**; użytkownik instaluje je raz i nie musi się ich uczyć, a dzięki nim
@@ -58,9 +60,10 @@ komputera, a sprawdzasz tylko narzędzia z listy.
 ## Krok 1: sprawdzenie komputera
 
 Czytasz `references/install-windows.md` albo `references/install-macos.md`. Sprawdzasz po kolei: `node --version`,
-`git --version`, `docker --version` i `docker info`, plugin Playwright, plugin superpowers, plugin frontend-design, opcjonalnie `gh --version`.
+`git --version`, `docker --version` i `docker info`, plugin Playwright, plugin superpowers, plugin frontend-design
+(i jego aktualność: „Aktualność frontend-design” w `install-windows.md`), opcjonalnie `gh --version`.
 Przy brakach prowadzisz po jednym programie. **Nie przechodzisz dalej**, dopóki nie działają Node, Git i Docker oraz nie
-ma pluginów Playwright i frontend-design. Brak superpowers nie blokuje: zapisz w `docs/STATUS.md` („Ostatnie decyzje”),
+ma pluginów Playwright i aktualnego frontend-design. Brak superpowers nie blokuje: zapisz w `docs/STATUS.md` („Ostatnie decyzje”),
 że pracujemy na wzorach stepkit. (`docs/STATUS.md` tworzysz w kroku 2; do tego czasu pamiętaj ustalenia.)
 
 ## Krok 2: szkielet i repo
@@ -74,6 +77,8 @@ Odhacz kroki 1 i 2 w `docs/STATUS.md` (plik pochodzi z szablonu; wpisz nazwę pr
 
 Czytasz `references/interview.md` (część „Krok 3”). Zapytaj: „Opisz własnymi słowami, co chcesz stworzyć. Kto będzie
 z tego korzystał i co ma się dziać?”
+
+Sprawdź też, czy aplikacja mieści się w zakresie stepkit (`references/interview.md`, „Zakres stepkit”).
 
 Opis bywa krótki („chcę zbierać zamówienia”). **Nigdy go nie odrzucaj i nie przechodź z nim dalej.** Zadaj **jedno**
 pytanie o pierwszą brakującą rzecz (kto używa / co się dzieje krok po kroku / jakie dane), poczekaj na odpowiedź,

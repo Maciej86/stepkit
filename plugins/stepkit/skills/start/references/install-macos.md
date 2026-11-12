@@ -52,7 +52,7 @@ Te wpisuje użytkownik **w Claude Code**:
 - **Playwright** (wymagany): `/plugin install playwright@claude-plugins-official`
 - **frontend-design** (wymagany, do wyglądu makiet i aplikacji): `/plugin install frontend-design@claude-plugins-official`
 
-Sprawdzenie i postępowanie przy braku: jak w `install-windows.md`, część 4.
+Sprawdzenie, postępowanie przy braku i aktualność frontend-design: jak w `install-windows.md`, część 4.
 
 ## 5. GitHub CLI (na Macu wymagany do GitHuba)
 
