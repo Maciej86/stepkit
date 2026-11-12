@@ -73,3 +73,13 @@ export function parseStatus(md: string): ParseResult {
   }
   return { ok: true, status: { nextStep, startSteps, modules } };
 }
+
+/**
+ * Nazwy modułów, od których zależy `module`, zamiast nazw folderów (dla osoby, która nie programuje).
+ * `'all'`, gdy zależy od wszystkich pozostałych (np. Publikacja). Nieznany folder zostaje jak jest.
+ */
+export function dependencyNames(module: StatusModule, modules: StatusModule[]): string[] | 'all' {
+  const others = modules.filter((m) => m.folder !== module.folder);
+  if (others.length > 1 && others.every((m) => module.dependsOn.includes(m.folder))) return 'all';
+  return module.dependsOn.map((folder) => modules.find((m) => m.folder === folder)?.name ?? folder);
+}

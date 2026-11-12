@@ -1,4 +1,4 @@
-import { parseStatus } from './parseStatus';
+import { dependencyNames, parseStatus, type StatusModule } from './parseStatus';
 
 const FULL = `# Stan projektu: Sklep
 
@@ -71,5 +71,30 @@ describe('parseStatus', () => {
     const { resolve } = await import('node:path');
     const text = await readFile(resolve(process.cwd(), '../docs/STATUS.md'), 'utf8');
     expect(parseStatus(text).ok).toBe(true);
+  });
+});
+
+describe('dependencyNames', () => {
+  const mod = (number: number, name: string, folder: string, dependsOn: string[] = []): StatusModule => ({
+    number, name, folder, status: 'czeka', stage: 'makieta', dependsOn,
+  });
+  const modules = [
+    mod(1, 'Wygląd', 'appearance'),
+    mod(2, 'Logowanie', 'login', ['appearance']),
+    mod(3, 'Dni wolne firmy', 'days-off', ['login', 'reports']),
+    mod(4, 'Publikacja', 'deploy', ['appearance', 'login', 'days-off']),
+  ];
+
+  it('shows module names instead of folders', () => {
+    expect(dependencyNames(modules[1], modules)).toEqual(['Wygląd']);
+    expect(dependencyNames(modules[0], modules)).toEqual([]);
+  });
+
+  it('keeps an unknown folder as it is', () => {
+    expect(dependencyNames(modules[2], modules)).toEqual(['Logowanie', 'reports']);
+  });
+
+  it('says "all" when a module depends on every other one', () => {
+    expect(dependencyNames(modules[3], modules)).toBe('all');
   });
 });

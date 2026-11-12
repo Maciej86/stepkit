@@ -191,3 +191,5 @@ Zasady (bez zmian w kodzie, chyba że przegląd coś znajdzie):
   `mockups/src/common/mockUsers.ts` (zmyślone osoby dla ról projektu); **połącz** `shared/src/navigation.ts`
   (`findVisibleNavItem`, `initials`), `SideMenuLayout.tsx` i `mockups/src/Shell.tsx` z szablonem, klucz `user_menu`
   w `common.json`. `LogoutButton.tsx` usuń, jeśli nic go już nie używa. **Połącz** `docs/DESIGN.md` („Górna belka”).
+- Strona „Postęp”: **połącz** `mockups/src/progress/parseStatus.ts` (`dependencyNames`), `ProgressPage.tsx` i test,
+  klucz `mockup.depends_all` w `common.json` (projekt zwykle ich nie zmieniał, wtedy podmień).

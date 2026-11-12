@@ -42,7 +42,8 @@
     "col_depends": "Zależy od",
     "no_modules": "Lista modułów pojawi się po zaplanowaniu aplikacji.",
     "status_error": "Nie udało się odczytać docs/STATUS.md",
-    "variant": "Wariant wyglądu"
+    "variant": "Wariant wyglądu",
+    "depends_all": "wszystkie moduły"
   },
   "color_scheme": {
     "to_dark": "Włącz ciemny motyw",

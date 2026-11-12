@@ -2,7 +2,7 @@ import { Badge, Code, List, Stack, Table, Text, ThemeIcon, Title } from '@mantin
 import { useTranslation } from 'react-i18next';
 import { TABLE_MIN_WIDTH } from '@app/shared';
 import statusText from '../../../docs/STATUS.md?raw';
-import { parseStatus, type ModuleStatus } from './parseStatus';
+import { dependencyNames, parseStatus, type ModuleStatus } from './parseStatus';
 
 const COLORS: Record<ModuleStatus, string> = {
   zrobiony: 'green',
@@ -24,6 +24,8 @@ export function ProgressPage({ source = statusText }: { source?: string }) {
     );
   }
   const { nextStep, startSteps, modules } = result.status;
+  const dependsText = (names: string[] | 'all') =>
+    names === 'all' ? t('mockup.depends_all') : names.join(', ') || '—';
   return (
     <Stack>
       <Title order={2}>{t('mockup.progress_title')}</Title>
@@ -68,7 +70,7 @@ export function ProgressPage({ source = statusText }: { source?: string }) {
                     <Badge color={COLORS[m.status]}>{m.status}</Badge>
                   </Table.Td>
                   <Table.Td>{m.stage}</Table.Td>
-                  <Table.Td>{m.dependsOn.join(', ') || '—'}</Table.Td>
+                  <Table.Td>{dependsText(dependencyNames(m, modules))}</Table.Td>
                 </Table.Tr>
               ))}
             </Table.Tbody>
