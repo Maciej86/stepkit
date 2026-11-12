@@ -19,7 +19,7 @@ const code = sources(template).map((f) => readFileSync(f, 'utf8')).join('\n');
 describe('template CLAUDE.md', () => {
   it.each([
     'mountModule', 'validateBody', 'InfoCard', 'PageSection', 'ButtonIcon', 'DateText', 'notify',
-    'formatDate', 'countWorkingDays', 'getPolishHolidays', 'Table.ScrollContainer',
+    'formatDate', 'countWorkingDays', 'getPolishHolidays', 'Table.ScrollContainer', 'saveUpload', 'sendUpload',
   ])('names %s, which exists in the template', (name) => {
     expect(claudeMd).toContain(name);
     expect(code).toContain(name);

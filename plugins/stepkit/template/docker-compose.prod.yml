@@ -23,6 +23,9 @@ services:
       DB_HOST: mysql
       DB_PORT: 3306
       NODE_ENV: production
+    volumes:
+      # Pliki od użytkowników poza obrazem: przetrwają przebudowę i „wgraj nową wersję”.
+      - uploads_data:/app/uploads
     depends_on:
       - mysql
 
@@ -44,5 +47,6 @@ services:
 
 volumes:
   mysql_data:
+  uploads_data:
   caddy_data:
   caddy_config:

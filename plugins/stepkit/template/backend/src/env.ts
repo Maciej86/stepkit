@@ -21,4 +21,6 @@ export const env = {
   PORT: Number(process.env.PORT ?? 3001),
   FRONTEND_URL: process.env.FRONTEND_URL ?? 'http://localhost:5173',
   NODE_ENV: process.env.NODE_ENV ?? 'development',
+  /** Folder plików od użytkowników: domyślnie uploads/ w głównym folderze projektu (na serwerze wolumen Dockera). */
+  UPLOAD_DIR: process.env.UPLOAD_DIR ?? fileURLToPath(new URL('../../uploads', import.meta.url)),
 };

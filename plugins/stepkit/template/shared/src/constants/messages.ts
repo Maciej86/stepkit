@@ -7,6 +7,8 @@ export const SERVER_MESSAGES = {
   invalidData: 'server.invalid_data',
   dbDown: 'server.db_down',
   tooManyLogins: 'server.too_many_logins',
+  fileTooLarge: 'server.file_too_large',
+  fileTypeNotAllowed: 'server.file_type_not_allowed',
 } as const;
 
 export type ServerMessage = (typeof SERVER_MESSAGES)[keyof typeof SERVER_MESSAGES];

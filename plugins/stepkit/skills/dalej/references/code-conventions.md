@@ -185,6 +185,27 @@ boksy z modułów, kalendarz pokazuje urlopy, wydarzenia i zadania naraz. Zasady
 - Gdy moduł dochodzi później (np. zadania po urlopach), jego makieta pokazuje powiązania ze zrobionymi modułami,
   a te dostają drobną zmianę (np. boks na pulpicie) jako osobny krok planu z testem.
 
+## Pliki
+
+Gdy moduł przyjmuje pliki (zdjęcia, dokumenty, załączniki). Pomocnik: `backend/src/files/storage.ts`.
+- **Na dysku:** `uploads/<moduł>/<id rekordu>/<losowa nazwa>.<rozszerzenie>` (`saveUpload`). Folder według rekordu,
+  do którego plik należy (wniosek, umowa), nie według osoby. Nazwa od użytkownika nigdy nie trafia na dysk.
+- **W bazie:** tabela plików modułu, np. `leave_request_files`: `id`, `<rekord>_id` (klucz obcy, `ON DELETE CASCADE`),
+  `stored_name`, `original_name`, `mime`, `size`, `uploaded_by` (`SET NULL`) + `uploaded_by_name`, `created_at`.
+  Osobna tabela dla modułu, nie jedna wspólna (wspólna nie może mieć klucza obcego).
+- **Wgrywanie:** `multer` z `memoryStorage()` i `limits: { fileSize: UPLOAD_MAX_BYTES, files: UPLOAD_MAX_FILES }`
+  (instalujesz w module, który pierwszy przyjmuje pliki), potem `saveUpload(moduł, id, file.buffer)`; `UploadError` →
+  `sendError(res, 400, err.messageKey)`. Typ sprawdzany po zawartości (`UPLOAD_FILE_TYPES`: PDF, PNG, JPG, WebP);
+  nowy typ = wpis w stałych z testem. Najpierw sprawdź, że osoba może zmieniać ten rekord.
+- **Pobieranie:** tylko trasą API, np. `GET /api/leave-requests/:id/files/:fileId`, z tymi samymi uprawnieniami co
+  rekord (w koncie: tylko własne), potem `sendUpload`. Folder `uploads/` nie jest nigdy serwowany wprost.
+- **Usuwanie:** wiersz z tabeli w transakcji, plik z dysku (`removeUpload`) po udanym `commit`. Archiwizacja rekordu
+  nie usuwa plików; usunięcie na stałe: `removeRecordUploads` po `commit`.
+- Na serwerze pliki leżą w wolumenie `uploads_data` (przetrwają „wgraj nową wersję”) i trafiają do kopii zapasowej
+  (`scripts/backup-db.sh`). `uploads/` jest w `.gitignore`.
+- Testy: zły typ i za duży plik → 400; pobranie cudzego pliku → 404; bez logowania → 401; usunięcie rekordu na stałe
+  usuwa jego pliki.
+
 ## Na żywo (WebSocket)
 
 Tylko gdy moduł naprawdę tego potrzebuje (czat, powiadomienie w chwili zdarzenia). Licznik nowych rzeczy odświeżany co
@@ -327,5 +348,6 @@ Używaj jej, gdy nie ma `superpowers:requesting-code-review`:
 - [ ] przyciski akcji z `ButtonIcon`, dymki przez `notify`
 - [ ] nowe biblioteki tylko z listy zatwierdzonej albo ze zgodą użytkownika (zapisane w `SPEC-GENERAL.md`)
 - [ ] dane z innych modułów przez ich funkcje, z polami dozwolonymi dla roli
+- [ ] pliki przez `saveUpload` / `sendUpload`, pobieranie z kontrolą dostępu, tabela plików z kluczem obcym
 - [ ] testy dla każdej trasy i formularza, `npm run check` zielony
 - [ ] `.env` nie jest w repo (`git check-ignore .env`)

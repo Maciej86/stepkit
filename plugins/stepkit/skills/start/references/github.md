@@ -11,7 +11,9 @@ kod z historią zmian: po każdej działającej części robimy zapis, do które
    w którym `.env` nie jest ignorowany.
 3. Pierwszy zapis: `git add -A` i `git commit -m "Szkielet aplikacji"`.
 
-Zapytaj o nazwę repo (zaproponuj nazwę folderu projektu, małe litery i myślniki, np. `sklep-zamowienia`).
+Nazwa repo = nazwa projektu ustalona na początku kroku 2 (`project-skeleton.md`); nie pytaj o nią drugi raz. Gdy na
+GitHubie jest już repo o tej nazwie, zaproponuj inną (np. z `-app`) i nigdy nie wysyłaj do istniejącego repo z cudzą
+historią (`git push --force` jest zakazany).
 
 ## Ścieżka A: jest `gh`
 

@@ -87,7 +87,9 @@ Obszary, dokładnie w tej kolejności. Przykład pod każdym to wzór, nie tekst
     przywracać i czy z archiwum da się usunąć na stałe (polecam: tylko administrator).
 13. **Powiadomienia w aplikacji.** Czy ktoś ma widzieć informacje o zdarzeniach po zalogowaniu.
 14. **E-maile.** „Czy aplikacja ma wysyłać e-maile, do kogo i kiedy (np. potwierdzenie zamówienia, reset hasła)?”
-15. **Pliki.** Zdjęcia, dokumenty, załączniki.
+15. **Pliki.** Zdjęcia, dokumenty, załączniki: do czego są dołączane (np. do wniosku, do pracownika), jakie rodzaje
+    (polecam na start: PDF i zdjęcia), kto je widzi. Limity i sposób przechowywania ustala szablon
+    (`code-conventions.md`, „Pliki”), nie pytaj o nie.
 16. **Raporty i eksporty.** Podsumowania, pobieranie do Excela.
 17. **Wygląd.** Dwa pytania, po kolei:
     - Kolory: „W jakich kolorach ma być aplikacja? a) w kolorach mojej firmy (podaj je, wklej logo albo adres swojej

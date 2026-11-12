@@ -99,7 +99,7 @@ chmod +x ~/app/scripts/backup-db.sh && ~/app/scripts/backup-db.sh
 (crontab -l 2>/dev/null; echo "0 3 * * * /home/app/app/scripts/backup-db.sh >> /home/app/backup.log 2>&1") | crontab -
 ```
 
-Codziennie o 3:00, 7 ostatnich kopii w `~/backups`. Powiedz, jak pobrać kopię na swój komputer:
+Codziennie o 3:00, 7 ostatnich kopii bazy (`db-…`) i plików od użytkowników (`files-…`) w `~/backups`. Powiedz, jak pobrać kopię na swój komputer:
 `scp -i ~/.ssh/<nazwa-projektu> app@<IP>:backups/<plik> .`
 
 ## 8. Sprawdzenie
@@ -135,7 +135,7 @@ Dopisz do `README.md` sekcję (bez haseł):
 | aplikacja | https://<domena> |
 | serwer (VPS) | panel OVH: https://www.ovh.com/manager/ |
 | e-maile (jeśli są) | panel Mailgun: https://app.mailgun.com/ |
-| kopie zapasowe bazy | na serwerze w `~/backups`, codziennie o 3:00 |
+| kopie zapasowe bazy i plików | na serwerze w `~/backups`, codziennie o 3:00 |
 
 Nowa wersja: zapisz zmiany (`git push`) i napisz do Claude'a „wgraj nową wersję”.
 ```

@@ -7,6 +7,14 @@ Czytasz ten plik w kroku 2 `/stepkit:start` (kopiowanie) i w kroku 5 (dopasowani
 Szablon leży w folderze pluginu: `<katalog bazowy tego skilla>/../../template/` (katalog bazowy skilla jest podany
 na początku treści skilla jako „Base directory for this skill”).
 
+0. **Nazwa projektu.** Zapytaj o roboczą nazwę (małe litery, cyfry, myślniki, np. `urlopy-firma`; zaproponuj nazwę
+   folderu, jeśli pasuje): „To nazwa techniczna: tak będzie nazywać się folder bazy danych i repozytorium na GitHubie.
+   W aplikacji możesz mieć dowolną inną.” Tej jednej nazwy używasz w punktach 3 i 4, w `github.md` i jako
+   `COMPOSE_PROJECT_NAME` w `.env`. Sprawdź, czy nie jest zajęta w Dockerze:
+   `docker compose ls -a --format json` i `docker volume ls --format '{{.Name}}'` (wolumen `<nazwa>_mysql_data`).
+   Zajęta → zaproponuj nazwę z przyrostkiem (np. `urlopy-firma-2`) i powiedz jednym zdaniem dlaczego.
+   **Cudzych kontenerów, baz i wolumenów nigdy nie zatrzymujesz, nie zmieniasz i nie usuwasz**, nawet gdy wyglądają
+   na stare albo nieużywane; usuwa je tylko użytkownik, sam, po Twoim wyjaśnieniu.
 1. Folder projektu musi być pusty albo zawierać tylko ukryte pliki (np. `.git`). Jeśli są inne pliki, zapytaj, czy na
    pewno to ten folder. **Nigdy nie nadpisuj istniejących plików użytkownika.**
 2. Skopiuj szablon bez `node_modules`, `dist` i `package-lock.json` (projekt dostanie najnowsze poprawki bibliotek
@@ -22,7 +30,8 @@ na początku treści skilla jako „Base directory for this skill”).
    cp .env.example .env
    node -e "const fs=require('fs'),c=require('crypto'),r=n=>c.randomBytes(n).toString('hex');let s=fs.readFileSync('.env','utf8');s=s.replace(/^JWT_SECRET=.*$/m,'JWT_SECRET='+r(48)).replace(/^DB_PASSWORD=.*$/m,'DB_PASSWORD='+r(16)).replace(/^MYSQL_ROOT_PASSWORD=.*$/m,'MYSQL_ROOT_PASSWORD='+r(16));fs.writeFileSync('.env',s)"
    ```
-   Nie wyświetlaj potem zawartości `.env` (`cat .env` itp.).
+   Nie wyświetlaj potem zawartości `.env` (`cat .env` itp.). Dopisz nazwę z punktu 0:
+   `printf '\nCOMPOSE_PROJECT_NAME=<nazwa>\n' >> .env`.
 5. `npm install` (powiedz: „Pobieram biblioteki, to potrwa kilka minut za pierwszym razem.”).
 6. `npx playwright install chromium` (powiedz: „Pobieram przeglądarkę do testów, jednorazowo.”).
 7. `npm run check` musi przejść. Gdy nie przechodzi, a błąd pochodzi z nowszej wersji biblioteki (kod szablonu bez

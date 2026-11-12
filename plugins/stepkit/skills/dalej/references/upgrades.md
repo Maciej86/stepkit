@@ -1,6 +1,6 @@
 # Aktualizacja projektu do nowej wersji stepkit
 
-**Aktualna wersja stepkit:** 0.1.18
+**Aktualna wersja stepkit:** 0.1.19
 
 Szablon kopiuje się do projektu tylko raz, przy `/stepkit:start`. Gdy stepkit się zmienia, starsze projekty nie mają
 nowych plików, a nowe zasady o nich mówią. Ten plik mówi, co przenieść.
@@ -155,3 +155,18 @@ Zasady (bez zmian w kodzie, chyba że przegląd coś znajdzie):
 - **Połącz** `README.md`: wiersze `CLAUDE.md` i `docs/CONVENTIONS.md` w „Ważne pliki”.
 - Projekt opublikowany: w sekcji „Wgraj nową wersję” w `STATUS.md` dopisz linię z `npm run check` i
   `npm audit --omit=dev` (wzór w `deploy-ovh.md`).
+
+## 0.1.19: pliki od użytkowników, nazwa projektu w Dockerze
+
+- Nowe pliki `backend/src/files/storage.ts` i `storage.test.ts`. **Połącz** `backend/src/env.ts` (`UPLOAD_DIR`),
+  `backend/src/config/constants.ts` (`UPLOAD_MAX_BYTES`, `UPLOAD_MAX_FILES`, `UPLOAD_FILE_TYPES`),
+  `shared/src/constants/messages.ts` (`fileTooLarge`, `fileTypeNotAllowed`) i `shared/locales/pl/server.json`.
+- **Połącz** `.gitignore` (`uploads/`), `docker-compose.prod.yml` (wolumen `uploads_data:/app/uploads` w `backend`
+  i na liście `volumes`), `scripts/backup-db.sh` z szablonu (kopia plików obok bazy; projekt zwykle go nie zmieniał,
+  wtedy podmień), `CLAUDE.md` (linia o plikach w „Bezpieczeństwo”).
+- Projekt już przyjmuje pliki: przenieś je do układu `uploads/<moduł>/<id>/` z losowymi nazwami albo zostaw stary
+  układ i zapisz to w „Zasadach wspólnych” `SPEC-GENERAL.md`; sprawdź, że pobieranie idzie trasą API z kontrolą
+  dostępu, a nie wprost z folderu. Na opublikowanym serwerze: przed „wgraj nową wersję” skopiuj pliki z kontenera
+  do wolumenu (zapytaj użytkownika, pokaż polecenia), inaczej znikną przy przebudowie.
+- `.env` bez `COMPOSE_PROJECT_NAME`: dopisz `COMPOSE_PROJECT_NAME=<nazwa folderu projektu>` (ta sama nazwa, której
+  Docker używał dotąd, więc baza zostaje ta sama).

@@ -2,7 +2,7 @@ mkdir -p docs/modules/customers
 cat > docs/STATUS.md <<'MD'
 # Stan projektu: Kwiaciarnia
 
-**Wersja stepkit:** 0.1.18
+**Wersja stepkit:** 0.1.19
 
 **Następny krok:** Klienci, makieta.
 
