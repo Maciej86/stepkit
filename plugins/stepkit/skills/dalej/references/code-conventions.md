@@ -3,7 +3,14 @@
 Czytasz ten plik na etapach **spec**, **plan** i **implementacja** (oraz w kroku 7 `/stepkit:start` przy projekcie
 bazy). To są reguły, nie propozycje. Stos jest stały: React + Vite + TypeScript + Mantine, Express + mysql2 +
 TypeScript, zod, i18next, MySQL w Dockerze. **Nie dodawaj bibliotek spoza szablonu**, poza tymi, gdy moduł ich
-wymaga: `nodemailer` (e-mail), `multer` (pliki), `cron`, `exceljs`, `winston`, `sanitize-html`.
+wymaga: `nodemailer` (e-mail), `multer` (pliki), `cron`, `exceljs`, `winston`, `sanitize-html`, `@mantine/charts`
+z `recharts` (wykresy).
+
+**Wykresy:** tylko `@mantine/charts` (`BarChart`, `LineChart`, `AreaChart`, `PieChart`, `DonutChart` …). Instalujesz go
+w module, który pierwszy potrzebuje wykresu, w obu miejscach naraz:
+`npm install -w @app/frontend -w @app/mockups @mantine/charts@<wersja @mantine/core z szablonu> recharts`, a w
+`frontend/src/main.tsx` i `mockups/src/main.tsx` dopisz `import '@mantine/charts/styles.css';`. Kolory serii tylko
+z motywu (`color: 'violet.6'`, `'teal.5'` …), żeby wykresy pasowały do aplikacji i były czytelne w ciemnym motywie.
 
 ## Struktura modułu
 
