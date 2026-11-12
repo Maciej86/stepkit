@@ -64,8 +64,8 @@ Obszary, dokładnie w tej kolejności. Przykład pod każdym to wzór, nie tekst
    e-mail (produkcja, magazyn, sklep, kierowcy często go nie mają): „Czy każda osoba, która będzie się logować, ma
    własny adres e-mail (firmowy albo prywatny)?”
    a) tak, każdy: logowanie e-mailem i hasłem (polecam, gdy to prawda),
-   b) nie wszyscy: logowanie loginem (np. `jan.kowalski`) i hasłem, e-mail podawany, gdy ktoś go ma (polecam przy
-      pracownikach bez firmowej poczty),
+   b) nie wszyscy: logowanie loginem (np. `jan.kowalski`, może też wyglądać jak e-mail) i hasłem, a osobne pole
+      „e-mail do powiadomień” wypełniane, gdy ktoś ma adres (polecam przy pracownikach bez firmowej poczty),
    c) nie wszyscy, ale mogą podać prywatny: logowanie e-mailem, a przy zakładaniu konta pole na adres prywatny.
    Przy b): osoby bez e-maila nie dostaną powiadomień ani linku do zmiany hasła; powiadomienia widzą w aplikacji,
    a hasło zmienia im administrator. Powiedz to jednym zdaniem i zapisz w ustaleniach (wpływa na moduły Logowanie,

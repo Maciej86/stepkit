@@ -313,8 +313,10 @@ Zmiana `SessionUser` = zmiana w `shared/src/navigation.ts`, `backend/src/auth/to
 - `loginLimiter` liczy tylko nieudane próby i rozpoznaje osoby za serwerem Caddy (`trust proxy` w `app.ts`); nie
   zmieniaj tych ustawień.
 - Zły e-mail i złe hasło dają ten sam komunikat (`server.login_failed`), żeby nie zdradzać, które konta istnieją.
-- **Logowanie loginem** (gdy w `SPEC-GENERAL.md` nie wszyscy mają e-mail): kolumna `login` (unikalna, małe litery,
-  cyfry, kropki, myślniki; sprawdzana schematem zod), `email` `NULL` (unikalny, gdy podany); formularz ma pole „Login”.
+- **Logowanie loginem** (gdy w `SPEC-GENERAL.md` nie wszyscy mają e-mail): kolumna `login` (unikalna, bez spacji,
+  zapisywana małymi literami; może wyglądać jak e-mail, np. `jan.kowalski@firma.pl`, jeśli użytkownik tak chce) i
+  osobna `email` `NULL` „e-mail do powiadomień” (unikalny, gdy podany). **Wysyłka zawsze na `email`, nigdy na
+  `login`**, także link do zmiany hasła; test to sprawdza. Formularz logowania ma pole „Login”.
   Zmiana hasła bez e-maila: administrator ustawia hasło tymczasowe w module użytkowników, a osoba zmienia je po
   zalogowaniu. E-maile (`email` moduł) wysyłasz tylko osobom z adresem; pozostali widzą powiadomienie w aplikacji.
 - Pierwszy administrator: skrypt `backend/src/scripts/createAdmin.ts` (`npm run admin -w @app/backend`), pyta
