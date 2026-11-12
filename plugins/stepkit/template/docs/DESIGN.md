@@ -24,7 +24,10 @@ użytkownik nie zdecyduje inaczej. Zmiana = wpis w „Historii zmian wyglądu”
 
 **Panel i konto** (`AppLayout`, `AccountLayout`): menu po lewej, górna belka z nazwą aplikacji, przełącznikiem motywu
 i wylogowaniem, treść w środku na tle `--app-panel-background` (innym niż karty). Pozycja menu bieżącego ekranu jest
-podświetlona, także na jego podstronach (`/admin/orders/5` podświetla „Zamówienia”).
+podświetlona, także na jego podstronach (`/admin/orders/5` podświetla „Zamówienia”). Każdy ekran panelu i konta
+zajmuje całą szerokość obszaru treści (bez `Container`, `maw` ani `w` na całej stronie), także gdy ma mało danych.
+Węższe mogą być tylko elementy w środku: formularz w oknie (`Modal`) albo w siatce (`SimpleGrid`, `Grid`), pole
+wyszukiwania. Ograniczoną szerokość z `Container` mają tylko sekcje strony dla odwiedzających (`PageSection`).
 
 **Strona dla odwiedzających** (`PublicLayout`): menu przyklejone u góry okna, bieżąca podstrona podświetlona. Pierwsza
 sekcja strony głównej to nagłówek ze zdjęciem lub grafiką na całą szerokość, z hasłem i jednym głównym przyciskiem.

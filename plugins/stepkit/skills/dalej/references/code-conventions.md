@@ -84,7 +84,8 @@ szerokość), `ButtonIcon` (ikona akcji przycisku), `DateText` (data). Każda ta
 czcionki i wygląd komponentów biorą się z `shared/src/theme.ts` i `shared/src/theme.css`; nie ustawiaj ich w module.
 Żadnych kolorów wpisanych na sztywno (`#fff`, `rgb(…)`): tylko kolory Mantine i zmienne `var(--mantine-color-…)`,
 inaczej ciemny motyw i zmiana kolorów aplikacji przestają działać (test `frontend/src/test/colors.test.ts`).
-Gdy ekran potrzebuje własnych stylów, użyj pliku CSS Modules w folderze modułu (`<Ekran>.module.css`).
+Gdy ekran potrzebuje własnych stylów, użyj pliku CSS Modules w folderze modułu (`<Ekran>.module.css`). Ekrany panelu
+i konta zawsze na całą szerokość obszaru treści (`DESIGN.md`, „Układ”).
 
 **Dymki po akcjach** (zawsze, chyba że użytkownik zdecydował inaczej w „Zasadach wspólnych” `SPEC-GENERAL.md`):
 `notify.success(t(...))` / `notify.error(t(...))` z `frontend/src/core/notify.ts` (w makietach
@@ -127,7 +128,7 @@ Nowa akcja: dopisz ją do `BUTTON_ICONS` we froncie i w makietach oraz do tabeli
 - **Wyświetlanie tylko przez `@app/shared`:** `formatDate`, `formatDateTime`, `formatTime` (backend: e-maile, Excel,
   PDF) i `<DateText value={...} withTime? dimmed? />` na ekranach. Format `DD.MM.RRRR`, z godziną `DD.MM.RRRR GG:MM`
   w strefie `Europe/Warsaw`. Nigdy `toLocaleDateString`, `Intl.DateTimeFormat` ani składania z `getMonth()` (test
-  `dates.test.ts`); przeglądarka po angielsku pokazałaby `8/3/2026`.
+  `formatting.test.ts`); przeglądarka po angielsku pokazałaby `8/3/2026`.
 - **Kolumna `DATE`** (dzień bez godziny: urlop, termin) przychodzi z bazy jako tekst `RRRR-MM-DD` (`dateStrings` w
   `backend/src/db/pool.ts`) i tak idzie w API i w schematach zod (`z.iso.date()`). **`DATETIME`** (chwila: utworzono,
   wysłano) jako `Date`, w JSON tekst ISO.
@@ -139,6 +140,18 @@ Nowa akcja: dopisz ją do `BUTTON_ICONS` we froncie i w makietach oraz do tabeli
 - Moduł urlopów lub czasu pracy: zapytaj w makiecie, co firma robi, gdy święto wypada w sobotę (`countWorkingDays`
   tego nie liczy). Czy nieobecność odejmuje dni z puli, zależy od jej rodzaju (właściwość w słowniku rodzajów), nie
   od reguły w kodzie.
+
+## Liczby i kwoty
+
+- **Wyświetlanie tylko przez `@app/shared`:** `formatMoney(wartość)` → `1 234,50 zł`,
+  `formatNumber(wartość, miejscaPoPrzecinku?)` → `12 500`, `7,5`. Tak samo na ekranie, w PDF, e-mailach i Excelu.
+  Nigdy `toFixed`, `toLocaleString` ani składania kwoty z „zł” w module. Test `formatting.test.ts` wyłapuje też
+  `toFixed(`; gdy jest naprawdę potrzebne w obliczeniu, dopisz na końcu linii `// format-ok: <powód>`.
+- **Wpisywanie:** Mantine `NumberInput` z `decimalSeparator={DECIMAL_SEPARATOR}`,
+  `thousandSeparator={THOUSAND_SEPARATOR}`, przy kwotach `decimalScale={MONEY_DECIMALS}`, `fixedDecimalScale`
+  i `suffix={' ' + CURRENCY_SYMBOL}`. Schemat zod sprawdza zakres (np. kwota ≥ 0).
+- **W bazie:** kwoty w kolumnach `DECIMAL(12,2)`, nigdy `FLOAT` ani `DOUBLE` (zaokrąglenia gubią grosze). Sumy
+  i rabaty liczy baza (`SUM`, `ROUND`) albo serwer na groszach (liczby całkowite), nie na ułamkach w JavaScripcie.
 
 ## Teksty
 
@@ -241,7 +254,7 @@ Dwa przypadki, dwie drogi:
   }
   ```
   Treść dokumentu buduje funkcja modułu (np. `orders.pdf.ts`) z danych z bazy: teksty z i18n, daty przez
-  `formatDate`, kwoty i liczby przez wspólną funkcję formatowania. Trasa `GET /api/<moduł>/:id/pdf` z tymi samymi
+  `formatDate`, kwoty przez `formatMoney`, liczby przez `formatNumber`. Trasa `GET /api/<moduł>/:id/pdf` z tymi samymi
   uprawnieniami co rekord, odpowiedź `Content-Type: application/pdf` i `Content-Disposition: attachment`. Obrazki
   (np. logo) tylko z plików aplikacji, dołączone jako dane, nigdy z adresu podanego przez użytkownika.
   Testy: odpowiedź zaczyna się od `%PDF`, bez logowania 401, cudzy rekord 404.

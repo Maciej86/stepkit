@@ -119,7 +119,7 @@ Daty i święta:
   dostawał `Date` (np. `.toISOString()`, `new Date(row.start_date)`), dostaje teraz tekst `RRRR-MM-DD`; popraw go
   i testy.
 - Nowe pliki `frontend/src/common/DateText.tsx` i `mockups/src/common/DateText.tsx` (z testami) oraz
-  `frontend/src/test/dates.test.ts`. Gdy test znajdzie w modułach własne formatowanie dat (`toLocaleDateString`,
+  `frontend/src/test/dates.test.ts` (od 0.1.20: `formatting.test.ts`). Gdy test znajdzie w modułach własne formatowanie dat (`toLocaleDateString`,
   `getMonth()` …), zamień je na `formatDate` / `DateText`; własne listy świąt zamień na `getPolishHolidays`.
 
 Wygląd i menu:
@@ -170,3 +170,14 @@ Zasady (bez zmian w kodzie, chyba że przegląd coś znajdzie):
   do wolumenu (zapytaj użytkownika, pokaż polecenia), inaczej znikną przy przebudowie.
 - `.env` bez `COMPOSE_PROJECT_NAME`: dopisz `COMPOSE_PROJECT_NAME=<nazwa folderu projektu>` (ta sama nazwa, której
   Docker używał dotąd, więc baza zostaje ta sama).
+
+## 0.1.20: liczby i kwoty, dni wolne firmy, pełna szerokość ekranów
+
+- Nowe pliki `shared/src/constants/numbers.ts`, `shared/src/number.ts`, `shared/src/number.test.ts`. **Połącz**
+  `shared/src/index.ts` (`./number`) i `shared/src/constants/index.ts` (`./numbers`).
+- **Połącz** `shared/src/holidays.ts` i jego test (parametr `extraDaysOff` w `isWorkingDay` i `countWorkingDays`).
+- Zmień nazwę `frontend/src/test/dates.test.ts` na `formatting.test.ts` i weź treść z szablonu. Gdy test znajdzie
+  w modułach `toFixed` albo `Intl.NumberFormat`, zamień je na `formatMoney` / `formatNumber` (albo dopisz
+  `// format-ok: <powód>`, gdy to obliczenie).
+- **Połącz** `docs/DESIGN.md` („Układ”: ekrany panelu i konta na całą szerokość). Ekrany panelu i konta zamknięte
+  w `Container` albo z `maw` na całej stronie: usuń ograniczenie (makieta i aplikacja).

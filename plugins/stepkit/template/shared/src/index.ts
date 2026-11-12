@@ -4,3 +4,4 @@ export * from './navigation.config';
 export * from './i18n';
 export * from './date';
 export * from './holidays';
+export * from './number';
