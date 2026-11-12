@@ -28,3 +28,7 @@ graders:
     type: regex
     pattern: 'jakie narzędzia masz zainstalowane'
     arm: with-only
+  - name: says-web-only
+    type: regex
+    pattern: 'pod własnym adresem www'
+    arm: with-only

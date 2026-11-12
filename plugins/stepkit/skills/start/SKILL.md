@@ -26,6 +26,10 @@ Po każdym kroku odhacz go w `docs/STATUS.md` (`- [x]`) i zaktualizuj „Następ
 
 ## Krok 0: powitanie (tylko przy pierwszym uruchomieniu)
 
+Zacznij od jednego zdania, czym jest stepkit: „stepkit służy do budowy aplikacji, które działają w internecie, pod
+własnym adresem www (np. twojafirma.pl) i otwiera się je w przeglądarce, także na telefonie. Nie zbudujemy tu aplikacji
+do pobrania ze sklepu (App Store, Google Play) ani programu instalowanego na komputerze.”
+
 Zanim cokolwiek sprawdzisz albo zainstalujesz, napisz krótko (ok. 10 linii), co będzie potrzebne i po co. Nacisk:
 **to głównie narzędzia Twojej (Claude'a) pracy**; użytkownik instaluje je raz i nie musi się ich uczyć, a dzięki nim
 praca jest szybsza, stabilniejsza i bezpieczniejsza:

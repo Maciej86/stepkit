@@ -5,7 +5,7 @@
 **Zbuduj własną aplikację www z Claude, krok po kroku, bez programowania.**
 
 [![Licencja: MIT](https://img.shields.io/badge/licencja-MIT-green.svg)](LICENSE)
-![Wersja](https://img.shields.io/badge/wersja-0.1.2-blue.svg)
+![Wersja](https://img.shields.io/badge/wersja-0.1.3-blue.svg)
 ![Claude Code](https://img.shields.io/badge/Claude%20Code-plugin-d97757.svg)
 ![Język](https://img.shields.io/badge/język-polski-red.svg)
 
@@ -28,6 +28,11 @@ początku.
 - ✅ **sam testuje** swoją pracę w przeglądarce, zanim poprosi o to Ciebie.
 
 Na końcu Twoja aplikacja działa w internecie, pod Twoim adresem.
+
+> 🌐 **Dla jakich projektów?** stepkit buduje aplikacje, które działają **w internecie, pod własnym adresem www**
+> (np. `twojafirma.pl`) i otwiera się je w przeglądarce, także na telefonie: systemy dla firm, panele klienta, usługi
+> na abonament, rezerwacje, zamówienia. Nie zbudujesz z nim aplikacji do pobrania ze sklepu (App Store, Google Play)
+> ani programu instalowanego na komputerze.
 
 ## 🚀 Instalacja
 
