@@ -1,0 +1,31 @@
+schema_version: "1.1"
+name: dalej-large-module
+description: Duży moduł po pytaniach makiety zostaje podzielony na części (część 1 używalna) i podział idzie do akceptacji przed specem części.
+runs: 2
+execution:
+  max_turns: 25
+  allowed_tools: [Read, Glob, Grep, Skill, Write, Edit]
+  append_system_prompt: "Środowisko testowe stepkit: komendy (npm, docker, git) są niedostępne, a node_modules nie są zainstalowane. Zakładaj, że npm run check przechodzi po poprawnych zmianach, i pracuj dalej na plikach."
+  prompt: /stepkit:dalej
+context:
+  scaffold_script: fixture.sh
+graders:
+  - name: mentions-parts
+    type: regex
+    pattern: '[Cc]zęść 1|[Cc]zęści'
+    arm: with-only
+  - name: proposes-split
+    type: llm
+    criteria: >-
+      Odpowiedź po polsku dotyczy modułu Wnioski i proponuje podział go na co najmniej dwie części. Część 1 daje
+      używalny moduł: obejmuje co najmniej listę wniosków oraz zatwierdzanie i odrzucanie z odjęciem dni z puli.
+      Rzadsze lub dodatkowe funkcje (np. anulowanie, komentarze, wydruk, eksport do Excela, zatwierdzanie kilku naraz)
+      trafiają do późniejszych części. Odpowiedź prosi użytkownika o akceptację podziału. Nie twierdzi, że plan całego
+      modułu albo implementacja jest gotowa.
+  # Przed akceptacją podziału nie powstaje żaden plan modułu (PLAN.md ani PLAN-1.md).
+  - name: no-plan-before-acceptance
+    type: tool_used
+    tool: Write
+    input_match: 'leave-requests/PLAN[^"]*\.md'
+    min: 0
+    max: 0
