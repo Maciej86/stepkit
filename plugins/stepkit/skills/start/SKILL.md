@@ -39,12 +39,14 @@ praca jest szybsza, stabilniejsza i bezpieczniejsza:
 - **superpowers**: sprawdzone sposoby pracy (specyfikacja, plan, przegląd kodu), dzięki którym mniej się mylisz.
 - **Playwright**: pozwala Ci samemu klikać w aplikacji i sprawdzać ją, zanim poprosisz o to użytkownika.
 
-Linki podaj dokładnie takie, jak wyżej. Dopisz jedno zdanie: „Nie pobieraj jeszcze niczego: za chwilę sprawdzę, co już
-masz, i poprowadzę przez instalację tylko tego, czego brakuje. superpowers i Playwright to dodatki do Claude Code,
-instaluje się je komendą, pokażę jaką.”
+Linki podaj dokładnie takie, jak wyżej. Dopisz jedno zdanie: „Nie pobieraj jeszcze niczego: za chwilę sprawdzę, które
+z tych narzędzi już masz, i poprowadzę przez instalację tylko tego, czego brakuje. superpowers i Playwright to dodatki
+do Claude Code, instaluje się je komendą, pokażę jaką.”
 
-Zakończ zdaniem: „Ty mówisz, co ma działać, a narzędziami zajmuję się ja.” i zapytaj, czy ma Windows czy Maca
-(jeśli nie wiesz z systemu).
+Zakończ zdaniem: „Ty mówisz, co ma działać, a narzędziami zajmuję się ja.” Jeśli nie wiesz z systemu, zapytaj, czy ma
+Windows czy Maca. Na końcu zapytaj dokładnie tak: „Czy mogę sprawdzić, jakie narzędzia masz zainstalowane na
+komputerze?” Nie pisz „co jest już zainstalowane” ani „co masz na komputerze”: brzmi jak przeszukiwanie całego
+komputera, a sprawdzasz tylko narzędzia z listy.
 
 ## Krok 1: sprawdzenie komputera
 

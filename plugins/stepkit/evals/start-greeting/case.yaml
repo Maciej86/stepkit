@@ -24,3 +24,7 @@ graders:
     type: regex
     pattern: 'git-scm\.com'
     arm: with-only
+  - name: asks-about-tools-only
+    type: regex
+    pattern: 'jakie narzędzia masz zainstalowane'
+    arm: with-only
