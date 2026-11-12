@@ -5,10 +5,11 @@ runs: 2
 execution:
   max_turns: 12
   allowed_tools: [Read, Glob, Grep, Skill]
+  append_system_prompt: "Środowisko testowe stepkit: komendy (npm, docker, git) są niedostępne, a node_modules nie są zainstalowane. Zakładaj, że npm run check przechodzi po poprawnych zmianach, i pracuj dalej na plikach."
   prompt: /stepkit:dalej
 context:
   scaffold_script: fixture.sh
 graders:
   - name: continues-login
     type: llm
-    criteria: Odpowiedź (po polsku) mówi, że kontynuujemy moduł Logowanie od kroku 3 planu (trasa logowania). Nie zaczyna modułu Klienci i nie proponuje go jako następnego kroku teraz.
+    criteria: Odpowiedź po polsku zajmuje się modułem Logowanie i jego krokiem 3 (trasa logowania), czyli albo go zaczyna, albo wyjaśnia, co trzeba naprawić, zanim go zacznie. Nie zaczyna modułu Klienci i nie proponuje przejścia do Klientów.

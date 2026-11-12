@@ -2,7 +2,7 @@ mkdir -p docs
 cat > docs/STATUS.md <<'MD'
 # Stan projektu: Sklep
 
-**Następny krok:** Logowanie, implementacja: krok 3 z 7.
+**Następny krok:** Logowanie, implementacja: krok 3 z 4.
 
 ## Start aplikacji
 
@@ -19,7 +19,7 @@ cat > docs/STATUS.md <<'MD'
 
 | # | Moduł | Folder | Status | Etap | Zależy od |
 |---|---|---|---|---|---|
-| 1 | Logowanie | login | w toku | implementacja (krok 3/7) | — |
+| 1 | Logowanie | login | w toku | implementacja (krok 3/4) | — |
 | 2 | Klienci | customers | czeka | makieta | login |
 
 ## Ostatnie decyzje
