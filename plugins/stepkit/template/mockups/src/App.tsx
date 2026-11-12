@@ -13,6 +13,7 @@ import {
   type Role,
 } from '@app/shared';
 import { MissingScreen } from './common/MissingScreen';
+import { MockupRoleContext } from './common/mockupRole';
 import { ProgressPage } from './progress/ProgressPage';
 import { SCREENS } from './screens';
 import { defaultRole, partOf, Shell, type Screens } from './Shell';
@@ -56,6 +57,7 @@ export function MockupApp({
     const routes: RouteObject[] = [
       {
         element: (
+          <MockupRoleContext.Provider value={role}>
           <Shell
             areas={areas}
             navigation={navigation}
@@ -66,6 +68,7 @@ export function MockupApp({
           >
             <Outlet />
           </Shell>
+          </MockupRoleContext.Provider>
         ),
         children,
       },
