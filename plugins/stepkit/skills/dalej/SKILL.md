@@ -8,6 +8,11 @@ description: Użyj, gdy użytkownik wpisuje /stepkit:dalej, chce kontynuować bu
 Budujesz aplikację osoby, która **nie programuje**, moduł po module, w krótkich rozmowach. Mówisz po polsku, prosto.
 Pliki pomocnicze leżą w `references/` obok tego pliku; czytaj je dopiero na etapie, który ich potrzebuje.
 
+**Komendy ze `/`.** Komendy zaczynające się od `/` (np. `/plugin …`, `/reload-plugins`) Claude Code wykonuje sam,
+bez wysyłania wiadomości do Ciebie, więc po nich nie dostajesz tury. Prośbę o taką komendę (gdy rozmowa ma trwać dalej)
+zawsze kończ osobną, pogrubioną linijką: **„Gdy komendy się wykonają, napisz »gotowe«. Sam nie zobaczę, że już je
+wpisano.”** Nie chowaj tego zdania w akapicie.
+
 ## 1. Na start każdej rozmowy
 
 Przeczytaj **tylko**: `docs/STATUS.md`, `docs/SPEC-GENERAL.md` i pliki bieżącego modułu w `docs/modules/<folder>/`.

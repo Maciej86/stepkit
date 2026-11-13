@@ -12,6 +12,11 @@ piszesz kodu modułów: ten skill kończy się planem, a budowa to `/stepkit:dal
 Pliki pomocnicze leżą w `references/` obok tego pliku (ścieżka: katalog bazowy tego skilla). Czytaj je dopiero w kroku,
 który ich potrzebuje.
 
+**Komendy ze `/`.** Komendy zaczynające się od `/` (np. `/plugin …`, `/reload-plugins`) Claude Code wykonuje sam,
+bez wysyłania wiadomości do Ciebie, więc po nich nie dostajesz tury. Prośbę o taką komendę (gdy rozmowa ma trwać dalej)
+zawsze kończ osobną, pogrubioną linijką: **„Gdy komendy się wykonają, napisz »gotowe«. Sam nie zobaczę, że już je
+wpisano.”** Nie chowaj tego zdania w akapicie.
+
 ## Gdzie jesteśmy
 
 Najpierw sprawdź, czy w folderze projektu jest `docs/STATUS.md`:

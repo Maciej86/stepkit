@@ -81,7 +81,8 @@ z dwóch plików w katalogu domowym (Windows: `%USERPROFILE%\.claude\…`, macOS
 - najnowsza znana: `.claude/plugins/marketplaces/claude-plugins-official/plugins/frontend-design/.claude-plugin/plugin.json`.
 
 W kroku 1 najpierw poproś o odświeżenie listy dodatków: „Wpisz w Claude Code
-`/plugin marketplace update claude-plugins-official`, a potem `/reload-plugins`.” (to także aktualizuje
+`/plugin marketplace update claude-plugins-official`, a potem `/reload-plugins`.” i w osobnej, pogrubionej
+linijce: **„Gdy komendy się wykonają, napisz »gotowe«. Sam nie zobaczę, że już je wpisano.”** (to także aktualizuje
 zainstalowane dodatki z tego źródła). Potem porównaj. Wersje równe → „frontend-design jest w najnowszej wersji
 (X).” (nie pisz „zaktualizowany”, jeśli numer się nie zmienił). Zainstalowana była starsza, a po odświeżeniu jest
 równa → „frontend-design został zaktualizowany z X do Y.” Zainstalowana nadal starsza → **nie idź dalej**: „Masz starszą wersję
