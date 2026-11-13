@@ -339,6 +339,41 @@ Gdy `docs/SPEC-GENERAL.md` ma włączoną historię:
   z `SPEC-GENERAL.md`.
 - Test: zmiana tworzy wpis z poprawnymi parami „przed → po”; usunięcie rekordu nie usuwa jego historii.
 
+## Dokumenty firmowe (zamówienia, faktury, magazyn, terminy)
+
+**Wspólne dla każdego dokumentu** (zamówienie, faktura, PZ/WZ, zlecenie, protokół):
+- **Pozycje w osobnej tabeli** (`<doc>_items`); sumy liczy serwer z pozycji, nigdy nie bierze ich z żądania.
+- **Kopia danych z chwili wystawienia:** nazwa i cena towaru, dane klienta, stawka VAT zapisane w dokumencie, nie
+  tylko `product_id`. Zmiana ceny w cenniku nie zmienia starych dokumentów; test to sprawdza.
+- **Numeracja** według wzoru ze specu (np. `ZAM/2026/11/0001`). Numer nadaje serwer w transakcji z blokadą licznika
+  (tabela `document_counters`, `SELECT … FOR UPDATE`): bez dziur i bez duplikatów, także gdy dwie osoby wystawiają
+  naraz. Test na równoczesne wystawienie.
+- **Statusy** jako stała w `shared/`, z dozwolonymi przejściami (np. szkic → wysłane → zrealizowane / anulowane);
+  przejścia sprawdza serwer.
+- **Wystawiony dokument jest zamknięty.** Edycja tylko w szkicu. Po wystawieniu: anulowanie albo dokument
+  korygujący z odwołaniem do pierwotnego, nigdy nadpisanie. Usunięcie wystawionego dokumentu jest zablokowane.
+
+**Faktury:**
+- **W wywiadzie zapytaj, gdzie firma wystawia faktury dziś.** Wariant a (polecam, domyślny): aplikacja prowadzi
+  zamówienia i przekazuje dane do programu księgowego (eksport albo połączenie z programem). Wariant b: aplikacja sama
+  wystawia faktury; wtedy wysyłka do KSeF to osobny moduł z dodatkową biblioteką i kontem testowym KSeF. Powiedz
+  jednym zdaniem, że prawdziwe faktury to więcej obowiązków niż zwykły dokument.
+- Kwoty liczone **od pozycji**: netto pozycji → VAT pozycji zaokrąglony do grosza → suma. Sposób liczenia (od netto
+  czy od brutto) ustal w pytaniach makiety, z dopiskiem „warto potwierdzić z księgową”.
+- Stawki VAT jako słownik w panelu, nie lista w kodzie.
+
+**Magazyn i stany:**
+- Stan nie jest polem do edycji. Liczy się z ruchów (`stock_movements`: przyjęcie, wydanie, przesunięcie,
+  inwentaryzacja), a każdy ruch powstaje z dokumentu.
+- Ilości `DECIMAL(12,3)` z jednostką (szt., kg, m).
+- Wydanie w transakcji z blokadą stanu; zejście poniżej zera jest odrzucane, chyba że spec mówi inaczej. Test na dwa
+  równoczesne wydania ostatniej sztuki.
+
+**Terminy cykliczne** (przegląd auta, ubezpieczenie, legalizacja, umowa):
+- Data następnego terminu i okres w rekordzie. Przypomnienie X dni przed (X ustawiane w panelu) przez Powiadomienia
+  i e-mail, z zadania uruchamianego raz dziennie (`cron`).
+- Lista „zbliża się / po terminie” na Pulpicie.
+
 ## Wzorce opcjonalne
 
 Tylko gdy wywiad je potwierdził (decyzja w `SPEC-GENERAL.md`, przed modułem Logowanie):
@@ -365,8 +400,11 @@ Zmiana `SessionUser` = zmiana w `shared/src/navigation.ts`, `backend/src/auth/to
   roli albo archiwizacja (np. zwolnienie) działa od razu, a nie po wygaśnięciu tokenu. Testy: konto zarchiwizowane →
   401, zmieniona rola → nowa rola. Hasła `bcryptjs` z kosztem `BCRYPT_COST`. Token i ciasteczko przez
   `signToken`, `setAuthCookie`, `clearAuthCookie` z `backend/src/auth/token.ts`.
-- `loginLimiter` liczy tylko nieudane próby i rozpoznaje osoby za serwerem Caddy (`trust proxy` w `app.ts`); nie
-  zmieniaj tych ustawień.
+- `loginLimiter` jest gotowy w `backend/src/middleware/rateLimit.ts`; podpinasz go na `POST /api/auth/login` przed
+  `validateBody`. Liczy tylko nieudane próby i rozpoznaje osoby za serwerem Caddy (`trust proxy` w `app.ts`); nie
+  zmieniaj tych ustawień. **Plan ma w kroku z trasą logowania test:** 10 nieudanych prób przechodzi, 11. daje 429
+  `server.too_many_logins`, a udane logowania nie zużywają limitu. Ten test trzymasz w osobnym pliku (np.
+  `auth.rateLimit.test.ts`), bo licznik limitu jest wspólny dla wszystkich testów w jednym pliku.
 - Zły e-mail i złe hasło dają ten sam komunikat (`server.login_failed`), żeby nie zdradzać, które konta istnieją.
 - **Logowanie loginem** (gdy w `SPEC-GENERAL.md` nie wszyscy mają e-mail): kolumna `login` (unikalna, bez spacji,
   zapisywana małymi literami; może wyglądać jak e-mail, np. `jan.kowalski@firma.pl`, jeśli użytkownik tak chce) i
@@ -411,6 +449,8 @@ Używaj jej, gdy nie ma `superpowers:requesting-code-review`:
 - [ ] przyciski akcji z `ButtonIcon`, dymki przez `notify`
 - [ ] nowe biblioteki tylko z listy zatwierdzonej albo ze zgodą użytkownika (zapisane w `SPEC-GENERAL.md`)
 - [ ] dane z innych modułów przez ich funkcje, z polami dozwolonymi dla roli
+- [ ] dokumenty: kopia danych z chwili wystawienia, numer nadawany w transakcji, wystawionego nie da się edytować
+- [ ] `POST /api/auth/login` ma `loginLimiter` i test na 429
 - [ ] pliki przez `saveUpload` / `sendUpload`, pobieranie z kontrolą dostępu, tabela plików z kluczem obcym
 - [ ] testy dla każdej trasy i formularza, `npm run check` zielony
 - [ ] `.env` nie jest w repo (`git check-ignore .env`)

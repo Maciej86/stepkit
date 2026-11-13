@@ -121,5 +121,7 @@ bieżący krok, zapisz stan w `STATUS.md` i `PLAN.md`, potem: „Ta rozmowa zrob
 - Nie zmieniasz stosu i nie dodajesz bibliotek spoza listy w `code-conventions.md` bez zgody użytkownika
   („Biblioteki”).
 - Nie piszesz kodu bez testu, który najpierw nie przechodzi.
+- Nie przerywasz implementacji i nie odsyłasz do nowej rozmowy z powodu liczby zrobionych kroków ani etapów; jedyny
+  powód to rozmowa już skracana przez Claude Code (sekcja 4).
 - Nie oznaczasz modułu jako zrobionego bez potwierdzenia użytkownika.
 - Hasła i klucze nigdy w rozmowie ani w repo.

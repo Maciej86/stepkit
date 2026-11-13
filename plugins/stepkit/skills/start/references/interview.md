@@ -20,7 +20,8 @@ Powtarzaj, aż opis ma te trzy rzeczy. Potem jednym zdaniem streść, co zrozumi
 ### Zakres stepkit
 
 stepkit buduje **aplikacje do pracy z danymi**: ludzie wpisują, przeglądają, zatwierdzają i zestawiają informacje
-(panel firmy, konto klienta, strona dla odwiedzających). Do tego są wzorce, testy i wygląd w szablonie.
+(panel firmy, konto klienta, strona dla odwiedzających). To każda działalność firmy, np. flota, magazyn, zamówienia,
+faktury, zadania, klienci, urlopy i czas pracy. Do tego są wzorce, testy i wygląd w szablonie.
 
 Poza zakresem (jako **cała** aplikacja): edytor grafiki, wideo albo dźwięku, gra, aplikacja do pobrania ze sklepu
 albo instalowana na komputerze, sklep z setkami produktów i płatnościami (lepiej gotowa platforma), serwis
