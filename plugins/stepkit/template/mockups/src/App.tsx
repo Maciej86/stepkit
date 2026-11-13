@@ -1,5 +1,5 @@
 import { useMemo, useState } from 'react';
-import { createBrowserRouter, createMemoryRouter, Outlet, RouterProvider, type RouteObject } from 'react-router';
+import { createBrowserRouter, createMemoryRouter, Navigate, Outlet, RouterProvider, type RouteObject } from 'react-router';
 import {
   ACCOUNT_NAVIGATION,
   AREAS,
@@ -36,7 +36,10 @@ export function MockupApp({
   screens = SCREENS,
   initialPath,
 }: Props) {
-  const startPath = initialPath ?? window.location.pathname;
+  // Bez strony dla odwiedzających adres / prowadzi do pierwszej włączonej części (konto albo panel).
+  const homePath = areas.public ? null : areas.account ? '/account' : '/admin';
+  const requestedPath = initialPath ?? window.location.pathname;
+  const startPath = homePath && requestedPath === '/' ? homePath : requestedPath;
   const [role, setRole] = useState<Role>(defaultRole(partOf(startPath)));
 
   const router = useMemo(() => {
@@ -51,6 +54,7 @@ export function MockupApp({
       ...(areas.public ? publicNavigation.map((i) => ({ path: i.path, element: screenFor(i.key) })) : []),
       ...(areas.account ? flattenNav(accountNavigation).map((i) => ({ path: i.path, element: screenFor(i.key, i) })) : []),
       ...(areas.admin ? flattenNav(navigation).map((i) => ({ path: i.path, element: screenFor(i.key, i) })) : []),
+      ...(homePath ? [{ path: '/', element: <Navigate to={homePath} replace /> }] : []),
       { path: '/progress', element: <ProgressPage /> },
       { path: '*', element: <MissingScreen /> },
     ];

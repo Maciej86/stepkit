@@ -223,3 +223,9 @@ Zasady (bez zmian w kodzie, chyba że przegląd coś znajdzie):
 - **Połącz** `CLAUDE.md` (stos z TanStack Query, `validateQuery`, `withTransaction`, sekcja „Kod wspólny”, `DataState`,
   testy zasad, odnośnik do `docs/conventions/`).
 
+
+## 0.1.23: makieta bez strony dla odwiedzających otwiera się od razu na ekranach
+
+- **Połącz** `mockups/src/App.tsx`: gdy `areas.public` jest wyłączone, adres `/` przekierowuje (`Navigate`) do
+  `/account` albo `/admin` i od tej części zależy rola startowa (`homePath`, `startPath` jak w szablonie). Dopisz dwa
+  testy z `mockups/src/Shell.test.tsx` („opens … at /”). Projekt zwykle nie zmieniał tego pliku, wtedy podmień.
