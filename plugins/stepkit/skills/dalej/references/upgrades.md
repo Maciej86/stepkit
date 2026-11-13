@@ -1,6 +1,6 @@
 # Aktualizacja projektu do nowej wersji stepkit
 
-**Aktualna wersja stepkit:** 0.1.21
+**Aktualna wersja stepkit:** 0.1.22
 
 Szablon kopiuje się do projektu tylko raz, przy `/stepkit:start`. Gdy stepkit się zmienia, starsze projekty nie mają
 nowych plików, a nowe zasady o nich mówią. Ten plik mówi, co przenieść.
@@ -21,8 +21,9 @@ Wersję projektu podaje linia `**Wersja stepkit:** X.Y.Z` w `docs/STATUS.md`. Br
    - **Plik, który projekt mógł zmienić** (oznaczony „połącz”): nie nadpisuj. Dopisz tylko opisaną zmianę, zachowując
      wszystko, co dodały moduły (pozycje menu, ekrany, teksty).
    - Po każdej sekcji: `npm run check` zielony, zapis na GitHubie („Aktualizacja stepkit: <sekcja>”).
-3. Zawsze podmień `docs/CONVENTIONS.md` na aktualny `code-conventions.md` (obok tego pliku); projekt go nie
-   zmienia, wyjątki są w `SPEC-GENERAL.md`. Na końcu ustaw w `docs/STATUS.md` linię `**Wersja stepkit:** <aktualna wersja z góry tego pliku>` (zaraz pod
+3. Zawsze podmień `docs/CONVENTIONS.md` na aktualny `code-conventions.md` (obok tego pliku) i cały folder
+   `docs/conventions/` na aktualne `domains/` (usuń stare pliki, skopiuj wszystkie); projekt ich nie zmienia, wyjątki
+   są w `SPEC-GENERAL.md`. Na końcu ustaw w `docs/STATUS.md` linię `**Wersja stepkit:** <aktualna wersja z góry tego pliku>` (zaraz pod
    tytułem; dopisz, jeśli jej nie ma) i wpis w „Ostatnie decyzje”. Potem wróć do zwykłej pracy.
 4. Moduł w toku: aktualizację rób przed dalszą pracą nad nim; jego plików nie ruszaj poza tym, co opisuje sekcja.
 5. **Aplikacja opublikowana i wszystkie moduły zrobione:** aktualizację proponuj tylko wtedy, gdy któraś z brakujących
@@ -105,7 +106,7 @@ Wersję projektu podaje linia `**Wersja stepkit:** X.Y.Z` w `docs/STATUS.md`. Br
   nawigacji zgadza się z tym, co miał w `requireRole`? Różnica → zapytaj użytkownika, która jest dobra.
 - Dopisz „Mapę dostępu” do `SPEC-GENERAL.md` (strony z nawigacji, trasy istniejących modułów); co do stron dla
   odwiedzających zaproponuj podział publiczne / po zalogowaniu i poproś o potwierdzenie.
-- Moduł Logowanie zrobiony: `authenticate` z aktualną rolą z bazy (`code-conventions.md`, „Moduł Logowanie”) z testami.
+- Moduł Logowanie zrobiony: `authenticate` z aktualną rolą z bazy (`domains/login.md`) z testami.
 
 ## 0.1.16: daty i święta, wzorce startowe wyglądu, menu, zasady serwera i bibliotek
 
@@ -193,3 +194,32 @@ Zasady (bez zmian w kodzie, chyba że przegląd coś znajdzie):
   w `common.json`. `LogoutButton.tsx` usuń, jeśli nic go już nie używa. **Połącz** `docs/DESIGN.md` („Górna belka”).
 - Strona „Postęp”: **połącz** `mockups/src/progress/parseStatus.ts` (`dependencyNames`), `ProgressPage.tsx` i test,
   klucz `mockup.depends_all` w `common.json` (projekt zwykle ich nie zmieniał, wtedy podmień).
+
+## 0.1.22: pola formularzy, pobieranie danych, listy, transakcje, zasady dziedzinowe, testy zasad
+
+- **Zasady dziedzinowe:** utwórz `docs/conventions/` i skopiuj do niego wszystkie pliki z `domains/` (krok 3 w „Jak”).
+  **Połącz** `docs/SPEC-GENERAL.md`: w tabeli „Moduły i kolejność” dodaj kolumnę „Wzorce” (po „Zależy od”) i wypełnij
+  ją według „Wzorce dziedzin” w `code-conventions.md` (np. Logowanie: `login`; moduł bez pasującego pliku: `—`).
+  Pokaż użytkownikowi jednym zdaniem, co wpisałeś.
+- **Gotowe pola i listy:** nowe `shared/src/schemas/fields.ts`, `list.ts` i ich testy. **Połącz**
+  `shared/src/index.ts` (eksport `./schemas/fields` i `./schemas/list`), `shared/locales/pl/validation.json` (nowe
+  klucze z szablonu; istniejące zostaw), `shared/src/constants/messages.ts` (`passwordChangeRequired`, jeśli go nie
+  ma) i `server.json` (`password_change_required`).
+- **Backend:** nowe `backend/src/db/transaction.ts`, `backend/src/middleware/validateQuery.ts` (z testami).
+  **Połącz** `backend/src/middleware/mountModule.ts` (rejestr `mountedModules`). Ręczne transakcje w modułach
+  (`getConnection` / `beginTransaction`) zamień na `withTransaction`.
+- **Front:** `npm install -w @app/frontend @tanstack/react-query@5.105.0`. Nowe `frontend/src/common/DataState.tsx`,
+  `frontend/src/core/api/queryClient.ts` (z testami). **Połącz** `frontend/src/main.tsx` (`QueryClientProvider`),
+  `frontend/src/test/render.tsx` (`QueryClientProvider` w `renderWithProviders`), `frontend/src/config/constants.ts`
+  (`SESSION_EXPIRED_PATH`, `PASSWORD_CHANGE_PATH`, `QUERY_STALE_MS`), `frontend/src/core/api/client.ts`
+  (`handleSessionError`, `sessionRedirect`) i jego test, klucze `retry`, `empty_list`, `load_error` w `common.json`.
+  Zrobionych modułów nie przepisuj na TanStack Query; nowe i zmieniane ekrany już tak.
+- **Testy zasad:** nowe `backend/src/test/conventions.test.ts`, `backend/src/test/routeProtection.test.ts`,
+  `frontend/src/test/conventions.test.ts`. Dopisz `// rule-ok: <powód>` w `backend/src/modules/health/health.routes.ts`
+  (nad `healthRoutes`) i przy `beginTransaction` w `backend/src/db/migrate.ts`, jak w szablonie. Uruchom
+  `npm run check`: czerwone testy zasad pokazują miejsca w zrobionych modułach, które łamią zasady. Popraw kod
+  (z testem) albo, gdy zasada naprawdę nie pasuje, dodaj `// rule-ok:` z konkretnym powodem. Wypisz użytkownikowi
+  prostym językiem, co poprawiłeś.
+- **Połącz** `CLAUDE.md` (stos z TanStack Query, `validateQuery`, `withTransaction`, sekcja „Kod wspólny”, `DataState`,
+  testy zasad, odnośnik do `docs/conventions/`).
+

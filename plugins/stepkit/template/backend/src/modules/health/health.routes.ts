@@ -2,6 +2,7 @@ import { Router } from 'express';
 import { SERVER_MESSAGES } from '@app/shared';
 import { pool } from '../../db/pool';
 
+// rule-ok: trasy publiczne bez logowania, testy w app.test.ts
 export const healthRoutes = Router();
 
 healthRoutes.get('/health', (_req, res) => {

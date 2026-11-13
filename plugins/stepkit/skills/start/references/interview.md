@@ -93,6 +93,9 @@ Obszary, dokładnie w tej kolejności. Przykład pod każdym to wzór, nie tekst
    w usłudze na abonament)?”
 8. **Dane.** Co aplikacja zapisuje: dla każdej głównej rzeczy (zamówienie, klient, produkt) jej pola i to, jak rzeczy
    się łączą (zamówienie ma klienta i pozycje).
+   Gdy opis wspomina o magazynie: „Czy firma ma jeden magazyn, czy kilka? Czy trzeba wiedzieć, na której półce leży
+   towar?” Odpowiedź zapisz w podsumowaniu; zmienia budowę bazy we wszystkich modułach magazynowych
+   (`../../dalej/references/domains/warehouse.md`), więc nie czekaj z nią do makiety.
 9. **Główna czynność.** „Opisz krok po kroku najważniejszą rzecz, którą robi aplikacja, od początku do końca.”
 10. **Statusy.** „Czy zamówienie przechodzi przez etapy, np. nowe → w realizacji → wysłane?”
 11. **Historia zmian.** „Czy aplikacja ma zapisywać i pokazywać, kto, co i kiedy zmienił?” Jeśli tak: zakres (zmiany

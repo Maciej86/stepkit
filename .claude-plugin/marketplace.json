@@ -3,7 +3,7 @@
   "owner": { "name": "stepkit" },
   "metadata": {
     "description": "Buduj własną aplikację www z Claude krok po kroku, bez programowania.",
-    "version": "0.1.21"
+    "version": "0.1.22"
   },
   "plugins": [
     {

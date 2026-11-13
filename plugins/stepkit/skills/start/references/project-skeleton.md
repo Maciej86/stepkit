@@ -24,7 +24,8 @@ na początku treści skilla jako „Base directory for this skill”).
    ```
 3. Zmień `"name"` w głównym `package.json` na nazwę projektu (małe litery, myślniki), a tytuł `# Moja aplikacja`
    w `CLAUDE.md` na nazwę aplikacji. Skopiuj zasady kodu do projektu, żeby działały także bez pluginu:
-   `cp "<katalog bazowy tego skilla>/../dalej/references/code-conventions.md" docs/CONVENTIONS.md`.
+   `cp "<katalog bazowy tego skilla>/../dalej/references/code-conventions.md" docs/CONVENTIONS.md` i
+   `mkdir -p docs/conventions && cp "<katalog bazowy tego skilla>/../dalej/references/domains/"*.md docs/conventions/`.
 4. `.env` z losowymi sekretami, **bez wypisywania ich** (hasła nie mogą pojawić się w rozmowie):
    ```bash
    cp .env.example .env

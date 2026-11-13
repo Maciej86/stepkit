@@ -5,8 +5,8 @@
 > `SPEC-GENERAL.md`, nie tutaj.
 
 Czytasz ten plik na etapach **spec**, **plan** i **implementacja** (oraz w kroku 7 `/stepkit:start` przy projekcie
-bazy). To są reguły, nie propozycje. Stos jest stały: React + Vite + TypeScript + Mantine, Express + mysql2 +
-TypeScript, zod, i18next, dayjs, MySQL w Dockerze.
+bazy). To są reguły, nie propozycje. Stos jest stały: React + Vite + TypeScript + Mantine, TanStack Query + axios,
+Express + mysql2 + TypeScript, zod, i18next, dayjs, MySQL w Dockerze.
 
 ## Biblioteki
 
@@ -39,7 +39,8 @@ samo na dwa sposoby.
    sprawdzone narzędzie, używa jej wiele firm. Zgadzasz się?” Bez zgody szukasz innej drogi.
 4. Dopisz ją do „Bibliotek” w `SPEC-GENERAL.md`. Kolejne moduły używają tej samej paczki, nie drugiej do tego samego.
 
-Nigdy: przeglądarki uruchamianej na serwerze do PDF (puppeteer, playwright), drugiej biblioteki komponentów, drugiej paczki ikon, axios (jest `fetch` w `core/api/client.ts`), moment,
+Nigdy: przeglądarki uruchamianej na serwerze do PDF (puppeteer, playwright), drugiej biblioteki komponentów, drugiej paczki ikon, `fetch` w modułach ani drugiego klienta HTTP (wszystkie zapytania przez `api`
+z `frontend/src/core/api/client.ts`), moment,
 date-fns, lodash.
 
 **Kalendarze:** `@mantine/schedule` w tej samej wersji co `@mantine/core`, w obu miejscach naraz
@@ -67,7 +68,7 @@ Jedna pozycja nawigacji = jeden moduł = jedna nazwa folderu (po angielsku, mał
 | `backend/src/modules/<module>/<module>.routes.ts` | adresy API, `requireRole`, `validateBody` |
 | `backend/src/modules/<module>/<module>.queries.ts` | zapytania SQL |
 | `backend/src/modules/<module>/<module>.service.ts` | logika (gdy jest więcej niż samo zapytanie) |
-| `frontend/src/modules/<module>/` | ekrany prawdziwej aplikacji |
+| `frontend/src/modules/<module>/` | ekrany prawdziwej aplikacji (wnętrze niżej) |
 | `mockups/src/modules/<module>/` | ekrany makiety |
 | `e2e/<module>.spec.ts` | testy przeglądarkowe |
 | `docs/modules/<module>/` | `QUESTIONS.md`, `SPEC.md`, `PLAN.md`, `TESTS.md` |
@@ -76,10 +77,21 @@ Nowa pozycja nawigacji: wpis w `NAVIGATION` (panel, ścieżka od `/admin`), `ACC
 `/account`) albo `PUBLIC_NAVIGATION` (strona); wpis w `frontend/src/core/routes/pages.ts` i
 `mockups/src/screens.tsx`; trasy API dopisane w `backend/src/app.ts` (`api.use('/<module>', <module>Routes)`).
 
+**Wnętrze `frontend/src/modules/<module>/`:**
+- `<Module>ListPage.tsx`, `<Module>FormPage.tsx` (albo `<Module>FormModal.tsx`): ekrany;
+- `components/`: części ekranów używane tylko w tym module;
+- `<module>.api.ts`: hooki zapytań modułu („Pobieranie danych na froncie”);
+- `<Ekran>.module.css` i testy `*.test.tsx` obok pliku, którego dotyczą.
+
+**Wspólne zamiast kopii.** Gdy komponent albo hook jest potrzebny w drugim module, przenosisz go do
+`frontend/src/common/` (komponent) albo `frontend/src/core/` (hook bez wyglądu), z testem, i podmieniasz w pierwszym
+module. Nie kopiujesz go i nie importujesz z folderu innego modułu. Gdy makieta używa tego samego klocka, kopia jest
+w `mockups/src/common/`. Plik ekranu dłuższy niż ok. 250 linii rozbijasz na komponenty w `components/`.
+
 **Wygląd:** prawdziwy ekran we `frontend/` odtwarza układ zaakceptowanej makiety modułu (bez panelu pytań) i trzyma się
 wzorców z `docs/DESIGN.md`. Gotowe klocki są w `common/` (we froncie i w makietach te same): `InfoCard` (boks z
 nagłówkiem, treścią i akcjami na dole, np. na pulpicie), `PageSection` (sekcja strony dla odwiedzających z tłem na całą
-szerokość), `ButtonIcon` (ikona akcji przycisku), `DateText` (data). Każda tabela jest w
+szerokość), `ButtonIcon` (ikona akcji przycisku), `DateText` (data), `DataState` (ładowanie, błąd, pusta lista). Każda tabela jest w
 `<Table.ScrollContainer minWidth={TABLE_MIN_WIDTH}>` (test `tables.test.ts`). Kolory,
 czcionki i wygląd komponentów biorą się z `shared/src/theme.ts` i `shared/src/theme.css`; nie ustawiaj ich w module.
 Żadnych kolorów wpisanych na sztywno (`#fff`, `rgb(…)`): tylko kolory Mantine i zmienne `var(--mantine-color-…)`,
@@ -155,6 +167,70 @@ Nowa akcja: dopisz ją do `BUTTON_ICONS` we froncie i w makietach oraz do tabeli
 - **W bazie:** kwoty w kolumnach `DECIMAL(12,2)`, nigdy `FLOAT` ani `DOUBLE` (zaokrąglenia gubią grosze). Sumy
   i rabaty liczy baza (`SUM`, `ROUND`) albo serwer na groszach (liczby całkowite), nie na ułamkach w JavaScripcie.
 
+## Pola formularzy
+
+- Zasady pól z tabeli „Pola formularzy” w `SPEC.md` modułu zapisujesz w schemacie zod modułu
+  (`shared/src/schemas/<module>.ts`). Ten sam schemat sprawdza formularz (`zodResolver`) i serwer (`validateBody`).
+  Limity są w `shared/src/constants/<module>.ts`, a maksymalna długość zgadza się z kolumną w migracji (`VARCHAR(n)`).
+- **Gotowe pola zod** w `shared/src/schemas/fields.ts` (eksport z `@app/shared`): `text(max)`, `postalCode`, `nip`,
+  `regon`, `pesel`, `phone`, `email`, `iban`, `money` / `moneyField(min, max)`, `quantity` / `quantityField(min, max)`
+  i `optionalField(pole)` (puste pole formularza zapisuje się jako `NULL`). Moduł składa z nich schemat i nie pisze
+  własnych wyrażeń regularnych:
+  ```ts
+  export const clientSchema = z.object({
+    name: text(CLIENT_NAME_MAX),
+    nip: optionalField(nip),
+    postalCode,
+    email: optionalField(email),
+  });
+  ```
+  Nowy format dopisujesz do `fields.ts`, z kluczem komunikatu w `validation.json` i testem w `fields.test.ts`.
+- Porządkowanie przed zapisem robi schemat (`trim`, `toLowerCase`, `transform`: NIP bez kresek, kod pocztowy
+  z kreską, e-mail małymi literami), więc front i serwer zapisują to samo.
+- Pole z formatem ma w formularzu podpowiedź z przykładem (`description`, np. „np. 64-300”), a komunikat błędu mówi,
+  jak wygląda poprawna wartość.
+- **Testy schematu:** dla każdego pola z tabeli wartości graniczne (min−1, min, maks, maks+1) i jeden zły format.
+
+## Pobieranie danych na froncie
+
+- Zapytania tylko przez `api` z `frontend/src/core/api/client.ts` (axios). Kiedy pobierać, co pamiętać i co
+  odświeżyć, decyduje TanStack Query (`@tanstack/react-query`, `QueryClientProvider` jest w `main.tsx`).
+- Każdy moduł ma hooki w `frontend/src/modules/<module>/<module>.api.ts`; ekrany nie wołają `api` same:
+  ```ts
+  export function useClients(params: ListQuery) {
+    return useQuery({
+      queryKey: ['clients', params],
+      queryFn: () => api.get<ListResponse<Client>>('/clients', { params }).then((r) => r.data),
+    });
+  }
+  export function useSaveClient() {
+    const queryClient = useQueryClient();
+    return useMutation({
+      mutationFn: (client: ClientInput) => api.post('/clients', client),
+      onSuccess: () => queryClient.invalidateQueries({ queryKey: ['clients'] }),
+    });
+  }
+  ```
+  Po udanym zapisie odświeżasz dane przez `invalidateQueries`. Nigdy `useEffect` z ręcznym pobieraniem.
+- **Ładowanie, błąd, pusto:** każdy ekran z danymi używa `<DataState query={…} isEmpty={…} emptyText={…}
+  emptyAction={…}>` z `common/`: kręciołek, ramka z błędem i przyciskiem „Spróbuj ponownie”, pusta lista z tekstem
+  i akcją (np. „Dodaj pierwszego klienta”).
+- Wygasła sesja i obowiązkowa zmiana hasła są obsłużone w jednym miejscu, w `client.ts` (`handleSessionError`):
+  401 (poza `/auth/me` i `/auth/login`) przenosi na `/login?reason=expired`, 403 `server.password_change_required` na
+  `/change-password`. Moduły tego nie obsługują same.
+- Testy ekranów z `renderWithProviders` (ma już `QueryClientProvider`); `api` podmieniasz `vi.spyOn(api, 'get')`.
+
+## Listy
+
+- Stronicowanie, wyszukiwanie i sortowanie robi serwer: `GET /api/<module>?page=1&search=…&sort=name&dir=asc`,
+  odpowiedź `ListResponse` (`{ items, total, page, pageSize }`), `PAGE_SIZE` z `backend/src/config/constants.ts`.
+- Parametry sprawdza `validateQuery(listQuerySchema(['name', 'created_at']))` (`backend/src/middleware/validateQuery.ts`,
+  schemat z `@app/shared`). Sortować można tylko po kolumnach z tej listy; nazwa kolumny z adresu nigdy nie trafia do
+  SQL bez tego sprawdzenia. Wyszukiwanie przez `LIKE ?` z parametrem.
+- Na froncie `Pagination` z Mantine; strona, wyszukiwanie i sortowanie siedzą w adresie (`?page=2&search=kowal`,
+  czytane tym samym `listQuerySchema`), więc odświeżenie strony i wysłany link pokazują ten sam widok.
+- **Testy:** druga strona, wyszukiwanie, nieznana kolumna sortowania → 400.
+
 ## Teksty
 
 - Żaden tekst dla człowieka nie jest wpisany w kod. Klucz `<module>.<ekran>.<element>`, np. `orders.list.empty`.
@@ -192,11 +268,12 @@ więc backend sprawdza wszystko sam, nawet jeśli formularz już to sprawdził:
 - `validateBody(schema)` z tym samym schematem co formularz (`zodResolver(schema)` z `mantine-form-zod-resolver`
   w `useForm`).
 - Format błędu jest jeden: `{ error: { message: <klucz>, fields?: { pole: <klucz> } } }`, kody 400/401/403/404/409/503.
-  Na froncie: `apiErrorMessage(err, t)` z `frontend/src/core/api/client.ts` i `notifications.show`.
+  Na froncie: `notify.error(apiErrorMessage(err, t))` (`apiErrorMessage` z `frontend/src/core/api/client.ts`).
 - SQL **tylko z parametrami** `?`: `pool.query('SELECT * FROM orders WHERE id = ?', [id])`. Nigdy nie sklejaj SQL
   z danymi od użytkownika.
-- Kilka zapisów, które muszą się udać razem: transakcja (`const conn = await pool.getConnection();
-  await conn.beginTransaction(); … await conn.commit()` / `rollback()` / `conn.release()`).
+- Kilka zapisów, które muszą się udać razem (także każdy zapis z historią zmian): `withTransaction(async (conn) => { … })`
+  z `backend/src/db/transaction.ts`. Sama zatwierdza, cofa przy błędzie i oddaje połączenie; nie wołasz
+  `pool.getConnection()` ręcznie.
 
 ## Powiązania między modułami
 
@@ -339,41 +416,6 @@ Gdy `docs/SPEC-GENERAL.md` ma włączoną historię:
   z `SPEC-GENERAL.md`.
 - Test: zmiana tworzy wpis z poprawnymi parami „przed → po”; usunięcie rekordu nie usuwa jego historii.
 
-## Dokumenty firmowe (zamówienia, faktury, magazyn, terminy)
-
-**Wspólne dla każdego dokumentu** (zamówienie, faktura, PZ/WZ, zlecenie, protokół):
-- **Pozycje w osobnej tabeli** (`<doc>_items`); sumy liczy serwer z pozycji, nigdy nie bierze ich z żądania.
-- **Kopia danych z chwili wystawienia:** nazwa i cena towaru, dane klienta, stawka VAT zapisane w dokumencie, nie
-  tylko `product_id`. Zmiana ceny w cenniku nie zmienia starych dokumentów; test to sprawdza.
-- **Numeracja** według wzoru ze specu (np. `ZAM/2026/11/0001`). Numer nadaje serwer w transakcji z blokadą licznika
-  (tabela `document_counters`, `SELECT … FOR UPDATE`): bez dziur i bez duplikatów, także gdy dwie osoby wystawiają
-  naraz. Test na równoczesne wystawienie.
-- **Statusy** jako stała w `shared/`, z dozwolonymi przejściami (np. szkic → wysłane → zrealizowane / anulowane);
-  przejścia sprawdza serwer.
-- **Wystawiony dokument jest zamknięty.** Edycja tylko w szkicu. Po wystawieniu: anulowanie albo dokument
-  korygujący z odwołaniem do pierwotnego, nigdy nadpisanie. Usunięcie wystawionego dokumentu jest zablokowane.
-
-**Faktury:**
-- **W wywiadzie zapytaj, gdzie firma wystawia faktury dziś.** Wariant a (polecam, domyślny): aplikacja prowadzi
-  zamówienia i przekazuje dane do programu księgowego (eksport albo połączenie z programem). Wariant b: aplikacja sama
-  wystawia faktury; wtedy wysyłka do KSeF to osobny moduł z dodatkową biblioteką i kontem testowym KSeF. Powiedz
-  jednym zdaniem, że prawdziwe faktury to więcej obowiązków niż zwykły dokument.
-- Kwoty liczone **od pozycji**: netto pozycji → VAT pozycji zaokrąglony do grosza → suma. Sposób liczenia (od netto
-  czy od brutto) ustal w pytaniach makiety, z dopiskiem „warto potwierdzić z księgową”.
-- Stawki VAT jako słownik w panelu, nie lista w kodzie.
-
-**Magazyn i stany:**
-- Stan nie jest polem do edycji. Liczy się z ruchów (`stock_movements`: przyjęcie, wydanie, przesunięcie,
-  inwentaryzacja), a każdy ruch powstaje z dokumentu.
-- Ilości `DECIMAL(12,3)` z jednostką (szt., kg, m).
-- Wydanie w transakcji z blokadą stanu; zejście poniżej zera jest odrzucane, chyba że spec mówi inaczej. Test na dwa
-  równoczesne wydania ostatniej sztuki.
-
-**Terminy cykliczne** (przegląd auta, ubezpieczenie, legalizacja, umowa):
-- Data następnego terminu i okres w rekordzie. Przypomnienie X dni przed (X ustawiane w panelu) przez Powiadomienia
-  i e-mail, z zadania uruchamianego raz dziennie (`cron`).
-- Lista „zbliża się / po terminie” na Pulpicie.
-
 ## Wzorce opcjonalne
 
 Tylko gdy wywiad je potwierdził (decyzja w `SPEC-GENERAL.md`, przed modułem Logowanie):
@@ -387,52 +429,57 @@ Tylko gdy wywiad je potwierdził (decyzja w `SPEC-GENERAL.md`, przed modułem Lo
 
 Zmiana `SessionUser` = zmiana w `shared/src/navigation.ts`, `backend/src/auth/token.ts` i testach obu.
 
-## Moduł Logowanie
-
-- Migracja `users`: `id`, `name`, `email` (unikalny), `password_hash`, `role`, `created_at`, `updated_at`;
-  `archived_at`, `archived_by` gdy archiwum obejmuje użytkowników; `company_id` gdy wiele firm.
-- `POST /api/auth/login` (`loginLimiter`, `validateBody`) i `POST /api/auth/logout` to trasy **publiczne** (część 1
-  w `app.ts`); `GET /api/auth/me` (zwraca `{ user }` albo 401) za logowaniem.
-- **Aktualna rola i konto przy każdym żądaniu:** po migracji `users` zmień `authenticate`
-  (`backend/src/middleware/authenticate.ts`), żeby po odczytaniu tokenu pobrał z bazy użytkownika o tym `id`
-  (`SELECT id, name, role FROM users WHERE id = ? AND archived_at IS NULL`, bez `archived_at`, gdy archiwum nie
-  obejmuje użytkowników). Brak takiego konta → niezalogowany; `req.user` z bazy, nie z tokenu. Dzięki temu odebranie
-  roli albo archiwizacja (np. zwolnienie) działa od razu, a nie po wygaśnięciu tokenu. Testy: konto zarchiwizowane →
-  401, zmieniona rola → nowa rola. Hasła `bcryptjs` z kosztem `BCRYPT_COST`. Token i ciasteczko przez
-  `signToken`, `setAuthCookie`, `clearAuthCookie` z `backend/src/auth/token.ts`.
-- `loginLimiter` jest gotowy w `backend/src/middleware/rateLimit.ts`; podpinasz go na `POST /api/auth/login` przed
-  `validateBody`. Liczy tylko nieudane próby i rozpoznaje osoby za serwerem Caddy (`trust proxy` w `app.ts`); nie
-  zmieniaj tych ustawień. **Plan ma w kroku z trasą logowania test:** 10 nieudanych prób przechodzi, 11. daje 429
-  `server.too_many_logins`, a udane logowania nie zużywają limitu. Ten test trzymasz w osobnym pliku (np.
-  `auth.rateLimit.test.ts`), bo licznik limitu jest wspólny dla wszystkich testów w jednym pliku.
-- Zły e-mail i złe hasło dają ten sam komunikat (`server.login_failed`), żeby nie zdradzać, które konta istnieją.
-- **Logowanie loginem** (gdy w `SPEC-GENERAL.md` nie wszyscy mają e-mail): kolumna `login` (unikalna, bez spacji,
-  zapisywana małymi literami; może wyglądać jak e-mail, np. `jan.kowalski@firma.pl`, jeśli użytkownik tak chce) i
-  osobna `email` `NULL` „e-mail do powiadomień” (unikalny, gdy podany). **Wysyłka zawsze na `email`, nigdy na
-  `login`**, także link do zmiany hasła; test to sprawdza. Formularz logowania ma pole „Login”.
-  Zmiana hasła bez e-maila: administrator ustawia hasło tymczasowe w module użytkowników, a osoba zmienia je po
-  zalogowaniu. E-maile (`email` moduł) wysyłasz tylko osobom z adresem; pozostali widzą powiadomienie w aplikacji.
-- Pierwszy administrator: skrypt `backend/src/scripts/createAdmin.ts` (`npm run admin -w @app/backend`), pyta
-  w terminalu o imię, e-mail i hasło. **Ty nie możesz odpowiadać na pytania w terminalu**, więc poproś użytkownika:
-  „Otwórz terminal (w VS Code: menu Terminal → New Terminal), wejdź do folderu projektu i wpisz
-  `npm run admin -w @app/backend`. Hasło wpisujesz tylko tam, nie w rozmowie.”
-- Gdy spec przewiduje wymuszoną zmianę hasła (`must_change_password`), ekran „Ustaw nowe hasło” po zalogowaniu
-  należy do modułu Logowanie, nie do „Moje konto”.
-- Ekran `/login` (`frontend/src/modules/login/`, wpis `login` w `PAGES`); po zalogowaniu `refresh()` z `useAuth`
-  i przejście do `ROLE_HOME[user.role]`.
-
 ## Testy modułu
 
 Najpierw test, potem kod (TDD). Krok planu jest zrobiony dopiero po `npm run check` bez błędów.
 
+- **Szkielet z wymagań:** pierwszy krok planu zapisuje `it.todo('…')` dla każdego wymagania ze specu (trasy, pola,
+  reguły z plików „Wzorce”, scenariusze `TESTS.md`). Implementacja zamienia je na prawdziwe testy; w module
+  `zrobiony` nie może zostać żadne `it.todo` (test zasad).
+- **Ochrona tras:** `backend/src/test/routeProtection.test.ts` sam sprawdza każdy moduł podpięty przez `mountModule`:
+  bez logowania 401, rola spoza modułu 403, na każdym adresie i każdą metodą.
+
 - **Backend** (`*.test.ts` obok kodu, supertest na `createApp({ extraRoutes })` albo na trasach modułu): każda trasa:
   poprawne dane → sukces; błędne dane → 400 z kluczami pól; bez logowania → 401; zła rola → 403; w koncie cudze
   dane → 404. Plus reguły usuwania, archiwum i historii, jeśli dotyczą modułu.
-- **`shared/`:** schematy zod (poprawne i błędne dane, klucze komunikatów).
-- **Frontend:** formularze (błędy pól po polsku) i listy (pusta lista, dane), z `renderWithProviders` z
-  `frontend/src/test/render.tsx`.
+- **`shared/`:** schematy zod (poprawne i błędne dane, wartości graniczne z tabeli pól, klucze komunikatów).
+- **Frontend:** formularze (błędy pól po polsku) i listy (ładowanie, błąd, pusta lista, dane), z
+  `renderWithProviders` z `frontend/src/test/render.tsx`.
 - **E2E** (`e2e/<module>.spec.ts`, `@playwright/test`): scenariusze z `TESTS.md`, po jednym na rolę. Wymagają bazy
   (`npm run db`), uruchamiane `npm run test:e2e` przy zamknięciu modułu.
+
+## Testy zasad
+
+Część zasad sprawdza `npm run check` sam, w plikach stepkit, których **nie zmieniasz** (aktualizacja podmienia je
+w całości). Czerwony test zasad znaczy: popraw kod, nie test.
+
+| Plik | Pilnuje |
+|---|---|
+| `backend/src/test/conventions.test.ts` | SQL tylko z `?`; transakcje tylko przez `withTransaction`; `validateBody` przy każdej trasie zapisu; kto i jaka rola tylko z `req.user`; moduły za logowaniem tylko przez `mountModule`; obok każdego `*.routes.ts` test z 401 i 403; każdy klucz obcy z `ON DELETE`; w module `zrobiony` (według `docs/STATUS.md`) żadnego `it.todo` |
+| `backend/src/test/routeProtection.test.ts` | każdy moduł z `mountModule`: bez logowania 401, rola spoza modułu 403 |
+| `frontend/src/test/conventions.test.ts` | zapytania tylko przez `api`; w modułach `api` tylko w `*.api.ts`; brak importów z innego modułu; dymki przez `notify`; brak polskich tekstów w kodzie; schematy w `shared/src/schemas/` bez własnych `.regex(` |
+| `frontend/src/test/colors.test.ts`, `formatting.test.ts`, `tables.test.ts` | kolory z motywu; daty i liczby przez `@app/shared`; tabele w `Table.ScrollContainer` |
+
+**Wyjątek** tylko tam, gdzie zasada naprawdę nie pasuje: na końcu linii komentarz `// rule-ok: <powód>` (np. sortowanie
+po kolumnie sprawdzonej przez `listQuerySchema`; trasy publiczne bez testu 401 w pliku tras). Powód musi być
+konkretny; przegląd kodu sprawdza każdy.
+
+## Wzorce dziedzin
+
+Reguły dla konkretnych rodzajów modułów są w osobnych plikach: w stepkit `references/domains/`, w projekcie
+`docs/conventions/`. Który moduł czyta które pliki, mówi kolumna „Wzorce” w tabeli „Moduły i kolejność”
+w `SPEC-GENERAL.md`. Moduł bez pasującego pliku korzysta tylko z tego pliku ogólnego.
+
+| Plik | Kiedy |
+|---|---|
+| `login.md` | moduł Logowanie |
+| `documents.md` | moduł z dokumentami: zamówienie, faktura, PZ/WZ, zlecenie, protokół |
+| `invoices.md` | faktury i kwoty z VAT (razem z `documents.md`) |
+| `warehouse.md` | magazyn: stany, miejsca, przyjęcia, wydania (razem z `documents.md`) |
+| `deadlines.md` | terminy cykliczne: flota, umowy, przeglądy, legalizacje |
+
+Pliki dziedzinowe nie powtarzają zasad ogólnych; ogólne obowiązują zawsze. Przegląd kodu przechodzi listę kontrolną
+niżej i listy z plików dziedzinowych modułu.
 
 ## Lista kontrolna przeglądu kodu
 
@@ -449,8 +496,12 @@ Używaj jej, gdy nie ma `superpowers:requesting-code-review`:
 - [ ] przyciski akcji z `ButtonIcon`, dymki przez `notify`
 - [ ] nowe biblioteki tylko z listy zatwierdzonej albo ze zgodą użytkownika (zapisane w `SPEC-GENERAL.md`)
 - [ ] dane z innych modułów przez ich funkcje, z polami dozwolonymi dla roli
-- [ ] dokumenty: kopia danych z chwili wystawienia, numer nadawany w transakcji, wystawionego nie da się edytować
-- [ ] `POST /api/auth/login` ma `loginLimiter` i test na 429
+- [ ] pola formularzy zgodne z tabelą w specu, formaty z `fields.ts`, testy wartości granicznych
+- [ ] dane na froncie przez hooki `<module>.api.ts` i `DataState`; brak `useEffect` z pobieraniem i `fetch`
+- [ ] listy: `validateQuery(listQuerySchema(...))`, sortowanie tylko po kolumnach z listy, stan w adresie
+- [ ] kilka zapisów naraz przez `withTransaction`
+- [ ] nic skopiowanego między modułami: wspólne w `common/` albo `core/`
+- [ ] każde `// rule-ok:` ma konkretny, prawdziwy powód; testy zasad niezmienione
 - [ ] pliki przez `saveUpload` / `sendUpload`, pobieranie z kontrolą dostępu, tabela plików z kluczem obcym
 - [ ] testy dla każdej trasy i formularza, `npm run check` zielony
 - [ ] `.env` nie jest w repo (`git check-ignore .env`)

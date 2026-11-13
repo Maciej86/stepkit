@@ -71,11 +71,11 @@ Nigdy nie przeskakujesz nieskończonego modułu i nigdy nie masz dwóch modułó
 
 | Etap | Czytasz | Wynik | Użytkownik |
 |---|---|---|---|
-| makieta | `references/mockups.md`, skill `frontend-design` | ekrany w `mockups/src/modules/<folder>/` z panelem pytań na górze, `QUESTIONS.md` | ogląda http://localhost:5174 |
-| pytania | `references/mockups.md` | odpowiedzi w `QUESTIONS.md`, poprawiona makieta | odpowiada |
-| spec | `references/superpowers.md`, `references/code-conventions.md`, `references/document-templates.md` | `SPEC.md` | akceptuje |
+| makieta | `references/mockups.md`, skill `frontend-design`, pliki z kolumny „Wzorce” modułu (`references/domains/`) | ekrany w `mockups/src/modules/<folder>/` z panelem pytań na górze, `QUESTIONS.md` | ogląda http://localhost:5174 |
+| pytania | `references/mockups.md`, pliki z kolumny „Wzorce” modułu (`references/domains/`) | odpowiedzi w `QUESTIONS.md`, poprawiona makieta | odpowiada |
+| spec | `references/superpowers.md`, `references/code-conventions.md` + pliki z kolumny „Wzorce” modułu w `SPEC-GENERAL.md` (`references/domains/`), `references/document-templates.md` | `SPEC.md` | akceptuje |
 | plan | jak wyżej | `PLAN.md` z testami w każdym kroku | akceptuje |
-| implementacja | `references/superpowers.md`, `references/code-conventions.md` | kod; **najpierw test, potem kod**, po każdym kroku `npm run check` i odhaczenie w `PLAN.md`; na koniec przegląd kodu | — |
+| implementacja | `references/superpowers.md`, `references/code-conventions.md` + pliki z kolumny „Wzorce” | kod; **najpierw test, potem kod**, po każdym kroku `npm run check` i odhaczenie w `PLAN.md`; na koniec przegląd kodu | — |
 | testy | `references/browser.md` | Ty klikasz w przeglądarce, `npm run test:e2e`, potem użytkownik przechodzi `TESTS.md` | potwierdza „działa” |
 | zamknięcie | `references/mockups.md` | `<Done labelKey=…>` w `mockups/src/screens.tsx`, `STATUS.md` (`zrobiony`, nowy „Następny krok”), zapis „Moduł <nazwa> gotowy” + `git push` | — |
 
@@ -121,6 +121,8 @@ bieżący krok, zapisz stan w `STATUS.md` i `PLAN.md`, potem: „Ta rozmowa zrob
 - Nie zmieniasz stosu i nie dodajesz bibliotek spoza listy w `code-conventions.md` bez zgody użytkownika
   („Biblioteki”).
 - Nie piszesz kodu bez testu, który najpierw nie przechodzi.
+- Nie zmieniasz testów zasad (`conventions.test.ts`, `routeProtection.test.ts`, `colors.test.ts`,
+  `formatting.test.ts`, `tables.test.ts`). Czerwony test zasad = popraw kod; wyjątek tylko komentarzem `// rule-ok: <powód>` (`code-conventions.md`).
 - Nie przerywasz implementacji i nie odsyłasz do nowej rozmowy z powodu liczby zrobionych kroków ani etapów; jedyny
   powód to rozmowa już skracana przez Claude Code (sekcja 4).
 - Nie oznaczasz modułu jako zrobionego bez potwierdzenia użytkownika.

@@ -103,6 +103,11 @@ Panel da się zwinąć przyciskiem „Zwiń pytania”, żeby obejrzeć ekran w 
 - Pytaj o to, co zmienia ekran, dane albo uprawnienia. Pytania o kolory czy czcionki zostaw na koniec.
 - Zawsze pytaj o regułę usuwania przy każdej relacji, której spec ogólny nie rozstrzygnął (zob. `code-conventions.md`,
   „Baza danych”).
+- **Zasady pól.** Przy każdym formularzu makiety dodaj jedno pytanie „Zasady pól” z tabelą propozycji: pole, wymagane
+  czy nie, min–maks (długość albo wartość), format z przykładem (kod pocztowy `64-300`, NIP, telefon, kwota ≥ 0, data
+  nie wcześniejsza niż dziś). Wartości zgadnij z opisu i z gotowych pól (`code-conventions.md`, „Pola formularzy”).
+  Użytkownik odpowiada „ok” albo poprawia pojedyncze pola; nie pytaj o każde pole osobno. W makiecie pole z formatem
+  ma pod spodem podpowiedź z przykładem. Ustalone zasady trafiają do tabeli „Pola formularzy” w `SPEC.md`.
 
 Po zrobieniu ekranów: uruchom `npm run dev` (jeśli nie działa), podaj adres i poproś:
 „Otwórz http://localhost:5174, przełącz się na <część> i obejrzyj ekrany modułu <nazwa>. Odpowiedz na pytania

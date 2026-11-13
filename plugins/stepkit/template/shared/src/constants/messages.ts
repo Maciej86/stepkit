@@ -9,6 +9,8 @@ export const SERVER_MESSAGES = {
   tooManyLogins: 'server.too_many_logins',
   fileTooLarge: 'server.file_too_large',
   fileTypeNotAllowed: 'server.file_type_not_allowed',
+  /** Serwer odrzuca zapytanie, bo osoba musi najpierw ustawić własne hasło (moduł Logowanie). */
+  passwordChangeRequired: 'server.password_change_required',
 } as const;
 
 export type ServerMessage = (typeof SERVER_MESSAGES)[keyof typeof SERVER_MESSAGES];

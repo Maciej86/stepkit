@@ -12,7 +12,7 @@ kolumn, wartości statusów), bo strona „Postęp” go odczytuje. Maks. ok. 60
 ```markdown
 # Stan projektu: Sklep z zamówieniami
 
-**Wersja stepkit:** 0.1.21
+**Wersja stepkit:** 0.1.22
 
 **Następny krok:** Moduł Logowanie, implementacja: krok 3 z 7 (formularz logowania).
 
@@ -98,7 +98,11 @@ Co trafia do archiwum, kto przywraca, czy można usunąć na stałe.
 Włączona: tak/nie. Zakres. Kto widzi.
 
 ## 7. Moduły i kolejność
-| # | Moduł | Folder | Zależy od | Dlaczego w tej kolejności |
+| # | Moduł | Folder | Zależy od | Wzorce | Dlaczego w tej kolejności |
+|---|---|---|---|---|---|
+| 2 | Logowanie | login | appearance | login | … |
+| 9 | Magazyn | warehouse | login, products | documents, warehouse | … |
+Kolumna „Wzorce”: pliki z `code-conventions.md` („Wzorce dziedzin”), które moduł czyta na każdym etapie.
 
 ## 8. Zasady wspólne
 Wzorce opcjonalne (wiele firm, dostęp nadawany), dodatki wybrane dla wszystkich ekranów (np. filtry na listach,
@@ -137,6 +141,13 @@ Biblioteki spoza szablonu, które weszły do projektu (`code-conventions.md`, �
 ## Cel
 ## Ekrany
 Każdy ekran: co widać, kto widzi (rola), akcje, pusta lista, błędy.
+### Pola formularzy
+Z pytania „Zasady pól” w makiecie; z tej tabeli powstaje schemat zod i testy wartości granicznych.
+| Formularz | Pole | Wymagane | Min–maks | Format (przykład) | Pole z `fields.ts` |
+|---|---|---|---|---|---|
+| Klient | Nazwa | tak | 1–150 znaków | — | `text(150)` |
+| Klient | Kod pocztowy | tak | — | 00-000 (64-300) | `postalCode` |
+| Klient | NIP | nie | — | 10 cyfr z sumą kontrolną | `optionalField(nip)` |
 ## Dane
 Nowe tabele i kolumny (migracje), relacje z regułą przy usunięciu, archiwum, wpisy historii zmian.
 ## API
@@ -160,11 +171,18 @@ Każda część: `SPEC-<n>.md`, `PLAN-<n>.md`, `TESTS-<n>.md` (wzory jak niżej)
 
 ## `docs/modules/<module>/PLAN.md`
 
-Kroki małe, każdy kończy się czymś do sprawdzenia. Odhaczaj `- [x]` po `npm run check`.
+Kroki małe, każdy kończy się czymś do sprawdzenia. Odhaczaj `- [x]` po `npm run check`. **Krok 1 to zawsze szkielet
+testów z wymagań:** pliki testów modułu z `it.todo('…')` po jednym na każde wymaganie ze specu: każda trasa z tabeli
+API (sukces, złe dane → 400, cudze dane → 404, reguły z „Zasad serwera”), każde pole z „Pól formularzy” (wartości
+graniczne), każda reguła z plików z kolumny „Wzorce” (np. limit logowań → 429), każdy scenariusz z `TESTS.md`
+(w `e2e/<module>.spec.ts`). Kolejne kroki zamieniają `it.todo` na prawdziwe testy. Ochronę tras (401, 403) sprawdza
+sam `routeProtection.test.ts`; w module zostaje po jednym teście 401 i 403 w pliku tras. Przy zamknięciu modułu
+test zasad nie przepuści żadnego `it.todo` w jego folderach.
 
 ```markdown
 # Plan: <moduł>
 
+- [ ] 0. Szkielet testów: `it.todo` dla każdego wymagania ze specu (lista w krokach niżej) → `npm run check`
 - [ ] 1. Migracja `003_orders.sql` + test: … → `npm run migrate`, `npm run check`
 - [ ] 2. Schemat `shared/src/schemas/orders.ts` + testy
 - [ ] 3. Trasa `GET /api/orders` + testy (dane, 401, 403)

@@ -25,7 +25,7 @@ export async function runMigrations(conn: mysql.Connection, dir = MIGRATIONS_DIR
   const todo = pendingMigrations(await readdir(dir), rows.map((r) => String(r.name)));
   for (const file of todo) {
     const sql = await readFile(`${dir}/${file}`, 'utf8');
-    await conn.beginTransaction();
+    await conn.beginTransaction(); // rule-ok: narzędzie migracji ma własne połączenie, nie trasa API
     try {
       await conn.query(sql);
       await conn.query('INSERT INTO schema_migrations (name) VALUES (?)', [file]);

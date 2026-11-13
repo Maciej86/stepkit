@@ -12,5 +12,9 @@ export function mountModule(api: Router, key: string, routes: Router, roles?: Ro
   if (!allowed || allowed.length === 0) {
     throw new Error(`mountModule: moduł "${key}" nie ma pozycji w navigation.config.ts ani podanych ról`);
   }
+  mountedModules.set(key, allowed);
   api.use(`/${key}`, requireRole(...allowed), routes);
 }
+
+/** Moduły podpięte przez mountModule z ich rolami; test routeProtection.test.ts sprawdza na nich 401 i 403. */
+export const mountedModules = new Map<string, Role[]>();

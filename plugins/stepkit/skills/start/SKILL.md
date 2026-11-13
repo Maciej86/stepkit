@@ -124,7 +124,10 @@ Odpowiedzi zapisz w `docs/OVERVIEW.md`.
 ## Krok 7: spec ogólny
 
 Czytasz `../dalej/references/document-templates.md` (wzór `SPEC-GENERAL.md`) i `../dalej/references/code-conventions.md`
-(„Baza danych”, „Archiwum”, „Historia zmian”, „Wzorce opcjonalne”, „API i bezpieczeństwo”). **Mapa dostępu**
+(„Baza danych”, „Archiwum”, „Historia zmian”, „Wzorce opcjonalne”, „API i bezpieczeństwo”, „Wzorce dziedzin”) oraz
+pliki z `../dalej/references/domains/` dla planowanych modułów (np. `warehouse.md`, bo poziomy miejsc zmieniają
+tabele). W tabeli „Moduły i kolejność” wpisz każdemu modułowi kolumnę „Wzorce” (np. Magazyn: `documents, warehouse`;
+moduł bez pasującego pliku: `—`). **Mapa dostępu**
 (sekcja w `SPEC-GENERAL.md`): strony i podstrony każdej części z tym, kto ma do nich dostęp, według „Dostęp” w
 `OVERVIEW.md`; publiczne tylko to, co ustalono jako publiczne. Projekt bazy z tabelą relacji i regułą przy
 usunięciu dla każdej z nich, lista danych z archiwum, zakres historii zmian. Gdy historia jest włączona, **tylko zapisz
