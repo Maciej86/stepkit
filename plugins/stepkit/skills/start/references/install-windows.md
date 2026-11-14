@@ -84,7 +84,14 @@ Te wpisuje użytkownik **w Claude Code** (nie w terminalu systemu):
 - **frontend-design** (wymagany, do wyglądu makiet i aplikacji): `/plugin install frontend-design@claude-plugins-official`
 
 Po instalacji: „Zamknij i otwórz Claude Code ponownie.” Sprawdzenie Playwright: czy masz narzędzia `browser_navigate`
-(lub podobne `mcp__…playwright…`). Sprawdzenie superpowers: czy widzisz skill `superpowers:writing-plans`. Sprawdzenie frontend-design: czy widzisz skill
+(lub podobne `mcp__…playwright…`), **i czy przeglądarka naprawdę się otwiera**: `browser_navigate` na `about:blank`,
+potem `browser_close`. Same narzędzia nie wystarczą: dodatek uruchamia Google Chrome, a bez niego każda próba kończy
+się błędem. Błąd `Chromium distribution 'chrome' is not found`:
+- Windows i macOS: „Zainstaluj przeglądarkę Google Chrome ze strony https://www.google.com/chrome, potem zamknij
+  i otwórz Claude Code.”
+- Claude Code w WSL albo w Linuksie: `npx playwright install chrome` według zasady „Polecenie w terminalu” (prosi
+  o hasło). W WSL okno przeglądarki pojawi się w Windows.
+Inny błąd uruchomienia: pokaż go użytkownikowi i nie idź dalej, dopóki `about:blank` się nie otworzy. Sprawdzenie superpowers: czy widzisz skill `superpowers:writing-plans`. Sprawdzenie frontend-design: czy widzisz skill
 `frontend-design` (albo `frontend-design:frontend-design`).
 
 **Aktualność frontend-design** (sprawdzasz w kroku 1 i przed każdą makietą, `mockups.md`): porównaj `version`

@@ -25,9 +25,15 @@ o przeklikanie `TESTS.md`.
 
 Dane testowe, które dodałeś w przeglądarce, opisz użytkownikowi (np. „dodałem klienta »Test Kowalski«”) albo usuń.
 
-## Gdy ich nie ma
+## Gdy ich nie ma albo przeglądarka się nie uruchamia
 
-Playwright jest wymagany. Zatrzymaj etap testów i powiedz:
+Playwright jest wymagany. Gdy narzędzia są, ale przeglądarka się nie uruchamia (np. `Chromium distribution 'chrome'
+is not found`), postępuj jak przy ich braku i napraw instalację według `install-windows.md` w skillu start (część 4,
+„Sprawdzenie Playwright”). **Nie zastępuj klikania własnymi skryptami bez okna** (np. Playwright z projektu) i nie
+pisz, że sprawdziłeś coś w przeglądarce, gdy przeglądarka się nie uruchomiła. To samo dotyczy zrzutów makiet
+(`mockups.md`, `appearance.md`).
+
+Gdy narzędzi nie ma, zatrzymaj etap testów i powiedz:
 
 > „Żeby sprawdzić moduł w przeglądarce, potrzebuję dodatku Playwright. Wpisz w Claude Code:
 > `/plugin install playwright@claude-plugins-official`, potem zamknij i otwórz Claude Code i wpisz `/stepkit:dalej`.”

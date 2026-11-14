@@ -86,7 +86,7 @@ komputera, a sprawdzasz tylko narzędzia z listy.
 ## Krok 1: sprawdzenie komputera
 
 Czytasz `references/install-windows.md` albo `references/install-macos.md`. Sprawdzasz po kolei: `node --version`,
-`git --version`, `docker --version` i `docker info`, plugin Playwright, plugin superpowers, plugin frontend-design
+`git --version`, `docker --version` i `docker info`, plugin Playwright (z otwarciem `about:blank`), plugin superpowers, plugin frontend-design
 (i jego aktualność: „Aktualność frontend-design” w `install-windows.md`), opcjonalnie `gh --version`.
 Przy brakach prowadzisz po jednym programie. **Nie przechodzisz dalej**, dopóki nie działają Node, Git i Docker oraz nie
 ma pluginów Playwright i aktualnego frontend-design. Brak superpowers nie blokuje: zapisz w `docs/STATUS.md` („Ostatnie decyzje”),
