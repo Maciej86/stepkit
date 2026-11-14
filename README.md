@@ -38,10 +38,24 @@ Na końcu Twoja aplikacja działa w internecie, pod Twoim adresem.
 
 ### Claude Code w VS Code
 
-1. Zainstaluj [VS Code](https://code.visualstudio.com) i [Claude Code](https://claude.com/claude-code).
+1. Zainstaluj [VS Code](https://code.visualstudio.com) i uruchom go.
 2. Utwórz pusty folder na aplikację i otwórz go w VS Code: **File → Open Folder**.
-3. Otwórz terminal: **Terminal → New Terminal** (otworzy się od razu w tym folderze), wpisz `claude` i naciśnij Enter.
-   Tu wpisujesz wszystkie komendy z tej strony.
+3. Otwórz terminal: **Terminal → New Terminal** (otworzy się na dole, od razu w tym folderze).
+4. Zainstaluj Claude Code: wklej do terminala polecenie dla swojego systemu i naciśnij Enter.
+
+   **Windows:**
+   ```
+   irm https://claude.ai/install.ps1 | iex
+   ```
+   **macOS:**
+   ```
+   curl -fsSL https://claude.ai/install.sh | bash
+   ```
+5. Zamknij ten terminal (ikona kosza po prawej stronie terminala) i otwórz nowy: **Terminal → New Terminal**.
+   Dopiero nowy terminal „widzi” zainstalowany program.
+6. Wpisz `claude` i naciśnij Enter. Za pierwszym razem otworzy się przeglądarka: zaloguj się na swoje konto Claude
+   (potrzebny płatny plan, np. Pro albo Max). Od tej pory Claude Code uruchamiasz w terminalu VS Code poleceniem
+   `claude` i tu wpisujesz wszystkie komendy z tej strony.
 
 > 💡 Jest też oficjalna wtyczka **Claude Code for VS Code** od **Anthropic** (niebieski znaczek weryfikacji) z panelem
 > graficznym. Nie wszystkie komendy działają w niej tak samo jak w terminalu, więc do stepkit polecamy terminal.
