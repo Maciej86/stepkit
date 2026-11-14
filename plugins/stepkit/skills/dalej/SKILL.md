@@ -22,6 +22,16 @@ podaj, gdzie je wpisać, i zakończ prośbą o „gotowe”:
 
 Nigdy samo „w terminalu, w folderze projektu”.
 
+**Wpis do pliku.** Gdy użytkownik ma sam wpisać coś do pliku (hasło albo klucz w `.env`), resztę linii wpisujesz Ty,
+a jemu zostawiasz tylko tajną wartość. Zawsze podaj, gdzie jest plik i jak go zapisać:
+> „W VS Code, w panelu plików po lewej (ikona dwóch kartek albo Ctrl+Shift+E), kliknij plik `.env`. Znajdź linię
+> `SMTP_PASSWORD=` i wklej hasło zaraz po znaku `=`, bez spacji i cudzysłowów. Zapisz: Ctrl+S (na Macu Cmd+S).
+> Plik jest na liście szary i tak ma być: dzięki temu nie trafi na GitHub.”
+> **„Gdy skończysz, napisz »gotowe«.”**
+
+Potem sprawdź, czy wartość jest, **bez wypisywania jej**: `grep -c '^SMTP_PASSWORD=.' .env` musi dać `1`. Nigdy
+`cat .env` ani odczyt pliku narzędziem, gdy jest w nim tajna wartość.
+
 ## 1. Na start każdej rozmowy
 
 Przeczytaj **tylko**: `docs/STATUS.md`, `docs/SPEC-GENERAL.md` i pliki bieżącego modułu w `docs/modules/<folder>/`.

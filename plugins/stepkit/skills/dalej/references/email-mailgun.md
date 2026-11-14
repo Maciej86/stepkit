@@ -68,15 +68,9 @@ Zrzut wkleja się do Claude Code przez przeciągnięcie pliku albo wklejenie ze 
    potwierdzający od Mailgun. Pokaż zrzut z zielonym statusem przy adresie.”
 5. „W tej samej domenie otwórz **SMTP credentials** i utwórz login (np. `app@…`). Mailgun pokaże hasło tylko raz:
    skopiuj je.” Poproś o zrzut **z zasłoniętym hasłem**, sprawdź login i serwer.
-6. Poproś użytkownika, żeby sam wpisał do `.env`:
-   ```
-   EMAIL_TRANSPORT=mailgun
-   SMTP_HOST=smtp.eu.mailgun.org
-   SMTP_PORT=587
-   SMTP_USER=<login z kroku 5>
-   SMTP_PASSWORD=<hasło z kroku 5>
-   EMAIL_FROM=no-reply@<domena sandbox>
-   ```
+6. Wpisz sam do `.env` (`EMAIL_TRANSPORT=mailgun`, `SMTP_HOST=smtp.eu.mailgun.org`, `SMTP_PORT=587`,
+   `SMTP_USER=<login z kroku 5>`, `EMAIL_FROM=no-reply@<domena sandbox>`) i zostaw pustą linię `SMTP_PASSWORD=`.
+   Hasło wpisuje użytkownik według zasady „Wpis do pliku” z `SKILL.md`.
 7. Wyślij e-mail testowy na zatwierdzony adres i zapytaj, czy doszedł (sprawdź też folder „Spam”).
 
 Nigdy nie proś o wklejenie hasła ani klucza do rozmowy. Jeśli użytkownik je wklei, powiedz: „Wolałbym tego nie

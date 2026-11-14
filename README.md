@@ -86,7 +86,8 @@ Zamknij Claude Code (wpisz `/exit`) i uruchom go ponownie (`claude`). Gotowe.
 > 💻 **Minimum, którego wymaga stepkit.** Nie musisz programować, ale raz na jakiś czas wpiszesz w terminalu
 > polecenie, które poda Ci Claude, np. przy zakładaniu konta administratora. Hasła wpisuje się tylko tam, nigdy
 > w rozmowie. W VS Code to proste: gdy masz otwarty folder projektu, menu **Terminal → New Terminal** otwiera
-> terminal od razu w tym folderze. Wklejasz polecenie, naciskasz Enter i odpowiadasz na pytania.
+> terminal od razu w tym folderze. Wklejasz polecenie, naciskasz Enter i odpowiadasz na pytania. Czasem wkleisz też
+> hasło do pliku `.env`: klikasz go w panelu plików po lewej, wklejasz i zapisujesz Ctrl+S.
 
 ## 🎯 Jak zacząć
 
