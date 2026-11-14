@@ -196,6 +196,38 @@ Claude'a**: instalujesz je raz i nie musisz się ich uczyć, a praca jest dzięk
 - Hasła na serwerze są generowane na serwerze i nigdzie się nie wyświetlają.
 - Repozytorium Twojej aplikacji na GitHubie jest **prywatne**.
 
+## 🔍 Co stepkit uruchamia i dokąd trafiają dane
+
+stepkit to **same instrukcje dla Claude'a** (skille) i **szablon projektu** kopiowany do Twojego folderu. Plugin nie ma
+własnych serwerów MCP, hooków ani programów uruchamianych przy instalacji i **nie wysyła niczego autorowi stepkit**
+(żadnej telemetrii). Wszystkie polecenia wykonuje Claude Code, za Twoją zgodą (zgodnie z Twoimi ustawieniami uprawnień).
+
+**Na Twoim komputerze:**
+
+| Polecenie | Po co | Dokąd idzie ruch |
+|---|---|---|
+| `node`, `npm` (`install`, `run`, `audit`) | instalacja bibliotek, uruchamianie i testy aplikacji, sprawdzanie luk | rejestr npm |
+| `docker`, `docker compose` | baza MySQL, phpMyAdmin, Mailpit (e-maile testowe) | Docker Hub (pobranie obrazów) |
+| Playwright (dodatek do Claude Code) | Claude klika w Twojej aplikacji na `localhost` | tylko Twój komputer |
+| `git`, `gh` | zapisy kodu w **prywatnym** repozytorium | GitHub, Twoje konto |
+| `scripts/backup/restore-check.sh` | próbne odtworzenie kopii zapasowej w chwilowym kontenerze | tylko Twój komputer |
+
+**Przy publikacji (gdy ją wybierzesz):**
+
+| Polecenie | Po co | Dokąd idzie ruch |
+|---|---|---|
+| `ssh`, `scp` | ustawienie serwera i wgrywanie nowych wersji | Twój serwer VPS (domyślnie OVH) |
+| na serwerze: `apt`, instalator Dockera (`get.docker.com`), `ufw` | aktualizacje systemu, Docker, zapora | repozytoria Ubuntu, Docker |
+| `docker compose -f docker-compose.prod.yml` (z Caddy) | aplikacja i certyfikat HTTPS | Let's Encrypt (certyfikat) |
+| `scripts/deploy.sh` | wdrożenie: kopia, nowa wersja z GitHuba, test dymny | GitHub (pobranie kodu), Twój serwer |
+| `scripts/backup/backup.sh` (timer systemd) | zaszyfrowane (`age`) kopie bazy i plików | OVH Object Storage, Twoje konto |
+| `scripts/github-deploy.yml` (opcjonalnie) | przycisk „Wdróż” w GitHub Actions | GitHub, Twój serwer |
+| wysyłka e-maili przez Mailgun (opcjonalnie) | e-maile z aplikacji | Mailgun, Twoje konto |
+
+Dane Twojej aplikacji trafiają tylko do usług z tych tabel, na Twoje konta. Kopie zapasowe są szyfrowane kluczem,
+który masz tylko Ty. Hasła na serwerze powstają na serwerze i nie trafiają do rozmowy. Wszystkie skrypty są w tym
+repozytorium jako zwykły, czytelny kod (`plugins/stepkit/template/scripts/`).
+
 ## ❔ Częste pytania
 
 <details>
