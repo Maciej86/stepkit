@@ -57,8 +57,8 @@ Na końcu Twoja aplikacja działa w internecie, pod Twoim adresem.
    (potrzebny płatny plan, np. Pro albo Max). Od tej pory Claude Code uruchamiasz w terminalu VS Code poleceniem
    `claude` i tu wpisujesz wszystkie komendy z tej strony.
 
-> 💡 Jest też oficjalna wtyczka **Claude Code for VS Code** od **Anthropic** (niebieski znaczek weryfikacji) z panelem
-> graficznym. Nie wszystkie komendy działają w niej tak samo jak w terminalu, więc do stepkit polecamy terminal.
+> 💡 Jest też oficjalna wtyczka [**Claude Code for VS Code**](https://marketplace.visualstudio.com/items?itemName=anthropic.claude-code)
+> od **Anthropic** (niebieski znaczek weryfikacji) z panelem graficznym. Nie wszystkie komendy działają w niej tak samo jak w terminalu, więc do stepkit polecamy terminal.
 > Uważaj na podobne, nieoficjalne wtyczki z tą samą ikoną.
 
 ### stepkit
