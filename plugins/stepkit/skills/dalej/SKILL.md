@@ -81,15 +81,18 @@ Nigdy nie przeskakujesz nieskończonego modułu i nigdy nie masz dwóch modułó
 | spec | `references/superpowers.md`, `references/code-conventions.md` + pliki z kolumny „Wzorce” modułu w `SPEC-GENERAL.md` (`references/domains/`), `references/document-templates.md` | `SPEC.md` | akceptuje |
 | plan | jak wyżej | `PLAN.md` z testami w każdym kroku | akceptuje |
 | implementacja | `references/superpowers.md`, `references/code-conventions.md` + pliki z kolumny „Wzorce” | kod; **najpierw test, potem kod**, po każdym kroku `npm run check` i odhaczenie w `PLAN.md`; na koniec przegląd kodu | — |
-| testy | `references/browser.md` | Ty klikasz w przeglądarce, `npm run test:e2e`, potem użytkownik przechodzi `TESTS.md` | potwierdza „działa” |
+| testy | `references/abuse.md`, `references/browser.md` | próby nadużyć jako testy (`describe('abuse')`), potem Ty klikasz w przeglądarce, `npm run test:e2e`, potem użytkownik przechodzi `TESTS.md` | potwierdza „działa” |
 | zamknięcie | `references/mockups.md` | `<Done labelKey=…>` w `mockups/src/screens.tsx`, `STATUS.md` (`zrobiony`, nowy „Następny krok”), zapis „Moduł <nazwa> gotowy” + `git push` | — |
 
 Moduły specjalne: **Wygląd** → `references/appearance.md` (własne etapy: makieta z wariantami, pytania, zamknięcie);
 **E-mail** → najpierw `references/email-mailgun.md`; **Publikacja** → `references/deploy-ovh.md`
-(bez makiety). Prośba „wgraj nową wersję” → procedura z sekcji „Wgraj nową wersję” w `STATUS.md`, a przed nią
+(bez makiety). Prośba „serwer padł” → `references/deploy-ovh.md`, sekcja „Serwer padł”.
+Prośba „wgraj nową wersję” → procedura z sekcji „Wgraj nową wersję” w `STATUS.md`, a przed nią
 na komputerze `npm run check` i `npm audit --omit=dev`. Luki „high” lub „critical”: `npm audit fix` (bez `--force`),
 `npm run check`, zapis „Łatki bezpieczeństwa”. Gdy łatka wymaga nowej dużej wersji biblioteki, powiedz o tym
-użytkownikowi prostymi słowami i nie wgrywaj jej bez zgody.
+użytkownikowi prostymi słowami i nie wgrywaj jej bez zgody. Po wgraniu sprawdź ostatni przebieg kopii zapasowej
+(`deploy-ovh.md`, „Kopie zapasowe poza serwerem”); gdy od `**Ostatnie sprawdzenie kopii:**` w `STATUS.md` minęło ponad
+30 dni, zaproponuj próbne odtworzenie (kilka minut).
 
 Moduł jest `zrobiony` **dopiero po potwierdzeniu użytkownika** na etapie testów.
 

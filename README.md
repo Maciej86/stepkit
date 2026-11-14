@@ -103,7 +103,10 @@ Aplikację zbudowaną krok po kroku według sprawdzonego procesu. W środku znaj
 - ✉️ **e-maile**: lokalnie podgląd w Mailpit, w internecie wysyłka przez Mailgun,
 - 🧪 **testy**: automatyczne testy kodu, formularzy i całych ścieżek w przeglądarce, uruchamiane jedną komendą,
 - 🌍 **teksty w osobnych plikach**, więc kolejna wersja językowa to tłumaczenie, a nie przepisywanie,
-- 🚀 **publikacja** na serwerze VPS (domyślnie OVH) z certyfikatem HTTPS i kopiami zapasowymi bazy.
+- 🛡️ **próby nadużyć**: przy każdym module Claude sprawdza, czy da się zajrzeć do cudzych danych, ominąć uprawnienia
+  albo zepsuć coś dwoma kliknięciami naraz, a każda próba zostaje w projekcie jako test,
+- 🚀 **publikacja** na serwerze VPS (domyślnie OVH) z certyfikatem HTTPS i zaszyfrowanymi kopiami zapasowymi bazy
+  i plików poza serwerem (z blokadą usunięcia i próbnym odtworzeniem).
 
 > ⚖️ **Uczciwie o jakości.** stepkit sam w sobie nie gwarantuje najlepszego kodu: pisze go Claude, a Claude też
 > popełnia błędy. stepkit pilnuje za to **procesu**: makieta przed kodem, spec i plan przed implementacją, test przed

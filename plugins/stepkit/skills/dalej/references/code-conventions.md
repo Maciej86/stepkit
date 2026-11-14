@@ -304,7 +304,7 @@ Gdy moduł przyjmuje pliki (zdjęcia, dokumenty, załączniki). Pomocnik: `backe
 - **Usuwanie:** wiersz z tabeli w transakcji, plik z dysku (`removeUpload`) po udanym `commit`. Archiwizacja rekordu
   nie usuwa plików; usunięcie na stałe: `removeRecordUploads` po `commit`.
 - Na serwerze pliki leżą w wolumenie `uploads_data` (przetrwają „wgraj nową wersję”) i trafiają do kopii zapasowej
-  (`scripts/backup-db.sh`). `uploads/` jest w `.gitignore`.
+  (`scripts/backup/backup.sh`). `uploads/` jest w `.gitignore`.
 - Testy: zły typ i za duży plik → 400; pobranie cudzego pliku → 404; bez logowania → 401; usunięcie rekordu na stałe
   usuwa jego pliki.
 
@@ -504,4 +504,5 @@ Używaj jej, gdy nie ma `superpowers:requesting-code-review`:
 - [ ] każde `// rule-ok:` ma konkretny, prawdziwy powód; testy zasad niezmienione
 - [ ] pliki przez `saveUpload` / `sendUpload`, pobieranie z kontrolą dostępu, tabela plików z kluczem obcym
 - [ ] testy dla każdej trasy i formularza, `npm run check` zielony
+- [ ] blok `describe('abuse')` z próbami z `abuse.md`, wynik w sekcji „Próby nadużyć” w `TESTS.md`
 - [ ] `.env` nie jest w repo (`git check-ignore .env`)

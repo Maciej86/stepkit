@@ -1,6 +1,7 @@
 # Sprawdzanie w przeglądarce
 
-Czytasz ten plik na etapie **testy** każdego modułu, zanim poprosisz użytkownika o przeklikanie `TESTS.md`.
+Czytasz ten plik na etapie **testy** każdego modułu, po próbach nadużyć (`abuse.md`), zanim poprosisz użytkownika
+o przeklikanie `TESTS.md`.
 
 ## Gdy masz narzędzia Playwright
 

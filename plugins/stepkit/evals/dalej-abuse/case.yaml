@@ -1,0 +1,26 @@
+schema_version: "1.1"
+name: dalej-abuse
+description: Na etapie testy Claude najpierw próbuje nadużyć modułu i znajduje ukryte luki (cudzy wniosek przez identyfikator, decyzja dla wniosku już rozpatrzonego).
+runs: 2
+execution:
+  max_turns: 30
+  allowed_tools: [Read, Glob, Grep, Skill, Write, Edit]
+  append_system_prompt: "Środowisko testowe stepkit: komendy (npm, docker, git) są niedostępne, przeglądarki nie ma, a node_modules nie są zainstalowane. Zakładaj, że npm run check przechodzi po poprawnych zmianach, i pracuj dalej na plikach. Skończ, zanim poprosisz użytkownika o przeklikanie TESTS.md."
+  prompt: /stepkit:dalej
+context:
+  scaffold_script: fixture.sh
+graders:
+  # Próby zostają w projekcie jako testy w bloku describe('abuse').
+  - name: abuse-block
+    type: tool_used
+    tool: Edit
+    input_match: "describe\\(\\s*'abuse'"
+    arm: with-only
+  - name: finds-both-holes
+    type: llm
+    criteria: >-
+      Odpowiedź po polsku mówi, że sprawdzone zostały próby nadużycia modułu Wnioski, i wymienia co najmniej dwie
+      znalezione i naprawione luki: (1) pracownik może odczytać albo zmienić cudzy wniosek, podając jego numer
+      w adresie, (2) administrator może zmienić decyzję o wniosku już zatwierdzonym albo odrzuconym (brak sprawdzenia
+      statusu pending, powinno być 409). Mówi prostym językiem, bez nazw technicznych w roli głównej, i nie twierdzi,
+      że moduł jest zrobiony ani że użytkownik już go sprawdził.

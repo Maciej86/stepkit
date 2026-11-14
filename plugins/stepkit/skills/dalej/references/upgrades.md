@@ -224,8 +224,18 @@ Zasady (bez zmian w kodzie, chyba że przegląd coś znajdzie):
   testy zasad, odnośnik do `docs/conventions/`).
 
 
-## 0.1.23: makieta bez strony dla odwiedzających otwiera się od razu na ekranach
+## 0.1.23: makieta bez strony dla odwiedzających, kopie zapasowe poza serwerem, próby nadużyć (bezpieczeństwo)
 
 - **Połącz** `mockups/src/App.tsx`: gdy `areas.public` jest wyłączone, adres `/` przekierowuje (`Navigate`) do
   `/account` albo `/admin` i od tej części zależy rola startowa (`homePath`, `startPath` jak w szablonie). Dopisz dwa
   testy z `mockups/src/Shell.test.tsx` („opens … at /”). Projekt zwykle nie zmieniał tego pliku, wtedy podmień.
+- Nowe pliki z szablonu: `backend/src/backups/` (cały folder z testami), `backend/src/db/sql/backup_runs.sql`,
+  `backend/src/db/sql/system_alerts.sql`, `scripts/backup/` (cały folder). Usuń `scripts/backup-db.sh`.
+- **Połącz** `backend/src/env.ts` (`BACKUP_SLOTS`, `BACKUP_ALERT_EMAIL`) i `.env.production.example` (dwie linie
+  kopii na końcu).
+- Moduły w toku i kolejne dostają na etapie testy próby nadużyć (`abuse.md`); zrobionych modułów nie przerabiasz,
+  ich bloki `abuse` dopisuje dopiero moduł „Publikacja”.
+- **Bezpieczeństwo, aplikacja już opublikowana:** kopie leżą tylko na serwerze. Zaproponuj „Kopie zapasowe poza
+  serwerem” z `deploy-ovh.md` (sekcja 7, kroki 1–13), potem wyłącz stary cron (`crontab -l | grep -v backup-db.sh |
+  crontab -`) i dopisz w `README.md` oraz `STATUS.md` to, co sekcja „Zamknięcie” mówi o kopiach i poziomach
+  gotowości. Stare kopie w `~/backups` zostaw (skrypt i tak sprząta tylko pliki `*.age`).

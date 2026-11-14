@@ -206,4 +206,9 @@ Przed testem: `npm run db`, `npm run dev`, otwórz http://localhost:5173.
 
 ## Jako użytkownik
 1. …
+
+## Próby nadużyć
+(uzupełniane na etapie testy według `abuse.md`)
+- Pracownik otwiera cudzy wniosek przez adres → 404: przeszła
+- Dwa zatwierdzenia naraz → jeden numer: naprawiona (blokada licznika)
 ```
