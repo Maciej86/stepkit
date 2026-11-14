@@ -36,7 +36,20 @@ Na końcu Twoja aplikacja działa w internecie, pod Twoim adresem.
 
 ## 🚀 Instalacja
 
-W Claude Code (w terminalu albo w VS Code) wpisz po kolei:
+### Claude Code w VS Code
+
+1. Zainstaluj [VS Code](https://code.visualstudio.com) i [Claude Code](https://claude.com/claude-code).
+2. Utwórz pusty folder na aplikację i otwórz go w VS Code: **File → Open Folder**.
+3. Otwórz terminal: **Terminal → New Terminal** (otworzy się od razu w tym folderze), wpisz `claude` i naciśnij Enter.
+   Tu wpisujesz wszystkie komendy z tej strony.
+
+> 💡 Jest też oficjalna wtyczka **Claude Code for VS Code** od **Anthropic** (niebieski znaczek weryfikacji) z panelem
+> graficznym. Nie wszystkie komendy działają w niej tak samo jak w terminalu, więc do stepkit polecamy terminal.
+> Uważaj na podobne, nieoficjalne wtyczki z tą samą ikoną.
+
+### stepkit
+
+W Claude Code (w terminalu VS Code) wpisz po kolei:
 
 ```
 /plugin marketplace add Maciej86/stepkit
@@ -46,10 +59,10 @@ W Claude Code (w terminalu albo w VS Code) wpisz po kolei:
 /plugin install frontend-design@claude-plugins-official
 ```
 
-Zamknij i otwórz Claude Code ponownie. Gotowe.
+Zamknij Claude Code (wpisz `/exit`) i uruchom go ponownie (`claude`). Gotowe.
 
 > **Potrzebujesz:** komputera z Windows 10/11 albo macOS, płatnego planu Claude i **edytora kodu z wbudowanym
-> terminalem**. Polecamy darmowy [**VS Code**](https://code.visualstudio.com) z rozszerzeniem Claude Code.
+> terminalem**. Polecamy darmowy [**VS Code**](https://code.visualstudio.com).
 > Resztę programów stepkit pomoże Ci zainstalować.
 
 > 💻 **Minimum, którego wymaga stepkit.** Nie musisz programować, ale raz na jakiś czas wpiszesz w terminalu
@@ -59,7 +72,8 @@ Zamknij i otwórz Claude Code ponownie. Gotowe.
 
 ## 🎯 Jak zacząć
 
-1. Utwórz **pusty folder** na aplikację, otwórz go w VS Code (**File → Open Folder**) i uruchom w nim Claude Code.
+1. Otwórz **pusty folder** na aplikację w VS Code i uruchom w nim Claude Code (`claude` w terminalu, jak wyżej
+   w „Claude Code w VS Code”).
 2. Wpisz **`/stepkit:start`** i opisz swój pomysł własnymi słowami.
 3. Po każdej skończonej części: **nowa rozmowa → `/stepkit:dalej`**.
 
