@@ -29,9 +29,8 @@ logowaniem). W projekcie ten plik jest w `docs/conventions/`.
   Zmiana hasła bez e-maila: administrator ustawia hasło tymczasowe w module użytkowników, a osoba zmienia je po
   zalogowaniu. E-maile (`email` moduł) wysyłasz tylko osobom z adresem; pozostali widzą powiadomienie w aplikacji.
 - Pierwszy administrator: skrypt `backend/src/scripts/createAdmin.ts` (`npm run admin -w @app/backend`), pyta
-  w terminalu o imię, e-mail i hasło. **Ty nie możesz odpowiadać na pytania w terminalu**, więc poproś użytkownika:
-  „Otwórz terminal (w VS Code: menu Terminal → New Terminal), wejdź do folderu projektu i wpisz
-  `npm run admin -w @app/backend`. Hasło wpisujesz tylko tam, nie w rozmowie.”
+  w terminalu o imię, e-mail i hasło. **Ty nie możesz odpowiadać na pytania w terminalu**, więc poproś użytkownika
+  według zasady „Polecenie w terminalu” z `SKILL.md` (polecenie: `npm run admin`).
 - Gdy spec przewiduje wymuszoną zmianę hasła (`must_change_password`), ekran „Ustaw nowe hasło” po zalogowaniu
   należy do modułu Logowanie, nie do „Moje konto”.
 - Ekran `/login` (`frontend/src/modules/login/`, wpis `login` w `PAGES`); po zalogowaniu `refresh()` z `useAuth`

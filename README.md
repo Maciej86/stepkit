@@ -48,12 +48,18 @@ W Claude Code (w terminalu albo w VS Code) wpisz po kolei:
 
 Zamknij i otwórz Claude Code ponownie. Gotowe.
 
-> **Potrzebujesz:** komputera z Windows 10/11 albo macOS, Claude Code i płatnego planu Claude.
+> **Potrzebujesz:** komputera z Windows 10/11 albo macOS, płatnego planu Claude i **edytora kodu z wbudowanym
+> terminalem**. Polecamy darmowy [**VS Code**](https://code.visualstudio.com) z rozszerzeniem Claude Code.
 > Resztę programów stepkit pomoże Ci zainstalować.
+
+> 💻 **Minimum, którego wymaga stepkit.** Nie musisz programować, ale raz na jakiś czas wpiszesz w terminalu
+> polecenie, które poda Ci Claude, np. przy zakładaniu konta administratora. Hasła wpisuje się tylko tam, nigdy
+> w rozmowie. W VS Code to proste: gdy masz otwarty folder projektu, menu **Terminal → New Terminal** otwiera
+> terminal od razu w tym folderze. Wklejasz polecenie, naciskasz Enter i odpowiadasz na pytania.
 
 ## 🎯 Jak zacząć
 
-1. Utwórz **pusty folder** na aplikację i otwórz go w Claude Code.
+1. Utwórz **pusty folder** na aplikację, otwórz go w VS Code (**File → Open Folder**) i uruchom w nim Claude Code.
 2. Wpisz **`/stepkit:start`** i opisz swój pomysł własnymi słowami.
 3. Po każdej skończonej części: **nowa rozmowa → `/stepkit:dalej`**.
 
@@ -149,7 +155,8 @@ Claude'a**: instalujesz je raz i nie musisz się ich uczyć, a praca jest dzięk
 ## 🔒 Bezpieczeństwo
 
 - Hasła i klucze trzymane są w pliku `.env`, który **nigdy nie trafia na GitHub**.
-- Claude **nie prosi o hasła w rozmowie**. Komendy, które ich wymagają, wpisujesz sam w swoim terminalu.
+- Claude **nie prosi o hasła w rozmowie**. Komendy, które ich wymagają, wpisujesz sam w terminalu VS Code
+  (Terminal → New Terminal).
 - Na zrzutach ekranu (np. z panelu Mailgun) zamazujesz klucze, a stepkit przypomina o tym przy każdym kroku.
 - Hasła na serwerze są generowane na serwerze i nigdzie się nie wyświetlają.
 - Repozytorium Twojej aplikacji na GitHubie jest **prywatne**.

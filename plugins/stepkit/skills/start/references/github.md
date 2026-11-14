@@ -17,10 +17,10 @@ historią (`git push --force` jest zakazany).
 
 ## Ścieżka A: jest `gh`
 
-1. `gh auth status`. Jeśli niezalogowany, **nie uruchamiaj logowania sam** (wymaga odpowiedzi w terminalu). Poproś:
-   „Otwórz terminal (w VS Code: Terminal → New Terminal) i wpisz:
-   `gh auth login --hostname github.com --git-protocol https --web`. Skopiuj pokazany kod, naciśnij Enter, w przeglądarce
-   zaloguj się i wklej kod. Napisz »gotowe«.” Potem `gh auth setup-git` i ponownie `gh auth status`.
+1. `gh auth status`. Jeśli niezalogowany, **nie uruchamiaj logowania sam** (wymaga odpowiedzi w terminalu). Poproś
+   według zasady „Polecenie w terminalu” z `SKILL.md` o
+   `gh auth login --hostname github.com --git-protocol https --web` i dopisz: „Skopiuj pokazany kod, naciśnij Enter,
+   w przeglądarce zaloguj się i wklej kod.” Potem `gh auth setup-git` i ponownie `gh auth status`.
 2. `gh repo create <nazwa> --private --source . --push`.
 3. Pokaż adres repo z wyniku komendy.
 

@@ -12,7 +12,8 @@ Ty klikasz w panelu dostawcy i przysyłasz zrzuty ekranu, a ja robię resztę pr
 
 Wszystkie Twoje komendy `ssh` i `scp` mają `-o StrictHostKeyChecking=accept-new` (bez tego pierwsze połączenie zatrzyma
 się na pytaniu „yes/no”, na które nie możesz odpowiedzieć). Komendy, które pytają o coś w terminalu (hasło
-administratora, edycja pliku), wykonuje **użytkownik w swoim terminalu**; podajesz mu je do skopiowania.
+administratora, edycja pliku), wykonuje **użytkownik w terminalu VS Code**; podajesz mu je do skopiowania według
+zasady „Polecenie w terminalu” z `SKILL.md`.
 
 Dostawca domyślny: **OVH**. Gdy użytkownik wybrał innego, kroki 3–8 są takie same (każdy VPS z Ubuntu), a w krokach
 1 i 4 prowadzisz po jego panelu na podstawie zrzutów.

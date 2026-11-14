@@ -13,6 +13,15 @@ bez wysyłania wiadomości do Ciebie, więc po nich nie dostajesz tury. Prośbę
 zawsze kończ osobną, pogrubioną linijką: **„Gdy komendy się wykonają, napisz »gotowe«. Sam nie zobaczę, że już je
 wpisano.”** Nie chowaj tego zdania w akapicie.
 
+**Polecenie w terminalu.** Gdy polecenie musi wpisać użytkownik (pyta o hasło albo o coś w terminalu), zawsze
+podaj, gdzie je wpisać, i zakończ prośbą o „gotowe”:
+> „W VS Code otwórz terminal: menu **Terminal → New Terminal** (otworzy się od razu w folderze projektu). Wpisz
+> `<polecenie>`, naciśnij Enter i odpowiedz na pytania. Hasło wpisujesz tylko tam: podczas pisania nic nie widać
+> i tak ma być.”
+> **„Gdy skończysz, napisz »gotowe«.”**
+
+Nigdy samo „w terminalu, w folderze projektu”.
+
 ## 1. Na start każdej rozmowy
 
 Przeczytaj **tylko**: `docs/STATUS.md`, `docs/SPEC-GENERAL.md` i pliki bieżącego modułu w `docs/modules/<folder>/`.
