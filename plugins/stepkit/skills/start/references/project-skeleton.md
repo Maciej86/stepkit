@@ -64,6 +64,7 @@ Co jest w szkielecie (żeby wiedzieć, gdzie zmieniać):
 | `backend/src/app.ts` | miejsce dopisania tras modułów |
 | `backend/src/db/sql/activity_log.sql` | gotowa tabela historii zmian (kopiowana tylko, gdy historia jest włączona) |
 | `backend/src/backups/`, `scripts/backup/` | kopie zapasowe poza serwerem (podpinane w module „Publikacja”) |
+| `scripts/deploy.sh`, `scripts/github-deploy.yml` | wdrożenia nowych wersji (ustawiane w module „Publikacja”) |
 | `docs/STATUS.md` | plik stanu |
 
 ## Dopasowanie po wywiadzie (krok 5)

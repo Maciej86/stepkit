@@ -5,7 +5,7 @@
 **Zbuduj własną aplikację www z Claude, krok po kroku, bez programowania.**
 
 [![Licencja: MIT](https://img.shields.io/badge/licencja-MIT-green.svg)](LICENSE)
-![Wersja](https://img.shields.io/badge/wersja-0.1.24-blue.svg)
+![Wersja](https://img.shields.io/badge/wersja-0.1.25-blue.svg)
 ![Claude Code](https://img.shields.io/badge/Claude%20Code-plugin-d97757.svg)
 ![Język](https://img.shields.io/badge/język-polski-red.svg)
 
@@ -145,7 +145,9 @@ Aplikację zbudowaną krok po kroku według sprawdzonego procesu. W środku znaj
 - 🛡️ **próby nadużyć**: przy każdym module Claude sprawdza, czy da się zajrzeć do cudzych danych, ominąć uprawnienia
   albo zepsuć coś dwoma kliknięciami naraz, a każda próba zostaje w projekcie jako test,
 - 🚀 **publikacja** na serwerze VPS (domyślnie OVH) z certyfikatem HTTPS i zaszyfrowanymi kopiami zapasowymi bazy
-  i plików poza serwerem (z blokadą usunięcia i próbnym odtworzeniem).
+  i plików poza serwerem (z blokadą usunięcia i próbnym odtworzeniem),
+- 🔁 **wdrożenia nowych wersji jednym poleceniem** albo przyciskiem w GitHubie: kopia przed wgraniem, test po
+  wgraniu i powrót do poprzedniej wersji, gdy coś nie działa.
 
 > ⚖️ **Uczciwie o jakości.** stepkit sam w sobie nie gwarantuje najlepszego kodu: pisze go Claude, a Claude też
 > popełnia błędy. stepkit pilnuje za to **procesu**: makieta przed kodem, spec i plan przed implementacją, test przed

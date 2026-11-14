@@ -106,8 +106,9 @@ Nigdy nie przeskakujesz nieskończonego modułu i nigdy nie masz dwóch modułó
 Moduły specjalne: **Wygląd** → `references/appearance.md` (własne etapy: makieta z wariantami, pytania, zamknięcie);
 **E-mail** → najpierw `references/email-mailgun.md`; **Publikacja** → `references/deploy-ovh.md`
 (bez makiety). Prośba „serwer padł” → `references/deploy-ovh.md`, sekcja „Serwer padł”.
-Prośba „wgraj nową wersję” → procedura z sekcji „Wgraj nową wersję” w `STATUS.md`, a przed nią
-na komputerze `npm run check` i `npm audit --omit=dev`. Luki „high” lub „critical”: `npm audit fix` (bez `--force`),
+Prośba „wgraj nową wersję” → procedura z sekcji „Wgraj nową wersję” w `STATUS.md` (skrypt `scripts/deploy.sh`,
+wynik według `deploy-ovh.md`, sekcja 9). W wariancie „z komputera” przed nią na komputerze `npm run check`
+i `npm audit --omit=dev` (w wariancie „z GitHuba” robi to GitHub; czerwony audyt też poprawiasz na komputerze). Luki „high” lub „critical”: `npm audit fix` (bez `--force`),
 `npm run check`, zapis „Łatki bezpieczeństwa”. Gdy łatka wymaga nowej dużej wersji biblioteki, powiedz o tym
 użytkownikowi prostymi słowami i nie wgrywaj jej bez zgody. Po wgraniu sprawdź ostatni przebieg kopii zapasowej
 (`deploy-ovh.md`, „Kopie zapasowe poza serwerem”); gdy od `**Ostatnie sprawdzenie kopii:**` w `STATUS.md` minęło ponad

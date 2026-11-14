@@ -5,7 +5,8 @@
 #      sudo systemctl start app-backup.service
 #  Kolejno: flock → zrzut bazy | gzip | age i pliki | age (strumieniem: odszyfrowana treść nie leży na dysku) →
 #  kontrola kompletności → wysyłka do OVH z blokadą COMPLIANCE → porządki → wiersz w backup_runs.
-#  Zmienne: BACKUP_ENV_FILE (domyślnie ~/backup.env), DRY_RUN=1 (bez wysyłki), FAKE_DUMP_FAIL=1 (test awarii).
+#  Zmienne: BACKUP_ENV_FILE (domyślnie ~/backup.env), DRY_RUN=1 (bez wysyłki), FAKE_DUMP_FAIL=1 (test awarii),
+#  BACKUP_WAIT=1 (czekaj na trwający przebieg; używa tego scripts/deploy.sh).
 # =============================================================================
 set -uo pipefail
 export MSYS_NO_PATHCONV=1
@@ -50,7 +51,11 @@ record() { # status dump_ok upload_ok size error
 }
 
 exec 9> "$BACKUP_LOCAL_DIR/.lock"
-if ! flock -n 9; then log "skipped: poprzedni przebieg trwa"; record skipped NULL NULL "" "lock_busy"; exit 0; fi
+# BACKUP_WAIT=1 (kopia przed wdrożeniem): czekaj na trwający przebieg zamiast go pomijać. Pominięty przebieg kończy się
+# kodem 0, więc wdrożenie uznałoby go za zrobioną kopię.
+if [ "${BACKUP_WAIT:-}" = "1" ]; then
+  flock -w 900 9 || { log "FAILED lock_timeout"; record failed NULL NULL "" "lock_timeout"; exit 1; }
+elif ! flock -n 9; then log "skipped: poprzedni przebieg trwa"; record skipped NULL NULL "" "lock_busy"; exit 0; fi
 log "start kind=$KIND key=$DB_KEY"
 
 DB_OUT="$BACKUP_LOCAL_DIR/$(basename "$DB_KEY")"

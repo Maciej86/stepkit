@@ -1,8 +1,8 @@
 # Moduł „Publikacja”
 
 Czytasz ten plik, gdy bieżący moduł to „Publikacja” (folder `deploy`). Domyślnie to ostatni moduł. Nie ma makiety;
-etapy: **pytania** (dostawca, domena, godziny kopii zapasowych z sekcji 7) → **plan** (osiem kroków niżej
-w `PLAN.md`) → **wykonanie** → **testy** → **zamknięcie**.
+etapy: **pytania** (dostawca, domena, godziny kopii zapasowych z sekcji 7, sposób wdrożeń z sekcji 9) → **plan**
+(dziewięć kroków niżej w `PLAN.md`) → **wykonanie** → **testy** → **zamknięcie**.
 
 Wyjaśnij na start: „Aplikacja trafi na wynajęty serwer w internecie. Będzie działać na tym samym Dockerze co u Ciebie.
 Ty klikasz w panelu dostawcy i przysyłasz zrzuty ekranu, a ja robię resztę przez bezpieczne połączenie z serwerem.”
@@ -180,6 +180,56 @@ o 0:00 jest chroniona 35 dni (pierwszego dnia miesiąca: 400 dni), pozostałe 7 
   zapisują, z `baseURL` ustawionym na domenę.
 - Poproś użytkownika, żeby sam zalogował się jako administrator.
 
+## 9. Wdrożenia (nowe wersje)
+
+Pierwsze wgranie zrobiłeś ręcznie w sekcji 5. Każda kolejna wersja idzie przez `scripts/deploy.sh` na serwerze, ten
+sam skrypt w obu wariantach: kopia przed wdrożeniem, nowa wersja z gałęzi `main` na GitHubie, front, kontenery,
+migracje, test dymny (`/api/health`, `/api/health/db`), a gdy test się nie uda, powrót do poprzedniej wersji.
+
+**Czym jest wdrożenie (powiedz to użytkownikowi w etapie „pytania”, przed pytaniem):** „Wdrożenie to wgranie nowej
+wersji aplikacji na serwer. Twój komputer to warsztat: tu budujemy, poprawiamy i testujemy, a ludzie w internecie
+widzą tylko wersję z serwera. Dzięki temu możesz spokojnie pracować nad nowym modułem albo poprawką, a aplikacja
+w internecie działa dalej na sprawdzonej wersji. Gdy coś jest gotowe i sprawdzone, wdrażamy to jednym poleceniem:
+serwer robi kopię zapasową, wgrywa nową wersję i sprawdza, czy działa. Jeśli nie działa, zwykle sam wraca do
+poprzedniej.”
+
+**Pytanie (etap „pytania”):** „Jak chcesz wgrywać nowe wersje aplikacji na serwer?
+- **Z GitHuba (polecane):** wgrywa przycisk w GitHubie albo ja na Twoją prośbę. Może to zrobić każdy, kto ma dostęp
+  do repozytorium, nie tylko Ty, a GitHub zapisuje, kto i kiedy wgrał którą wersję. Najlepsze, gdy nad aplikacją
+  pracuje kilka osób albo gdy pracujesz na kilku komputerach.
+- **Z Twojego komputera:** wgrywam ja, na Twoją prośbę, z tego komputera. Prostsze na start, ale wgrywać może tylko
+  ten komputer.
+W obu przypadkach przed wgraniem przechodzą wszystkie testy, a serwer robi kopię zapasową.” Wybór zapisz w `SPEC.md`
+modułu. Wdrożenie nigdy nie dzieje się samo po zapisie na GitHubie: stepkit zapisuje tam po każdym module i poprawce.
+
+**Oba warianty:** `chmod +x ~/app/scripts/deploy.sh` i pierwsze uruchomienie przez ssh
+(`ssh -i ~/.ssh/<nazwa-projektu> app@<IP> '~/app/scripts/deploy.sh'`) → „Na serwerze jest już najnowsza wersja”.
+
+**Wariant z GitHuba** (potrzebny `gh`; bez niego zaproponuj instalację jak w `/stepkit:start`):
+1. Na komputerze osobny klucz tylko do wdrożeń: `ssh-keygen -t ed25519 -f ~/.ssh/<nazwa-projektu>-deploy -N "" -C github-deploy`.
+2. Na serwerze dopisz do `~/.ssh/authorized_keys` konta `app` jedną linię:
+   `command="/home/app/app/scripts/deploy.sh",no-port-forwarding,no-X11-forwarding,no-agent-forwarding,no-pty <treść pliku .pub>`.
+   Tym kluczem da się tylko uruchomić wdrożenie, nic więcej na serwerze.
+3. Sekrety repozytorium z komputera, bez wyświetlania klucza:
+   `gh secret set DEPLOY_SSH_KEY < ~/.ssh/<nazwa-projektu>-deploy`, `gh secret set DEPLOY_HOST --body <IP>`,
+   `ssh-keyscan -t ed25519 <IP> 2>/dev/null | gh secret set DEPLOY_KNOWN_HOSTS`. Potem usuń klucz prywatny
+   z komputera (`rm ~/.ssh/<nazwa-projektu>-deploy`): ma go tylko GitHub. Powiedz użytkownikowi jednym zdaniem, że
+   GitHub przechowuje teraz klucz, który pozwala wyłącznie wgrać nową wersję.
+4. `mkdir -p .github/workflows && cp scripts/github-deploy.yml .github/workflows/deploy.yml`, zapis, `git push`.
+5. Próba: `gh workflow run deploy.yml --ref main`, potem `gh run watch`: oba etapy zielone, w logu „Na serwerze jest
+   już najnowsza wersja”.
+6. Pokaż użytkownikowi przycisk: „W GitHubie otwórz repozytorium → zakładka **Actions** → **Wdróż** → **Run
+   workflow** → zielony przycisk. Po kilku minutach zielony znaczek oznacza, że nowa wersja działa.”
+
+**Wariant z komputera:** nic więcej do ustawienia.
+
+**Wynik `deploy.sh`** (kod wyjścia; w wariancie z GitHuba `gh run view --log-failed`): `0` nowa wersja działa
+(albo nic nowego); `1` nic się nie zmieniło albo wróciła poprzednia wersja (nieudana kopia, zmiany na serwerze,
+nieudany test dymny): powiedz prosto, co się stało, popraw z testem i wdróż ponownie; `2` stop, bo wersja zmienia
+bazę: aplikacja może nie działać. Powiedz to wprost, sprawdź logi (`docker compose -f docker-compose.prod.yml logs
+backend`) i napraw kolejną wersją, gdy się da. Odtworzenie bazy z kopii sprzed wdrożenia (sekcja „Serwer padł”,
+krok 4) tylko za zgodą użytkownika: znikną zmiany wprowadzone od wdrożenia.
+
 ## Zamknięcie
 
 Dopisz do `docs/STATUS.md`:
@@ -189,14 +239,13 @@ Dopisz do `docs/STATUS.md`:
 
 ## Wgraj nową wersję
 
-Na swoim komputerze: zapis na GitHubie (`git push`). Potem napisz do Claude'a: „wgraj nową wersję”. Claude wykona:
-# na komputerze: npm run check, npm audit --omit=dev (łatki bezpieczeństwa: npm audit fix, check, zapis, push)
-ssh -i ~/.ssh/<nazwa-projektu> app@<IP>
-cd app && git pull
-docker run --rm -v "$PWD":/app -w /app node:24-alpine sh -c "npm ci && npm run build"
-docker compose -f docker-compose.prod.yml up -d --build
-docker compose -f docker-compose.prod.yml exec backend npm run migrate -w @app/backend
-tail -3 ~/backups/backup.log   # ostatnia kopia „OK”; ponad 30 dni od sprawdzenia kopii → próbne odtworzenie
+**Wdrożenie:** <z GitHuba | z komputera>. Napisz do Claude'a „wgraj nową wersję” (z GitHuba możesz też sam:
+Actions → Wdróż → Run workflow). Claude wykona:
+# z komputera: npm run check, npm audit --omit=dev (łatki: npm audit fix, check, zapis), git push, potem
+ssh -i ~/.ssh/<nazwa-projektu> app@<IP> '~/app/scripts/deploy.sh'
+# z GitHuba: git push, potem (testy i audyt robi GitHub)
+gh workflow run deploy.yml --ref main && gh run watch
+# po wdrożeniu: ostatnia kopia „OK” w ~/backups/backup.log; ponad 30 dni od sprawdzenia kopii → próbne odtworzenie
 ```
 
 Dopisz do `README.md` sekcję (bez haseł):
@@ -212,7 +261,8 @@ Dopisz do `README.md` sekcję (bez haseł):
 | kopie zapasowe bazy i plików | OVH Object Storage, kontener `<kontener>` (region `<region>`), o <godziny>; chronione przed usunięciem 7 dni, nocne 35, z 1. dnia miesiąca 400 |
 | klucz do kopii | plik `<nazwa-projektu>-kopie.key`: menedżer haseł i <drugie miejsce>. Bez niego kopii nie da się odczytać |
 
-Nowa wersja: zapisz zmiany (`git push`) i napisz do Claude'a „wgraj nową wersję”.
+Nowa wersja (wdrożenie, czyli wgranie na serwer tego, co działa u Ciebie): napisz do Claude'a „wgraj nową wersję”<,
+albo sam: GitHub → Actions → Wdróż → Run workflow>. Serwer robi kopię, wgrywa nową wersję i sprawdza, czy działa.
 
 ### Serwer padł
 
@@ -254,5 +304,6 @@ poza serwerem i nikt ich nie usunął. Kolejno:
    \"\$MYSQL_DATABASE\"'"` (klucz przez zmienną, jak w `restore-check.sh`), potem migracje (kopia może być sprzed
    ostatniej migracji).
 5. Pliki: tak samo `<…>-files.tar.gz.age` → `tar -xzf - -C /u` w `docker run --rm -i -v <projekt>_uploads_data:/u alpine:3`.
-6. Kopie od nowa (sekcja 7, kroki 4–10: nowy `~/backup.env`, ten sam klucz publiczny), sprawdzenie (sekcja 8),
+6. Kopie od nowa (sekcja 7, kroki 4–10: nowy `~/backup.env`, ten sam klucz publiczny), wdrożenia (sekcja 9; z GitHuba:
+   linia klucza wdrożeń w `authorized_keys` nowego serwera, nowe `DEPLOY_HOST` i `DEPLOY_KNOWN_HOSTS`), sprawdzenie (sekcja 8),
    użytkownik loguje się swoim kontem. Na koniec usuń `~/kopie-test/`.

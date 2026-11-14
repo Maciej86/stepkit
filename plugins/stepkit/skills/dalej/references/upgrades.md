@@ -1,6 +1,6 @@
 # Aktualizacja projektu do nowej wersji stepkit
 
-**Aktualna wersja stepkit:** 0.1.24
+**Aktualna wersja stepkit:** 0.1.25
 
 Szablon kopiuje się do projektu tylko raz, przy `/stepkit:start`. Gdy stepkit się zmienia, starsze projekty nie mają
 nowych plików, a nowe zasady o nich mówią. Ten plik mówi, co przenieść.
@@ -239,3 +239,12 @@ Zasady (bez zmian w kodzie, chyba że przegląd coś znajdzie):
   serwerem” z `deploy-ovh.md` (sekcja 7, kroki 1–13), potem wyłącz stary cron (`crontab -l | grep -v backup-db.sh |
   crontab -`) i dopisz w `README.md` oraz `STATUS.md` to, co sekcja „Zamknięcie” mówi o kopiach i poziomach
   gotowości. Stare kopie w `~/backups` zostaw (skrypt i tak sprząta tylko pliki `*.age`).
+
+## 0.1.25: wdrożenia jednym skryptem (z komputera albo z GitHuba)
+
+- Nowe pliki z szablonu: `scripts/deploy.sh`, `scripts/github-deploy.yml`.
+- **Połącz** `scripts/backup/backup.sh`: zmienna `BACKUP_WAIT=1` (czekanie na trwający przebieg zamiast pominięcia,
+  jak w szablonie). Projekt zwykle nie zmieniał tego pliku, wtedy podmień.
+- **Aplikacja już opublikowana:** przy najbliższym „wgraj nową wersję” wyjaśnij, czym jest wdrożenie, zadaj pytanie
+  o sposób wdrożeń i ustaw wybrany wariant według `deploy-ovh.md`, sekcja 9 (wymaga kopii poza serwerem z 0.1.23).
+  Potem zamień sekcję „Wgraj nową wersję” w `STATUS.md` i linię „Nowa wersja” w `README.md` na wzór z „Zamknięcia”.
