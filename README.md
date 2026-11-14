@@ -39,20 +39,24 @@ Na końcu Twoja aplikacja działa w internecie, pod Twoim adresem.
 ### Claude Code w VS Code
 
 1. Zainstaluj [VS Code](https://code.visualstudio.com) i uruchom go.
-2. Utwórz pusty folder na aplikację i otwórz go w VS Code: **File → Open Folder**.
+2. Utwórz pusty folder na aplikację **poza OneDrive** (np. `C:\projekty\moja-aplikacja`; OneDrive spowalnia
+   i blokuje pliki projektu) i otwórz go w VS Code: **File → Open Folder**.
 3. Otwórz terminal: **Terminal → New Terminal** (otworzy się na dole, od razu w tym folderze).
 4. Zainstaluj Claude Code: wklej do terminala polecenie dla swojego systemu i naciśnij Enter.
 
-   **Windows:**
+   **Windows** (dwa polecenia, po kolei; drugie dopisuje Claude Code do listy programów, które widzi terminal):
    ```
    irm https://claude.ai/install.ps1 | iex
+   ```
+   ```
+   $p = [Environment]::GetEnvironmentVariable('Path', 'User'); if ($p -notlike "*\.local\bin*") { [Environment]::SetEnvironmentVariable('Path', "$p;$env:USERPROFILE\.local\bin", 'User') }
    ```
    **macOS:**
    ```
    curl -fsSL https://claude.ai/install.sh | bash
    ```
-5. Zamknij ten terminal (ikona kosza po prawej stronie terminala) i otwórz nowy: **Terminal → New Terminal**.
-   Dopiero nowy terminal „widzi” zainstalowany program.
+5. **Zamknij całe VS Code i otwórz je ponownie** (z tym samym folderem), potem **Terminal → New Terminal**. Dopiero
+   po ponownym uruchomieniu terminal „widzi” zainstalowany program.
 6. Wpisz `claude` i naciśnij Enter. Za pierwszym razem otworzy się przeglądarka: zaloguj się na swoje konto Claude
    (potrzebny płatny plan, np. Pro albo Max). Od tej pory Claude Code uruchamiasz w terminalu VS Code poleceniem
    `claude` i tu wpisujesz wszystkie komendy z tej strony.

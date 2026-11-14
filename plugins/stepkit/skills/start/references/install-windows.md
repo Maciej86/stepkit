@@ -12,6 +12,18 @@ Po każdej instalacji: **„Zamknij Claude Code (albo okno VS Code) i otwórz je
 Potem wpisz /stepkit:start, a ja sprawdzę, gdzie jesteśmy.”** (Postęp jest zapisany w `docs/STATUS.md`, jeśli już
 istnieje. Jeśli jeszcze nie, sprawdzanie po prostu zacznie się od nowa i szybko przejdzie przez to, co już jest.)
 
+## 0. Folder projektu poza OneDrive
+
+Sprawdź ścieżkę bieżącego folderu (`pwd`). Gdy zawiera `OneDrive`, zatrzymaj się, zanim cokolwiek zainstalujesz albo
+skopiujesz:
+
+> „Ten folder leży w OneDrive. OneDrive wysyła do chmury każdy plik, a projekt będzie miał ich dziesiątki tysięcy:
+> praca zwolni, a pliki będą blokowane w trakcie instalacji. Utwórz folder poza OneDrive, np. `C:\projekty\<nazwa>`,
+> otwórz go w VS Code (**File → Open Folder**), uruchom w nim Claude Code i wpisz `/stepkit:start`.”
+
+Nie przenoś folderu sam. Gdy użytkownik mimo to chce zostać w OneDrive, zapisz to w „Ostatnich decyzjach”
+w `STATUS.md` (gdy powstanie) i pracuj dalej.
+
 ## 1. Node.js
 
 - Sprawdź: `node --version`: wymagane **22.12 lub nowsze** (najlepiej 24 LTS). Starsza wersja = zainstaluj nową tak samo jak przy braku.
