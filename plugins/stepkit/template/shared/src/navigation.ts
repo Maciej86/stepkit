@@ -67,6 +67,9 @@ export const rolesFor = (key: string, items: NavItem[]): Role[] | null => {
   return [...new Set(flattenNav(found).flatMap((item) => item.roles))];
 };
 
+/** Adresy startowe części aplikacji: ich pozycja (np. „Pulpit” pod `/admin`) świeci tylko na tym adresie. */
+const PART_HOMES = ['/', '/admin', '/account'];
+
 /**
  * Klucz pozycji menu, która ma być podświetlona dla adresu `pathname`: ta, której adres jest równy albo jest początkiem
  * bieżącego (`/admin/orders` dla `/admin/orders/5`). Wygrywa najdłuższy, więc „Pulpit” pod `/admin` nie świeci
@@ -74,7 +77,7 @@ export const rolesFor = (key: string, items: NavItem[]): Role[] | null => {
  */
 export const activeNavKey = (items: { key: string; path: string }[], pathname: string): string | null => {
   const matches = items.filter(
-    (item) => pathname === item.path || (item.path !== '/' && pathname.startsWith(`${item.path}/`)),
+    (item) => pathname === item.path || (!PART_HOMES.includes(item.path) && pathname.startsWith(`${item.path}/`)),
   );
   if (matches.length === 0) return null;
   return matches.reduce((best, item) => (item.path.length > best.path.length ? item : best)).key;

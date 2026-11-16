@@ -167,7 +167,11 @@ describe('activeNavKey', () => {
 
   it('does not mix up paths that only share a prefix', () => {
     expect(activeNavKey(items, '/admin/orders-reports')).toBe('order-reports');
-    expect(activeNavKey(items, '/admin/settings')).toBe('dashboard');
+  });
+
+  it('does not highlight the dashboard on a panel page outside the menu', () => {
+    expect(activeNavKey(items, '/admin/notifications')).toBeNull();
+    expect(activeNavKey([{ key: 'my-account', path: '/account' }], '/account/settings')).toBeNull();
   });
 
   it('returns null outside the menu', () => {

@@ -1,6 +1,6 @@
 # Aktualizacja projektu do nowej wersji stepkit
 
-**Aktualna wersja stepkit:** 0.1.32
+**Aktualna wersja stepkit:** 0.1.33
 
 Szablon kopiuje się do projektu tylko raz, przy `/stepkit:start`. Gdy stepkit się zmienia, starsze projekty nie mają
 nowych plików, a nowe zasady o nich mówią. Ten plik mówi, co przenieść.
@@ -319,3 +319,15 @@ Zasady (bez zmian w kodzie, chyba że przegląd coś znajdzie):
 
 - W `README.md` projektu zamień linię „Dalsza praca: …” na tę z szablonu (nowa rozmowa przez `/clear`, potem
   `/stepkit:dalej`). Jeśli użytkownik zmienił ten fragment po swojemu, zostaw go.
+
+## 0.1.33: godziny w UTC, podświetlenie menu, „dzisiaj” i „wczoraj”
+
+- **Połącz** `backend/src/db/pool.ts` z szablonem (`timezone: 'Z'`) i dodaj `backend/src/db/__tests__/pool.test.ts`.
+  W `docker-compose.yml` i `docker-compose.prod.yml` dopisz do `command` bazy `"--default-time-zone=+00:00"`, potem
+  `npm run db` (baza uruchomi się na nowo, dane zostają). Jeśli projekt ma już `timezone: 'Z'`, zostaw.
+- **Połącz** `shared/src/navigation.ts` i jego test z szablonem: `activeNavKey` z `PART_HOMES` (pozycja pod `/`,
+  `/admin`, `/account` świeci tylko na tym adresie). Projekt mógł to już poprawić; zostaw jedną wersję.
+- **Połącz** `shared/src/date.ts`, `shared/src/__tests__/date.test.ts` i klucze `date.*` w
+  `shared/locales/pl/common.json` z szablonem (`formatRelativeDateTime`, `formatRelativeDay`). Własne funkcje
+  „dzisiaj/wczoraj” w modułach (np. `whenLabel`, `dayLabel` w Powiadomieniach) przepnij na wspólne i usuń, razem
+  z ich kluczami tekstów, jeśli nic innego ich nie używa; testy modułu mają dalej przechodzić.

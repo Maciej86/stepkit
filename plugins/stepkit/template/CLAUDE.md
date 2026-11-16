@@ -63,8 +63,8 @@ Kilka zapisów naraz (także z historią zmian) tylko przez `withTransaction` (`
 - Wzorce z `docs/DESIGN.md`; gotowe klocki w `common/`: `InfoCard`, `PageSection`, `ButtonIcon` (przycisk akcji
   zawsze z ikoną), `DateText`, `DataState`; dymki przez `notify`; tabela zawsze w `Table.ScrollContainer`.
 - Kolory tylko z motywu (`shared/src/theme.ts`), nigdy `#fff` czy `rgb()`. Ikony tylko Lucide.
-- Daty tylko przez `formatDate` / `DateText` z `@app/shared`; dni robocze i święta: `countWorkingDays`,
-  `getPolishHolidays`.
+- Daty tylko przez `formatDate` / `DateText` z `@app/shared` („dzisiaj”, „wczoraj”: `formatRelativeDateTime`); godziny
+  w bazie w UTC; dni robocze i święta: `countWorkingDays`, `getPolishHolidays`.
 - Żaden tekst dla człowieka w kodzie: klucze i18n w `shared/locales/pl/<moduł>.json`. Nazwy w kodzie po angielsku.
 - Zmiana ekranu: najpierw w makiecie (`mockups/`), potem w aplikacji (`frontend/`), żeby obie zostały zgodne.
 

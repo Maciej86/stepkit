@@ -15,4 +15,7 @@ export const pool = mysql.createPool({
   // Kolumny DATE jako tekst RRRR-MM-DD: bez tego mysql2 robi z nich północ czasu serwera, a po zamianie na JSON
   // dzień potrafi przesunąć się o jeden wstecz. Formatowanie: formatDate z @app/shared.
   dateStrings: ['DATE'],
+  // Godziny w bazie zawsze w UTC (baza ma `--default-time-zone=+00:00` w docker-compose). mysql2 ma je czytać
+  // i zapisywać tak samo, inaczej każda godzina przesuwa się o 1–2 h. Na ekranie: formatDateTime (Europe/Warsaw).
+  timezone: 'Z',
 });
