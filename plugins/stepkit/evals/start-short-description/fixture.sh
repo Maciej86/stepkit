@@ -2,7 +2,7 @@ mkdir -p docs
 cat > docs/STATUS.md <<'MD'
 # Stan projektu: Moja aplikacja
 
-**Wersja stepkit:** 0.1.29
+**Wersja stepkit:** 0.1.31
 
 **Następny krok:** Opis aplikacji.
 

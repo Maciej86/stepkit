@@ -1,6 +1,6 @@
 # Aktualizacja projektu do nowej wersji stepkit
 
-**Aktualna wersja stepkit:** 0.1.30
+**Aktualna wersja stepkit:** 0.1.31
 
 Szablon kopiuje się do projektu tylko raz, przy `/stepkit:start`. Gdy stepkit się zmienia, starsze projekty nie mają
 nowych plików, a nowe zasady o nich mówią. Ten plik mówi, co przenieść.
@@ -306,3 +306,11 @@ Zasady (bez zmian w kodzie, chyba że przegląd coś znajdzie):
 - **Połącz** `backend/src/test/conventions.test.ts` z szablonem (sprawdzenie 8: `rawParamNumber`); zwykle wystarczy
   podmienić. Każde `Number(req.params…)` i `parseInt(req.params…)` w modułach zamień na `idParam`, z testem:
   `1e3`, `0x10` i `007` w adresie → 404.
+
+## 0.1.31: powrót na otwierany adres po zalogowaniu (bezpieczeństwo)
+
+- **Połącz** `shared/src/navigation.ts` i `shared/src/__tests__/navigation.test.ts` z szablonem: nowa funkcja
+  `safeNextPath` z testami. Jeśli projekt ma już `safeNextPath` (np. z modułu E-mail), porównaj i zostaw działającą
+  wersję, nie dubluj; adresy w koncie (`/account`) przyjmuje tylko wtedy, gdy aplikacja ma konto.
+- Gdy moduł Logowanie jest zrobiony, a powrotu po zalogowaniu jeszcze nie ma, zapisz go w `docs/IDEAS.md` jako
+  poprawkę Logowania według „Powrót na otwierany adres” w `domains/login.md`; nie budujesz go w ramach aktualizacji.

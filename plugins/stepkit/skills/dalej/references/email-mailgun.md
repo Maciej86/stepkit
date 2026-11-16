@@ -15,9 +15,10 @@ aplikacja wyśle, i pokazuje to w przeglądarce. Prawdziwą wysyłkę przez Mail
        image: axllent/mailpit
        restart: unless-stopped
        ports:
-         - "1025:1025"
-         - "8025:8025"
+         - "127.0.0.1:${SMTP_PORT:-1025}:1025"
+         - "127.0.0.1:${MAILPIT_PORT:-8025}:8025"
    ```
+   Gdy port zajmuje inny projekt, zmień `MAILPIT_PORT` w `.env` (i adres skrzynki w `README.md`).
 2. Dopisz do `.env` i `.env.example`:
    ```
    EMAIL_TRANSPORT=mailpit
@@ -41,13 +42,27 @@ aplikacja wyśle, i pokazuje to w przeglądarce. Prawdziwą wysyłkę przez Mail
   ```
   Transport `nodemailer.createTransport({ host, port, secure: port === 465, auth: user ? { user, pass } : undefined })`
   z danymi z `.env`. Tak samo dla Mailpit i Mailgun: różnią się tylko `.env`.
+  Transport z limitem czasu: `connectionTimeout`, `greetingTimeout`, `socketTimeout` po 10 s. Bez tego niedostępny
+  serwer poczty wstrzymuje odpowiedź na kilka minut.
 - `backend/src/email/templates/<name>.ts`: funkcje zwracające `{ subject, html, text }`. Treść z kluczy
   `email.<name>.*` w `shared/locales/pl/email.json`, przez `createI18n()` z `@app/shared`. Prosty HTML (nagłówek,
   akapit, przycisk-link), zawsze także wersja `text`.
-- Wysyłka po zapisie w bazie, poza transakcją. Błąd wysyłki nie cofa zapisu: zapisz go w logu i pokaż administratorowi
-  komunikat (`server.email_failed`).
+- Dane od ludzi (imiona, nazwy, komentarze) wstawiasz do HTML tylko przez `escapeHtml`
+  (`backend/src/email/escapeHtml.ts`). Test: komentarz z `<a href>` i `<script>` nie zostawia w HTML znacznika.
+- Wspólna rama e-maili w `backend/src/email/layout.ts`: style w atrybutach `style`, szerokość do 560 px, kolory
+  z `shared/src/theme.ts`, nigdy wpisane `#…`.
+- Wysyłka po zapisie w bazie, poza transakcją. Błąd wysyłki nie cofa zapisu.
+- Kilku adresatów: każdy dostaje osobny e-mail (nie widzi adresów innych), wysyłka przez `Promise.allSettled`. Błąd
+  jednego nie zatrzymuje reszty. Funkcja wołana po zapisie nigdy nie rzuca błędu, tylko zapisuje w dzienniku serwera
+  `email failed` z numerem rekordu i adresem, bez treści.
+- Komunikat `server.email_failed` pokazujesz tylko wtedy, gdy osoba, która wykonała czynność, może coś z tym zrobić
+  (np. administrator wysyła zaproszenie). Gdy e-mail jest skutkiem ubocznym czynności kogoś innego (pracownik składa
+  wniosek), wystarczy wpis w dzienniku.
 - Test: `sendEmail` z `nodemailer.createTransport({ jsonTransport: true })` (wstrzyknięty transport) sprawdza adresata,
   temat i to, że `text` nie jest pusty. Test szablonu: polskie teksty, brak niepodmienionych `{{…}}`.
+
+Dopóki nie ma czynności, która wysyła e-mail (często powstaje w późniejszym module), dodaj polecenie
+`npm run email:test`, które wysyła przykładowy e-mail do Mailpit.
 
 Sprawdzenie: wywołaj czynność, która wysyła e-mail, i poproś: „Otwórz http://localhost:8025. Widzisz e-mail
 »<temat>«? Jak wygląda?”

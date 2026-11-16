@@ -10,6 +10,7 @@ import {
   SERVER_MESSAGES,
   canSee,
   createI18n,
+  safeNextPath,
   flattenNav,
   isRole,
   rolesFor,
@@ -203,5 +204,38 @@ describe('findVisibleNavItem', () => {
   it('returns null when the person cannot see it', () => {
     expect(findVisibleNavItem('my-account', [panel], user)).toBeNull();
     expect(findVisibleNavItem('my-account', [account], null)).toBeNull();
+  });
+});
+
+describe('safeNextPath', () => {
+  it('accepts addresses in the account and the panel', () => {
+    for (const path of ['/admin', '/admin/', '/admin/orders/128', '/admin/clients?search=jan', '/account', '/account/orders/5']) {
+      expect(safeNextPath(path)).toBe(path);
+    }
+  });
+
+  it('rejects foreign, escaping, encoded and other addresses', () => {
+    const bad = [
+      '//obca.pl',
+      'https://obca.pl',
+      '/admin/../login',
+      '/admin/..',
+      '/admin/%2e%2e/login',
+      '/admin/.%2E/',
+      '/admin/%2F%2Fobca.pl',
+      '/admin/%5Cx',
+      '/admin\\x',
+      '/admin//obca.pl',
+      '/admin/x#y',
+      '/admin/x\ny',
+      '/administrator',
+      '/accounts',
+      '/login',
+      '/',
+      '',
+      null,
+      undefined,
+    ];
+    for (const path of bad) expect(safeNextPath(path)).toBeNull();
   });
 });

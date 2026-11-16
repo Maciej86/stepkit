@@ -103,3 +103,18 @@ export const initials = (name: string): string => {
   if (letters.length === 0) return '?';
   return letters.length === 1 ? letters[0]! : letters[0]! + letters[letters.length - 1]!;
 };
+
+/** Adres w koncie albo panelu: `/account`, `/admin` lub głębiej, z opcjonalnym `?…`, bez `#`. */
+const AREA_PATH = /^\/(account|admin)(\/[^?#]*)?(\?[^#]*)?$/;
+
+/**
+ * Dokąd wrócić po zalogowaniu (`/login?next=…`, np. z linku w e-mailu albo po wygaśnięciu sesji). Tylko adres w koncie
+ * lub panelu tej aplikacji; obcy adres (`https://…`, `//…`), wyjście wyżej (`..`, także zakodowane `%2e`), `\`,
+ * zakodowane `/` i `\` oraz znaki sterujące → `null` (wtedy ekran startowy roli).
+ */
+export const safeNextPath = (raw: string | null | undefined): string | null => {
+  if (!raw || !AREA_PATH.test(raw)) return null;
+  if (raw.includes('//') || raw.includes('\\') || raw.includes('..')) return null;
+  if (/%(2e|2f|5c)/i.test(raw) || /[\u0000-\u001f\u007f]/.test(raw)) return null;
+  return raw;
+};
