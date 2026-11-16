@@ -12,7 +12,7 @@ kolumn, wartości statusów), bo strona „Postęp” go odczytuje. Maks. ok. 60
 ```markdown
 # Stan projektu: Sklep z zamówieniami
 
-**Wersja stepkit:** 0.1.35
+**Wersja stepkit:** 0.1.36
 
 **Następny krok:** Moduł Logowanie, implementacja: krok 3 z 7 (formularz logowania).
 
@@ -179,13 +179,24 @@ graniczne), każda reguła z plików z kolumny „Wzorce” (np. limit logowań 
 sam `routeProtection.test.ts`; w module zostaje po jednym teście 401 i 403 w pliku tras. Przy zamknięciu modułu
 test zasad nie przepuści żadnego `it.todo` w jego folderach.
 
+**Przed krokami: przegląd istniejących rozwiązań.** Przejrzyj zrobione moduły (`frontend/src/modules/`,
+`backend/src/modules/`, `common/`, `core/`, `shared/src/`) pod kątem tego, czego nowy moduł potrzebuje (lista
+z filtrami, okno potwierdzenia, pusty stan, stronicowanie, obsługa powtórzonej nazwy…), szukając po tym, co kod robi,
+nie po nazwie („Wspólne zamiast kopii” w `code-conventions.md`). Wynik w sekcjach „Używam ponownie” i „Wydzielam”.
+Wydzielenie to pierwszy krok po szkielecie testów: przeniesienie z parametrami, test, podmiana w starym module,
+`npm run check`.
+
 ```markdown
 # Plan: <moduł>
 
+**Używam ponownie:** `ConfirmModal` (common), `useListParams` (core), `isDuplicateKey` (db) | brak
+**Wydzielam:** okno „Ukryj” z Typów urlopów → `common/ConfirmModal` (parametry: tytuł, przycisk, `danger`) | brak
+
 - [ ] 0. Szkielet testów: `it.todo` dla każdego wymagania ze specu (lista w krokach niżej) → `npm run check`
-- [ ] 1. Migracja `003_orders.sql` + test: … → `npm run migrate`, `npm run check`
-- [ ] 2. Schemat `shared/src/schemas/orders.ts` + testy
-- [ ] 3. Trasa `GET /api/orders` + testy (dane, 401, 403)
+- [ ] 1. Wydzielenie `ConfirmModal` do `common/` + test, podmiana w Typach urlopów → `npm run check`
+- [ ] 2. Migracja `003_orders.sql` + test: … → `npm run migrate`, `npm run check`
+- [ ] 3. Schemat `shared/src/schemas/orders.ts` + testy
+- [ ] 4. Trasa `GET /api/orders` + testy (dane, 401, 403)
 - [ ] …
 - [ ] N. Test e2e `e2e/orders.spec.ts` ze scenariuszy `TESTS.md`
 ```

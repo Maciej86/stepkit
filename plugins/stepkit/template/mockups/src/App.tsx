@@ -52,8 +52,8 @@ export const MockupApp = ({
     };
     const children: RouteObject[] = [
       ...(areas.public ? publicNavigation.map((i) => ({ path: i.path, element: screenFor(i.key) })) : []),
-      ...(areas.account ? flattenNav(accountNavigation).map((i) => ({ path: i.path, element: screenFor(i.key, i) })) : []),
-      ...(areas.admin ? flattenNav(navigation).map((i) => ({ path: i.path, element: screenFor(i.key, i) })) : []),
+      ...(areas.account ? flattenNav(accountNavigation).filter((i) => !i.children).map((i) => ({ path: i.path, element: screenFor(i.key, i) })) : []),
+      ...(areas.admin ? flattenNav(navigation).filter((i) => !i.children).map((i) => ({ path: i.path, element: screenFor(i.key, i) })) : []),
       ...(homePath ? [{ path: '/', element: <Navigate to={homePath} replace /> }] : []),
       { path: '/progress', element: <ProgressPage /> },
       { path: '*', element: <MissingScreen /> },

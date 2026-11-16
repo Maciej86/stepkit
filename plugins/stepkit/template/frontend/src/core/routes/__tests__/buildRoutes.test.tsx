@@ -62,3 +62,15 @@ describe('buildAppRoutes', () => {
     expect(await screen.findByText('Nie masz dostępu do tej części aplikacji.')).toBeInTheDocument();
   });
 });
+
+describe('buildRoutes with a group', () => {
+  const group: NavItem = {
+    key: 'settings', path: '/admin/settings', label: 'common.nav.my_account', icon: 'user', roles: ['admin'],
+    children: [adminOnly],
+  };
+
+  it('a group has no page of its own, its items do', () => {
+    const routes = buildRoutes([group], { reports: Page }, admin);
+    expect(routes.map((r) => r.path)).toEqual(['/admin/reports']);
+  });
+});

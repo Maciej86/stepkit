@@ -1,4 +1,4 @@
-import { screen } from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 import { MemoryRouter } from 'react-router';
 import type { NavItem } from '@app/shared';
 import { NavMenu } from '../NavMenu';
@@ -44,5 +44,37 @@ describe('NavMenu highlighting', () => {
     );
     expect(screen.getByText('Moje konto').closest('a')).toHaveAttribute('data-active', 'true');
     expect(screen.getByText('Pulpit').closest('a')).not.toHaveAttribute('data-active');
+  });
+});
+
+describe('NavMenu group', () => {
+  const nav: NavItem[] = [
+    { key: 'dashboard', path: '/admin', label: 'common.nav.dashboard', icon: 'house', roles: ['admin'] },
+    {
+      key: 'settings', path: '/admin/settings', label: 'common.nav.my_account', icon: 'user', roles: ['admin'],
+      children: [{ key: 'home', path: '/admin/home', label: 'common.nav.home', icon: 'house', roles: ['admin'] }],
+    },
+  ];
+  const admin = { id: 1, name: 'Ala', role: 'admin' as const };
+
+  it('a group is a toggle, not a link, and opens its items on click', () => {
+    renderWithProviders(
+      <MemoryRouter initialEntries={['/admin']}>
+        <NavMenu items={nav} user={admin} />
+      </MemoryRouter>,
+    );
+    const group = screen.getByText('Moje konto').closest('button, a')!;
+    expect(group.tagName).toBe('BUTTON');
+    fireEvent.click(group);
+    expect(screen.getByText('Strona główna').closest('a')).toHaveAttribute('href', '/admin/home');
+  });
+
+  it('the group is open on the page of one of its items', () => {
+    renderWithProviders(
+      <MemoryRouter initialEntries={['/admin/home']}>
+        <NavMenu items={nav} user={admin} />
+      </MemoryRouter>,
+    );
+    expect(screen.getByText('Strona główna').closest('a')).toHaveAttribute('data-active', 'true');
   });
 });

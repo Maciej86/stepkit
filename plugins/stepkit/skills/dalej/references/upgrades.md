@@ -1,6 +1,6 @@
 # Aktualizacja projektu do nowej wersji stepkit
 
-**Aktualna wersja stepkit:** 0.1.35
+**Aktualna wersja stepkit:** 0.1.36
 
 Szablon kopiuje się do projektu tylko raz, przy `/stepkit:start`. Gdy stepkit się zmienia, starsze projekty nie mają
 nowych plików, a nowe zasady o nich mówią. Ten plik mówi, co przenieść.
@@ -350,3 +350,13 @@ Zasady (bez zmian w kodzie, chyba że przegląd coś znajdzie):
 - Jeśli projekt ma już `DateField`, `isoDate` albo `parseTypedDate`, zostaw jedną wersję z szablonu i przepnij na nią
   moduły. Własne pola daty w modułach (zwykły `TextInput` albo `DateInput` z innymi ustawieniami) zamień na
   `DateField`, z testem modułu.
+
+## 0.1.36: grupy w menu, wspólne zamiast kopii
+
+- **Połącz** z szablonem `frontend/src/common/NavMenu.tsx`, `frontend/src/core/routes/buildRoutes.tsx`,
+  `mockups/src/Shell.tsx`, `mockups/src/App.tsx` i ich testy: grupa w menu tylko rozwija swoje pozycje i nie ma
+  własnej trasy. Jeśli projekt już to poprawił, zostaw jedną wersję.
+- W `CLAUDE.md` projektu podmień linię „Wspólne zamiast kopii” na tę z szablonu. Istniejących powtórzeń w modułach
+  **nie** wydzielasz w ramach aktualizacji: zrobi to plan następnego modułu, który ich potrzebuje (sekcje „Używam
+  ponownie” i „Wydzielam” w `PLAN.md`). Po aktualizacji powiedz jednym zdaniem: „Nowa zasada: przed każdym planem
+  sprawdzam, czy coś podobnego już jest w projekcie, i wtedy przenoszę to do wspólnego miejsca.”
