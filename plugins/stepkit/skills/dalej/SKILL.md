@@ -43,6 +43,7 @@ Nie czytaj folderów innych modułów ani całego kodu „na zapas”.
 
 **Wersja projektu.** Porównaj linię `**Wersja stepkit:**` w `STATUS.md` z `references/upgrades.md` („Kiedy”). Projekt
 starszy (albo bez tej linii) → najpierw zaproponuj aktualizację według `upgrades.md` i poczekaj na odpowiedź.
+**Po aktualizacji też się zatrzymaj** (`upgrades.md`, krok 3), zanim wrócisz do modułu.
 
 Potem jedno zdanie: „Jesteśmy przy: <moduł>, <etap>. Teraz: <co robimy>.”
 

@@ -1,6 +1,6 @@
 # Aktualizacja projektu do nowej wersji stepkit
 
-**Aktualna wersja stepkit:** 0.1.28
+**Aktualna wersja stepkit:** 0.1.29
 
 Szablon kopiuje się do projektu tylko raz, przy `/stepkit:start`. Gdy stepkit się zmienia, starsze projekty nie mają
 nowych plików, a nowe zasady o nich mówią. Ten plik mówi, co przenieść.
@@ -26,7 +26,10 @@ Wersję projektu podaje linia `**Wersja stepkit:** X.Y.Z` w `docs/STATUS.md`. Br
 3. Zawsze podmień `docs/CONVENTIONS.md` na aktualny `code-conventions.md` (obok tego pliku) i cały folder
    `docs/conventions/` na aktualne `domains/` (usuń stare pliki, skopiuj wszystkie); projekt ich nie zmienia, wyjątki
    są w `SPEC-GENERAL.md`. Na końcu ustaw w `docs/STATUS.md` linię `**Wersja stepkit:** <aktualna wersja z góry tego pliku>` (zaraz pod
-   tytułem; dopisz, jeśli jej nie ma) i wpis w „Ostatnie decyzje”. Potem wróć do zwykłej pracy.
+   tytułem; dopisz, jeśli jej nie ma) i wpis w „Ostatnie decyzje”. Potem **zatrzymaj się**. Jednym krótkim akapitem,
+   bez nazw technicznych, powiedz, co się zmieniło i że sprawdzenie (`npm run check`) przeszło. Podaj jedną–dwie rzeczy
+   do sprawdzenia w aplikacji, związane z tym, co się zmieniło (np. „zaloguj się i otwórz listę pracowników”).
+   Zapytaj: „Wracamy do <moduł>, etap <etap>?”. Dalszą pracę zaczynasz dopiero po odpowiedzi.
 4. Moduł w toku: aktualizację rób przed dalszą pracą nad nim; jego plików nie ruszaj poza tym, co opisuje sekcja.
 5. **Aplikacja opublikowana i wszystkie moduły zrobione:** aktualizację proponuj tylko wtedy, gdy któraś z brakujących
    sekcji dotyczy bezpieczeństwa (oznaczone „bezpieczeństwo”) albo gdy użytkownik zaczyna nowy moduł. Działającej
@@ -291,3 +294,15 @@ Zasady (bez zmian w kodzie, chyba że przegląd coś znajdzie):
   zmienia tego pliku, więc zwykle wystarczy go podmienić.
 - `npm run check` musi przejść. Błąd typów „użyta przed deklaracją” znaczy, że funkcję trzeba przenieść wyżej, przed
   miejsce, w którym kod ją wywołuje.
+
+## 0.1.29: numer z adresu przez idParam, wspólna odpowiedź usługi (bezpieczeństwo)
+
+- Nowe pliki z szablonu: `backend/src/middleware/routeHelpers.ts` i `backend/src/middleware/__tests__/routeHelpers.test.ts`.
+  Jeśli projekt ma już własny plik o tej nazwie albo własne `idParam`, `fail`, `reply` (np. w plikach tras modułów),
+  zostaw jeden wspólny `routeHelpers.ts` z szablonu i przepnij moduły na niego; dane dodatkowe dla ekranu (np.
+  `archivedUser`) przechodzą przez `fail(…, { … })` bez zmian.
+- **Połącz** `backend/src/middleware/errors.ts`: `sendError` z piątym argumentem `extra` jak w szablonie (projekt mógł
+  go już dodać).
+- **Połącz** `backend/src/test/conventions.test.ts` z szablonem (sprawdzenie 8: `rawParamNumber`); zwykle wystarczy
+  podmienić. Każde `Number(req.params…)` i `parseInt(req.params…)` w modułach zamień na `idParam`, z testem:
+  `1e3`, `0x10` i `007` w adresie → 404.
