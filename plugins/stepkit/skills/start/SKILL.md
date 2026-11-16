@@ -79,7 +79,10 @@ z tych narzędzi już masz, i poprowadzę przez instalację tylko tego, czego br
 dodatki do Claude Code, instaluje się je komendą, pokażę jaką.”
 
 Zakończ zdaniem: „Ty mówisz, co ma działać, a narzędziami zajmuję się ja.” Jeśli nie wiesz z systemu, zapytaj, czy ma
-Windows czy Maca. Na końcu zapytaj dokładnie tak: „Czy mogę sprawdzić, jakie narzędzia masz zainstalowane na
+Windows czy Maca. Przed pytaniem dodaj krótki akapit, spokojnym tonem, bez straszenia: „Jedna ważna informacja: te
+programy i dodatki tworzą inne firmy i społeczności, a stepkit tylko pomaga je zainstalować i z nich korzystać.
+Instalujesz je na własną odpowiedzialność: autor stepkit nie odpowiada za ich działanie ani za ewentualne skutki
+uboczne na Twoim komputerze. Więcej o tym w README, w sekcji »Odpowiedzialność«.” Na końcu zapytaj dokładnie tak: „Czy mogę sprawdzić, jakie narzędzia masz zainstalowane na
 komputerze?” Nie pisz „co jest już zainstalowane” ani „co masz na komputerze”: brzmi jak przeszukiwanie całego
 komputera, a sprawdzasz tylko narzędzia z listy.
 

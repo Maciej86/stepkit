@@ -5,7 +5,7 @@
 **Zbuduj własną aplikację www z Claude, krok po kroku, bez programowania.**
 
 [![Licencja: MIT](https://img.shields.io/badge/licencja-MIT-green.svg)](LICENSE)
-![Wersja](https://img.shields.io/badge/wersja-0.1.29-blue.svg)
+![Wersja](https://img.shields.io/badge/wersja-0.1.30-blue.svg)
 ![Claude Code](https://img.shields.io/badge/Claude%20Code-plugin-d97757.svg)
 ![Język](https://img.shields.io/badge/język-polski-red.svg)
 
@@ -269,6 +269,19 @@ Tak. OVH jest domyślną propozycją z instrukcją krok po kroku, ale przy publi
 
 stepkit jest we **wczesnej wersji (0.1)**. Działa, ale może mieć niedoskonałości. Jeśli coś nie zadziała albo masz
 pomysł na ulepszenie, [zgłoś to w Issues](https://github.com/Maciej86/stepkit/issues).
+
+## ⚖️ Odpowiedzialność
+
+stepkit jest darmowy i udostępniany „tak jak jest”, bez żadnej gwarancji (licencja MIT). Korzystasz z niego na własną
+odpowiedzialność.
+
+- **Programy i dodatki**, które stepkit poleca zainstalować (VS Code, Node.js, Docker Desktop, Git, superpowers,
+  Playwright, frontend-design), a także usługi używane przy publikacji (np. GitHub, OVH, Mailgun), tworzą i rozwijają
+  inne firmy i społeczności. Instalujesz je i korzystasz z nich zgodnie z ich własnymi licencjami i regulaminami.
+- **Autor stepkit nie ponosi odpowiedzialności** za działanie tych programów ani za ich skutki, w tym za problemy
+  z działaniem komputera, utratę danych czy koszty usług.
+- **Aplikację budujesz Ty**, z pomocą Claude'a. Zanim zaczniesz jej używać w firmie albo udostępnisz ją innym,
+  sprawdź, czy działa tak, jak potrzebujesz. Rób też kopie ważnych danych na swoim komputerze.
 
 ## 📄 Licencja
 
