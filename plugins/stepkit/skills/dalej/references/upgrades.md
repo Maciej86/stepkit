@@ -1,6 +1,6 @@
 # Aktualizacja projektu do nowej wersji stepkit
 
-**Aktualna wersja stepkit:** 0.1.33
+**Aktualna wersja stepkit:** 0.1.34
 
 Szablon kopiuje się do projektu tylko raz, przy `/stepkit:start`. Gdy stepkit się zmienia, starsze projekty nie mają
 nowych plików, a nowe zasady o nich mówią. Ten plik mówi, co przenieść.
@@ -331,3 +331,10 @@ Zasady (bez zmian w kodzie, chyba że przegląd coś znajdzie):
   `shared/locales/pl/common.json` z szablonem (`formatRelativeDateTime`, `formatRelativeDay`). Własne funkcje
   „dzisiaj/wczoraj” w modułach (np. `whenLabel`, `dayLabel` w Powiadomieniach) przepnij na wspólne i usuń, razem
   z ich kluczami tekstów, jeśli nic innego ich nie używa; testy modułu mają dalej przechodzić.
+
+## 0.1.34: polecenie /stepkit:zglos
+
+- W `README.md` projektu pod linią „Dalsza praca: …” dopisz linię z szablonu: „Pomysł, zmiana albo błąd: wpisz
+  `/stepkit:zglos` i opisz to własnymi słowami.”
+- Po aktualizacji powiedz jednym zdaniem: „Nowość: pomysł, zmianę albo błąd zgłaszasz teraz poleceniem
+  `/stepkit:zglos`.”

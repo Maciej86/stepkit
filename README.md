@@ -5,7 +5,7 @@
 **Zbuduj własną aplikację www z Claude, krok po kroku, bez programowania.**
 
 [![Licencja: MIT](https://img.shields.io/badge/licencja-MIT-green.svg)](LICENSE)
-![Wersja](https://img.shields.io/badge/wersja-0.1.33-blue.svg)
+![Wersja](https://img.shields.io/badge/wersja-0.1.34-blue.svg)
 ![Claude Code](https://img.shields.io/badge/Claude%20Code-plugin-d97757.svg)
 ![Język](https://img.shields.io/badge/język-polski-red.svg)
 
@@ -94,9 +94,16 @@ Zamknij Claude Code (wpisz `/exit`) i uruchom go ponownie (`claude`). Gotowe.
 1. Otwórz **pusty folder** na aplikację w VS Code i uruchom w nim Claude Code (`claude` w terminalu, jak wyżej
    w „Claude Code w VS Code”).
 2. Wpisz **`/stepkit:start`** i opisz swój pomysł własnymi słowami.
-3. Po każdej skończonej części: **nowa rozmowa → `/stepkit:dalej`**.
+3. Po każdej skończonej części: **nowa rozmowa (`/clear`) → `/stepkit:dalej`**.
+4. Gdy wpadniesz na pomysł albo coś nie działa: **`/stepkit:zglos`**.
 
-To wszystko. Dwie komendy na cały projekt.
+To wszystko. Trzy polecenia na cały projekt:
+
+| Polecenie | Kiedy | Co robi |
+|---|---|---|
+| 🌱 **`/stepkit:start`** | raz, na początku | sprawdza komputer, wypytuje o pomysł, pokazuje makietę całej aplikacji i dzieli ją na moduły |
+| ▶️ **`/stepkit:dalej`** | za każdym razem, gdy siadasz do pracy | prowadzi przez kolejny moduł albo wraca dokładnie tam, gdzie skończyliście |
+| 💬 **`/stepkit:zglos`** | gdy masz pomysł, chcesz coś zmienić albo coś nie działa | rozpoznaje, czy to nowy moduł, zmiana w gotowym module, czy błąd, dopytuje i zapisuje albo od razu poprawia |
 
 ## 🔄 Jak to działa
 
@@ -122,6 +129,19 @@ potrzebna jest historia zmian…), pokazuje makietę całej aplikacji i rozpisuj
 | ⚙️ **Implementacja** | Claude pisze kod: najpierw test, potem kod | — |
 | 🧪 **Testy** | Claude klika w aplikacji, potem lista do sprawdzenia dla Ciebie | potwierdzasz „działa” |
 | 🏁 **Zamknięcie** | zapis na GitHubie, makieta modułu oznaczona jako wykonana | — |
+
+**`/stepkit:zglos`** przyjmuje wszystko, co przyjdzie Ci do głowy w trakcie. Opisujesz to własnymi słowami
+(możesz dodać zrzut ekranu), a Claude mówi, co to jest, i zadaje kilka krótkich pytań:
+
+| Co zgłaszasz | Co się dzieje |
+|---|---|
+| 🐞 **Błąd** („nie zapisuje się”, „pokazuje złą datę”) | Claude pyta, gdzie i kiedy to widać, i naprawia od razu: najpierw test, potem poprawka |
+| ✏️ **Drobna zmiana** w gotowym module (napis, kolumna, pole) | mówi, co zmieni, i po Twojej zgodzie robi to w tej samej rozmowie |
+| 🧩 **Nowa funkcja** albo większa zmiana (nowy ekran, nowa rola) | pyta, kto z niej korzysta i czy jest pilna; trafia do kolejki modułów albo do listy pomysłów na koniec |
+| 📌 **Coś, co już jest w planie** | dowiesz się, w którym module i kiedy przyjdzie jego kolej |
+
+Bieżąca praca na tym nie cierpi: moduł w toku zostaje dokończony, a nowy pomysł czeka na swoją kolej. Wyjątkiem jest
+błąd, który Claude naprawia od razu.
 
 Kolejność modułów proponuje stepkit: najpierw **Wygląd** (porównujesz 3 warianty na swoich ekranach i dopracowujesz
 wybrany, choćby przez kilka rozmów), potem logowanie, kolejne części, na końcu publikacja. Ustalony wygląd trafia do
@@ -236,6 +256,13 @@ repozytorium jako zwykły, czytelny kod (`plugins/stepkit/template/scripts/`).
 Każda wiadomość kosztuje tym więcej tokenów, im dłuższa jest cała rozmowa, a w bardzo długiej rozmowie AI zaczyna
 gubić wcześniejsze ustalenia. stepkit zapisuje stan w pliku `docs/STATUS.md`, więc nowa rozmowa czyta krótki plik
 zamiast całej historii. Taniej i dokładniej.
+</details>
+
+<details>
+<summary><b>Wymyśliłem coś nowego w trakcie albo chcę zmienić gotową część. Co teraz?</b></summary>
+
+Wpisz `/stepkit:zglos` i opisz to własnymi słowami. Nie musisz wiedzieć, czy to „moduł”, „zmiana” czy „błąd”:
+Claude to rozpozna, dopyta i powie, co dalej. Nic nie przepadnie, a rozpoczęta część zostanie najpierw dokończona.
 </details>
 
 <details>

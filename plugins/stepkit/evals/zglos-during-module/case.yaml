@@ -1,0 +1,19 @@
+schema_version: "1.1"
+name: zglos-during-module
+description: Pomysł na później zgłoszony przez /stepkit:zglos w trakcie modułu trafia do docs/IDEAS.md bez przerywania bieżącej pracy.
+runs: 2
+execution:
+  max_turns: 12
+  allowed_tools: [Read, Glob, Grep, Skill, Write, Edit]
+  append_system_prompt: "Środowisko testowe stepkit: komendy (npm, docker, git) są niedostępne, a node_modules nie są zainstalowane. Zakładaj, że npm run check przechodzi po poprawnych zmianach, i pracuj dalej na plikach."
+  prompt: "/stepkit:zglos Mam pomysł na później, na sam koniec: ewidencja czasu pracy pracowników. Kto korzysta: właściciel wpisuje godziny za pracowników."
+context:
+  scaffold_script: fixture.sh
+graders:
+  - name: mentions-ideas-file
+    type: regex
+    pattern: 'IDEAS\.md'
+    arm: with-only
+  - name: parks-idea
+    type: llm
+    criteria: Odpowiedź po polsku potwierdza zapis pomysłu na później w docs/IDEAS.md. Nie zaczyna budować ewidencji, nie dodaje jej jako modułu w STATUS.md i nie zmienia planu Logowania, które jest w toku. Kończy odesłaniem do dalszej pracy nad Logowaniem przez /stepkit:dalej (np. „wpisz /clear, a potem /stepkit:dalej”).

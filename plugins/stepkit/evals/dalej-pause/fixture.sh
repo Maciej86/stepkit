@@ -2,7 +2,7 @@ mkdir -p docs
 cat > docs/STATUS.md <<'MD'
 # Stan projektu: Sklep
 
-**Wersja stepkit:** 0.1.33
+**Wersja stepkit:** 0.1.34
 
 **Następny krok:** Klienci: spec.
 

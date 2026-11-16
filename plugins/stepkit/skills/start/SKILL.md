@@ -180,7 +180,7 @@ na GitHubie („Plan aplikacji gotowy”, `git push`, przedtem `git check-ignore
 
 > „Plan jest gotowy. Postęp zobaczysz na http://localhost:5174/progress. Teraz zacznij nową rozmowę: wpisz `/clear`
 > i naciśnij Enter. To wyczyści tę rozmowę, ale cała praca zostaje zapisana w plikach i w git. Potem wpisz
-> `/stepkit:dalej`.”
+> `/stepkit:dalej`. Masz pomysł albo coś nie działa? Wpisz `/stepkit:zglos`.”
 
 Wyjaśnij jednym zdaniem, dlaczego nowa rozmowa: krótsza rozmowa to mniej tokenów i mniej pomyłek.
 

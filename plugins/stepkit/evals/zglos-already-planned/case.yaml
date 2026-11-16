@@ -1,0 +1,15 @@
+schema_version: "1.1"
+name: zglos-already-planned
+description: Zgłoszenie czegoś, co już jest w planie, kończy się wskazaniem modułu i jego kolejki, bez nowego wpisu.
+runs: 2
+execution:
+  max_turns: 12
+  allowed_tools: [Read, Glob, Grep, Skill, Write, Edit]
+  append_system_prompt: "Środowisko testowe stepkit: komendy (npm, docker, git) są niedostępne, a node_modules nie są zainstalowane. Zakładaj, że npm run check przechodzi po poprawnych zmianach, i pracuj dalej na plikach."
+  prompt: "/stepkit:zglos Fajnie by było, gdyby klienci mogli składać zamówienia przez aplikację."
+context:
+  scaffold_script: fixture.sh
+graders:
+  - name: points-to-orders
+    type: llm
+    criteria: Odpowiedź po polsku mówi, że to już jest w planie jako moduł Zamówienia i że jest następny w kolejce (zacznie się w /stepkit:dalej). Nie dopisuje nowego modułu ani wiersza w IDEAS.md z tym samym pomysłem i nie zaczyna budowy Zamówień.

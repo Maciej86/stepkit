@@ -1,6 +1,6 @@
 ---
 name: dalej
-description: Użyj, gdy użytkownik wpisuje /stepkit:dalej, chce kontynuować budowę aplikacji zaczętej przez stepkit, prosi o kolejny moduł, o inny moduł niż bieżący, o publikację, o „wgraj nową wersję” albo o poprawkę lub drobną zmianę w aplikacji zbudowanej ze stepkit.
+description: Użyj, gdy użytkownik wpisuje /stepkit:dalej, chce kontynuować budowę aplikacji zaczętej przez stepkit, prosi o kolejny moduł, o inny moduł niż bieżący, o publikację albo o „wgraj nową wersję” w aplikacji zbudowanej ze stepkit.
 ---
 
 # stepkit: dalej
@@ -47,31 +47,8 @@ starszy (albo bez tej linii) → najpierw zaproponuj aktualizację według `upgr
 
 Potem jedno zdanie: „Jesteśmy przy: <moduł>, <etap>. Teraz: <co robimy>.”
 
-**Pomysł na później.** Gdy użytkownik (w tej wiadomości albo w trakcie pracy) zgłasza nową funkcję spoza ustaleń
-bieżącego modułu i `SPEC-GENERAL.md` („mam pomysł”, „a może dodać”, „kiedyś chciałbym”), dopisz wiersz do
-`docs/IDEAS.md` (data, pomysł jednym zdaniem, `pomysł`; brak pliku → utwórz go z tabelą `| Data | Pomysł | Status | Uwagi |`) i potwierdź: „Zapisałem w `docs/IDEAS.md`. Zajmiemy się tym
-po zbudowaniu tego, co ustaliliśmy.” **Nie** dodajesz go do tabeli modułów, nie zmieniasz planu ani speca i wracasz
-do bieżącego modułu. Wyjątek: użytkownik wprost chce zmienić bieżący moduł („w logowaniu dodajmy jeszcze…”); wtedy
-to zmiana ustaleń: zapisz w `SPEC.md` i `PLAN.md` modułu, przedtem powiedz, co zmieni się w planie.
-
-**Pomysł na teraz.** Gdy użytkownik chce zbudować nowy pomysł wcześniej, nie na końcu („zbudujmy to teraz”, „przed
-Klientami”): bieżącego modułu nie przerywasz. Zaproponuj nowy moduł zaraz za bieżącym (albo w miejscu, które wskazał,
-ale nie przed modułami, od których zależy), pokaż nową kolejność całej listy modułów i zapytaj: „Czy tak ustawić?”.
-Dopiero po „tak”: wiersz w tabeli modułów w `STATUS.md` (nazwa po polsku, folder po angielsku, `czeka`, etap
-`makieta`, „Zależy od”), przenumerowanie, w `IDEAS.md` status `zaplanowany`, wpis w „Ostatnie decyzje”. Potem wracasz
-do bieżącego modułu; nowy zacznie się sam, gdy przyjdzie jego kolej.
-
-**Drobna zmiana albo błąd.** Gdy prośba dotyczy rzeczy już zrobionej („dodaj kolumnę z telefonem”, „zmień napis”,
-„to się nie zapisuje”), nie uruchamiaj pełnego procesu modułu. Drobna zmiana: jeden zrobiony moduł, bez nowego ekranu,
-nowej roli, nowej tabeli i nowej trasy API (nowa kolumna w istniejącej tabeli jest w porządku). Kolejno:
-1. Jednym zdaniem: co zmienisz i gdzie to będzie widać. Przy zmianie (nie błędzie) poczekaj na „tak”.
-2. Test, który nie przechodzi; kod (makieta i aplikacja, gdy zmienia się ekran; migracja, gdy baza); `npm run check`.
-3. Użytkownik sprawdza w przeglądarce; zmianę ustaleń dopisz do `SPEC.md` tego modułu.
-4. Zapis „Poprawka: <co>” i `git push`. Po publikacji przypomnij o „wgraj nową wersję”.
-
-Błąd naprawiasz zawsze, także w trakcie innego modułu (potem wracasz do niego). Drobną zmianę w trakcie modułu
-`w toku` zapisz w `docs/IDEAS.md` i zrób po jego zamknięciu, chyba że użytkownik chce teraz. Większe niż drobna (nowy
-ekran, tabela, rola) → „Pomysł na teraz” albo „Pomysł na później”.
+**Pomysł, zmiana albo błąd.** Gdy użytkownik (w tej wiadomości albo w trakcie pracy) zgłasza pomysł, zmianę albo
+błąd, postępuj według `references/changes.md`, potem wróć do bieżącego modułu.
 
 ## 2. Który moduł
 
@@ -138,7 +115,8 @@ jedna jego część**, od makiety (albo specu części) do zamknięcia; implemen
 kroku planu bez przerywania. Po zamknięciu modułu lub części zakończ dokładnie:
 
 > „<Moduł albo część> gotowy. Teraz zacznij nową rozmowę: wpisz `/clear` i naciśnij Enter. To wyczyści tę rozmowę,
-> ale cała praca zostaje zapisana w plikach i w git. Potem wpisz `/stepkit:dalej`.”
+> ale cała praca zostaje zapisana w plikach i w git. Potem wpisz `/stepkit:dalej`. Masz pomysł albo coś nie
+> działa? Wpisz `/stepkit:zglos`.”
 
 Wcześniej nową rozmowę proponujesz tylko wtedy, gdy ta zrobiła się bardzo długa (Claude Code ją już skracał): dokończ
 bieżący krok, zapisz stan w `STATUS.md` i `PLAN.md`, potem: „Ta rozmowa zrobiła się długa. Zacznij nową: wpisz
