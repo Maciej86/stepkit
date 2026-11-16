@@ -1,6 +1,6 @@
 # Aktualizacja projektu do nowej wersji stepkit
 
-**Aktualna wersja stepkit:** 0.1.34
+**Aktualna wersja stepkit:** 0.1.35
 
 Szablon kopiuje się do projektu tylko raz, przy `/stepkit:start`. Gdy stepkit się zmienia, starsze projekty nie mają
 nowych plików, a nowe zasady o nich mówią. Ten plik mówi, co przenieść.
@@ -338,3 +338,15 @@ Zasady (bez zmian w kodzie, chyba że przegląd coś znajdzie):
   `/stepkit:zglos` i opisz to własnymi słowami.”
 - Po aktualizacji powiedz jednym zdaniem: „Nowość: pomysł, zmianę albo błąd zgłaszasz teraz poleceniem
   `/stepkit:zglos`.”
+
+## 0.1.35: pole daty w formularzach
+
+- Nowe pliki z szablonu: `frontend/src/common/DateField.tsx` i `mockups/src/common/DateField.tsx` z testami
+  w `__tests__/`. `npm install -w @app/mockups @mantine/dates` (w aplikacji już jest), w obu `src/main.tsx` import
+  `@mantine/dates/styles.css`.
+- **Połącz** z szablonem: `shared/src/date.ts` (`parseTypedDate`, import `dayjs/locale/pl`),
+  `shared/src/schemas/fields.ts` (`isoDate`, `FIELD_MESSAGES.date`), ich testy, klucze `validation.date`
+  i `common.date_placeholder`.
+- Jeśli projekt ma już `DateField`, `isoDate` albo `parseTypedDate`, zostaw jedną wersję z szablonu i przepnij na nią
+  moduły. Własne pola daty w modułach (zwykły `TextInput` albo `DateInput` z innymi ustawieniami) zamień na
+  `DateField`, z testem modułu.

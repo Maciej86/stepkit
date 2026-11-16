@@ -192,8 +192,8 @@ Nowa akcja: dopisz ją do `BUTTON_ICONS` we froncie i w makietach oraz do tabeli
   (`shared/src/schemas/<module>.ts`). Ten sam schemat sprawdza formularz (`zodResolver`) i serwer (`validateBody`).
   Limity są w `shared/src/constants/<module>.ts`, a maksymalna długość zgadza się z kolumną w migracji (`VARCHAR(n)`).
 - **Gotowe pola zod** w `shared/src/schemas/fields.ts` (eksport z `@app/shared`): `text(max)`, `postalCode`, `nip`,
-  `regon`, `pesel`, `phone`, `email`, `iban`, `money` / `moneyField(min, max)`, `quantity` / `quantityField(min, max)`
-  i `optionalField(pole)` (puste pole formularza zapisuje się jako `NULL`). Moduł składa z nich schemat i nie pisze
+  `regon`, `pesel`, `phone`, `email`, `iban`, `money` / `moneyField(min, max)`, `quantity` / `quantityField(min, max)`,
+  `isoDate` (dzień `RRRR-MM-DD`) i `optionalField(pole)` (puste pole formularza zapisuje się jako `NULL`). Moduł składa z nich schemat i nie pisze
   własnych wyrażeń regularnych:
   ```ts
   export const clientSchema = z.object({
@@ -208,6 +208,9 @@ Nowa akcja: dopisz ją do `BUTTON_ICONS` we froncie i w makietach oraz do tabeli
   z kreską, e-mail małymi literami), więc front i serwer zapisują to samo.
 - Pole z formatem ma w formularzu podpowiedź z przykładem (`description`, np. „np. 64-300”), a komunikat błędu mówi,
   jak wygląda poprawna wartość.
+- **Data w formularzu tylko przez `DateField`** (`common/DateField.tsx` w aplikacji i makietach): kalendarz albo
+  wpisanie `DD.MM.RRRR`, wartość `RRRR-MM-DD` albo `null`, w schemacie `isoDate` (nieobowiązkowa:
+  `optionalField(isoDate)`). Nigdy zwykłe pole tekstowe ani własny `DateInput`.
 - **Testy schematu:** dla każdego pola z tabeli wartości graniczne (min−1, min, maks, maks+1) i jeden zły format.
 
 ## Pobieranie danych na froncie

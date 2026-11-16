@@ -3,6 +3,7 @@ import type { TFunction } from 'i18next';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
 import timezone from 'dayjs/plugin/timezone';
 import utc from 'dayjs/plugin/utc';
+import 'dayjs/locale/pl';
 import {
   APP_TIME_ZONE,
   DATE_FORMAT,
@@ -60,6 +61,15 @@ export const toIsoDate = (value: DateInput): string | null => {
 /** Dzisiejszy dzień w strefie aplikacji, `RRRR-MM-DD`. */
 export const todayIsoDate = (): string => {
   return dayjs().tz(APP_TIME_ZONE).format(ISO_DATE_FORMAT);
+};
+
+/** Data wpisana ręcznie w polu daty: `01.03.2024` albo `1.3.2024` → `2024-03-01`; inna lub nieistniejąca → null. */
+export const parseTypedDate = (text: string): string | null => {
+  const parts = /^(\d{1,2})\.(\d{1,2})\.(\d{4})$/.exec(text.trim());
+  if (!parts) return null;
+  const [, d, m, y] = parts;
+  const day = dayjs(`${y}-${m!.padStart(2, '0')}-${d!.padStart(2, '0')}`, ISO_DATE_FORMAT, true);
+  return day.isValid() ? day.format(ISO_DATE_FORMAT) : null;
 };
 
 /** Ile dni kalendarzowych (w strefie aplikacji) minęło od `value` do `now`: 0 = dziś, 1 = wczoraj, inaczej null. */

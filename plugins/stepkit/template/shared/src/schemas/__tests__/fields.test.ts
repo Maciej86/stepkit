@@ -158,3 +158,15 @@ describe('field messages', () => {
     expect(translateKey(i18n.t, key)).not.toBe(key.split('.').slice(1).join('.'));
   });
 });
+
+describe('isoDate', () => {
+  it('2024-03-01 ok; 2024-02-30, 01.03.2024 and text → validation.date; empty → required', async () => {
+    const { isoDate } = await import('../fields');
+    expect(isoDate.parse('2024-03-01')).toBe('2024-03-01');
+    expect(isoDate.parse(' 2024-02-29 ')).toBe('2024-02-29');
+    for (const bad of ['2024-02-30', '2023-02-29', '01.03.2024', 'kot']) {
+      expect(isoDate.safeParse(bad).error?.issues[0]?.message).toBe(FIELD_MESSAGES.date);
+    }
+    expect(isoDate.safeParse('').error?.issues[0]?.message).toBe(FIELD_MESSAGES.required);
+  });
+});

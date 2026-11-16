@@ -20,6 +20,7 @@ export const FIELD_MESSAGES = {
   quantity: 'validation.quantity',
   min: 'validation.min',
   max: 'validation.max',
+  date: 'validation.date',
 } as const;
 
 const M = FIELD_MESSAGES;
@@ -96,6 +97,12 @@ export const phone = textInput()
 
 /** E-mail: obcięte spacje, małe litery. */
 export const email = textInput().trim().toLowerCase().pipe(z.email(M.email).max(190, M.tooLong));
+
+/** Dzień `RRRR-MM-DD` (kolumna DATE), np. z `DateField` w formularzu; nieistniejący dzień (30.02) → validation.date. */
+export const isoDate = textInput()
+  .trim()
+  .min(1, { error: M.required, abort: true })
+  .pipe(z.iso.date(M.date));
 
 /** Polski numer konta; zapisywany jako 26 cyfr, bez „PL” i spacji. */
 export const iban = textInput()

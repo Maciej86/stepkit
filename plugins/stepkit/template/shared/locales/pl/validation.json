@@ -13,5 +13,6 @@
   "quantity": "Ilość może mieć najwyżej 3 miejsca po przecinku.",
   "min": "Wartość jest za mała.",
   "max": "Wartość jest za duża.",
-  "list_sort": "Nie można sortować po tej kolumnie."
+  "list_sort": "Nie można sortować po tej kolumnie.",
+  "date": "Podaj poprawną datę, np. 01.03.2024."
 }
