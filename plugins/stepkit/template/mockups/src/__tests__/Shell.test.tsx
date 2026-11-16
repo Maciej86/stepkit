@@ -13,7 +13,7 @@ const account: NavItem[] = [
 const publicNav: PublicNavItem[] = [{ key: 'home', path: '/', label: 'common.nav.home' }];
 const all: Areas = { public: true, account: true, admin: true };
 
-function renderMockup(areas: Areas = all, path = '/admin') {
+const renderMockup = (areas: Areas = all, path = '/admin') => {
   return renderWithProviders(
     <MockupApp
       areas={areas}
@@ -24,7 +24,7 @@ function renderMockup(areas: Areas = all, path = '/admin') {
       initialPath={path}
     />,
   );
-}
+};
 
 describe('mockup shell', () => {
   it('has a phone menu button that closes the menu after choosing a page', async () => {

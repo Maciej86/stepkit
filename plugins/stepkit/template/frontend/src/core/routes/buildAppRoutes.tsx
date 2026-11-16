@@ -14,7 +14,7 @@ import { PublicLayout } from '../../common/PublicLayout';
 import { buildRoutes, type Pages } from './buildRoutes';
 
 /** Wszystkie trasy aplikacji według włączonych części (AREAS). */
-export function buildAppRoutes(areas: Areas, pages: Pages, user: SessionUser | null): RouteObject[] {
+export const buildAppRoutes = (areas: Areas, pages: Pages, user: SessionUser | null): RouteObject[] => {
   const routes: RouteObject[] = [];
 
   if (areas.public) {
@@ -43,4 +43,4 @@ export function buildAppRoutes(areas: Areas, pages: Pages, user: SessionUser | n
 
   routes.push({ path: '*', element: <MissingScreen /> });
   return routes;
-}
+};

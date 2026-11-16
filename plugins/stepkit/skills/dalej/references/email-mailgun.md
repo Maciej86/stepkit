@@ -37,7 +37,7 @@ aplikacja wyśle, i pokazuje to w przeglądarce. Prawdziwą wysyłkę przez Mail
 - `backend/src/email/sendEmail.ts`:
   ```ts
   export interface EmailMessage { to: string; subject: string; html: string; text: string }
-  export async function sendEmail(message: EmailMessage): Promise<void>
+  export const sendEmail = async (message: EmailMessage): Promise<void> => { … }
   ```
   Transport `nodemailer.createTransport({ host, port, secure: port === 465, auth: user ? { user, pass } : undefined })`
   z danymi z `.env`. Tak samo dla Mailpit i Mailgun: różnią się tylko `.env`.

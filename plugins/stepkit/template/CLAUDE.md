@@ -50,6 +50,7 @@ Kilka zapisów naraz (także z historią zmian) tylko przez `withTransaction` (`
 
 ## Kod wspólny
 
+- Funkcje tylko strzałkowe (`export const nazwa = (…) => …`), także komponenty i hooki; nigdy `function`.
 - Formularze: schemat zod modułu złożony z gotowych pól `shared/src/schemas/fields.ts` (`text`, `postalCode`, `nip`,
   `email`, `money`…); ten sam schemat na froncie i w backendzie.
 - Dane na froncie: hooki modułu w `<module>.api.ts` (TanStack Query, zapytania przez `api` z `core/api/client.ts`),

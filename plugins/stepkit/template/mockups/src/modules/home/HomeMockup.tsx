@@ -1,7 +1,7 @@
 import { Stack, Text, Title } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
 
-export function HomeMockup() {
+export const HomeMockup = () => {
   const { t } = useTranslation('home');
   return (
     <Stack>
@@ -9,4 +9,4 @@ export function HomeMockup() {
       <Text>{t('intro', { defaultValue: '' }) || t('ready', { defaultValue: '' })}</Text>
     </Stack>
   );
-}
+};

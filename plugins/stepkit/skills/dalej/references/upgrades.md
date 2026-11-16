@@ -1,6 +1,6 @@
 # Aktualizacja projektu do nowej wersji stepkit
 
-**Aktualna wersja stepkit:** 0.1.27
+**Aktualna wersja stepkit:** 0.1.28
 
 Szablon kopiuje się do projektu tylko raz, przy `/stepkit:start`. Gdy stepkit się zmienia, starsze projekty nie mają
 nowych plików, a nowe zasady o nich mówią. Ten plik mówi, co przenieść.
@@ -279,3 +279,15 @@ Zasady (bez zmian w kodzie, chyba że przegląd coś znajdzie):
   szukanie `it.todo` w `shared/src/schemas/__tests__/`, nowy blok `tests live in __tests__ folders`. Projekt nie
   zmienia tego pliku, więc zwykle wystarczy go podmienić.
 - `npm run check` musi przejść; czerwony test „keep their tests in __tests__” wypisuje pliki, które zostały na miejscu.
+
+## 0.1.28: funkcje strzałkowe
+
+- W `backend/`, `frontend/`, `shared/`, `mockups/` i `e2e/` zamień każdą deklarację `function` na stałą ze strzałką,
+  także w zrobionych modułach: `export function useClients(p: ListQuery) { … }` →
+  `export const useClients = (p: ListQuery) => { … };`, `async function x()` → `const x = async () =>`,
+  `export default function App()` → `const App = () => …; export default App;`. W `.tsx` typ ogólny z przecinkiem
+  (`<T,>`). To zmiana zapisu, nie działania: nie zmieniaj treści funkcji.
+- **Połącz** `backend/src/test/conventions.test.ts` z szablonem (blok `functions are arrow functions`); projekt nie
+  zmienia tego pliku, więc zwykle wystarczy go podmienić.
+- `npm run check` musi przejść. Błąd typów „użyta przed deklaracją” znaczy, że funkcję trzeba przenieść wyżej, przed
+  miejsce, w którym kod ją wywołuje.

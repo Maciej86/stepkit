@@ -11,7 +11,7 @@ interface AuthState {
 const AuthContext = createContext<AuthState>({ user: null, loading: false, refresh: async () => {} });
 
 /** Zalogowany użytkownik z GET /api/auth/me (adres powstaje w module Logowanie; do tego czasu nikt nie jest zalogowany). */
-export function AuthProvider({ children }: { children: ReactNode }) {
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<SessionUser | null>(null);
   const [loading, setLoading] = useState(true);
 
@@ -31,8 +31,8 @@ export function AuthProvider({ children }: { children: ReactNode }) {
   }, [refresh]);
 
   return <AuthContext.Provider value={{ user, loading, refresh }}>{children}</AuthContext.Provider>;
-}
+};
 
-export function useAuth(): AuthState {
+export const useAuth = (): AuthState => {
   return useContext(AuthContext);
-}
+};

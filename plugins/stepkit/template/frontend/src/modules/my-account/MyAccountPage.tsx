@@ -1,7 +1,7 @@
 import { Stack, Text, Title } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
 
-export function MyAccountPage() {
+export const MyAccountPage = () => {
   const { t } = useTranslation('my-account');
   return (
     <Stack>
@@ -9,4 +9,4 @@ export function MyAccountPage() {
       <Text>{t('intro')}</Text>
     </Stack>
   );
-}
+};

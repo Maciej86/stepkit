@@ -6,11 +6,11 @@ config({ path: fileURLToPath(new URL('../../.env', import.meta.url)), quiet: tru
 /** Krótszy sekret da się zgadnąć i podrobić ciasteczko logowania. Generowany ma 96 znaków. */
 const JWT_SECRET_MIN_LENGTH = 32;
 
-function required(name: string, hint: string): string {
+const required = (name: string, hint: string): string => {
   const value = process.env[name];
   if (!value) throw new Error(`Brakuje ${name} w pliku .env (${hint})`);
   return value;
-}
+};
 
 export const env = {
   get JWT_SECRET() {

@@ -2,7 +2,7 @@ import { SimpleGrid, Stack, Text, Title } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
 import { InfoCard } from '../../common/InfoCard';
 
-export function DashboardMockup() {
+export const DashboardMockup = () => {
   const { t } = useTranslation('dashboard');
   return (
     <Stack>
@@ -14,4 +14,4 @@ export function DashboardMockup() {
       </SimpleGrid>
     </Stack>
   );
-}
+};

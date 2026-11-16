@@ -12,7 +12,7 @@ const items: NavItem[] = [
   { key: 'my-account', path: '/admin/me', label: 'common.nav.my_account', icon: 'user', roles: ['admin'] },
 ];
 
-function show() {
+const show = () => {
   return renderRoutes(
     [{ path: '/admin', element: <SideMenuLayout items={items} />, children: [
       { index: true, element: <p>Pulpit treść</p> },
@@ -20,7 +20,7 @@ function show() {
     ] }],
     '/admin',
   );
-}
+};
 
 describe('SideMenuLayout', () => {
   it('shows the company name, the user menu, the menu and the page content', () => {

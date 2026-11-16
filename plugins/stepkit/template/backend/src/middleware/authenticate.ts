@@ -13,8 +13,8 @@ declare global {
 }
 
 /** Ustawia req.user z ciasteczka. Nigdy nie odrzuca żądania; od tego są requireAuth i requireRole. */
-export function authenticate(req: Request, _res: Response, next: NextFunction) {
+export const authenticate = (req: Request, _res: Response, next: NextFunction) => {
   const token = req.cookies?.[AUTH_COOKIE_NAME];
   req.user = typeof token === 'string' ? (verifyToken(token) ?? undefined) : undefined;
   next();
-}
+};

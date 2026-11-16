@@ -1,7 +1,7 @@
 import { Stack, Text, Title } from '@mantine/core';
 import { useTranslation } from 'react-i18next';
 
-export function MyAccountMockup() {
+export const MyAccountMockup = () => {
   const { t } = useTranslation('my-account');
   return (
     <Stack>
@@ -9,4 +9,4 @@ export function MyAccountMockup() {
       <Text>{t('intro', { defaultValue: '' }) || t('ready', { defaultValue: '' })}</Text>
     </Stack>
   );
-}
+};

@@ -12,8 +12,8 @@ export const theme: MantineThemeOverride = {
 export const COLOR_SCHEME_TOGGLE = false;
 
 /** Ustawienia MantineProvider: bez przełącznika zawsze jasny, z przełącznikiem na start jak w systemie. */
-export function colorSchemeProps(
+export const colorSchemeProps = (
   toggle: boolean = COLOR_SCHEME_TOGGLE,
-): Pick<MantineProviderProps, 'defaultColorScheme' | 'forceColorScheme'> {
+): Pick<MantineProviderProps, 'defaultColorScheme' | 'forceColorScheme'> => {
   return toggle ? { defaultColorScheme: 'auto' } : { forceColorScheme: 'light' };
-}
+};
