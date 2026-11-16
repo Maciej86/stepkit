@@ -137,11 +137,13 @@ Po każdym etapie zaktualizuj w `STATUS.md` kolumnę Etap i „Następny krok”
 jedna jego część**, od makiety (albo specu części) do zamknięcia; implementację robisz od pierwszego do ostatniego
 kroku planu bez przerywania. Po zamknięciu modułu lub części zakończ dokładnie:
 
-> „<Moduł albo część> gotowy. Otwórz nową rozmowę i wpisz `/stepkit:dalej`.”
+> „<Moduł albo część> gotowy. Teraz zacznij nową rozmowę: wpisz `/clear` i naciśnij Enter. To wyczyści tę rozmowę,
+> ale cała praca zostaje zapisana w plikach i w git. Potem wpisz `/stepkit:dalej`.”
 
 Wcześniej nową rozmowę proponujesz tylko wtedy, gdy ta zrobiła się bardzo długa (Claude Code ją już skracał): dokończ
-bieżący krok, zapisz stan w `STATUS.md` i `PLAN.md`, potem: „Ta rozmowa zrobiła się długa. Otwórz nową i wpisz
-`/stepkit:dalej`, zacznę dokładnie od tego miejsca.” Postęp pokazuje http://localhost:5174/progress.
+bieżący krok, zapisz stan w `STATUS.md` i `PLAN.md`, potem: „Ta rozmowa zrobiła się długa. Zacznij nową: wpisz
+`/clear` i naciśnij Enter (praca zostaje zapisana w plikach i w git), potem `/stepkit:dalej`. Zacznę dokładnie od
+tego miejsca.” Postęp pokazuje http://localhost:5174/progress.
 
 ## Zakazy
 

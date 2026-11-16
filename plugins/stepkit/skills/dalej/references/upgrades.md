@@ -1,6 +1,6 @@
 # Aktualizacja projektu do nowej wersji stepkit
 
-**Aktualna wersja stepkit:** 0.1.31
+**Aktualna wersja stepkit:** 0.1.32
 
 Szablon kopiuje się do projektu tylko raz, przy `/stepkit:start`. Gdy stepkit się zmienia, starsze projekty nie mają
 nowych plików, a nowe zasady o nich mówią. Ten plik mówi, co przenieść.
@@ -314,3 +314,8 @@ Zasady (bez zmian w kodzie, chyba że przegląd coś znajdzie):
   wersję, nie dubluj; adresy w koncie (`/account`) przyjmuje tylko wtedy, gdy aplikacja ma konto.
 - Gdy moduł Logowanie jest zrobiony, a powrotu po zalogowaniu jeszcze nie ma, zapisz go w `docs/IDEAS.md` jako
   poprawkę Logowania według „Powrót na otwierany adres” w `domains/login.md`; nie budujesz go w ramach aktualizacji.
+
+## 0.1.32: nowa rozmowa przez /clear
+
+- W `README.md` projektu zamień linię „Dalsza praca: …” na tę z szablonu (nowa rozmowa przez `/clear`, potem
+  `/stepkit:dalej`). Jeśli użytkownik zmienił ten fragment po swojemu, zostaw go.

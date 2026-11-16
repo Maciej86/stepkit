@@ -44,7 +44,9 @@ Najpierw sprawdź, czy w folderze projektu jest `docs/STATUS.md`:
 - **Jest i w sekcji „Start aplikacji” są nieodhaczone kroki** → powiedz jednym zdaniem, na czym skończyliście,
   i kontynuuj od pierwszego nieodhaczonego. Kroku 0 nie powtarzaj. Jeśli krok 2 jest odhaczony, najpierw sprawdź
   wersję projektu według `../dalej/references/upgrades.md` („Kiedy”) i w razie potrzeby zaproponuj aktualizację.
-- **Wszystkie kroki odhaczone** → powiedz: „Plan aplikacji jest gotowy. Otwórz nową rozmowę i wpisz `/stepkit:dalej`.”
+- **Wszystkie kroki odhaczone** → powiedz: „Plan aplikacji jest gotowy. Teraz zacznij nową rozmowę: wpisz `/clear`
+  i naciśnij Enter. To wyczyści tę rozmowę, ale cała praca zostaje zapisana w plikach i w git. Potem wpisz
+  `/stepkit:dalej`.”
   i zakończ.
 
 Po każdym kroku odhacz go w `docs/STATUS.md` (`- [x]`) i zaktualizuj „Następny krok”.
@@ -176,7 +178,9 @@ wszystkich). Każdy moduł z kolumną „Zależy od”. Decyzje nie z rozmowy oz
 Tabela modułów w `docs/STATUS.md` (format z `document-templates.md`, wszystkie moduły `czeka`, etap `makieta`), zapis
 na GitHubie („Plan aplikacji gotowy”, `git push`, przedtem `git check-ignore .env`). Zakończ dokładnie:
 
-> „Plan jest gotowy. Postęp zobaczysz na http://localhost:5174/progress. Otwórz nową rozmowę i wpisz `/stepkit:dalej`.”
+> „Plan jest gotowy. Postęp zobaczysz na http://localhost:5174/progress. Teraz zacznij nową rozmowę: wpisz `/clear`
+> i naciśnij Enter. To wyczyści tę rozmowę, ale cała praca zostaje zapisana w plikach i w git. Potem wpisz
+> `/stepkit:dalej`.”
 
 Wyjaśnij jednym zdaniem, dlaczego nowa rozmowa: krótsza rozmowa to mniej tokenów i mniej pomyłek.
 
