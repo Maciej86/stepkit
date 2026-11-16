@@ -1,6 +1,6 @@
 # Aktualizacja projektu do nowej wersji stepkit
 
-**Aktualna wersja stepkit:** 0.1.26
+**Aktualna wersja stepkit:** 0.1.27
 
 Szablon kopiuje się do projektu tylko raz, przy `/stepkit:start`. Gdy stepkit się zmienia, starsze projekty nie mają
 nowych plików, a nowe zasady o nich mówią. Ten plik mówi, co przenieść.
@@ -17,7 +17,9 @@ Wersję projektu podaje linia `**Wersja stepkit:** X.Y.Z` w `docs/STATUS.md`. Br
    pasowały do projektu, trzeba w nim poprawić: …” (wypunktuj sekcje do zrobienia, po jednym zdaniu, bez nazw plików)
    „Zajmie to chwilę i nie zmieni tego, co już działa. Zrobić to teraz?” **Nic nie zmieniaj przed odpowiedzią.**
 2. Po „tak”: sekcje po kolei, od najstarszej potrzebnej. Szablon jest w `<katalog bazowy tego skilla>/../../template/`.
-   - **Nowy plik** (projekt go nie ma): skopiuj z szablonu.
+   - **Nowy plik** (projekt go nie ma): skopiuj z szablonu. Od 0.1.27 testy w szablonie leżą w `__tests__` (poza
+     `src/test/`): gdy starsza sekcja podaje `<folder>/<plik>.test.ts`, weź go z `<folder>/__tests__/<plik>.test.ts`
+     i tam go umieść.
    - **Plik, który projekt mógł zmienić** (oznaczony „połącz”): nie nadpisuj. Dopisz tylko opisaną zmianę, zachowując
      wszystko, co dodały moduły (pozycje menu, ekrany, teksty).
    - Po każdej sekcji: `npm run check` zielony, zapis na GitHubie („Aktualizacja stepkit: <sekcja>”).
@@ -266,3 +268,14 @@ Zasady (bez zmian w kodzie, chyba że przegląd coś znajdzie):
   daje 404 („Trzy sprawdzenia przy każdej trasie” w `code-conventions.md`); brak popraw, z testem.
 - **Aplikacja już opublikowana:** po wdrożeniu sprawdź w przeglądarce, że strony działają (CSP blokuje zasoby spoza
   listy) i że nagłówki przychodzą: `curl -sI https://<domena>/ | grep -i content-security`.
+
+## 0.1.27: testy w folderach __tests__
+
+- Każdy `*.test.ts` i `*.test.tsx` w `backend/`, `frontend/`, `shared/` i `mockups/` poza `src/test/` przenieś przez
+  `git mv` do folderu `__tests__` obok testowanego pliku (np. `modules/clients/clients.routes.test.ts` →
+  `modules/clients/__tests__/clients.routes.test.ts`). W przeniesionych plikach popraw ścieżki względne o jeden
+  poziom (`'./x'` → `'../x'`, `'../x'` → `'../../x'`) w `import`, `await import(…)` i `vi.mock(…)`.
+- **Połącz** `backend/src/test/conventions.test.ts` z szablonem: test obok `*.routes.ts` szuka pliku w `__tests__/`,
+  szukanie `it.todo` w `shared/src/schemas/__tests__/`, nowy blok `tests live in __tests__ folders`. Projekt nie
+  zmienia tego pliku, więc zwykle wystarczy go podmienić.
+- `npm run check` musi przejść; czerwony test „keep their tests in __tests__” wypisuje pliki, które zostały na miejscu.

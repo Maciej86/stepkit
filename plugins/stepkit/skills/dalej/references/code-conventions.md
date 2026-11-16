@@ -81,7 +81,13 @@ Nowa pozycja nawigacji: wpis w `NAVIGATION` (panel, ścieżka od `/admin`), `ACC
 - `<Module>ListPage.tsx`, `<Module>FormPage.tsx` (albo `<Module>FormModal.tsx`): ekrany;
 - `components/`: części ekranów używane tylko w tym module;
 - `<module>.api.ts`: hooki zapytań modułu („Pobieranie danych na froncie”);
-- `<Ekran>.module.css` i testy `*.test.tsx` obok pliku, którego dotyczą.
+- `<Ekran>.module.css` obok pliku, którego dotyczy.
+- **Testy w folderze `__tests__`** na tym samym poziomie co testowane pliki, np.
+  `backend/src/modules/employees/__tests__/employees.routes.test.ts` testuje
+  `backend/src/modules/employees/employees.routes.ts`, a `frontend/src/common/__tests__/DataState.test.tsx` testuje
+  `frontend/src/common/DataState.tsx`. Dotyczy backendu, frontu, `shared` i makiet. Wyjątek: testy całego projektu
+  (testy zasad, `routeProtection.test.ts`, kolory, tabele) i pomocniki testów (`setup.ts`, `render.tsx`) zostają
+  w `src/test/`. Pilnuje tego test zasad.
 
 **Wspólne zamiast kopii.** Gdy komponent albo hook jest potrzebny w drugim module, przenosisz go do
 `frontend/src/common/` (komponent) albo `frontend/src/core/` (hook bez wyglądu), z testem, i podmieniasz w pierwszym
@@ -448,7 +454,7 @@ Najpierw test, potem kod (TDD). Krok planu jest zrobiony dopiero po `npm run che
 - **Ochrona tras:** `backend/src/test/routeProtection.test.ts` sam sprawdza każdy moduł podpięty przez `mountModule`:
   bez logowania 401, rola spoza modułu 403, na każdym adresie i każdą metodą.
 
-- **Backend** (`*.test.ts` obok kodu, supertest na `createApp({ extraRoutes })` albo na trasach modułu): każda trasa:
+- **Backend** (`*.test.ts` w `__tests__` obok kodu, supertest na `createApp({ extraRoutes })` albo na trasach modułu): każda trasa:
   poprawne dane → sukces; błędne dane → 400 z kluczami pól; bez logowania → 401; zła rola → 403; w koncie cudze
   dane → 404. Plus reguły usuwania, archiwum i historii, jeśli dotyczą modułu.
 - **`shared/`:** schematy zod (poprawne i błędne dane, wartości graniczne z tabeli pól, klucze komunikatów).
@@ -464,7 +470,7 @@ w całości). Czerwony test zasad znaczy: popraw kod, nie test.
 
 | Plik | Pilnuje |
 |---|---|
-| `backend/src/test/conventions.test.ts` | SQL tylko z `?`; transakcje tylko przez `withTransaction`; `validateBody` przy każdej trasie zapisu; kto i jaka rola tylko z `req.user`; moduły za logowaniem tylko przez `mountModule`; obok każdego `*.routes.ts` test z 401 i 403; każdy klucz obcy z `ON DELETE`; w module `zrobiony` (według `docs/STATUS.md`) żadnego `it.todo` |
+| `backend/src/test/conventions.test.ts` | SQL tylko z `?`; transakcje tylko przez `withTransaction`; `validateBody` przy każdej trasie zapisu; kto i jaka rola tylko z `req.user`; moduły za logowaniem tylko przez `mountModule`; w `__tests__` obok każdego `*.routes.ts` test z 401 i 403; pliki `*.test.ts(x)` tylko w `__tests__` albo `src/test/` (backend, front, shared, makiety); każdy klucz obcy z `ON DELETE`; w module `zrobiony` (według `docs/STATUS.md`) żadnego `it.todo` |
 | `backend/src/test/routeProtection.test.ts` | każdy moduł z `mountModule`: bez logowania 401, rola spoza modułu 403 |
 | `frontend/src/test/conventions.test.ts` | zapytania tylko przez `api`; w modułach `api` tylko w `*.api.ts`; brak importów z innego modułu; dymki przez `notify`; brak polskich tekstów w kodzie; schematy w `shared/src/schemas/` bez własnych `.regex(` |
 | `frontend/src/test/colors.test.ts`, `formatting.test.ts`, `tables.test.ts` | kolory z motywu; daty i liczby przez `@app/shared`; tabele w `Table.ScrollContainer` |

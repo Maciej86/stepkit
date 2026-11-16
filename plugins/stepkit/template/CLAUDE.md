@@ -18,6 +18,8 @@ zmienisz kod.
 - Testów zasad (`conventions.test.ts`, `routeProtection.test.ts`, `colors.test.ts`, `formatting.test.ts`,
   `tables.test.ts`) nie zmieniasz: czerwony = popraw kod. Wyjątek tylko komentarzem `// rule-ok: <powód>` na końcu
   linii. Plan modułu zaczyna się od szkieletu testów `it.todo` z wymagań; w gotowym module nie zostaje żadne.
+- Testy w folderze `__tests__` obok testowanych plików (np. `modules/clients/__tests__/clients.routes.test.ts`);
+  w `src/test/` tylko testy całego projektu i pomocniki testów.
 
 ## Stos (stały)
 

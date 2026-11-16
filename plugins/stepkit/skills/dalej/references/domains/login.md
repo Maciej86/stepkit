@@ -25,7 +25,7 @@ logowaniem). W projekcie ten plik jest w `docs/conventions/`.
   `validateBody`. Liczy tylko nieudane próby i rozpoznaje osoby za serwerem Caddy (`trust proxy` w `app.ts`); nie
   zmieniaj tych ustawień. **Plan ma w kroku z trasą logowania test:** 10 nieudanych prób przechodzi, 11. daje 429
   `server.too_many_logins`, a udane logowania nie zużywają limitu. Ten test trzymasz w osobnym pliku (np.
-  `auth.rateLimit.test.ts`), bo licznik limitu jest wspólny dla wszystkich testów w jednym pliku.
+  `__tests__/auth.rateLimit.test.ts`), bo licznik limitu jest wspólny dla wszystkich testów w jednym pliku.
 - Zły e-mail i złe hasło dają ten sam komunikat (`server.login_failed`), żeby nie zdradzać, które konta istnieją.
 - **Logowanie loginem** (gdy w `SPEC-GENERAL.md` nie wszyscy mają e-mail): kolumna `login` (unikalna, bez spacji,
   zapisywana małymi literami; może wyglądać jak e-mail, np. `jan.kowalski@firma.pl`, jeśli użytkownik tak chce) i

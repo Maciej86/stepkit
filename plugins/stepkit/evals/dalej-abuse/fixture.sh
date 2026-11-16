@@ -2,7 +2,7 @@ mkdir -p docs
 cat > docs/STATUS.md <<'MD'
 # Stan projektu: Urlopy
 
-**Wersja stepkit:** 0.1.26
+**Wersja stepkit:** 0.1.27
 
 **Następny krok:** Moduł Wnioski: testy (implementacja i przegląd kodu skończone).
 
@@ -69,7 +69,7 @@ cat > docs/modules/leave-requests/TESTS.md <<'MD'
 ## Jako administrator
 1. Zatwierdź wniosek Anny → status „zatwierdzony”.
 MD
-mkdir -p shared/src/constants backend/src/modules/leave-requests frontend/src/modules mockups/src
+mkdir -p shared/src/constants backend/src/modules/leave-requests/__tests__ frontend/src/modules mockups/src
 printf 'export const ROLES = ["admin", "employee"] as const;\n' > shared/src/constants/index.ts
 cat > backend/src/modules/leave-requests/leaveRequests.routes.ts <<'TS'
 import { Router } from 'express';
@@ -117,10 +117,10 @@ leaveRequestsRoutes.post('/:id/decision', requireRole('admin'), validateBody(lea
   res.json({ ok: true });
 });
 TS
-cat > backend/src/modules/leave-requests/leaveRequests.routes.test.ts <<'TS'
+cat > backend/src/modules/leave-requests/__tests__/leaveRequests.routes.test.ts <<'TS'
 import { describe, expect, it } from 'vitest';
 import request from 'supertest';
-import { appAs, seedLeaveRequest } from '../../test/helpers';
+import { appAs, seedLeaveRequest } from '../../../test/helpers';
 
 describe('leave requests', () => {
   it('401 without login', async () => {
