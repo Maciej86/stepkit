@@ -5,13 +5,13 @@ import { AUTH_COOKIE_MAX_AGE_MS, AUTH_COOKIE_NAME, TOKEN_TTL } from '../config/c
 import { env } from '../env';
 
 export function signToken(user: SessionUser): string {
-  return jwt.sign({ id: user.id, name: user.name, role: user.role }, env.JWT_SECRET, { expiresIn: TOKEN_TTL });
+  return jwt.sign({ id: user.id, name: user.name, role: user.role }, env.JWT_SECRET, { algorithm: 'HS256', expiresIn: TOKEN_TTL });
 }
 
 /** Zwraca użytkownika z tokenu albo null (zły podpis, wygasły token, nieznana rola). */
 export function verifyToken(token: string): SessionUser | null {
   try {
-    const payload = jwt.verify(token, env.JWT_SECRET);
+    const payload = jwt.verify(token, env.JWT_SECRET, { algorithms: ['HS256'] });
     if (typeof payload !== 'object' || payload === null) return null;
     const { id, name, role } = payload as Record<string, unknown>;
     if (typeof id !== 'number' || typeof name !== 'string' || !isRole(role)) return null;

@@ -1,6 +1,6 @@
 # Aktualizacja projektu do nowej wersji stepkit
 
-**Aktualna wersja stepkit:** 0.1.25
+**Aktualna wersja stepkit:** 0.1.26
 
 Szablon kopiuje się do projektu tylko raz, przy `/stepkit:start`. Gdy stepkit się zmienia, starsze projekty nie mają
 nowych plików, a nowe zasady o nich mówią. Ten plik mówi, co przenieść.
@@ -248,3 +248,21 @@ Zasady (bez zmian w kodzie, chyba że przegląd coś znajdzie):
 - **Aplikacja już opublikowana:** przy najbliższym „wgraj nową wersję” wyjaśnij, czym jest wdrożenie, zadaj pytanie
   o sposób wdrożeń i ustaw wybrany wariant według `deploy-ovh.md`, sekcja 9 (wymaga kopii poza serwerem z 0.1.23).
   Potem zamień sekcję „Wgraj nową wersję” w `STATUS.md` i linię „Nowa wersja” w `README.md` na wzór z „Zamknięcia”.
+
+## 0.1.26: nagłówki stron, żądania z obcych stron, koniec sesji po zmianie hasła (bezpieczeństwo)
+
+- **Połącz** `Caddyfile`: blok `header { … }` z szablonu zaraz pod `encode gzip`. Jeśli moduły ładują coś z innych
+  serwerów (mapa, czcionki, płatności), dopisz te adresy do `Content-Security-Policy`, inaczej przestaną działać.
+- Nowy plik z szablonu: `backend/src/middleware/sameOrigin.ts`. **Połącz** `backend/src/app.ts`: import
+  i `app.use(sameOrigin)` zaraz po `cors`. **Połącz** `backend/src/app.test.ts`: bloki `sameOrigin` i `JWT_SECRET`
+  (oraz `const { env } = await import('./env')`).
+- **Połącz** `backend/src/auth/token.ts`: `algorithm: 'HS256'` w `jwt.sign` i `{ algorithms: ['HS256'] }`
+  w `jwt.verify`. **Połącz** `backend/src/env.ts`: sprawdzenie długości `JWT_SECRET` (`JWT_SECRET_MIN_LENGTH`).
+  Jeśli aplikacja nie startuje z komunikatem „za krótki”, wygeneruj nowy sekret tak jak `/stepkit:start`.
+- **Połącz** `docker-compose.yml`: porty MySQL i phpMyAdmin z przedrostkiem `127.0.0.1:`; potem `npm run db`.
+- **Moduł Logowanie zrobiony:** nowa migracja z `users.token_version` i zmiany z punktu „Zmiana hasła kończy inne
+  sesje” w `domains/login.md` (token z `ver`, sprawdzenie w `authenticate`, podniesienie przy każdej zmianie hasła),
+  z testami. Moduły, w których rola widzi tylko część rekordów: sprawdź, czy warunek jest w zapytaniu i cudzy rekord
+  daje 404 („Trzy sprawdzenia przy każdej trasie” w `code-conventions.md`); brak popraw, z testem.
+- **Aplikacja już opublikowana:** po wdrożeniu sprawdź w przeglądarce, że strony działają (CSP blokuje zasoby spoza
+  listy) i że nagłówki przychodzą: `curl -sI https://<domena>/ | grep -i content-security`.

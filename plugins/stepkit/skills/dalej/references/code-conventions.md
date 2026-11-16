@@ -263,8 +263,17 @@ więc backend sprawdza wszystko sam, nawet jeśli formularz już to sprawdził:
   role jawnie, `mountModule(api, 'email', emailRoutes, ['admin'])`. Węższe uprawnienia pojedynczej trasy („usuwa tylko
   admin”): `requireRole('admin')` przy tej trasie. Ukrycie pozycji w menu nie jest zabezpieczeniem.
 - Każda trasa modułu ma wiersz w „Mapie dostępu” (`SPEC-GENERAL.md`); `SPEC.md` modułu wymienia trasy z rolami.
-- W koncie użytkownika dane są **zawsze** filtrowane po `req.user.id` (klient nie zobaczy cudzych zamówień, nawet
-  gdy zmieni numer w adresie).
+- **Trzy sprawdzenia przy każdej trasie:** zalogowany (`requireAuth`), rola (`mountModule` / `requireRole`) i **dostęp
+  do tego rekordu**. Gdy rola widzi tylko część rekordów (swoje wnioski, zadania swojego zespołu, pojazdy swojego
+  oddziału, zamówienia swojej firmy), warunek jest w samym zapytaniu SQL przy liście, odczycie po `id`, edycji,
+  usuwaniu i pobieraniu plików, np. `WHERE id = ? AND user_id = ?` z `req.user.id`. Funkcja zapytania przyjmuje osobę
+  (`findLeaveRequest(id, actor)`), żeby nie dało się jej wywołać bez warunku. Rekord poza zasięgiem → 404, tak jak
+  nieistniejący (403 zdradziłby, że istnieje). Dotyczy konta użytkownika i panelu, gdy pracownik ma w nim swoje moduły.
+- **Żądania z obcych stron:** `sameOrigin` w `app.ts` odrzuca zapisy z nagłówkiem `Origin` innym niż `FRONTEND_URL`,
+  a ciasteczko ma `SameSite=Lax`. Nie wyłączasz ich i nie dopisujesz adresów do `cors` bez decyzji w
+  `SPEC-GENERAL.md`. GET nigdy niczego nie zapisuje.
+- **Nagłówki stron:** `Caddyfile` wysyła CSP, HSTS i zakaz osadzania w ramce. Moduł, który ładuje coś z innego serwera
+  (mapa, czcionki, płatności), dopisuje ten adres do `Content-Security-Policy` w `Caddyfile` i do specu.
 - `validateBody(schema)` z tym samym schematem co formularz (`zodResolver(schema)` z `mantine-form-zod-resolver`
   w `useForm`).
 - Format błędu jest jeden: `{ error: { message: <klucz>, fields?: { pole: <klucz> } } }`, kody 400/401/403/404/409/503.
@@ -487,7 +496,8 @@ Używaj jej, gdy nie ma `superpowers:requesting-code-review`:
 
 - [ ] moduł podpięty przez `mountModule`; trasy publiczne tylko te z „Mapy dostępu”, z limitem i `validateBody`
 - [ ] każda trasa jest w „Mapie dostępu”, a testy sprawdzają 401 bez logowania i 403 dla złej roli
-- [ ] SQL tylko z `?`, dane konta filtrowane po `req.user.id`, przy wielu firmach po `company_id`
+- [ ] SQL tylko z `?`; rekordy z ograniczonym dostępem: warunek w zapytaniu, cudzy rekord → 404; przy wielu firmach
+  `company_id`
 - [ ] każda relacja ma klucz obcy z regułą zgodną ze specem
 - [ ] brak polskich tekstów i liczb „z ręki” w kodzie
 - [ ] te same schematy zod na froncie i w backendzie

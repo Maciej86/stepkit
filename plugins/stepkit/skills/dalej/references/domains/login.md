@@ -16,6 +16,11 @@ logowaniem). W projekcie ten plik jest w `docs/conventions/`.
   roli albo archiwizacja (np. zwolnienie) działa od razu, a nie po wygaśnięciu tokenu. Testy: konto zarchiwizowane →
   401, zmieniona rola → nowa rola. Hasła `bcryptjs` z kosztem `BCRYPT_COST`. Token i ciasteczko przez
   `signToken`, `setAuthCookie`, `clearAuthCookie` z `backend/src/auth/token.ts`.
+- **Zmiana hasła kończy inne sesje:** kolumna `users.token_version INT NOT NULL DEFAULT 0`, w tokenie pole `ver`;
+  `authenticate` porównuje je z bazą (inna wartość → niezalogowany). Każda zmiana hasła (własna, tymczasowa od
+  administratora, przez link z e-maila) podnosi `token_version` w tym samym zapytaniu co nowy skrót hasła; osoba, która
+  sama zmieniła hasło, dostaje nowe ciasteczko. Testy: po ustawieniu hasła tymczasowego przez administratora stary
+  token → 401; po zmianie własnego hasła stary token → 401, nowy działa.
 - `loginLimiter` jest gotowy w `backend/src/middleware/rateLimit.ts`; podpinasz go na `POST /api/auth/login` przed
   `validateBody`. Liczy tylko nieudane próby i rozpoznaje osoby za serwerem Caddy (`trust proxy` w `app.ts`); nie
   zmieniaj tych ustawień. **Plan ma w kroku z trasą logowania test:** 10 nieudanych prób przechodzi, 11. daje 429
@@ -40,3 +45,4 @@ logowaniem). W projekcie ten plik jest w `docs/conventions/`.
 
 - [ ] `POST /api/auth/login` ma `loginLimiter` i test na 429
 - [ ] `authenticate` czyta konto z bazy przy każdym żądaniu; testy: konto w archiwum → 401, zmieniona rola → nowa rola
+- [ ] zmiana hasła podnosi `token_version`; stary token → 401

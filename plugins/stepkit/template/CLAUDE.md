@@ -34,7 +34,8 @@ i z wpisem w „Bibliotekach” w `SPEC-GENERAL.md`. Wersje bibliotek podnosisz 
   i 403 (zła rola).
 - Serwer jest jedynym źródłem prawdy: kto = `req.user`, nigdy dane z żądania; wartości wyliczane liczy serwer;
   dane wejściowe przez `validateBody(schemat zod)`, parametry list przez `validateQuery(listQuerySchema(...))`
-  (sortowanie tylko po kolumnach z listy); w koncie użytkownika filtr po `req.user.id`.
+  (sortowanie tylko po kolumnach z listy); rekordy z ograniczonym dostępem (swoje, zespołu, firmy):
+  warunek w zapytaniu SQL, cudzy rekord → 404.
 - Pliki od użytkowników tylko przez `saveUpload` / `sendUpload` (`backend/src/files/storage.ts`), pobieranie trasą API
   z tymi samymi uprawnieniami co rekord.
 - SQL tylko z parametrami `?`. Hasła i klucze nigdy w kodzie, w rozmowie ani w repo (`.env` jest poza git).

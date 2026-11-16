@@ -15,6 +15,7 @@ const { signToken } = await import('./auth/token');
 const { requireRole } = await import('./middleware/requireRole');
 const { validateBody } = await import('./middleware/validateBody');
 const { AUTH_COOKIE_NAME } = await import('./config/constants');
+const { env } = await import('./env');
 
 const { mountModule } = await import('./middleware/mountModule');
 
@@ -183,5 +184,45 @@ describe('validateBody', () => {
       .send({ email: 'anna@example.com', extra: 'dropped' });
     expect(res.status).toBe(200);
     expect(res.body.body).toEqual({ email: 'anna@example.com' });
+  });
+});
+
+describe('sameOrigin', () => {
+  it('rejects a write sent from another site', async () => {
+    const res = await request(appWithTestRoutes())
+      .post('/api/test/form')
+      .set('Origin', 'https://evil.example')
+      .send({ email: 'jan@firma.pl' });
+    expect(res.status).toBe(403);
+    expect(res.body.error.message).toBe('server.no_access');
+  });
+
+  it('accepts a write from the app itself and a request without Origin', async () => {
+    const app = appWithTestRoutes();
+    const own = await request(app).post('/api/test/form').set('Origin', new URL(env.FRONTEND_URL).origin).send({ email: 'jan@firma.pl' });
+    expect(own.status).toBe(200);
+    const noOrigin = await request(app).post('/api/test/form').send({ email: 'jan@firma.pl' });
+    expect(noOrigin.status).toBe(200);
+  });
+
+  it('does not block reading from another site (CORS decides what the browser may read)', async () => {
+    const res = await request(createApp()).get('/api/health').set('Origin', 'https://evil.example');
+    expect(res.status).toBe(200);
+  });
+});
+
+describe('JWT_SECRET', () => {
+  it('stops the app when the secret is too short', () => {
+    process.env.JWT_SECRET = 'short';
+    try {
+      expect(() => env.JWT_SECRET).toThrow(/za krótki/);
+    } finally {
+      process.env.JWT_SECRET = SECRET;
+    }
+  });
+
+  it('rejects a token signed with another algorithm', () => {
+    const forged = jwt.sign({ id: 1, name: 'Jan', role: 'admin' }, SECRET, { algorithm: 'HS512' });
+    return request(appWithTestRoutes()).get('/api/test/forgotten').set('Cookie', cookie(forged)).expect(401);
   });
 });

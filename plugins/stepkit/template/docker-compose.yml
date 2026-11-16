@@ -1,10 +1,11 @@
 # Baza danych na Twoim komputerze. Start: npm run db, stop: npm run db:stop.
+# Porty tylko na tym komputerze (127.0.0.1): bazy nie widać z sieci lokalnej.
 services:
   mysql:
     image: mysql:8.4
     restart: unless-stopped
     ports:
-      - "${DB_PORT:-3307}:3306"
+      - "127.0.0.1:${DB_PORT:-3307}:3306"
     environment:
       MYSQL_DATABASE: ${DB_NAME:-app}
       MYSQL_USER: ${DB_USER:-app}
@@ -19,7 +20,7 @@ services:
     image: phpmyadmin:5
     restart: unless-stopped
     ports:
-      - "${PHPMYADMIN_PORT:-8080}:80"
+      - "127.0.0.1:${PHPMYADMIN_PORT:-8080}:80"
     environment:
       PMA_HOST: mysql
     depends_on:
