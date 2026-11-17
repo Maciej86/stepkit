@@ -99,6 +99,10 @@ miejsca, z testem, i podmieniasz w pierwszym module. Nie kopiujesz i nie importu
 | pomocnik backendu (rozpoznanie powtórzonej nazwy, „nie znaleziono”) | `backend/src/db/` albo `backend/src/middleware/` |
 | logika potrzebna na froncie i w backendzie (daty, liczby, bieżący rok) | `shared/src/` |
 
+Komponent z wyglądem wydzielasz **od razu w obu miejscach**: `frontend/src/common/` i `mockups/src/common/` (ten sam
+kod, w makiecie bez wywołań API). Makiety modułów, które nie są jeszcze zrobione, przepinasz na wspólny klocek;
+makiet modułów zrobionych nie ruszasz.
+
 Szukasz po tym, **co kod robi**, a nie identycznego kodu: dwa okna z pytaniem i dwoma przyciskami, dwie listy
 z filtrami w adresie, dwa nagłówki ekranu to ten sam klocek, nawet gdy różnią się tekstem, kolorem przycisku,
 polami czy kształtem danych. Różnice zamieniasz w parametry (props, argumenty, typ generyczny), np.
@@ -553,7 +557,8 @@ Używaj jej, gdy nie ma `superpowers:requesting-code-review`:
 - [ ] dane na froncie przez hooki `<module>.api.ts` i `DataState`; brak `useEffect` z pobieraniem i `fetch`
 - [ ] żaden fragment modułu nie robi tego samego co coś w innym module, `common/`, `core/` albo `shared/` (także
   „prawie tak samo”; recenzent porównuje z resztą projektu, nie tylko z tym modułem); wspólne klocki bez parametrów
-  na siłę
+  na siłę. Szukasz po wyglądzie i zachowaniu, nie po nazwach plików: np. każdy `<Modal>` z parą Anuluj/akcja to
+  `ConfirmModal`, także gdy siedzi wewnątrz innego okna
 - [ ] funkcje strzałkowe, bez `function`
 - [ ] numer z adresu przez `idParam`, odpowiedź usługi przez `reply`
 - [ ] listy: `validateQuery(listQuerySchema(...))`, sortowanie tylko po kolumnach z listy, stan w adresie

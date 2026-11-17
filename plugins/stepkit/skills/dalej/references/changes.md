@@ -41,6 +41,8 @@ Nie wiesz, który to rodzaj → zapytaj jednym pytaniem z propozycjami a/b.
   4. Zapis „Poprawka: <co>” i `git push`. Po publikacji przypomnij o „wgraj nową wersję”.
 
   Gdy jakiś moduł jest `w toku`, zapisz ją w `docs/IDEAS.md` i zrób po jego zamknięciu, chyba że użytkownik chce teraz.
+  Porządki („wydziel wspólne”, według „Wspólne zamiast kopii” w `code-conventions.md`) obejmują cały projekt: front,
+  backend, `shared` i makiety, także gdy zgłoszenie wymienia tylko część.
 - **Większa zmiana i nowy moduł:** zapytaj „Budujemy to zaraz po bieżącym module czy na końcu?”.
   - **Na końcu** (pomysł na później): wiersz w `docs/IDEAS.md` (data, pomysł jednym zdaniem, `pomysł`, w „Uwagi”
     odpowiedzi z kroku 2; brak pliku → utwórz go z tabelą `| Data | Pomysł | Status | Uwagi |`). Nie zmieniasz listy
