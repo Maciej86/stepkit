@@ -34,7 +34,8 @@ Potem sprawdź, czy wartość jest, **bez wypisywania jej**: `grep -c '^SMTP_PAS
 
 ## 1. Na start każdej rozmowy
 
-Przeczytaj **tylko**: `docs/STATUS.md`, `docs/SPEC-GENERAL.md` i pliki bieżącego modułu w `docs/modules/<folder>/`.
+Przeczytaj **tylko**: `docs/STATUS.md`, `docs/FIXES.md`, `docs/SPEC-GENERAL.md` i pliki bieżącego modułu
+w `docs/modules/<folder>/`.
 Nie czytaj folderów innych modułów ani całego kodu „na zapas”.
 
 - Nie ma `docs/STATUS.md` → „Najpierw zaplanujmy aplikację: wpisz `/stepkit:start`.” i koniec.
@@ -53,6 +54,12 @@ błąd, postępuj według `references/changes.md`, potem wróć do bieżącego m
 ## 2. Który moduł
 
 Dokładnie w tej kolejności:
+0. Moduł ze statusem `w toku` → najpierw on (punkt 1); otwartej poprawki z `docs/FIXES.md` nie wtrącasz w jego środek,
+   chyba że to błąd, który przeszkadza w pracy. Żaden moduł nie jest `w toku`, a `docs/FIXES.md` ma wiersze `czeka`
+   → **najpierw poprawki**, po kolei od najstarszej, według „Drobna zmiana” w `references/changes.md` (porządki według
+   „Wspólne zamiast kopii” w `references/code-conventions.md`). Po każdej: status `zrobione <data>`, zapis w git.
+   Dopiero gdy żadna nie czeka, wybierasz moduł (punkty 2–4). Brak pliku = brak poprawek. Zaczynając, powiedz jednym zdaniem: „Zanim zaczniemy
+   <następny moduł>, robię odłożone poprawki: <lista po jednym zdaniu>.”
 1. Moduł ze statusem `w toku` → **kontynuuj go** od etapu i kroku zapisanego w `STATUS.md` i `PLAN.md`.
 2. Brak `w toku` → moduł `wstrzymany` o najniższym numerze.
 3. Brak wstrzymanych → pierwszy `czeka`, którego wszystkie „Zależy od” są `zrobiony`.
@@ -79,7 +86,7 @@ Nigdy nie przeskakujesz nieskończonego modułu i nigdy nie masz dwóch modułó
 | plan | jak wyżej | `PLAN.md` z testami w każdym kroku | akceptuje |
 | implementacja | `references/superpowers.md`, `references/code-conventions.md` + pliki z kolumny „Wzorce” | kod; **najpierw test, potem kod**, po każdym kroku `npm run check` i odhaczenie w `PLAN.md`; na koniec przegląd kodu | — |
 | testy | `references/abuse.md`, `references/browser.md` | próby nadużyć jako testy (`describe('abuse')`), potem Ty klikasz w przeglądarce, `npm run test:e2e`, potem użytkownik przechodzi `TESTS.md` | potwierdza „działa” |
-| zamknięcie | `references/mockups.md` | `<Done labelKey=…>` w `mockups/src/screens.tsx`, `STATUS.md` (`zrobiony`, nowy „Następny krok”), zapis „Moduł <nazwa> gotowy” + `git push` | — |
+| zamknięcie | `references/mockups.md` | `<Done labelKey=…>` w `mockups/src/screens.tsx`, `STATUS.md` (`zrobiony`, nowy „Następny krok”: pierwsza poprawka z `FIXES.md`, gdy jakaś czeka, inaczej następny moduł), zapis „Moduł <nazwa> gotowy” + `git push` | — |
 
 Moduły specjalne: **Wygląd** → `references/appearance.md` (własne etapy: makieta z wariantami, pytania, zamknięcie);
 **E-mail** → najpierw `references/email-mailgun.md`; **Publikacja** → `references/deploy-ovh.md`

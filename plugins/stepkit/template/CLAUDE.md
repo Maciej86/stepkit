@@ -14,7 +14,8 @@ zmienisz kod.
 - Drobna zmiana lub błąd: najpierw test, który nie przechodzi, potem kod, potem `npm run check` (musi być zielony),
   potem użytkownik sprawdza w przeglądarce, potem zapis w git z opisem po polsku.
 - Ustalenia, które się zmieniły, dopisz do `SPEC.md` modułu (`docs/modules/<moduł>/`) albo `SPEC-GENERAL.md`.
-- Pomysł spoza bieżącej pracy: wiersz w `docs/IDEAS.md`, nie budujesz go od razu.
+- Pomysł spoza bieżącej pracy: wiersz w `docs/IDEAS.md`, nie budujesz go od razu. Ustalona poprawka odłożona na po
+  bieżącym module: wiersz w `docs/FIXES.md` (`czeka`); otwarte poprawki robisz przed następnym modułem.
 - Testów zasad (`conventions.test.ts`, `routeProtection.test.ts`, `colors.test.ts`, `formatting.test.ts`,
   `tables.test.ts`) nie zmieniasz: czerwony = popraw kod. Wyjątek tylko komentarzem `// rule-ok: <powód>` na końcu
   linii. Plan modułu zaczyna się od szkieletu testów `it.todo` z wymagań; w gotowym module nie zostaje żadne.

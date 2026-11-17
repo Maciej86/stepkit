@@ -5,7 +5,7 @@ Czytasz ten plik, gdy użytkownik zgłasza coś nowego: wpisał `/stepkit:zglos`
 
 ## 1. Rozpoznaj rodzaj
 
-Przeczytaj `docs/STATUS.md` (lista modułów), `docs/SPEC-GENERAL.md` i `docs/IDEAS.md`. Kod czytasz dopiero przy
+Przeczytaj `docs/STATUS.md` (lista modułów), `docs/SPEC-GENERAL.md`, `docs/FIXES.md` i `docs/IDEAS.md`. Kod czytasz dopiero przy
 błędzie albo zmianie, tylko z modułu, którego dotyczy. Potem nazwij rodzaj jednym zdaniem, np. „To zmiana w gotowym
 module Pracownicy.”:
 
@@ -16,7 +16,7 @@ module Pracownicy.”:
 | **Większa zmiana** | zrobiony moduł dostaje nowy ekran, rolę, tabelę albo trasę |
 | **Nowy moduł** | czegoś takiego nie ma w liście modułów ani w `SPEC-GENERAL.md` |
 | **Zmiana bieżącego** | dotyczy modułu `w toku` |
-| **Już jest** | jest w liście modułów albo w `IDEAS.md`: powiedz gdzie i kiedy przyjdzie jego kolej |
+| **Już jest** | jest w liście modułów, w `FIXES.md` albo w `IDEAS.md`: powiedz gdzie i kiedy przyjdzie jego kolej |
 
 Nie wiesz, który to rodzaj → zapytaj jednym pytaniem z propozycjami a/b.
 
@@ -33,14 +33,17 @@ Nie wiesz, który to rodzaj → zapytaj jednym pytaniem z propozycjami a/b.
 ## 3. Co robisz
 
 - **Błąd:** naprawiasz zawsze, także w trakcie innego modułu (potem wracasz do niego). Kolejno jak „Drobna zmiana”,
-  od punktu 2, bez czekania na „tak”.
+  od punktu 2, bez czekania na „tak”. Gdy naprawa musi poczekać (np. potrzebuje modułu, który jest `w toku`), wiersz
+  w `docs/FIXES.md` z rodzajem `błąd` i powiedz użytkownikowi, kiedy go naprawisz.
 - **Drobna zmiana:**
   1. Jednym zdaniem: co zmienisz i gdzie to będzie widać. Poczekaj na „tak”.
   2. Test, który nie przechodzi; kod (makieta i aplikacja, gdy zmienia się ekran; migracja, gdy baza); `npm run check`.
   3. Użytkownik sprawdza w przeglądarce; zmianę ustaleń dopisz do `SPEC.md` tego modułu.
   4. Zapis „Poprawka: <co>” i `git push`. Po publikacji przypomnij o „wgraj nową wersję”.
 
-  Gdy jakiś moduł jest `w toku`, zapisz ją w `docs/IDEAS.md` i zrób po jego zamknięciu, chyba że użytkownik chce teraz.
+  Gdy jakiś moduł jest `w toku`, dopisz ją w `docs/FIXES.md` (data, rodzaj, co jednym zdaniem, moduł, `czeka`) i zrób
+  zaraz po jego zamknięciu, chyba że użytkownik chce teraz. Nigdy do `IDEAS.md`: tam są tylko pomysły „na kiedyś”,
+  których nikt nie ustalił. Potwierdź: „Zapisałem w `docs/FIXES.md`. Zrobię to zaraz po zamknięciu <moduł>.”
   Porządki („wydziel wspólne”, według „Wspólne zamiast kopii” w `code-conventions.md`) obejmują cały projekt: front,
   backend, `shared` i makiety, także gdy zgłoszenie wymienia tylko część.
 - **Większa zmiana i nowy moduł:** zapytaj „Budujemy to zaraz po bieżącym module czy na końcu?”.

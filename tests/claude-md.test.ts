@@ -26,7 +26,7 @@ describe('template CLAUDE.md', () => {
     expect(code).toContain(name);
   });
 
-  it.each(['docs/OVERVIEW.md', 'docs/SPEC-GENERAL.md', 'docs/STATUS.md', 'docs/DESIGN.md', 'docs/IDEAS.md', 'docs/CONVENTIONS.md'])(
+  it.each(['docs/OVERVIEW.md', 'docs/SPEC-GENERAL.md', 'docs/STATUS.md', 'docs/DESIGN.md', 'docs/IDEAS.md', 'docs/FIXES.md', 'docs/CONVENTIONS.md'])(
     'points to %s',
     (path) => expect(claudeMd).toContain(path),
   );

@@ -3,6 +3,22 @@
 Czytasz ten plik, gdy tworzysz albo zmieniasz dokument w `docs/`. Dokumenty są po polsku, nazwy plików po angielsku.
 Decyzje, których użytkownik nie podjął, oznaczaj **[decyzja AI]**.
 
+## Pliki w `docs/` i ich zasady
+
+| Plik | Co w nim jest | Kto pisze i kiedy | Kto czyta i kiedy | Zasady |
+|---|---|---|---|---|
+| `STATUS.md` | stan prac: kroki startu, moduły z etapem, następny krok, ostatnie decyzje | `/stepkit:start` (krok 8), `/stepkit:dalej` po każdym etapie | każda rozmowa jako pierwszy; strona „Postęp” w makietach | stały format (niżej), maks. ok. 60 linii |
+| `FIXES.md` | poprawki ustalone i odłożone na po bieżącym module (błąd, zmiana, porządki) | zgłoszenie w trakcie modułu (`changes.md`), przegląd, użytkownik | każda rozmowa `/stepkit:dalej` i `/stepkit:zglos` na starcie | otwarte (`czeka`) robisz przed następnym modułem; zrobione zostają ze statusem `zrobione <data>` |
+| `IDEAS.md` | pomysły „na kiedyś”, nieustalone | start (dodatki niewybrane), zgłoszenie „na końcu” | `/stepkit:zglos`; `/stepkit:dalej` dopiero, gdy wszystkie moduły są zrobione | nic tu nie jest decyzją; ustalona poprawka idzie do `FIXES.md`, nie tutaj |
+| `OVERVIEW.md` | opis aplikacji z wywiadu | `/stepkit:start` (krok 5) | makieta i spec ogólny | zmienia się tylko przy zmianie ustaleń z wywiadu |
+| `SPEC-GENERAL.md` | plan całej aplikacji: role, nawigacja, dane, moduły i kolejność, mapa dostępu, biblioteki | `/stepkit:start` (krok 7); moduły dopisują swoje trasy i wyjątki | każda rozmowa `/stepkit:dalej` | archiwum starszych decyzji ze `STATUS.md` |
+| `DESIGN.md` | księga wyglądu: kolory, czcionki, wzorce ekranów | moduł Wygląd | makieta i implementacja każdego ekranu | zmiana wyglądu tylko tu, potem w kodzie |
+| `CONVENTIONS.md`, `conventions/` | zasady kodu i wzorce dziedzin (kopia ze stepkit) | start i aktualizacja stepkit | spec, plan, implementacja, przegląd | projekt ich nie zmienia; wyjątki w `SPEC-GENERAL.md` |
+| `modules/<module>/QUESTIONS.md` | pytania makiety i odpowiedzi | etapy makieta i pytania | spec modułu | jedno pytanie = propozycje a/b i odpowiedź |
+| `modules/<module>/SPEC.md` (`SPEC-<n>.md`) | ustalenia modułu (części) | etap spec; zmiany ustaleń później | plan, implementacja, przegląd | zmiana ustaleń zawsze dopisana tutaj |
+| `modules/<module>/PLAN.md` (`PLAN-<n>.md`) | kroki z testami | etap plan; odhaczanie w implementacji | implementacja | krok 0 szkielet testów, „Używam ponownie” i „Wydzielam”, odchylenia jako „Uwaga” |
+| `modules/<module>/TESTS.md` (`TESTS-<n>.md`) | scenariusze do sprawdzenia w przeglądarce, próby nadużyć | etap plan i testy | test w przeglądarce, użytkownik | po polsku, z punktu widzenia osoby z danej roli |
+
 ## `docs/STATUS.md`
 
 Czyta go każda rozmowa i strona „Postęp” w makietach. **Trzymaj się dokładnie tego formatu** (nagłówki, kolejność
