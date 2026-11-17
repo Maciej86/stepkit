@@ -1,6 +1,6 @@
 # Aktualizacja projektu do nowej wersji stepkit
 
-**Aktualna wersja stepkit:** 0.1.37
+**Aktualna wersja stepkit:** 0.1.38
 
 Szablon kopiuje się do projektu tylko raz, przy `/stepkit:start`. Gdy stepkit się zmienia, starsze projekty nie mają
 nowych plików, a nowe zasady o nich mówią. Ten plik mówi, co przenieść.
@@ -360,3 +360,14 @@ Zasady (bez zmian w kodzie, chyba że przegląd coś znajdzie):
   **nie** wydzielasz w ramach aktualizacji: zrobi to plan następnego modułu, który ich potrzebuje (sekcje „Używam
   ponownie” i „Wydzielam” w `PLAN.md`). Po aktualizacji powiedz jednym zdaniem: „Nowa zasada: przed każdym planem
   sprawdzam, czy coś podobnego już jest w projekcie, i wtedy przenoszę to do wspólnego miejsca.”
+
+## 0.1.38: wspólny typ `Db` dla zapytań
+
+- **Połącz** z szablonem `backend/src/db/pool.ts` (eksport `type Db`) i `backend/src/db/__tests__/pool.test.ts`.
+- W `CLAUDE.md` projektu dopisz pod linią o `withTransaction` linię o `db: Db` z szablonu i podmień punkt „Wspólne
+  zamiast kopii” na ten z szablonu (wydzielenie od razu podmienia wszystkie kopie). Jeśli `docs/IDEAS.md` ma
+  odłożone porządki „wspólne zamiast kopii” po wydzieleniu, zrób je przy najbliższym planie modułu (sekcja
+  „Wydzielam”), bez pytania użytkownika.
+- Jeśli moduły mają własne `type Db = Pick<typeof pool, 'query'>` (albo podobny typ „pula lub połączenie”) w plikach
+  `*.queries.ts`, usuń te kopie i importuj `type Db` z `backend/src/db/pool.ts`. Bez zmian w działaniu,
+  `npm run check` zielony.

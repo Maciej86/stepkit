@@ -90,7 +90,9 @@ Nowa pozycja nawigacji: wpis w `NAVIGATION` (panel, ścieżka od `/admin`), `ACC
   w `src/test/`. Pilnuje tego test zasad.
 
 **Wspólne zamiast kopii.** Kod potrzebny w drugim miejscu nie powstaje drugi raz: przenosisz go do wspólnego
-miejsca, z testem, i podmieniasz w pierwszym module. Nie kopiujesz i nie importujesz z folderu innego modułu.
+miejsca, z testem, i w tym samym kroku podmieniasz **wszystkie** kopie w projekcie (każdy moduł, który robi to samo).
+Nie pytasz o to użytkownika i nie odkładasz podmiany do `docs/IDEAS.md`: nie zmienia ona działania aplikacji, a stara
+kopia zostaje wzorem dla następnych modułów. Nie kopiujesz i nie importujesz z folderu innego modułu.
 
 | Co | Dokąd |
 |---|---|
@@ -331,6 +333,8 @@ więc backend sprawdza wszystko sam, nawet jeśli formularz już to sprawdził:
 - Kilka zapisów, które muszą się udać razem (także każdy zapis z historią zmian): `withTransaction(async (conn) => { … })`
   z `backend/src/db/transaction.ts`. Sama zatwierdza, cofa przy błędzie i oddaje połączenie; nie wołasz
   `pool.getConnection()` ręcznie.
+- Funkcje w `<module>.queries.ts` przyjmują `db: Db` (typ z `backend/src/db/pool.ts`), żeby to samo zapytanie
+  działało poza transakcją (`pool`) i w niej (`conn`). Nie definiuj własnego `Db` w module.
 
 ## Powiązania między modułami
 

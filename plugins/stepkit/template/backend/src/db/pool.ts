@@ -19,3 +19,9 @@ export const pool = mysql.createPool({
   // i zapisywać tak samo, inaczej każda godzina przesuwa się o 1–2 h. Na ekranie: formatDateTime (Europe/Warsaw).
   timezone: 'Z',
 });
+
+/**
+ * Pula albo połączenie transakcji (`conn` z withTransaction): oba mają `query`. Funkcje w `<module>.queries.ts`
+ * przyjmują `db: Db`, więc to samo zapytanie działa poza transakcją (`pool`) i w niej (`conn`).
+ */
+export type Db = Pick<typeof pool, 'query'>;

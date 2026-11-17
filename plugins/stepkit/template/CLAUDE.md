@@ -47,6 +47,7 @@ i z wpisem w „Bibliotekach” w `SPEC-GENERAL.md`. Wersje bibliotek podnosisz 
 Każda zmiana = nowy plik `backend/migrations/NNN_opis.sql` (jedna zmiana struktury na plik), potem `npm run migrate`.
 Nigdy nie edytuj zastosowanej migracji i nie zmieniaj bazy ręcznie. Każda relacja ma klucz obcy z regułą przy usunięciu.
 Kilka zapisów naraz (także z historią zmian) tylko przez `withTransaction` (`backend/src/db/transaction.ts`).
+Zapytania w `<module>.queries.ts` przyjmują `db: Db` z `backend/src/db/pool.ts` (pula albo `conn` z transakcji).
 
 ## Kod wspólny
 
@@ -57,8 +58,8 @@ Kilka zapisów naraz (także z historią zmian) tylko przez `withTransaction` (`
   ekran z `DataState`; nigdy `useEffect` z pobieraniem ani `fetch`.
 - Wspólne zamiast kopii: zanim napiszesz coś nowego, sprawdź, czy inny moduł nie robi już tego samego albo prawie
   tego samego. Wtedy przenosisz to z parametrami do `common/` (komponent), `core/` (hook), `backend/src/db/` lub
-  `middleware/` (backend) albo `shared/src/` (front i backend), z testem. Bez parametrów na siłę: kilka linii albo
-  przypadkowe podobieństwo zostaje osobno. Nie importujesz z folderu innego modułu.
+  `middleware/` (backend) albo `shared/src/` (front i backend), z testem, i od razu podmieniasz wszystkie kopie
+  (bez odkładania na później). Bez parametrów na siłę: kilka linii albo przypadkowe podobieństwo zostaje osobno. Nie importujesz z folderu innego modułu.
 
 ## Wygląd i teksty
 
