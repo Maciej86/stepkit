@@ -92,10 +92,12 @@ komputera, a sprawdzasz tylko narzędzia z listy.
 
 Czytasz `references/install-windows.md` albo `references/install-macos.md`. Sprawdzasz po kolei: `node --version`,
 `git --version`, `docker --version` i `docker info`, plugin Playwright (z otwarciem `about:blank`), plugin superpowers, plugin frontend-design
-(i jego aktualność: „Aktualność frontend-design” w `install-windows.md`), opcjonalnie `gh --version`.
+(i jego aktualność: „Aktualność frontend-design” w `install-windows.md`), `gh --version` (na Macu wymagany do
+wysłania kodu na GitHub, `install-macos.md` część 5; na Windows opcjonalny).
 Przy brakach prowadzisz po jednym programie. **Nie przechodzisz dalej**, dopóki nie działają Node, Git i Docker oraz nie
-ma pluginów Playwright i aktualnego frontend-design. Brak superpowers nie blokuje: zapisz w `docs/STATUS.md` („Ostatnie decyzje”),
-że pracujemy na wzorach stepkit. (`docs/STATUS.md` tworzysz w kroku 2; do tego czasu pamiętaj ustalenia.)
+ma pluginów Playwright i aktualnego frontend-design, a na Macu także `gh`. Brak superpowers nie blokuje: zapisz
+w `docs/STATUS.md`, w „Ostatnie decyzje”, dokładnie „superpowers niedostępny: pracujemy na wzorach stepkit” (po tym
+tekście `/stepkit:dalej` rozpoznaje pracę bez superpowers). (`docs/STATUS.md` tworzysz w kroku 2; do tego czasu pamiętaj ustalenia.)
 
 ## Krok 2: szkielet i repo
 

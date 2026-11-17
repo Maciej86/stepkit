@@ -54,16 +54,16 @@ błąd, postępuj według `references/changes.md`, potem wróć do bieżącego m
 ## 2. Który moduł
 
 Dokładnie w tej kolejności:
-0. Moduł ze statusem `w toku` → najpierw on (punkt 1); otwartej poprawki z `docs/FIXES.md` nie wtrącasz w jego środek,
-   chyba że to błąd, który przeszkadza w pracy. Żaden moduł nie jest `w toku`, a `docs/FIXES.md` ma wiersze `czeka`
-   → **najpierw poprawki**, po kolei od najstarszej, według „Drobna zmiana” w `references/changes.md` (porządki według
-   „Wspólne zamiast kopii” w `references/code-conventions.md`). Po każdej: status `zrobione <data>`, zapis w git.
-   Dopiero gdy żadna nie czeka, wybierasz moduł (punkty 2–4). Brak pliku = brak poprawek. Zaczynając, powiedz jednym zdaniem: „Zanim zaczniemy
-   <następny moduł>, robię odłożone poprawki: <lista po jednym zdaniu>.”
-1. Moduł ze statusem `w toku` → **kontynuuj go** od etapu i kroku zapisanego w `STATUS.md` i `PLAN.md`.
-2. Brak `w toku` → moduł `wstrzymany` o najniższym numerze.
-3. Brak wstrzymanych → pierwszy `czeka`, którego wszystkie „Zależy od” są `zrobiony`.
-4. Wszystkie `zrobiony` → gratulacje, adres aplikacji (jeśli opublikowana), przypomnienie „Wgraj nową wersję”. Pokaż
+1. Moduł ze statusem `w toku` → **kontynuuj go** od etapu i kroku zapisanego w `STATUS.md` i `PLAN.md`. Otwartej
+   poprawki z `docs/FIXES.md` nie wtrącasz w jego środek, chyba że to błąd, który przeszkadza w pracy.
+2. Brak `w toku`, a `docs/FIXES.md` ma wiersze `czeka` → **najpierw poprawki**, po kolei od najstarszej, według
+   „Drobna zmiana” w `references/changes.md` (porządki według „Wspólne zamiast kopii” w `references/code-conventions.md`).
+   Na początku jedno zdanie: „Zanim zaczniemy <następny moduł>, robię odłożone poprawki: <lista po jednym zdaniu>.”
+   Po każdej: status `zrobione <data>`, zapis w git. Moduł wybierasz (punkty 3–5) dopiero, gdy żadna nie czeka.
+   Brak pliku = brak poprawek.
+3. Brak poprawek → moduł `wstrzymany` o najniższym numerze.
+4. Brak wstrzymanych → pierwszy `czeka`, którego wszystkie „Zależy od” są `zrobiony`.
+5. Wszystkie `zrobiony` → gratulacje, adres aplikacji (jeśli opublikowana), przypomnienie „Wgraj nową wersję”. Pokaż
    pomysły ze statusem `pomysł` z `docs/IDEAS.md` i zapytaj, który budujemy. Wybrany dopisz jako moduł przed
    „Publikacja” (albo po niej, jeśli już zrobiona), a w `IDEAS.md` zmień status na `zaplanowany`.
 

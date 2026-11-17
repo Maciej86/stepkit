@@ -1,0 +1,19 @@
+schema_version: "1.1"
+name: zglos-fix-during-module
+description: Drobna zmiana zrobionego modułu zgłoszona w trakcie innego modułu trafia do docs/FIXES.md, nie do IDEAS.md.
+runs: 2
+execution:
+  max_turns: 14
+  allowed_tools: [Read, Glob, Grep, Skill, Write, Edit]
+  append_system_prompt: "Środowisko testowe stepkit: komendy (npm, docker, git) są niedostępne, a node_modules nie są zainstalowane. Zakładaj, że npm run check przechodzi po poprawnych zmianach, i pracuj dalej na plikach."
+  prompt: "/stepkit:zglos W stopce chcę jeszcze numer telefonu firmy obok nazwy. Wszyscy to widzą. Może poczekać, aż skończymy logowanie."
+context:
+  scaffold_script: fixture.sh
+graders:
+  - name: mentions-fixes-file
+    type: regex
+    pattern: 'FIXES\.md'
+    arm: with-only
+  - name: parks-in-fixes
+    type: llm
+    criteria: Odpowiedź po polsku traktuje to jako drobną zmianę zrobionego modułu Wygląd i potwierdza zapis w docs/FIXES.md do zrobienia po zamknięciu Logowania. Nie zapisuje tego w IDEAS.md jako pomysłu na kiedyś, nie dodaje nowego modułu i nie zmienia teraz kodu stopki.

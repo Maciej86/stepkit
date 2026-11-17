@@ -1,6 +1,6 @@
 # Stan projektu: Moja aplikacja
 
-**Wersja stepkit:** 0.1.38
+**Wersja stepkit:** 0.1.39
 
 **Następny krok:** Wpisz /stepkit:start, żeby zaplanować aplikację.
 

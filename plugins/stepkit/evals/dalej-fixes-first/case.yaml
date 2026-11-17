@@ -1,0 +1,20 @@
+schema_version: "1.1"
+name: dalej-fixes-first
+description: Gdy żaden moduł nie jest w toku, a FIXES.md ma poprawkę "czeka", najpierw poprawka, potem następny moduł.
+runs: 2
+execution:
+  max_turns: 12
+  allowed_tools: [Read, Glob, Grep, Skill, Write, Edit]
+  append_system_prompt: "Środowisko testowe stepkit: komendy (npm, docker, git) są niedostępne, a node_modules nie są zainstalowane. Zakładaj, że npm run check przechodzi po poprawnych zmianach, i pracuj dalej na plikach."
+  prompt: /stepkit:dalej
+context:
+  scaffold_script: fixture.sh
+graders:
+  - name: reads-fixes
+    type: tool_used
+    tool: Read
+    input_match: 'FIXES\.md'
+    arm: with-only
+  - name: fix-before-module
+    type: llm
+    criteria: Odpowiedź po polsku mówi, że zanim zacznie moduł Klienci, zrobi odłożoną poprawkę (link „Nie pamiętasz hasła?” pod polem hasła na ekranie logowania). Nie zaczyna makiety ani innej pracy nad modułem Klienci. Opisuje zmianę i czeka na zgodę („tak”) albo od razu ją wprowadza (przesuwa link w ekranie logowania).

@@ -91,8 +91,9 @@ Nowa pozycja nawigacji: wpis w `NAVIGATION` (panel, ścieżka od `/admin`), `ACC
 
 **Wspólne zamiast kopii.** Kod potrzebny w drugim miejscu nie powstaje drugi raz: przenosisz go do wspólnego
 miejsca, z testem, i w tym samym kroku podmieniasz **wszystkie** kopie w projekcie (każdy moduł, który robi to samo).
-Nie pytasz o to użytkownika i nie odkładasz podmiany do `docs/IDEAS.md`: nie zmienia ona działania aplikacji, a stara
-kopia zostaje wzorem dla następnych modułów. Nie kopiujesz i nie importujesz z folderu innego modułu.
+Nie pytasz o to użytkownika i nie odkładasz podmiany (ani do `docs/IDEAS.md`, ani do `docs/FIXES.md`): nie zmienia ona
+działania aplikacji, a stara kopia zostaje wzorem dla następnych modułów. Do `FIXES.md` trafiają tylko porządki
+zgłoszone przez użytkownika, gdy inny moduł jest `w toku` (`changes.md`). Nie kopiujesz i nie importujesz z folderu innego modułu.
 
 | Co | Dokąd |
 |---|---|
@@ -543,7 +544,8 @@ niżej i listy z plików dziedzinowych modułu.
 
 ## Lista kontrolna przeglądu kodu
 
-Używaj jej, gdy nie ma `superpowers:requesting-code-review`:
+Przechodzisz ją przy każdym przeglądzie modułu: z `superpowers:requesting-code-review` recenzent dostaje ją
+w poleceniu, bez superpowers przechodzisz ją sam.
 
 - [ ] moduł podpięty przez `mountModule`; trasy publiczne tylko te z „Mapy dostępu”, z limitem i `validateBody`
 - [ ] każda trasa jest w „Mapie dostępu”, a testy sprawdzają 401 bez logowania i 403 dla złej roli
@@ -562,7 +564,8 @@ Używaj jej, gdy nie ma `superpowers:requesting-code-review`:
 - [ ] żaden fragment modułu nie robi tego samego co coś w innym module, `common/`, `core/` albo `shared/` (także
   „prawie tak samo”; recenzent porównuje z resztą projektu, nie tylko z tym modułem); wspólne klocki bez parametrów
   na siłę. Szukasz po wyglądzie i zachowaniu, nie po nazwach plików: np. każdy `<Modal>` z parą Anuluj/akcja to
-  `ConfirmModal`, także gdy siedzi wewnątrz innego okna
+  jeden wspólny klocek okna potwierdzenia (np. `ConfirmModal` w `common/`; gdy go jeszcze nie ma, wydziel go), także
+  gdy siedzi wewnątrz innego okna
 - [ ] funkcje strzałkowe, bez `function`
 - [ ] numer z adresu przez `idParam`, odpowiedź usługi przez `reply`
 - [ ] listy: `validateQuery(listQuerySchema(...))`, sortowanie tylko po kolumnach z listy, stan w adresie
