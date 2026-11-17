@@ -390,13 +390,15 @@ Dwa przypadki, dwie drogi:
   pdfmake.addFonts(Roboto);
   pdfmake.setUrlAccessPolicy(() => false); // dokument nigdy nie pobiera nic z internetu
   pdfmake.setLocalAccessPolicy((path: string) => path.startsWith(fontsDir)); // ani plików z serwera
-  export const renderPdf = (doc: object): Promise<Buffer> =>
-    pdfmake.createPdf({ defaultStyle: { font: 'Roboto' }, ...doc }).getBuffer();
+  export const renderPdf = (doc: { defaultStyle?: object } & Record<string, unknown>): Promise<Buffer> =>
+    pdfmake.createPdf({ ...doc, defaultStyle: { font: 'Roboto', ...doc.defaultStyle } }).getBuffer();
   ```
   Treść dokumentu buduje funkcja modułu (np. `orders.pdf.ts`) z danych z bazy: teksty z i18n, daty przez
   `formatDate`, kwoty przez `formatMoney`, liczby przez `formatNumber`. Trasa `GET /api/<moduł>/:id/pdf` z tymi samymi
-  uprawnieniami co rekord, odpowiedź `Content-Type: application/pdf` i `Content-Disposition: attachment`. Obrazki
-  (np. logo) tylko z plików aplikacji, dołączone jako dane, nigdy z adresu podanego przez użytkownika.
+  uprawnieniami co rekord; nazwa pliku przez `res.attachment('zamowienie-<numer>.pdf')` (ustawia `Content-Type:
+  application/pdf` i `Content-Disposition: attachment`, polskie znaki koduje sam), bez nazw wpisanych przez
+  użytkownika. Obrazki (np. logo) tylko z plików aplikacji, dołączone jako dane, nigdy z adresu podanego przez
+  użytkownika.
   Testy: odpowiedź zaczyna się od `%PDF`, bez logowania 401, cudzy rekord 404.
 
 ## Na żywo (WebSocket)
