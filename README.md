@@ -5,7 +5,7 @@
 **Zbuduj własną aplikację www z Claude, krok po kroku, bez programowania.**
 
 [![Licencja: MIT](https://img.shields.io/badge/licencja-MIT-green.svg)](LICENSE)
-![Wersja](https://img.shields.io/badge/wersja-0.1.41-blue.svg)
+![Wersja](https://img.shields.io/badge/wersja-0.1.42-blue.svg)
 ![Claude Code](https://img.shields.io/badge/Claude%20Code-plugin-d97757.svg)
 ![Język](https://img.shields.io/badge/język-polski-red.svg)
 
@@ -291,6 +291,110 @@ serwer (VPS) i domenę.
 
 Tak. OVH jest domyślną propozycją z instrukcją krok po kroku, ale przy publikacji możesz wybrać inny serwer VPS.
 </details>
+
+## 👩‍💻 Dla programistów
+
+Ta część jest dla osób, które chcą zajrzeć do środka stepkit, ocenić aplikację zbudowaną z niego albo rozwijać sam
+plugin. Do zwykłej pracy ze stepkit nie jest potrzebna.
+
+### Pakiety w szablonie
+
+Każdy projekt dostaje je przy `/stepkit:start`. Dokładne wersje są w plikach `package.json` w
+`plugins/stepkit/template/`.
+
+| Część | Pakiety | Do czego |
+|---|---|---|
+| całość (`package.json`) | `typescript`, `vitest`, `@playwright/test`, `concurrently` | język, testy jednostkowe, testy w przeglądarce, start wszystkiego jednym poleceniem |
+| `shared` (wspólne dla serwera i przeglądarki) | `zod`, `i18next`, `dayjs` | schematy walidacji, teksty, daty |
+| `backend` | `express`, `mysql2`, `zod`, `jsonwebtoken`, `bcryptjs`, `cookie-parser`, `cors`, `helmet`, `express-rate-limit`, `dotenv`, `i18next`, `tsx` | API, baza MySQL, walidacja, sesja w ciasteczku, hasła, nagłówki bezpieczeństwa, limit prób, konfiguracja, teksty, uruchamianie TypeScriptu |
+| `backend` (testy) | `supertest`, `@types/*` | testy tras API |
+| `frontend` | `react`, `react-dom`, `react-router`, `@mantine/core`, `@mantine/dates`, `@mantine/form`, `@mantine/hooks`, `@mantine/notifications`, `mantine-form-zod-resolver`, `@tanstack/react-query`, `axios`, `dayjs`, `i18next`, `react-i18next`, `lucide-react`, `zod` | ekrany, komponenty, formularze z tymi samymi schematami co serwer, pobieranie danych, ikony, teksty |
+| `frontend` i `mockups` (narzędzia) | `vite`, `@vitejs/plugin-react`, `postcss-preset-mantine`, `postcss-simple-vars`, `jsdom`, `@testing-library/react`, `@testing-library/dom`, `@testing-library/jest-dom` | budowanie, style Mantine, testy komponentów |
+| `mockups` | te same co `frontend`, bez `axios` i `react-query` | klikalne makiety bez serwera |
+
+Poza pakietami: MySQL 8, phpMyAdmin i Mailpit w Dockerze (`docker-compose.yml`), a na serwerze Docker Compose
+z Caddy (`docker-compose.prod.yml`, `Caddyfile`).
+
+### Biblioteki dokładane w modułach
+
+Szablon ich nie ma. Claude instaluje je bez pytania dopiero w module, który ich potrzebuje (lista zatwierdzona w
+`plugins/stepkit/skills/dalej/references/code-conventions.md`, sekcja „Biblioteki”, razem z zasadami użycia):
+
+| Potrzeba | Biblioteka |
+|---|---|
+| e-mail | `nodemailer` |
+| przesyłanie plików | `multer` |
+| zadania o stałej porze | `cron` |
+| Excel i CSV (eksport, import) | `exceljs` |
+| PDF tworzony na serwerze | `pdfmake` |
+| dziennik serwera | `winston` |
+| HTML od użytkownika | `sanitize-html` |
+| wykresy | `@mantine/charts` z `recharts` |
+| kalendarz, grafik, kalendarz zespołu | `@mantine/schedule` |
+| czat i powiadomienia na żywo | `socket.io`, `socket.io-client` |
+| edycja grafiki w przeglądarce | `fabric` |
+| przeciąganie (kolejność, kanban), także palcem | `@dnd-kit/core`, `@dnd-kit/sortable` |
+| edytor treści | `@mantine/tiptap` z `@tiptap/react`, `@tiptap/pm`, `@tiptap/starter-kit`, `@tiptap/extension-link` |
+| zdjęcia: zmniejszenie, obrót, miniatury | `sharp` |
+| kody QR i kreskowe | `bwip-js` |
+| pobranie wielu plików naraz (ZIP) | `archiver` |
+
+Każda inna biblioteka wymaga zgody użytkownika i wpisu w `SPEC.md` modułu (do czego, alternatywy, czy jest
+utrzymywana, licencja).
+
+### Pliki pluginu
+
+```
+.claude-plugin/marketplace.json   wpis w sklepie z pluginami (nazwa, wersja)
+plugins/stepkit/
+├── .claude-plugin/plugin.json    opis i wersja pluginu
+├── skills/
+│   ├── start/                    /stepkit:start: od pustego folderu do planu aplikacji
+│   ├── dalej/                    /stepkit:dalej: moduł po module, aż do publikacji
+│   └── zglos/                    /stepkit:zglos: pomysł, zmiana albo błąd w trakcie
+├── template/                     szkielet aplikacji kopiowany do projektu
+└── evals/                        scenariusze sprawdzające zachowanie skilli
+tests/                            testy spójności pluginu (Vitest)
+docs/superpowers/                 specyfikacje i plany zmian w samym stepkit
+```
+
+**Skille** (`SKILL.md` to instrukcja główna, `references/` to pliki czytane tylko na danym etapie):
+
+| Plik | Do czego |
+|---|---|
+| `start/SKILL.md` | kroki 1–8 startu: sprawdzenie komputera, szkielet i repo, opis, wywiad, podsumowanie, makieta ogólna, spec ogólny, plik stanu |
+| `start/references/install-windows.md`, `install-macos.md` | instalacja narzędzi po jednym programie |
+| `start/references/project-skeleton.md` | kopiowanie szablonu i dopasowanie go po wywiadzie |
+| `start/references/github.md` | repozytorium na GitHubie |
+| `start/references/interview.md` | opis i wywiad o aplikacji |
+| `dalej/SKILL.md` | wybór modułu i jego etapy: makieta, spec, plan, implementacja, testy, zamknięcie |
+| `dalej/references/code-conventions.md` | zasady kodu aplikacji i lista bibliotek; w projekcie jako `docs/CONVENTIONS.md` |
+| `dalej/references/domains/*.md` | wzorce dziedzin: logowanie, dokumenty, faktury, magazyn, terminy cykliczne; w projekcie w `docs/conventions/` |
+| `dalej/references/document-templates.md` | wzory dokumentów w `docs/` projektu (STATUS, SPEC, PLAN, TESTS, FIXES, IDEAS) |
+| `dalej/references/mockups.md` | makiety modułów i makieta ogólna |
+| `dalej/references/appearance.md` | moduł „Wygląd” (zawsze pierwszy) |
+| `dalej/references/superpowers.md` | jak stepkit używa skilli superpowers na etapach spec, plan i implementacja |
+| `dalej/references/abuse.md` | próby nadużyć na etapie testów i przed publikacją |
+| `dalej/references/browser.md` | sprawdzanie modułu w przeglądarce |
+| `dalej/references/changes.md` | zgłoszenia: rozpoznanie rodzaju, zapis w `FIXES.md` albo `IDEAS.md`, naprawa |
+| `dalej/references/email-mailgun.md` | moduł „E-mail” (Mailpit lokalnie, Mailgun w internecie) |
+| `dalej/references/deploy-ovh.md` | moduł „Publikacja”: serwer, domena, HTTPS, kopie zapasowe, wdrożenia |
+| `dalej/references/upgrades.md` | aktualna wersja stepkit i co przenieść do starszych projektów |
+| `zglos/SKILL.md` | przyjęcie zgłoszenia, dalej według `changes.md` |
+
+**Szablon** (`template/`): `shared/` (schematy, stałe, teksty, motyw), `backend/` (API, migracje, pliki, sesja),
+`frontend/` (aplikacja), `mockups/` (makiety i strona „Postęp”), `e2e/` (Playwright), `docs/` (STATUS, DESIGN,
+FIXES, IDEAS), `scripts/` (wdrożenie i kopie zapasowe), `CLAUDE.md` (zasady dla Claude'a w projekcie, działają też
+bez pluginu), `README.md` (ściągawka projektu).
+
+### Praca nad pluginem
+
+- Testy spójności: `npx vitest run --dir tests` (numer wersji wszędzie ten sam, ściągawka zgodna z szablonem,
+  wzorce dziedzin w spisie, CLAUDE.md szablonu odsyła do istniejących plików).
+- Evale (z `plugins/stepkit`): `claude plugin eval . --case '<glob>' -j 4 --trust-plugin --scaffold --allow-tools Write Edit`.
+- Każda zmiana podnosi wersję w `plugin.json`, `marketplace.json`, `upgrades.md`, `template/docs/STATUS.md`,
+  przykładzie w `document-templates.md` i odznace tego README. Zmiana w `template/` wymaga nowej sekcji w
+  `upgrades.md`, żeby starsze projekty dostały nowe pliki.
 
 ## 🛠️ Stan projektu
 

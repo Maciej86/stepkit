@@ -31,6 +31,10 @@ samo na dwa sposoby.
 | czat i powiadomienia na żywo | `socket.io` (backend) i `socket.io-client` (front) |
 | edycja grafiki w przeglądarce (jeden moduł, nie cała aplikacja) | `fabric` |
 | przeciąganie (kolejność, kanban), także palcem | `@dnd-kit/core` z `@dnd-kit/sortable` |
+| edytor treści (opisy, notatki, treść e-maila) | `@mantine/tiptap` z `@tiptap/react`, `@tiptap/pm`, `@tiptap/starter-kit`, `@tiptap/extension-link` |
+| zdjęcia: zmniejszenie, obrót, miniatury | `sharp` (backend) |
+| kody QR i kreskowe (etykiety, PDF) | `bwip-js` (backend) |
+| pobranie wielu plików naraz (ZIP) | `archiver` (backend) |
 
 **Spoza listy** (np. paczka do PDF, mapy, płatności):
 1. Sprawdź, czy nie wystarczy to, co już jest: Mantine (`@mantine/*`), dayjs, przeglądarka, Node.
@@ -63,6 +67,33 @@ tolerance: 5 }` (palcem da się przewijać stronę, przytrzymanie chwyta kartę)
 zrobioną przeciąganiem da się też zrobić bez niego (np. pole „Status” albo przyciski ↑/↓). Nową kolejność zapisuje
 backend jedną transakcją i sam sprawdza uprawnienia. Test sprawdza zapis kolejności, nie samo przeciąganie. Wspólny
 komponent wydzielasz, gdy przeciąganie pojawi się w drugim miejscu („Wspólne zamiast kopii”).
+
+**Edytor treści:** `@mantine/tiptap` w tej samej wersji co `@mantine/core`, w obu miejscach naraz
+(`npm install -w @app/frontend -w @app/mockups @mantine/tiptap@<wersja> @tiptap/react @tiptap/pm @tiptap/starter-kit
+@tiptap/extension-link`, `import '@mantine/tiptap/styles.css';` w obu `main.tsx`). Przyciski tylko: pogrubienie,
+kursywa, listy, nagłówek, link. Serwer przed zapisem przepuszcza HTML przez `sanitize-html`, który dopuszcza tylko
+znaczniki odpowiadające tym przyciskom, a w linkach tylko `http`, `https` i `mailto`. Kolumna `TEXT`, limit długości
+w schemacie zod. Wyświetlanie przez `dangerouslySetInnerHTML` tylko z pola, które przeszło przez `sanitize-html`.
+Test: `<script>` i `onclick` znikają po zapisie. Wspólny komponent wydzielasz, gdy edytor pojawi się w drugim miejscu.
+
+**Zdjęcia:** `sharp` w backendzie (`npm install -w @app/backend sharp`). `prepareImage(buffer)` w
+`backend/src/files/images.ts`, wołane przed `saveUpload` tylko dla JPG, PNG i WebP: `.rotate()` (obrót według tego,
+jak trzymano telefon), najdłuższy bok najwyżej 2000 px (`fit: 'inside', withoutEnlargement: true`), ten sam format.
+Sharp domyślnie usuwa dane zapisane w zdjęciu, także miejsce (GPS): tak ma zostać, bez `keepMetadata`. Miniatura tylko
+wtedy, gdy ekran pokazuje wiele zdjęć naraz: 400 px, WebP, drugi `saveUpload`, nazwa w kolumnie `thumb_stored_name`.
+Po instalacji sprawdź, że obraz Dockera się buduje (`sharp` ma osobne pliki dla Alpine). Test: duże zdjęcie wychodzi
+najwyżej 2000 px i bez GPS.
+
+**Kody QR i kreskowe:** `bwip-js` w backendzie (`npm install -w @app/backend bwip-js`,
+`import bwipjs from 'bwip-js/node'`). Kod rysuje serwer: `bwipjs.toBuffer({ bcid: 'qrcode' | 'code128', text,
+scale: 3 })` daje PNG; do PDF jako `image: 'data:image/png;base64,…'`, na ekran przez trasę API. Treść kodu to numer
+albo kod rekordu (miejsce w magazynie, towar, sprzęt), nigdy dane osobowe ani hasło. Skanowanie kamerą telefonu jest
+spoza listy (za zgodą). Test: kod dla rekordu powstaje, cudzy rekord → 404.
+
+**ZIP:** `archiver` w backendzie (`npm install -w @app/backend archiver`). Trasa najpierw sprawdza dostęp do rekordu,
+potem pakuje tylko jego pliki, strumieniowo: `res.attachment('<rekord>-<id>.zip')`, `archive.pipe(res)`, pliki
+z `uploadPath(...)`. Nazwy w ZIP-ie z `original_name`, bez `/`, `\` i `..`, powtórzone z numerem („umowa (2).pdf”).
+Test: zawartość ZIP-a, cudzy rekord → 404, bez logowania → 401.
 
 ## Struktura modułu
 
