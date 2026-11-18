@@ -41,10 +41,15 @@ Na końcu Twoja aplikacja działa w internecie, pod Twoim adresem.
 ### Claude Code w VS Code
 
 1. Zainstaluj [VS Code](https://code.visualstudio.com) i uruchom go.
-2. Utwórz pusty folder na aplikację **poza OneDrive** (np. `C:\projekty\moja-aplikacja`; OneDrive spowalnia
+2. Zainstaluj [**Docker Desktop**](https://www.docker.com/products/docker-desktop) (trzyma bazę danych aplikacji).
+   **Windows:** pobierz „Docker Desktop for Windows”, w instalatorze zostaw „Use WSL 2 instead of Hyper-V”, uruchom
+   ponownie komputer, jeśli poprosi, i otwórz Docker Desktop z menu Start, aż zobaczysz zielony napis „Engine running”.
+   **macOS:** pobierz wersję „Apple Silicon” (M1 i nowsze) albo „Intel Chip”, przeciągnij Docker do Aplikacji
+   i uruchom go. Konto Dockera nie jest potrzebne („Skip”). Docker musi być włączony, gdy pracujesz nad aplikacją.
+3. Utwórz pusty folder na aplikację **poza OneDrive** (np. `C:\projekty\moja-aplikacja`; OneDrive spowalnia
    i blokuje pliki projektu) i otwórz go w VS Code: **File → Open Folder**.
-3. Otwórz terminal: **Terminal → New Terminal** (otworzy się na dole, od razu w tym folderze).
-4. Zainstaluj Claude Code: wklej do terminala polecenie dla swojego systemu i naciśnij Enter.
+4. Otwórz terminal: **Terminal → New Terminal** (otworzy się na dole, od razu w tym folderze).
+5. Zainstaluj Claude Code: wklej do terminala polecenie dla swojego systemu i naciśnij Enter.
 
    **Windows** (dwa polecenia, po kolei; drugie dopisuje Claude Code do listy programów, które widzi terminal):
    ```
@@ -57,9 +62,9 @@ Na końcu Twoja aplikacja działa w internecie, pod Twoim adresem.
    ```
    curl -fsSL https://claude.ai/install.sh | bash
    ```
-5. **Zamknij całe VS Code i otwórz je ponownie** (z tym samym folderem), potem **Terminal → New Terminal**. Dopiero
+6. **Zamknij całe VS Code i otwórz je ponownie** (z tym samym folderem), potem **Terminal → New Terminal**. Dopiero
    po ponownym uruchomieniu terminal „widzi” zainstalowany program.
-6. Wpisz `claude` i naciśnij Enter. Za pierwszym razem otworzy się przeglądarka: zaloguj się na swoje konto Claude
+7. Wpisz `claude` i naciśnij Enter. Za pierwszym razem otworzy się przeglądarka: zaloguj się na swoje konto Claude
    (potrzebny płatny plan, np. Pro albo Max). Od tej pory Claude Code uruchamiasz w terminalu VS Code poleceniem
    `claude` i tu wpisujesz wszystkie komendy z tej strony.
 

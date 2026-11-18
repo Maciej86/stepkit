@@ -326,3 +326,9 @@ footer p { max-width: 90ch; }
 }
 .dev .btn-main, .dev .btn-main:hover { color: var(--on-cobalt); }
 .dev .btn-main:hover { background: #fff; color: #14162b; }
+.howto { margin: 0 0 12px; padding-left: 20px; color: var(--ink-2); }
+.howto li { margin-bottom: 8px; }
+.howto li::marker { color: var(--cobalt); }
+.trouble { background: var(--surface); border-radius: var(--r-m); padding: 4px 18px; margin: 0 0 12px; }
+.trouble summary { cursor: pointer; padding: 12px 0; font-weight: 700; }
+.trouble p { font-size: .95rem; color: var(--ink-2); }
