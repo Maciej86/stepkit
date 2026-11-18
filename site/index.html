@@ -202,43 +202,13 @@
         <li>komputera z Windows 10/11 albo macOS</li>
         <li>płatnego planu Claude (np. Pro albo Max)</li>
         <li>darmowego edytora <a href="https://code.visualstudio.com">VS Code</a></li>
-        <li>darmowego <a href="https://www.docker.com/products/docker-desktop">Docker Desktop</a></li>
       </ul>
-      <p class="small">VS Code i Docker instalujesz w krokach 1 i 2. Resztę (Node.js, Git, konto GitHub) stepkit pomoże zainstalować po kolei przy pierwszym uruchomieniu.</p>
+      <p class="small">Node.js, Git i Docker Desktop zainstalujesz z pomocą stepkit w ostatnim kroku.</p>
     </aside>
     <ol class="steps">
       <li>
         <h3>Zainstaluj VS Code</h3>
         <p>Pobierz darmowy edytor <a href="https://code.visualstudio.com">Visual Studio Code</a> ze strony code.visualstudio.com i zainstaluj go z domyślnymi ustawieniami. To w nim będziesz pracować z Claude: ma wbudowany terminal i podgląd plików projektu.</p>
-      </li>
-      <li>
-        <h3>Zainstaluj Docker Desktop</h3>
-        <p>Docker trzyma bazę danych aplikacji w osobnym „pudełku”, które działa tak samo na Twoim komputerze i na serwerze. Bez niego aplikacja nie uruchomi się na komputerze. Pobierz <a href="https://www.docker.com/products/docker-desktop">Docker Desktop</a> dla swojego systemu.</p>
-        <div class="tabs" role="tablist" aria-label="System dla Dockera">
-          <button role="tab" id="t-dwin" aria-selected="true" aria-controls="p-dwin">Windows</button>
-          <button role="tab" id="t-dmac" aria-selected="false" aria-controls="p-dmac" tabindex="-1">macOS</button>
-        </div>
-        <div id="p-dwin" role="tabpanel" aria-labelledby="t-dwin">
-          <ul class="howto">
-            <li>Pobierz „Docker Desktop for Windows” i uruchom instalator. Zostaw zaznaczone „Use WSL 2 instead of Hyper-V”.</li>
-            <li>Jeśli instalator poprosi, uruchom ponownie komputer.</li>
-            <li>Otwórz Docker Desktop z menu Start i poczekaj, aż w lewym dolnym rogu pojawi się zielony napis „Engine running”. Konto Dockera nie jest potrzebne, możesz kliknąć „Skip”.</li>
-          </ul>
-        </div>
-        <div id="p-dmac" role="tabpanel" aria-labelledby="t-dmac" hidden>
-          <ul class="howto">
-            <li>Pobierz wersję „Apple Silicon” (Mac z procesorem M1, M2, M3 i nowszym) albo „Intel Chip”. Którą masz, sprawdzisz w menu jabłka → „Ten Mac”.</li>
-            <li>Otwórz pobrany plik <code>.dmg</code> i przeciągnij Docker do folderu Aplikacje.</li>
-            <li>Uruchom Docker z Aplikacji, zaakceptuj warunki i poczekaj, aż ikona wieloryba na górnym pasku przestanie się ruszać. Konto nie jest potrzebne („Skip”).</li>
-          </ul>
-        </div>
-        <details class="trouble">
-          <summary>Docker nie startuje na Windows?</summary>
-          <p><b>„WSL 2 installation is incomplete”</b> albo „WSL needs updating”: kliknij prawym przyciskiem Start → „Terminal (Administrator)”, wpisz <code>wsl --install</code>, potem <code>wsl --update</code> i uruchom ponownie komputer.</p>
-          <p><b>„Virtualization support not detected”:</b> w ustawieniach komputera (BIOS) wyłączona jest wirtualizacja. Wpisz w wyszukiwarkę „włączenie wirtualizacji BIOS” i nazwę producenta komputera albo poproś kogoś technicznego. To jednorazowa zmiana.</p>
-          <p><b>Instalator prosi o hasło administratora,</b> którego nie znasz: ten komputer nie pozwala instalować programów. Poproś dział IT o instalację Docker Desktop.</p>
-        </details>
-        <p class="tip">Docker Desktop musi być włączony za każdym razem, gdy pracujesz nad aplikacją. Jeśli zapomnisz, Claude Ci o tym przypomni.</p>
       </li>
       <li>
         <h3>Załóż folder i otwórz go w VS Code</h3>
@@ -275,8 +245,8 @@
         <p>Zamknij Claude Code (<code>/exit</code>) i uruchom go ponownie (<code>claude</code>).</p>
       </li>
       <li>
-        <h3>Zacznij</h3>
-        <p>Wpisz <code>/stepkit:start</code> i opisz swój pomysł własnymi słowami.</p>
+        <h3>Zacznij od <code>/stepkit:start</code></h3>
+        <p>Wpisz <code>/stepkit:start</code>. Claude najpierw sprawdzi komputer i przeprowadzi Cię przez instalację Node.js, Git i Docker Desktop, po jednym programie: powie, co pobrać, poczeka, aż napiszesz „gotowe”, i sprawdzi, czy działa. Przy Dockerze może być potrzebny restart komputera. Potem opiszesz swój pomysł własnymi słowami.</p>
         <p class="tip">Jest też oficjalna wtyczka <a href="https://marketplace.visualstudio.com/items?itemName=anthropic.claude-code">Claude Code for VS Code</a> od Anthropic z panelem graficznym. Nie wszystkie polecenia działają w niej tak samo, więc do stepkit polecamy terminal. Uważaj na podobne, nieoficjalne wtyczki z tą samą ikoną.</p>
       </li>
     </ol>
