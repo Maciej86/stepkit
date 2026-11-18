@@ -1,0 +1,319 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>stepkit dla programistów</title>
+<meta name="description" content="Jak działa stepkit od środka: skille i szablon, struktura projektu, zasady kodu, bezpieczeństwo, testy, publikacja, biblioteki i praca nad pluginem.">
+<meta property="og:title" content="stepkit dla programistów">
+<meta property="og:description" content="Jak działa stepkit od środka i jaki kod powstaje w projekcie zbudowanym z jego pomocą.">
+<meta property="og:type" content="article">
+<meta name="color-scheme" content="light dark">
+<script>
+  try { const t = localStorage.getItem('theme'); if (t === 'light' || t === 'dark') document.documentElement.dataset.theme = t; } catch {}
+</script>
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%2314162b'/%3E%3Crect x='6' y='18' width='8' height='8' rx='2' fill='%233ccb9a'/%3E%3Crect x='12' y='11' width='8' height='8' rx='2' fill='%23ffb547'/%3E%3Crect x='18' y='5' width='8' height='8' rx='2' fill='%23ff7a9c'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Unbounded:wght@500;700;800&family=Onest:wght@400;500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="wrap top">
+  <a class="brand" href="index.html">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="currentColor"/><rect x="6" y="18" width="8" height="8" rx="2" fill="#3ccb9a"/><rect x="12" y="11" width="8" height="8" rx="2" fill="#ffb547"/><rect x="18" y="5" width="8" height="8" rx="2" fill="#ff7a9c"/></svg>
+    stepkit
+  </a>
+  <div class="top-right">
+  <nav aria-label="Strony">
+    <a href="index.html">Strona główna</a>
+    <a href="index.html#instalacja">Instalacja</a>
+    <a href="https://github.com/Maciej86/stepkit">GitHub</a>
+  </nav>
+  <button class="theme" type="button" id="theme" aria-label="Włącz ciemny widok">
+    <svg class="moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M20.5 14.5A8.5 8.5 0 0 1 9.5 3.5a8.5 8.5 0 1 0 11 11z"/></svg>
+    <svg class="sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.5"/><path d="M12 2v2.5M12 19.5V22M4.2 4.2l1.8 1.8M18 18l1.8 1.8M2 12h2.5M19.5 12H22M4.2 19.8 6 18M18 6l1.8-1.8"/></svg>
+  </button>
+  </div>
+</header>
+
+<main>
+<div class="wrap doc-hero">
+  <h1>stepkit od środka</h1>
+  <p class="lede">Ta strona jest dla programistów: osób, które chcą ocenić aplikację zbudowaną ze stepkit, pomóc komuś, kto z niego korzysta, albo rozwijać sam plugin. Opisuje, jak działa plugin, jaki projekt powstaje i jakich zasad pilnuje Claude przy każdym module.</p>
+  <div class="actions">
+    <a class="btn btn-main" href="https://github.com/Maciej86/stepkit">Kod na GitHubie</a>
+    <a class="btn btn-alt" href="https://github.com/Maciej86/stepkit/blob/main/plugins/stepkit/skills/dalej/references/code-conventions.md">Pełne zasady kodu</a>
+  </div>
+</div>
+
+<div class="wrap doc">
+  <nav class="toc" aria-label="Spis treści">
+    <ol>
+      <li><a href="#plugin">Jak działa plugin</a></li>
+      <li><a href="#projekt">Projekt, który powstaje</a></li>
+      <li><a href="#modul">Moduł krok po kroku</a></li>
+      <li><a href="#struktura">Struktura modułu</a></li>
+      <li><a href="#zasady">Zasady kodu</a></li>
+      <li><a href="#baza">Baza danych</a></li>
+      <li><a href="#bezpieczenstwo">Bezpieczeństwo</a></li>
+      <li><a href="#testy">Testy</a></li>
+      <li><a href="#publikacja">Publikacja i kopie</a></li>
+      <li><a href="#biblioteki">Biblioteki</a></li>
+      <li><a href="#pliki">Pliki pluginu</a></li>
+      <li><a href="#wersje">Wersje i aktualizacje</a></li>
+      <li><a href="#rozwoj">Praca nad pluginem</a></li>
+    </ol>
+  </nav>
+
+  <div class="doc-body">
+
+    <section id="plugin">
+      <h2>Jak działa plugin</h2>
+      <p>stepkit to plugin Claude Code złożony z dwóch rzeczy: <b>skilli</b>, czyli instrukcji w Markdownie, które Claude czyta, gdy użytkownik wpisze polecenie, i <b>szablonu projektu</b>, który kopiuje się do folderu użytkownika raz, na starcie. Plugin nie ma własnego kodu wykonywanego w tle: żadnych serwerów MCP, hooków ani telemetrii. Każde polecenie w terminalu wykonuje Claude Code, zgodnie z ustawieniami uprawnień użytkownika.</p>
+      <div class="tbl-wrap"><table class="tbl">
+        <thead><tr><th>Polecenie</th><th>Skill</th><th>Co robi</th></tr></thead>
+        <tbody>
+          <tr><td><code>/stepkit:start</code></td><td><code>skills/start</code></td><td>sprawdza komputer, kopiuje szablon, zakłada prywatne repo, prowadzi opis i wywiad, robi makietę ogólną, spec ogólny i plik stanu z listą modułów</td></tr>
+          <tr><td><code>/stepkit:dalej</code></td><td><code>skills/dalej</code></td><td>czyta stan projektu, wybiera moduł (w toku, poprawki z <code>FIXES.md</code>, wstrzymany, czekający) i prowadzi go przez etapy aż do zamknięcia; obsługuje też publikację i „wgraj nową wersję”</td></tr>
+          <tr><td><code>/stepkit:zglos</code></td><td><code>skills/zglos</code></td><td>rozpoznaje zgłoszenie (błąd, drobna zmiana, większa zmiana, nowy moduł) i naprawia je, zapisuje w <code>FIXES.md</code>, w kolejce modułów albo w <code>IDEAS.md</code></td></tr>
+        </tbody>
+      </table></div>
+      <p><b>Pamięć jest w plikach, nie w rozmowie.</b> Każda rozmowa zaczyna się od <code>docs/STATUS.md</code> (lista modułów, etap, następny krok) i czyta tylko pliki potrzebne na bieżącym etapie: <code>SKILL.md</code> odsyła do pliku z <code>references/</code> dla danego etapu, a ten do dokumentów modułu. Dzięki temu rozmowy są krótkie, a po <code>/clear</code> nic nie ginie.</p>
+      <div class="callout"><p>Projekt działa także bez pluginu. Zasady pracy są w <code>CLAUDE.md</code> projektu i w <code>docs/CONVENTIONS.md</code> (kopia zasad kodu ze stepkit), więc każdy programista albo inny asystent AI dostaje te same reguły.</p></div>
+    </section>
+
+    <section id="projekt">
+      <h2>Projekt, który powstaje</h2>
+      <p>Jedno repozytorium z workspace'ami npm. Frontend, backend i makiety dzielą jeden pakiet <code>shared</code> ze schematami walidacji, stałymi i tekstami, więc te same reguły obowiązują w przeglądarce i na serwerze.</p>
+<div class="tree">moja-aplikacja/
+├── shared/      <i>schematy zod, stałe, teksty (i18next), daty, liczby, nawigacja, motyw</i>
+├── backend/     <i>Express 5 + mysql2, migracje SQL, sesja, pliki, kopie</i>
+├── frontend/    <i>React + Vite + Mantine, TanStack Query, axios</i>
+├── mockups/     <i>klikalne makiety bez serwera i strona „Postęp” (port 5174)</i>
+├── e2e/         <i>testy Playwright całych ścieżek</i>
+├── docs/        <i>STATUS, OVERVIEW, SPEC-GENERAL, DESIGN, FIXES, IDEAS, CONVENTIONS, modules/</i>
+├── scripts/     <i>deploy.sh, kopie zapasowe, przycisk wdrożenia w GitHub Actions</i>
+├── docker-compose.yml       <i>MySQL 8, phpMyAdmin, Mailpit</i>
+├── docker-compose.prod.yml  <i>produkcja z Caddy (HTTPS)</i>
+└── CLAUDE.md    <i>zasady dla Claude'a, działają także bez pluginu</i></div>
+      <div class="tbl-wrap"><table class="tbl">
+        <thead><tr><th>Polecenie</th><th>Co robi</th></tr></thead>
+        <tbody>
+          <tr><td><code>npm run db</code> / <code>npm run db:stop</code></td><td>uruchamia i zatrzymuje kontenery bazy, phpMyAdmin i Mailpit</td></tr>
+          <tr><td><code>npm run migrate</code></td><td>stosuje nowe pliki z <code>backend/migrations/</code></td></tr>
+          <tr><td><code>npm run dev</code></td><td>backend, aplikacja i makiety naraz (<code>concurrently</code>)</td></tr>
+          <tr><td><code>npm run check</code></td><td>sprawdzenie typów i wszystkie testy we wszystkich workspace'ach; musi być zielone przed każdym zapisem</td></tr>
+          <tr><td><code>npm run test:e2e</code></td><td>testy w przeglądarce (Playwright)</td></tr>
+          <tr><td><code>npm run build</code></td><td>wersja produkcyjna frontendu</td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <section id="modul">
+      <h2>Moduł krok po kroku</h2>
+      <p>Moduł to jedna pozycja w nawigacji aplikacji i jeden folder w każdym workspace. Każdy przechodzi ten sam ciąg etapów, a każdy etap zostawia plik w <code>docs/modules/&lt;moduł&gt;/</code>. Następny moduł nie startuje, dopóki bieżący nie jest zamknięty albo świadomie wstrzymany.</p>
+      <ol class="flow">
+        <li><div><b>Makieta</b>Ekrany modułu w <code>mockups/</code>, na prawdziwych komponentach i motywie aplikacji. Pytania do użytkownika są w panelu nad makietą.</div></li>
+        <li><div><b>Pytania</b><code>QUESTIONS.md</code>: odpowiedzi użytkownika, decyzje, których nie podjął, oznaczone jako decyzje AI.</div></li>
+        <li><div><b>Spec</b><code>SPEC.md</code>: ekrany, role, pola formularzy z limitami, relacje z regułami usuwania, mapa dostępu tras, powiązania z innymi modułami.</div></li>
+        <li><div><b>Plan</b><code>PLAN.md</code>: małe kroki, każdy z testem. Zaczyna się od szkieletu testów <code>it.todo</code> z wymagań; w zamkniętym module nie zostaje żaden <code>todo</code>.</div></li>
+        <li><div><b>Implementacja</b>Test, który nie przechodzi, potem kod, potem <code>npm run check</code>. Na koniec przegląd całego modułu (skill <code>superpowers:requesting-code-review</code>) z listą kontrolną z zasad kodu.</div></li>
+        <li><div><b>Testy</b>Najpierw próby nadużyć (cudze rekordy, ominięcie ról, podwójne kliknięcie, złe dane), każda zostaje jako test. Potem Claude klika w aplikacji przez Playwright, a użytkownik dostaje krótką listę w <code>TESTS.md</code>.</div></li>
+        <li><div><b>Zamknięcie</b>Commit i push, makieta modułu oznaczona jako zrobiona, <code>STATUS.md</code> wskazuje następny krok.</div></li>
+      </ol>
+      <p style="margin-top:18px">Kolejność modułów zawsze zaczyna się od <b>Wyglądu</b> (trzy warianty na ekranach użytkownika, wybrany trafia do <code>docs/DESIGN.md</code> i <code>shared/src/theme.ts</code>), potem <b>Logowanie</b>, moduły dziedzinowe, opcjonalnie <b>E-mail</b>, a na końcu <b>Publikacja</b>.</p>
+    </section>
+
+    <section id="struktura">
+      <h2>Struktura modułu</h2>
+      <p>Jedna nazwa folderu po angielsku, małymi literami, z myślnikami, w każdym miejscu:</p>
+      <div class="tbl-wrap"><table class="tbl">
+        <thead><tr><th>Gdzie</th><th>Co</th></tr></thead>
+        <tbody>
+          <tr><td><code>shared/src/schemas/&lt;module&gt;.ts</code></td><td>schematy zod formularzy i API</td></tr>
+          <tr><td><code>shared/src/constants/&lt;module&gt;.ts</code></td><td>statusy, limity, długości pól</td></tr>
+          <tr><td><code>shared/locales/pl/&lt;module&gt;.json</code></td><td>wszystkie teksty modułu</td></tr>
+          <tr><td><code>backend/migrations/NNN_&lt;opis&gt;.sql</code></td><td>zmiany bazy, jedna zmiana struktury na plik</td></tr>
+          <tr><td><code>backend/src/modules/&lt;module&gt;/&lt;module&gt;.routes.ts</code></td><td>trasy API z <code>validateBody</code> i <code>requireRole</code></td></tr>
+          <tr><td><code>backend/src/modules/&lt;module&gt;/&lt;module&gt;.queries.ts</code></td><td>zapytania SQL, przyjmują <code>db: Db</code> (pula albo połączenie transakcji)</td></tr>
+          <tr><td><code>backend/src/modules/&lt;module&gt;/&lt;module&gt;.service.ts</code></td><td>logika, gdy jest więcej niż samo zapytanie</td></tr>
+          <tr><td><code>frontend/src/modules/&lt;module&gt;/</code></td><td>ekrany, <code>components/</code>, hooki zapytań w <code>&lt;module&gt;.api.ts</code>, style <code>*.module.css</code></td></tr>
+          <tr><td><code>mockups/src/modules/&lt;module&gt;/</code></td><td>ekrany makiety</td></tr>
+          <tr><td><code>e2e/&lt;module&gt;.spec.ts</code></td><td>testy przeglądarkowe</td></tr>
+          <tr><td><code>docs/modules/&lt;module&gt;/</code></td><td><code>QUESTIONS.md</code>, <code>SPEC.md</code>, <code>PLAN.md</code>, <code>TESTS.md</code></td></tr>
+        </tbody>
+      </table></div>
+      <p>Testy leżą w folderach <code>__tests__</code> obok testowanych plików. W <code>src/test/</code> zostają tylko testy całego projektu i pomocniki. Moduł nie importuje z folderu innego modułu: po dane sięga przez funkcję eksportowaną z jego <code>service</code> albo <code>queries</code>, która zwraca tylko pola dozwolone dla wołającego.</p>
+    </section>
+
+    <section id="zasady">
+      <h2>Najważniejsze zasady kodu</h2>
+      <p>Pełna lista jest w <code>code-conventions.md</code> (w projekcie: <code>docs/CONVENTIONS.md</code>). Tu skrót tego, co najbardziej wpływa na jakość.</p>
+      <div class="rules">
+        <div style="--c:var(--m3)"><h3>Serwer jest jedynym źródłem prawdy</h3><p>Kto = <code>req.user</code> z bazy, nigdy pola z żądania. Wartości wyliczane (sumy, statusy po akcji, liczba dni urlopu) liczy serwer. Przejścia statusów i limity sprawdza backend, front tylko ukrywa przyciski.</p></div>
+        <div style="--c:var(--m5)"><h3>Jeden schemat walidacji</h3><p>Schemat zod z gotowych pól (<code>text</code>, <code>nip</code>, <code>pesel</code>, <code>iban</code>, <code>money</code>, <code>isoDate</code>…) sprawdza formularz i serwer. Nieznane pola znikają, długości zgadzają się z kolumnami w bazie.</p></div>
+        <div style="--c:var(--m1)"><h3>Dane na froncie przez TanStack Query</h3><p>Hooki modułu w <code>&lt;module&gt;.api.ts</code>, zapytania tylko przez wspólny klient axios. Każdy ekran z danymi ma <code>DataState</code>: ładowanie, błąd z ponowieniem, pusty stan z akcją. Nigdy <code>useEffect</code> z pobieraniem.</p></div>
+        <div style="--c:var(--m2)"><h3>Listy robi serwer</h3><p>Stronicowanie, wyszukiwanie i sortowanie po stronie API, parametry przez <code>validateQuery</code>. Sortowanie tylko po kolumnach z listy dozwolonych. Stan listy siedzi w adresie strony.</p></div>
+        <div style="--c:var(--m4)"><h3>Teksty jako klucze</h3><p>Żadnego zdania w kodzie. Front tłumaczy przez i18next, backend zwraca klucze komunikatów, nie polskie zdania. Nowy język to kopia folderu z tłumaczeniami.</p></div>
+        <div style="--c:var(--cobalt)"><h3>Wspólne zamiast kopii</h3><p>Kod potrzebny w drugim miejscu trafia do <code>common</code>, <code>core</code> albo <code>shared</code>, z testem, a wszystkie istniejące kopie są podmieniane w tym samym kroku. Komponenty z wyglądem wydzielane od razu w aplikacji i makietach.</p></div>
+        <div style="--c:var(--m5)"><h3>Daty, liczby i kwoty</h3><p>Godziny w bazie w UTC, na ekranie w strefie użytkownika. Kwoty w <code>DECIMAL(12,2)</code>, liczone w bazie albo na groszach. Wyświetlanie tylko przez <code>formatMoney</code>, <code>formatNumber</code>, <code>formatDate</code>; test łapie <code>toFixed</code>.</p></div>
+        <div style="--c:var(--m3)"><h3>Styl kodu</h3><p>TypeScript wszędzie, funkcje tylko strzałkowe, identyfikatory po angielsku, kolory tylko z motywu, ikony z jednej listy. Słowniki, które różnią się między firmami, to tabele w panelu, nie stałe w kodzie.</p></div>
+      </div>
+    </section>
+
+    <section id="baza">
+      <h2>Baza danych</h2>
+      <ul>
+        <li><b>Migracje:</b> każda zmiana to nowy plik <code>NNN_opis.sql</code> z jedną zmianą struktury. Zastosowanej migracji się nie edytuje, bazy nie zmienia się ręcznie.</li>
+        <li><b>Tabele:</b> InnoDB, <code>utf8mb4_polish_ci</code>, <code>id INT UNSIGNED</code>, <code>created_at</code> i <code>updated_at</code>.</li>
+        <li><b>Relacje:</b> każda ma klucz obcy z regułą zapisaną w specu: <code>CASCADE</code> dla dzieci bez sensu bez rodzica, <code>SET NULL</code> z kopią nazwy dla autorstwa, <code>RESTRICT</code> tam, gdzie usunięcie skasowałoby ważne dane. Każda reguła ma test.</li>
+        <li><b>Transakcje:</b> kilka zapisów naraz tylko przez <code>withTransaction</code>; zapytania przyjmują wspólny typ <code>Db</code>.</li>
+        <li><b>Archiwum:</b> „Usuń” w interfejsie to archiwizacja (<code>archived_at</code>, <code>archived_by</code>), z przywracaniem i archiwizacją dzieci razem z rodzicem. Usunięcie na stałe tylko z archiwum.</li>
+        <li><b>Historia zmian</b> (opcjonalna): tabela <code>activity_log</code>, wpis z parami „przed → po” w tej samej transakcji co zmiana.</li>
+        <li><b>Wzorce opcjonalne</b> z wywiadu: wiele firm (<code>company_id</code> w każdym zapytaniu z sesji) i dostęp do modułów nadawany przez administratora.</li>
+      </ul>
+    </section>
+
+    <section id="bezpieczenstwo">
+      <h2>Bezpieczeństwo</h2>
+      <ul>
+        <li><b>API domyślnie zamknięte.</b> Trasy publiczne stoją przed <code>requireAuth</code> i są tylko te z „Mapy dostępu” w <code>SPEC-GENERAL.md</code>, zawsze z walidacją i limitem zapytań. Moduł podpina się przez <code>mountModule</code>, który bierze role z pozycji nawigacji, więc menu i API mają te same uprawnienia. Test <code>routeProtection.test.ts</code> pilnuje, że żadna trasa nie jest otwarta przypadkiem.</li>
+        <li><b>Sesja:</b> JWT (HS256) w ciasteczku <code>httpOnly</code>, <code>SameSite=Lax</code>, <code>Secure</code> w produkcji. Konto jest sprawdzane w bazie przy każdym żądaniu, więc zarchiwizowany użytkownik traci dostęp od razu. Hasła przez bcrypt.</li>
+        <li><b>Cudze rekordy:</b> warunek dostępu jest w zapytaniu SQL, a cudzy rekord daje 404, nie 403, żeby nie zdradzać, że istnieje.</li>
+        <li><b>SQL tylko z parametrami</b>, nazwy kolumn do sortowania tylko z listy dozwolonych.</li>
+        <li><b>Pliki:</b> typ rozpoznawany po zawartości, nie po nazwie; na dysku losowe nazwy w folderze rekordu; pobieranie tylko trasą API z uprawnieniami rekordu. Folder <code>uploads/</code> nigdy nie jest serwowany wprost.</li>
+        <li><b>PDF</b> z serwera bez dostępu do internetu i plików spoza czcionek. <b>WebSocket</b> sprawdza ciasteczko przy połączeniu i uprawnienia przy każdym zdarzeniu, a zapis idzie zwykłym API.</li>
+        <li><b>Nagłówki</b> przez <code>helmet</code>, limity prób logowania przez <code>express-rate-limit</code>.</li>
+        <li><b>Sekrety</b> tylko w <code>.env</code> poza repo. Claude nie prosi o hasła w rozmowie; polecenia z hasłami użytkownik wpisuje sam w terminalu, a hasła na serwerze generuje serwer.</li>
+      </ul>
+    </section>
+
+    <section id="testy">
+      <h2>Testy</h2>
+      <div class="tbl-wrap"><table class="tbl">
+        <thead><tr><th>Rodzaj</th><th>Narzędzia</th><th>Co sprawdza</th></tr></thead>
+        <tbody>
+          <tr><td>schematy</td><td>Vitest</td><td>wartości graniczne każdego pola (min−1, min, maks, maks+1) i zły format</td></tr>
+          <tr><td>API</td><td>Vitest, supertest</td><td>każda trasa: 401 bez logowania, 403 zła rola, 404 cudzy rekord, 400 złe dane, reguły relacji, archiwum, historia</td></tr>
+          <tr><td>ekrany</td><td>Vitest, Testing Library, jsdom</td><td>ładowanie, błąd, pusty stan, formularze</td></tr>
+          <tr><td>ścieżki</td><td>Playwright</td><td>całe scenariusze w przeglądarce, w tym próby nadużyć</td></tr>
+          <tr><td>zasady</td><td>Vitest</td><td>testy pilnujące konwencji w całym projekcie</td></tr>
+        </tbody>
+      </table></div>
+      <p><b>Testy zasad</b> czytają kod projektu i odrzucają to, czego zasady zabraniają. W backendzie <code>conventions.test.ts</code> łapie m.in. SQL z wklejoną wartością, ręczne transakcje, trasy zapisu bez <code>validateBody</code>, tożsamość brana z treści żądania, moduły podpięte bez <code>mountModule</code>, liczby z adresu bez <code>idParam</code> i klucze obce bez reguły <code>ON DELETE</code>, a <code>routeProtection.test.ts</code> otwarte trasy. We froncie <code>conventions.test.ts</code> łapie własnego klienta HTTP, zapytania poza hookami modułu, importy z innego modułu, powiadomienia bez wspólnego <code>notify</code>, własne wyrażenia regularne w schematach i polskie teksty w kodzie; <code>colors.test.ts</code> kolory spoza motywu, <code>formatting.test.ts</code> ręczne formatowanie liczb i dat, <code>tables.test.ts</code> tabele bez przewijania na telefonie. Claude ich nie zmienia: czerwony test zasad znaczy „popraw kod”. Świadomy wyjątek wymaga komentarza <code>// rule-ok: &lt;powód&gt;</code> w tej linii.</p>
+    </section>
+
+    <section id="publikacja">
+      <h2>Publikacja i kopie zapasowe</h2>
+      <ul>
+        <li><b>Serwer:</b> VPS (domyślnie OVH, może być inny), Ubuntu z zaporą <code>ufw</code>, Docker Compose z <code>docker-compose.prod.yml</code>, Caddy z certyfikatem Let's Encrypt.</li>
+        <li><b>Wdrożenie:</b> <code>scripts/deploy.sh</code> robi kopię bazy, pobiera nową wersję z GitHuba albo z komputera, stosuje migracje i uruchamia test dymny (<code>/api/health</code>, <code>/api/health/db</code>). Gdy test się nie uda, wraca do poprzedniej wersji. Opcjonalnie przycisk „Wdróż” w GitHub Actions (<code>scripts/github-deploy.yml</code>).</li>
+        <li><b>Kopie:</b> <code>scripts/backup/backup.sh</code> uruchamiany timerem systemd szyfruje bazę i pliki narzędziem <code>age</code> kluczem, który ma tylko właściciel, i wysyła je do OVH Object Storage w innym regionie, z wersjonowaniem i Object Lock, więc kopii nie da się usunąć ani podmienić z przejętego serwera.</li>
+        <li><b>Próba odtworzenia:</b> <code>scripts/backup/restore-check.sh</code> odtwarza kopię w chwilowym kontenerze na komputerze właściciela.</li>
+        <li><b>E-mail:</b> lokalnie Mailpit (nic nie wychodzi na zewnątrz), w produkcji Mailgun przez <code>nodemailer</code>.</li>
+      </ul>
+    </section>
+
+    <section id="biblioteki">
+      <h2>Biblioteki</h2>
+      <h3>W szablonie</h3>
+      <div class="tbl-wrap"><table class="tbl">
+        <thead><tr><th>Część</th><th>Pakiety</th></tr></thead>
+        <tbody>
+          <tr><td>całość</td><td><code>typescript</code>, <code>vitest</code>, <code>@playwright/test</code>, <code>concurrently</code></td></tr>
+          <tr><td><code>shared</code></td><td><code>zod</code>, <code>i18next</code>, <code>dayjs</code></td></tr>
+          <tr><td><code>backend</code></td><td><code>express</code>, <code>mysql2</code>, <code>zod</code>, <code>jsonwebtoken</code>, <code>bcryptjs</code>, <code>cookie-parser</code>, <code>cors</code>, <code>helmet</code>, <code>express-rate-limit</code>, <code>dotenv</code>, <code>i18next</code>, <code>tsx</code>; testy: <code>supertest</code></td></tr>
+          <tr><td><code>frontend</code></td><td><code>react</code>, <code>react-router</code>, <code>@mantine/core</code>, <code>@mantine/dates</code>, <code>@mantine/form</code>, <code>@mantine/hooks</code>, <code>@mantine/notifications</code>, <code>mantine-form-zod-resolver</code>, <code>@tanstack/react-query</code>, <code>axios</code>, <code>dayjs</code>, <code>react-i18next</code>, <code>lucide-react</code>, <code>zod</code></td></tr>
+          <tr><td><code>mockups</code></td><td>jak <code>frontend</code>, bez <code>axios</code> i <code>react-query</code></td></tr>
+          <tr><td>narzędzia frontu</td><td><code>vite</code>, <code>@vitejs/plugin-react</code>, <code>postcss-preset-mantine</code>, <code>jsdom</code>, <code>@testing-library/*</code></td></tr>
+        </tbody>
+      </table></div>
+      <h3>Dokładane w modułach</h3>
+      <p>Lista zatwierdzona: Claude instaluje je bez pytania dopiero w module, który ich potrzebuje, i stosuje zasady opisane przy każdej z nich.</p>
+      <div class="tbl-wrap"><table class="tbl">
+        <thead><tr><th>Potrzeba</th><th>Biblioteka</th></tr></thead>
+        <tbody>
+          <tr><td>e-mail</td><td><code>nodemailer</code></td></tr>
+          <tr><td>przesyłanie plików</td><td><code>multer</code></td></tr>
+          <tr><td>zadania o stałej porze</td><td><code>cron</code></td></tr>
+          <tr><td>Excel i CSV</td><td><code>exceljs</code></td></tr>
+          <tr><td>PDF tworzony na serwerze</td><td><code>pdfmake</code></td></tr>
+          <tr><td>dziennik serwera</td><td><code>winston</code></td></tr>
+          <tr><td>HTML od użytkownika</td><td><code>sanitize-html</code></td></tr>
+          <tr><td>wykresy</td><td><code>@mantine/charts</code> z <code>recharts</code></td></tr>
+          <tr><td>kalendarz, grafik zespołu</td><td><code>@mantine/schedule</code></td></tr>
+          <tr><td>czat i powiadomienia na żywo</td><td><code>socket.io</code>, <code>socket.io-client</code></td></tr>
+          <tr><td>edycja grafiki w przeglądarce</td><td><code>fabric</code></td></tr>
+          <tr><td>przeciąganie, także palcem</td><td><code>@dnd-kit/core</code>, <code>@dnd-kit/sortable</code></td></tr>
+          <tr><td>edytor treści</td><td><code>@mantine/tiptap</code> z <code>@tiptap/*</code></td></tr>
+          <tr><td>zdjęcia: zmniejszenie, obrót, miniatury</td><td><code>sharp</code></td></tr>
+          <tr><td>kody QR i kreskowe</td><td><code>bwip-js</code></td></tr>
+          <tr><td>pobranie wielu plików (ZIP)</td><td><code>archiver</code></td></tr>
+        </tbody>
+      </table></div>
+      <p>Każda inna biblioteka wymaga zgody użytkownika i wpisu w <code>SPEC.md</code> modułu: do czego, jakie alternatywy, czy jest utrzymywana (wydanie w ostatnim roku), licencja MIT, Apache albo BSD. Zakazane są m.in. przeglądarka na serwerze do PDF, druga biblioteka komponentów lub ikon, <code>fetch</code> w modułach, moment, date-fns i lodash.</p>
+    </section>
+
+    <section id="pliki">
+      <h2>Pliki pluginu</h2>
+<div class="tree">.claude-plugin/marketplace.json   <i>wpis w sklepie z pluginami</i>
+plugins/stepkit/
+├── .claude-plugin/plugin.json    <i>opis i wersja</i>
+├── skills/
+│   ├── start/                    <i>/stepkit:start</i>
+│   ├── dalej/                    <i>/stepkit:dalej (i większość references/)</i>
+│   └── zglos/                    <i>/stepkit:zglos</i>
+├── template/                     <i>szkielet kopiowany do projektu</i>
+└── evals/                        <i>scenariusze sprawdzające zachowanie skilli</i>
+tests/                            <i>testy spójności pluginu</i>
+site/                             <i>ta strona (GitHub Pages)</i></div>
+      <div class="tbl-wrap"><table class="tbl">
+        <thead><tr><th>Plik</th><th>Kiedy Claude go czyta</th></tr></thead>
+        <tbody>
+          <tr><td><code>start/SKILL.md</code></td><td>kroki 1–8 startu</td></tr>
+          <tr><td><code>start/references/install-windows.md</code>, <code>install-macos.md</code></td><td>krok 1: instalacja narzędzi po jednym programie</td></tr>
+          <tr><td><code>start/references/project-skeleton.md</code></td><td>krok 2 i 5: kopiowanie szablonu i dopasowanie po wywiadzie</td></tr>
+          <tr><td><code>start/references/github.md</code></td><td>krok 2: prywatne repo</td></tr>
+          <tr><td><code>start/references/interview.md</code></td><td>kroki 3–5: opis, wywiad, podsumowanie</td></tr>
+          <tr><td><code>dalej/SKILL.md</code></td><td>każda rozmowa: wybór modułu i etapu</td></tr>
+          <tr><td><code>dalej/references/code-conventions.md</code></td><td>przy kodzie; w projekcie jako <code>docs/CONVENTIONS.md</code></td></tr>
+          <tr><td><code>dalej/references/domains/*.md</code></td><td>moduły z wzorcem dziedziny: logowanie, dokumenty, faktury, magazyn, terminy cykliczne</td></tr>
+          <tr><td><code>dalej/references/document-templates.md</code></td><td>przy tworzeniu dokumentów w <code>docs/</code></td></tr>
+          <tr><td><code>dalej/references/mockups.md</code>, <code>appearance.md</code></td><td>etap makiety, moduł Wygląd</td></tr>
+          <tr><td><code>dalej/references/superpowers.md</code></td><td>etapy spec, plan, implementacja i przegląd</td></tr>
+          <tr><td><code>dalej/references/abuse.md</code>, <code>browser.md</code></td><td>etap testów: próby nadużyć, potem przeglądarka</td></tr>
+          <tr><td><code>dalej/references/changes.md</code></td><td>zgłoszenia, także w trakcie <code>/stepkit:dalej</code></td></tr>
+          <tr><td><code>dalej/references/email-mailgun.md</code>, <code>deploy-ovh.md</code></td><td>moduły E-mail i Publikacja</td></tr>
+          <tr><td><code>dalej/references/upgrades.md</code></td><td>na starcie: czy projekt wymaga aktualizacji</td></tr>
+          <tr><td><code>zglos/SKILL.md</code></td><td><code>/stepkit:zglos</code>, dalej według <code>changes.md</code></td></tr>
+        </tbody>
+      </table></div>
+    </section>
+
+    <section id="wersje">
+      <h2>Wersje i aktualizacje projektów</h2>
+      <p>Szablon kopiuje się do projektu tylko raz, a stepkit się zmienia. Dlatego <code>docs/STATUS.md</code> ma linię <code>**Wersja stepkit:** X.Y.Z</code>, a <code>upgrades.md</code> sekcję dla każdej wersji, która zmieniła szablon. <code>/stepkit:dalej</code> porównuje numery i proponuje aktualizację: nowe pliki kopiuje, pliki zmienione przez projekt łączy, a <code>docs/CONVENTIONS.md</code> i <code>docs/conventions/</code> podmienia w całości (wyjątki projektu są w <code>SPEC-GENERAL.md</code>). Po każdej sekcji <code>npm run check</code> i commit. Działającej, opublikowanej aplikacji nie przebudowuje dla samych nowości, tylko dla poprawek bezpieczeństwa albo przy nowym module.</p>
+    </section>
+
+    <section id="rozwoj">
+      <h2>Praca nad pluginem</h2>
+      <ul>
+        <li><b>Testy spójności:</b> <code>npx vitest run --dir tests</code>. Sprawdzają m.in., że numer wersji jest wszędzie ten sam, ściągawka README szablonu zgadza się z portami, wzorce dziedzin są w spisie, a <code>CLAUDE.md</code> szablonu odsyła do istniejących plików.</li>
+        <li><b>Evale</b> (z <code>plugins/stepkit</code>): <code>claude plugin eval . --case '&lt;glob&gt;' -j 4 --trust-plugin --scaffold --allow-tools Write Edit</code>. Każdy scenariusz ma <code>fixture.sh</code> (projekt w danym stanie) i <code>case.yaml</code> (polecenie i oceny).</li>
+        <li><b>Wersja:</b> każda zmiana podnosi numer w <code>plugin.json</code>, <code>marketplace.json</code>, <code>upgrades.md</code>, <code>template/docs/STATUS.md</code>, przykładzie w <code>document-templates.md</code> i odznace README. Zmiana w <code>template/</code> wymaga nowej sekcji w <code>upgrades.md</code>.</li>
+        <li><b>Zgłoszenia i pomysły:</b> <a href="https://github.com/Maciej86/stepkit/issues">Issues na GitHubie</a>.</li>
+      </ul>
+    </section>
+  </div>
+</div>
+</main>
+
+<footer class="wrap">
+  <p>stepkit jest darmowy i udostępniany „tak jak jest”, bez gwarancji (<a href="https://github.com/Maciej86/stepkit/blob/main/LICENSE">licencja MIT</a>). <a href="index.html">Wróć na stronę główną</a>.</p>
+</footer>
+
+<script src="site.js"></script>
+</body>
+</html>

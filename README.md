@@ -299,6 +299,9 @@ Tak. OVH jest domyślną propozycją z instrukcją krok po kroku, ale przy publi
 Ta część jest dla osób, które chcą zajrzeć do środka stepkit, ocenić aplikację zbudowaną z niego albo rozwijać sam
 plugin. Do zwykłej pracy ze stepkit nie jest potrzebna.
 
+Szerszy opis (jak działa plugin, zasady kodu, bezpieczeństwo, testy, publikacja) jest na
+**[stronie dla programistów](https://maciej86.github.io/stepkit/programisci.html)**.
+
 ### Pakiety w szablonie
 
 Każdy projekt dostaje je przy `/stepkit:start`. Dokładne wersje są w plikach `package.json` w
@@ -358,7 +361,7 @@ plugins/stepkit/
 └── evals/                        scenariusze sprawdzające zachowanie skilli
 tests/                            testy spójności pluginu (Vitest)
 docs/superpowers/                 specyfikacje i plany zmian w samym stepkit
-site/                             strona na GitHub Pages (jeden plik index.html)
+site/                             strona na GitHub Pages (index.html, programisci.html, style.css, site.js)
 .github/workflows/pages.yml       publikacja strony po zmianie w site/
 ```
 
