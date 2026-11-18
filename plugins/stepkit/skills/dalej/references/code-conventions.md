@@ -550,6 +550,18 @@ Najpierw test, potem kod (TDD). Krok planu jest zrobiony dopiero po `npm run che
   `renderWithProviders` z `frontend/src/test/render.tsx`.
 - **E2E** (`e2e/<module>.spec.ts`, `@playwright/test`): scenariusze z `TESTS.md`, po jednym na rolę. Wymagają bazy
   (`npm run db`), uruchamiane `npm run test:e2e` przy zamknięciu modułu.
+- **Konta i dane w E2E.** Testy E2E działają na lokalnej bazie użytkownika, więc nie mogą jej zaśmiecać:
+  - **Stałe konta:** jedno na rolę, `e2e.<rola>@test.local` (np. `e2e.admin@test.local`), imię „Test <Rola>”.
+    Zakłada je `e2e/global-setup.ts` (tworzy brakujące, istniejące zostawia), hasło z `E2E_PASSWORD` w `.env`.
+    Testy logują się tylko na nie.
+  - **Konta tymczasowe** tylko, gdy test sprawdza zakładanie konta albo potrzebuje świeżego (np. pierwsze logowanie
+    z hasłem tymczasowym): adres `e2e.tmp.<znacznik>@test.local`.
+  - **Dane testowe** (rekordy tworzone w E2E) mają nazwę z przedrostkiem `E2E ` (np. „E2E Klient”).
+  - **Sprzątanie:** `e2e/global-teardown.ts` po testach, a `global-setup.ts` także na starcie (po przerwanym
+    przebiegu), usuwa konta `e2e.tmp.%@test.local` i dane z przedrostkiem `E2E `, w kolejności zależności (najpierw
+    dzieci, potem rodzic). Moduł, który w E2E tworzy dane, dopisuje ich sprzątanie do `global-teardown.ts` w swoim
+    kroku planu. Sprzątanie działa tylko poza `NODE_ENV=production` i tylko po tych wzorcach.
+  - Po `npm run test:e2e` lista użytkowników ma tylko stałe konta testowe i prawdziwe konta użytkownika.
 
 ## Testy zasad
 
@@ -617,4 +629,6 @@ w poleceniu, bez superpowers przechodzisz ją sam.
 - [ ] pliki przez `saveUpload` / `sendUpload`, pobieranie z kontrolą dostępu, tabela plików z kluczem obcym
 - [ ] testy dla każdej trasy i formularza, `npm run check` zielony
 - [ ] blok `describe('abuse')` z próbami z `abuse.md`, wynik w sekcji „Próby nadużyć” w `TESTS.md`
+- [ ] E2E logują się na stałe konta `e2e.<rola>@test.local`; konta `e2e.tmp.*` i dane `E2E …` z tego modułu znikają
+  w `global-teardown.ts`
 - [ ] `.env` nie jest w repo (`git check-ignore .env`)

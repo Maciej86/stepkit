@@ -2,7 +2,7 @@ mkdir -p docs
 cat > docs/STATUS.md <<'MD'
 # Stan projektu: Urlopy
 
-**Wersja stepkit:** 0.1.38
+**Wersja stepkit:** 0.1.43
 
 **Następny krok:** Moduł Wnioski: spec (odpowiedzi na pytania makiety są w QUESTIONS.md).
 
