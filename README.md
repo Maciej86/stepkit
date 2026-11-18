@@ -5,7 +5,7 @@
 **Zbuduj własną aplikację www z Claude, krok po kroku, bez programowania.**
 
 [![Licencja: MIT](https://img.shields.io/badge/licencja-MIT-green.svg)](LICENSE)
-![Wersja](https://img.shields.io/badge/wersja-0.1.40-blue.svg)
+![Wersja](https://img.shields.io/badge/wersja-0.1.41-blue.svg)
 ![Claude Code](https://img.shields.io/badge/Claude%20Code-plugin-d97757.svg)
 ![Język](https://img.shields.io/badge/język-polski-red.svg)
 
@@ -135,7 +135,7 @@ potrzebna jest historia zmian…), pokazuje makietę całej aplikacji i rozpisuj
 
 | Co zgłaszasz | Co się dzieje |
 |---|---|
-| 🐞 **Błąd** („nie zapisuje się”, „pokazuje złą datę”) | Claude pyta, gdzie i kiedy to widać, i naprawia od razu: najpierw test, potem poprawka |
+| 🐞 **Błąd** („nie zapisuje się”, „pokazuje złą datę”) | Claude pyta, gdzie i kiedy to widać, i naprawia od razu: najpierw test, potem poprawka. Dopisz „na później”, a zapisze go i naprawi po bieżącym module |
 | ✏️ **Drobna zmiana** w gotowym module (napis, kolumna, pole) | mówi, co zmieni, i po Twojej zgodzie robi to w tej samej rozmowie |
 | 🧩 **Nowa funkcja** albo większa zmiana (nowy ekran, nowa rola) | pyta, kto z niej korzysta i czy jest pilna; trafia do kolejki modułów albo do listy pomysłów na koniec |
 | 📌 **Coś, co już jest w planie** | dowiesz się, w którym module i kiedy przyjdzie jego kolej |

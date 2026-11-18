@@ -34,7 +34,9 @@ Nie wiesz, który to rodzaj → zapytaj jednym pytaniem z propozycjami a/b.
 
 - **Błąd:** naprawiasz zawsze, także w trakcie innego modułu (potem wracasz do niego). Kolejno jak „Drobna zmiana”,
   od punktu 2, bez czekania na „tak”. Gdy naprawa musi poczekać (np. potrzebuje modułu, który jest `w toku`), wiersz
-  w `docs/FIXES.md` z rodzajem `błąd` i powiedz użytkownikowi, kiedy go naprawisz.
+  w `docs/FIXES.md` z rodzajem `błąd` i powiedz użytkownikowi, kiedy go naprawisz. Użytkownik mówi „na później”,
+  „zapisz” albo „po module” → wiersz w `docs/FIXES.md` (data, `błąd`, co jednym zdaniem, moduł, `czeka`) zamiast
+  naprawy; potwierdź: „Zapisałem w `docs/FIXES.md`. Naprawię to zaraz po zamknięciu <moduł>.”
 - **Drobna zmiana:**
   1. Jednym zdaniem: co zmienisz i gdzie to będzie widać. Poczekaj na „tak”.
   2. Test, który nie przechodzi; kod (makieta i aplikacja, gdy zmienia się ekran; migracja, gdy baza); `npm run check`.

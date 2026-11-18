@@ -30,6 +30,7 @@ samo na dwa sposoby.
 | kalendarz, grafik, kalendarz zespołu | `@mantine/schedule` |
 | czat i powiadomienia na żywo | `socket.io` (backend) i `socket.io-client` (front) |
 | edycja grafiki w przeglądarce (jeden moduł, nie cała aplikacja) | `fabric` |
+| przeciąganie (kolejność, kanban), także palcem | `@dnd-kit/core` z `@dnd-kit/sortable` |
 
 **Spoza listy** (np. paczka do PDF, mapy, płatności):
 1. Sprawdź, czy nie wystarczy to, co już jest: Mantine (`@mantine/*`), dayjs, przeglądarka, Node.
@@ -54,6 +55,14 @@ w module, który pierwszy potrzebuje wykresu, w obu miejscach naraz:
 `npm install -w @app/frontend -w @app/mockups @mantine/charts@<wersja @mantine/core z szablonu> recharts`, a w
 `frontend/src/main.tsx` i `mockups/src/main.tsx` dopisz `import '@mantine/charts/styles.css';`. Kolory serii tylko
 z motywu (`color: 'violet.6'`, `'teal.5'` …), żeby wykresy pasowały do aplikacji i były czytelne w ciemnym motywie.
+
+**Przeciąganie** (kolejność, kanban): `@dnd-kit/core` z `@dnd-kit/sortable`, w obu miejscach naraz
+(`npm install -w @app/frontend -w @app/mockups @dnd-kit/core @dnd-kit/sortable`). Czujniki: `PointerSensor`
+z `activationConstraint: { distance: 5 }` (kliknięcie nie zaczyna przeciągania), `TouchSensor` z `{ delay: 200,
+tolerance: 5 }` (palcem da się przewijać stronę, przytrzymanie chwyta kartę) i `KeyboardSensor`. Każdą zmianę
+zrobioną przeciąganiem da się też zrobić bez niego (np. pole „Status” albo przyciski ↑/↓). Nową kolejność zapisuje
+backend jedną transakcją i sam sprawdza uprawnienia. Test sprawdza zapis kolejności, nie samo przeciąganie. Wspólny
+komponent wydzielasz, gdy przeciąganie pojawi się w drugim miejscu („Wspólne zamiast kopii”).
 
 ## Struktura modułu
 
