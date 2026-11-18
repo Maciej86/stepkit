@@ -113,6 +113,8 @@ code { font-family: var(--mono); font-size: .88em; background: var(--cobalt-soft
 .versus ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 14px; }
 .versus li { position: relative; padding-left: 30px; }
 .versus .before li::before { content: ""; position: absolute; left: 2px; top: .8em; width: 14px; height: 2px; background: #9aa1b8; }
+.versus .after li b { display: block; color: #fff; font-weight: 700; }
+.versus .after li span { display: block; color: var(--night-dim); font-size: .95rem; margin-top: 2px; }
 .versus .after li::before { content: ""; position: absolute; left: 0; top: .32em; width: 16px; height: 16px; border-radius: 5px; background: var(--c, var(--m1)); }
 .versus .after li:nth-child(2) { --c: var(--m2); }
 .versus .after li:nth-child(3) { --c: var(--m3); }
@@ -314,11 +316,11 @@ footer p { max-width: 90ch; }
     <div class="after">
       <h3>Ze stepkit</h3>
       <ul>
-        <li>aplikacja podzielona na moduły, każdy w krótkich rozmowach</li>
-        <li>ustalenia zapisane w plikach projektu, nowa rozmowa je czyta</li>
-        <li>najpierw klikalna makieta, potem kod</li>
-        <li>Claude sam testuje swoją pracę, zanim poprosi o to Ciebie</li>
-        <li>po tygodniu przerwy wpisujesz jedno polecenie i wracasz do pracy</li>
+        <li><b>Zużywasz dużo mniej tokenów, a Claude nie gubi wątku</b><span>aplikacja jest podzielona na moduły, każdy w krótkich rozmowach</span></li>
+        <li><b>Niczego nie musisz powtarzać</b><span>ustalenia są zapisane w plikach projektu, każda nowa rozmowa je czyta</span></li>
+        <li><b>Poprawki są szybkie i tanie</b><span>najpierw oglądasz klikalną makietę, a kod powstaje dopiero, gdy wygląd i działanie są ustalone</span></li>
+        <li><b>Dostajesz część, która działa</b><span>Claude sam testuje swoją pracę, a Tobie zostaje krótka lista do sprawdzenia zamiast szukania błędów</span></li>
+        <li><b>Pracujesz we własnym tempie</b><span>godzina dziennie albo powrót po urlopie: jedno polecenie i jesteś tam, gdzie skończyliście</span></li>
       </ul>
     </div>
   </div>
