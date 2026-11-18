@@ -28,7 +28,7 @@ Dane testowe, które dodałeś w przeglądarce, opisz użytkownikowi (np. „dod
 ## Gdy ich nie ma albo przeglądarka się nie uruchamia
 
 Playwright jest wymagany. Gdy narzędzia są, ale przeglądarka się nie uruchamia (np. `Chromium distribution 'chrome'
-is not found`), postępuj jak przy ich braku i napraw instalację według `install-windows.md` w skillu start (część 4,
+is not found` albo `Browser "chrome-for-testing" is not installed`, także nagle, gdy wcześniej działało), postępuj jak przy ich braku i napraw instalację według `install-windows.md` w skillu start (część 4,
 „Sprawdzenie Playwright”). **Nie zastępuj klikania własnymi skryptami bez okna** (np. Playwright z projektu) i nie
 pisz, że sprawdziłeś coś w przeglądarce, gdy przeglądarka się nie uruchomiła. To samo dotyczy zrzutów makiet
 (`mockups.md`, `appearance.md`).

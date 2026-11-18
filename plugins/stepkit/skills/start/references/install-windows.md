@@ -91,6 +91,14 @@ się błędem. Błąd `Chromium distribution 'chrome' is not found`:
   i otwórz Claude Code.”
 - Claude Code w WSL albo w Linuksie: `npx playwright install chrome` według zasady „Polecenie w terminalu” (prosi
   o hasło). W WSL okno przeglądarki pojawi się w Windows.
+
+Błąd `Browser "chrome-for-testing" is not installed` (nowsze wersje dodatku Playwright, na każdym systemie):
+`npx -y @playwright/mcp install-browser chrome-for-testing` według zasady „Polecenie w terminalu”. Polecenie nie prosi
+o hasło i pobiera przeglądarkę raz, do katalogu domowego. Potem jeszcze raz `browser_navigate` na `about:blank`.
+
+Dodatek uruchamia zawsze najnowszą wersję Playwright, więc błąd z przeglądarką może się pojawić nagle, w środku
+projektu, mimo że wcześniej wszystko działało. Powiedz wtedy: „Dodatek do klikania w przeglądarce się zaktualizował
+i potrzebuje nowej przeglądarki. To jednorazowe pobranie.”
 Inny błąd uruchomienia: pokaż go użytkownikowi i nie idź dalej, dopóki `about:blank` się nie otworzy. Sprawdzenie superpowers: czy widzisz skill `superpowers:writing-plans`. Sprawdzenie frontend-design: czy widzisz skill
 `frontend-design` (albo `frontend-design:frontend-design`).
 
