@@ -1,0 +1,597 @@
+<!doctype html>
+<html lang="pl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>stepkit: aplikacja www z Claude, krok po kroku</title>
+<meta name="description" content="stepkit to darmowy dodatek do Claude Code, który prowadzi osobę bez doświadczenia w programowaniu od pomysłu do działającej aplikacji www: makieta, moduły, testy i publikacja.">
+<meta property="og:title" content="stepkit: aplikacja www z Claude, krok po kroku">
+<meta property="og:description" content="Darmowy dodatek do Claude Code. Od pomysłu do działającej aplikacji www, moduł po module, bez programowania.">
+<meta property="og:type" content="website">
+<meta name="color-scheme" content="light">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%23fbfcfa'/%3E%3Cpath d='M5 26h7v-7h7v-7h8V5' fill='none' stroke='%231f2a6b' stroke-width='3' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Caveat:wght@500;700&family=JetBrains+Mono:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --paper: #fbfcfa;
+  --grid: #dfe8ef;
+  --ink: #1f2a6b;
+  --ink-soft: #3a4790;
+  --text: #22252d;
+  --pencil: #5b6270;
+  --margin: #d6453d;
+  --marker: #f6e46b;
+  --slab: #1d2140;
+  --slab-text: #e9ecf8;
+  --cell: 24px;
+  --measure: 68ch;
+  --gutter: clamp(16px, 5vw, 48px);
+  --margin-x: clamp(0px, calc((100vw - 1100px) / 2 + 8px), 9999px);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; -webkit-text-size-adjust: 100%; }
+@media (prefers-reduced-motion: reduce) { html { scroll-behavior: auto; } }
+body {
+  margin: 0;
+  background-color: var(--paper);
+  background-image:
+    linear-gradient(var(--grid) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid) 1px, transparent 1px);
+  background-size: var(--cell) var(--cell);
+  color: var(--text);
+  font: 400 1.0625rem/1.65 "Atkinson Hyperlegible", system-ui, sans-serif;
+  overflow-x: hidden;
+}
+/* czerwony margines zeszytu, tylko na szerokim ekranie */
+@media (min-width: 1180px) {
+  body::before {
+    content: "";
+    position: fixed; top: 0; bottom: 0;
+    left: calc(50% - 510px);
+    width: 2px; background: var(--margin); opacity: .55;
+    pointer-events: none;
+  }
+}
+a { color: var(--ink); text-decoration-thickness: 1.5px; text-underline-offset: 3px; }
+a:hover { color: var(--margin); }
+:focus-visible { outline: 3px solid var(--margin); outline-offset: 3px; border-radius: 2px; }
+
+.wrap { max-width: 1100px; margin: 0 auto; padding-inline: var(--gutter); }
+@media (min-width: 1180px) { .wrap { padding-left: 64px; } }
+
+/* nawigacja */
+.top {
+  display: flex; align-items: center; justify-content: space-between; gap: 16px;
+  padding-top: 20px; padding-bottom: 20px;
+}
+.brand { display: flex; align-items: center; gap: 10px; font: 800 1.35rem/1 "Bricolage Grotesque", sans-serif; color: var(--ink); text-decoration: none; }
+.brand svg { width: 30px; height: 30px; }
+.top nav { display: flex; gap: 22px; flex-wrap: wrap; }
+.top nav a { text-decoration: none; color: var(--pencil); font-size: .97rem; }
+.top nav a:hover { color: var(--ink); text-decoration: underline; }
+@media (max-width: 760px) { .top nav { display: none; } }
+
+/* hero */
+.hero { padding-block: 40px 24px; }
+@media (min-width: 1000px) { .hero .lead { max-width: 46ch; } .stairs { margin-top: -120px !important; } }
+.hero h1 {
+  font: 800 clamp(2.4rem, 6.4vw, 4.6rem)/1.02 "Bricolage Grotesque", sans-serif;
+  letter-spacing: -.02em; color: var(--ink);
+  margin: 0 0 22px; max-width: 17ch; text-wrap: balance;
+}
+.lead { font-size: clamp(1.1rem, 2vw, 1.3rem); max-width: 54ch; margin: 0 0 30px; }
+.actions { display: flex; gap: 14px; flex-wrap: wrap; align-items: center; }
+.btn {
+  display: inline-block; padding: 13px 22px; border-radius: 10px;
+  font: 700 1rem/1.2 "Atkinson Hyperlegible", sans-serif; text-decoration: none;
+  border: 2px solid var(--ink);
+}
+.btn-main { background: var(--ink); color: #fff; box-shadow: 4px 4px 0 var(--margin); }
+.btn-main:hover { color: #fff; background: var(--ink-soft); }
+.btn-ghost { background: var(--paper); color: var(--ink); }
+.btn-ghost:hover { color: var(--ink); background: #fff; }
+.free { color: var(--pencil); font-size: .95rem; }
+
+.stairs { margin: 46px 0 0; width: 100%; height: auto; display: block; overflow: visible; }
+.stairs .tread { fill: none; stroke: var(--ink); stroke-width: 4; stroke-linecap: round; stroke-linejoin: round; }
+.stairs .dot { fill: var(--margin); }
+.stairs .step-name { font: 700 23px "Bricolage Grotesque", sans-serif; fill: var(--ink); }
+.stairs .step-note { font: 500 22px "Caveat", cursive; fill: var(--pencil); }
+.stairs .flag { font: 700 30px "Caveat", cursive; fill: var(--margin); }
+@media (prefers-reduced-motion: no-preference) {
+  .stairs .tread { stroke-dasharray: var(--len); stroke-dashoffset: var(--len); animation: draw 1.6s .2s cubic-bezier(.6,.1,.3,1) forwards; }
+  .stairs .lbl { opacity: 0; animation: show .35s forwards; }
+  @keyframes draw { to { stroke-dashoffset: 0; } }
+  @keyframes show { to { opacity: 1; } }
+}
+.stairs-mobile { display: none; }
+@media (max-width: 640px) {
+  .stairs { display: none; }
+  .stairs-mobile { display: block; margin: 36px 0 0; padding: 0; list-style: none; }
+  .stairs-mobile li { border-left: 3px solid var(--ink); padding: 4px 0 12px 16px; margin-left: calc(var(--i) * 18px); }
+  .stairs-mobile b { font-family: "Bricolage Grotesque", sans-serif; color: var(--ink); font-size: 1.1rem; display: block; }
+  .stairs-mobile span { font-family: "Caveat", cursive; font-size: 1.25rem; color: var(--pencil); }
+}
+
+/* sekcje */
+section { padding-block: 72px 8px; }
+h2 {
+  font: 800 clamp(1.8rem, 3.6vw, 2.6rem)/1.1 "Bricolage Grotesque", sans-serif;
+  letter-spacing: -.015em; color: var(--ink); margin: 0 0 18px; max-width: 24ch;
+}
+h3 { font: 700 1.25rem/1.25 "Bricolage Grotesque", sans-serif; color: var(--ink); margin: 0 0 8px; }
+p { margin: 0 0 16px; max-width: var(--measure); }
+.prose { max-width: var(--measure); }
+.note {
+  font-family: "Caveat", cursive; font-size: 1.45rem; line-height: 1.25; color: var(--margin);
+  margin: 6px 0 18px;
+}
+mark { background: linear-gradient(transparent 55%, var(--marker) 55%); color: inherit; padding: 0 2px; }
+code, .mono { font-family: "JetBrains Mono", ui-monospace, monospace; font-size: .9em; }
+:not(pre) > code { background: #eef1f8; color: var(--ink); padding: 1px 6px; border-radius: 5px; white-space: nowrap; }
+
+/* porównanie */
+.versus { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin-top: 28px; border: 2px solid var(--ink); border-radius: 14px; overflow: hidden; background: #fff; }
+.versus > div { padding: 24px 26px; }
+.versus > div + div { border-left: 2px solid var(--ink); }
+.versus h3 { margin-bottom: 14px; }
+.versus ul { margin: 0; padding: 0; list-style: none; }
+.versus li { padding: 8px 0 8px 30px; position: relative; border-top: 1px dashed var(--grid); }
+.versus li:first-child { border-top: 0; }
+.versus .bad li::before { content: "✕"; position: absolute; left: 4px; color: var(--margin); font-weight: 700; }
+.versus .good li::before { content: "✓"; position: absolute; left: 4px; color: var(--ink); font-weight: 700; }
+.versus .bad { background: #fdf6f5; }
+@media (max-width: 720px) {
+  .versus { grid-template-columns: 1fr; }
+  .versus > div + div { border-left: 0; border-top: 2px solid var(--ink); }
+}
+
+/* trzy polecenia */
+.commands { display: grid; gap: 18px; margin-top: 28px; }
+.cmd { display: grid; grid-template-columns: minmax(220px, 300px) 1fr; gap: 24px; align-items: start; background: #fff; border: 2px solid var(--ink); border-radius: 14px; padding: 22px 24px; }
+.cmd-name { font: 600 1.15rem/1.3 "JetBrains Mono", monospace; color: var(--ink); }
+.cmd-when { display: block; font: 500 1.35rem/1.2 "Caveat", cursive; color: var(--margin); margin-top: 6px; }
+.cmd p { margin: 0; }
+@media (max-width: 720px) { .cmd { grid-template-columns: 1fr; gap: 10px; } }
+
+/* etapy modułu */
+.stages { counter-reset: st; list-style: none; padding: 0; margin: 32px 0 0; display: grid; gap: 0; max-width: 860px; }
+.stages li {
+  counter-increment: st; display: grid; grid-template-columns: 56px 1fr minmax(150px, 210px); gap: 18px; align-items: baseline;
+  padding: 16px 0; border-top: 1.5px solid var(--grid);
+}
+.stages li:last-child { border-bottom: 1.5px solid var(--grid); }
+.stages li::before { content: counter(st); font: 800 2rem/1 "Bricolage Grotesque", sans-serif; color: var(--ink); }
+.stages h3 { margin: 0 0 4px; }
+.stages p { margin: 0; }
+.you { font: 500 1.3rem/1.2 "Caveat", cursive; color: var(--margin); }
+@media (max-width: 720px) {
+  .stages li { grid-template-columns: 40px 1fr; }
+  .stages .you { grid-column: 2; }
+}
+
+/* przykład */
+.example { margin-top: 30px; background: #fff; border: 2px solid var(--ink); border-radius: 14px; padding: 26px; max-width: 860px; }
+.modules { list-style: none; padding: 0; margin: 18px 0 0; display: flex; flex-wrap: wrap; gap: 10px; }
+.modules li { border: 1.5px solid var(--ink); border-radius: 999px; padding: 6px 14px; font-weight: 700; color: var(--ink); background: var(--paper); }
+.modules li.done { background: var(--ink); color: #fff; }
+.modules li.now { background: var(--marker); }
+.legend { font-size: .92rem; color: var(--pencil); margin-top: 12px; }
+
+/* zgłoszenia */
+.reports { display: grid; grid-template-columns: repeat(2, 1fr); gap: 18px; margin-top: 28px; }
+.report { background: #fff; border-left: 4px solid var(--ink); padding: 18px 20px; border-radius: 0 12px 12px 0; }
+.report .say { font: 500 1.3rem/1.2 "Caveat", cursive; color: var(--pencil); display: block; margin-bottom: 6px; }
+.report p { margin: 0; }
+@media (max-width: 720px) { .reports { grid-template-columns: 1fr; } }
+
+/* co dostajesz */
+.gets { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 28px 36px; margin-top: 28px; }
+.gets h3 { font-size: 1.15rem; }
+.gets p { margin: 0; }
+.honest {
+  margin-top: 40px; max-width: 760px; padding: 20px 24px; background: #fff;
+  border: 2px dashed var(--margin); border-radius: 12px;
+}
+.honest h3 { color: var(--margin); }
+.honest p:last-child { margin-bottom: 0; }
+
+/* instalacja */
+.install { counter-reset: ins; list-style: none; padding: 0; margin: 28px 0 0; max-width: 860px; }
+.install > li { counter-increment: ins; position: relative; padding: 0 0 26px 58px; }
+.install > li::before {
+  content: counter(ins); position: absolute; left: 0; top: -4px;
+  width: 38px; height: 38px; border-radius: 50%; border: 2px solid var(--ink); background: #fff;
+  display: grid; place-items: center; font: 800 1.05rem/1 "Bricolage Grotesque", sans-serif; color: var(--ink);
+}
+.install > li::after { content: ""; position: absolute; left: 19px; top: 38px; bottom: 4px; width: 2px; background: var(--grid); }
+.install > li:last-child::after { display: none; }
+.install h3 { font-size: 1.1rem; }
+.install p { margin-bottom: 10px; }
+
+.tabs { display: flex; gap: 6px; margin: 6px 0 0; }
+.tabs button {
+  font: 700 .95rem/1 "Atkinson Hyperlegible", sans-serif; padding: 9px 16px; border-radius: 9px 9px 0 0;
+  border: 2px solid var(--slab); border-bottom: 0; background: var(--paper); color: var(--slab); cursor: pointer;
+}
+.tabs button[aria-selected="true"] { background: var(--slab); color: var(--slab-text); }
+
+.code {
+  position: relative; background: var(--slab); color: var(--slab-text); border-radius: 0 12px 12px 12px;
+  padding: 16px 18px; margin: 0 0 12px;
+}
+@media (min-width: 641px) { .code { padding-right: 100px; } }
+@media (max-width: 640px) { .code { padding-top: 50px; } }
+.code.solo { border-radius: 12px; }
+.code pre { margin: 0; font: 400 .92rem/1.6 "JetBrains Mono", monospace; white-space: pre-wrap; overflow-wrap: anywhere; }
+.copy {
+  position: absolute; top: 10px; right: 10px; font: 700 .8rem/1 "Atkinson Hyperlegible", sans-serif;
+  background: transparent; color: var(--slab-text); border: 1.5px solid #5a6091; border-radius: 7px; padding: 7px 10px; cursor: pointer;
+}
+.copy:hover { border-color: var(--slab-text); }
+.tip { font-size: .96rem; color: var(--pencil); max-width: var(--measure); }
+.needs { margin-top: 8px; max-width: 760px; padding: 18px 22px; background: #fff; border: 2px solid var(--ink); border-radius: 12px; }
+.needs ul { margin: 6px 0 0; padding-left: 20px; }
+
+/* narzędzia */
+.tools { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 0; margin-top: 28px; border-top: 1.5px solid var(--grid); }
+.tools div { padding: 16px 20px 16px 0; border-bottom: 1.5px solid var(--grid); }
+.tools b { color: var(--ink); font-family: "Bricolage Grotesque", sans-serif; font-size: 1.08rem; }
+.tools p { margin: 4px 0 0; font-size: .98rem; }
+
+/* bezpieczeństwo */
+.safety { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 24px; }
+.safety ul { margin: 0; padding-left: 20px; }
+.safety li { margin-bottom: 10px; }
+@media (max-width: 760px) { .safety { grid-template-columns: 1fr; gap: 10px; } }
+
+/* pytania */
+.faq { max-width: 820px; margin-top: 24px; }
+.faq details { border-top: 1.5px solid var(--grid); padding: 6px 0; }
+.faq details:last-child { border-bottom: 1.5px solid var(--grid); }
+.faq summary {
+  cursor: pointer; list-style: none; padding: 12px 36px 12px 0; position: relative;
+  font: 700 1.12rem/1.35 "Bricolage Grotesque", sans-serif; color: var(--ink);
+}
+.faq summary::-webkit-details-marker { display: none; }
+.faq summary::after { content: "+"; position: absolute; right: 6px; top: 8px; font-size: 1.6rem; color: var(--margin); transition: transform .2s; }
+.faq details[open] summary::after { transform: rotate(45deg); }
+.faq details p { margin: 0 0 14px; }
+
+/* programiści */
+.dev { background: var(--slab); color: var(--slab-text); margin-top: 80px; padding-block: 64px 56px; }
+.dev h2 { color: #fff; }
+.dev a { color: #c9d0ff; }
+.dev a:hover { color: #fff; }
+.dev p { color: var(--slab-text); }
+.dev :not(pre) > code { background: #2c3260; color: #e9ecf8; }
+.stack { display: grid; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); gap: 22px 32px; margin: 28px 0; }
+.stack b { display: block; font-family: "Bricolage Grotesque", sans-serif; color: #fff; font-size: 1.05rem; margin-bottom: 2px; }
+.stack span { color: #b8bede; font-size: .97rem; }
+
+footer { padding-block: 36px 48px; color: var(--pencil); font-size: .95rem; }
+footer p { max-width: 80ch; }
+</style>
+</head>
+<body>
+
+<header class="wrap top">
+  <a class="brand" href="#">
+    <svg viewBox="0 0 32 32" aria-hidden="true"><path d="M5 26h7v-7h7v-7h8V5" fill="none" stroke="#1f2a6b" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/><circle cx="27" cy="5" r="3" fill="#d6453d"/></svg>
+    stepkit
+  </a>
+  <nav aria-label="Na tej stronie">
+    <a href="#jak">Jak to działa</a>
+    <a href="#co-dostajesz">Co dostajesz</a>
+    <a href="#instalacja">Instalacja</a>
+    <a href="#pytania">Pytania</a>
+    <a href="https://github.com/Maciej86/stepkit">GitHub</a>
+  </nav>
+</header>
+
+<main>
+<div class="wrap hero">
+  <h1>Twoja aplikacja www, zbudowana z&nbsp;Claude krok po kroku</h1>
+  <p class="lead">stepkit to dodatek do Claude Code dla osób, które nie programują. Prowadzi od opisu pomysłu, przez makietę i kolejne części aplikacji, aż do działającej strony pod Twoim adresem.</p>
+  <div class="actions">
+    <a class="btn btn-main" href="#instalacja">Zainstaluj stepkit</a>
+    <a class="btn btn-ghost" href="https://github.com/Maciej86/stepkit">Zobacz na GitHubie</a>
+    <span class="free">Darmowy, licencja MIT</span>
+  </div>
+
+  <svg class="stairs" viewBox="0 0 1000 330" role="img" aria-label="Pięć kroków: opis, wywiad, makieta, moduły, publikacja">
+    <path class="tread" style="--len:1400" d="M10 300 H190 V240 H390 V180 H590 V120 H790 V60 H990" />
+    <g class="lbl" style="animation-delay:.35s"><circle class="dot" cx="20" cy="300" r="7"/><text class="step-name" x="34" y="286">Opis</text><text class="step-note" x="34" y="326">Twój pomysł</text></g>
+    <g class="lbl" style="animation-delay:.6s"><circle class="dot" cx="200" cy="240" r="7"/><text class="step-name" x="214" y="226">Wywiad</text><text class="step-note" x="214" y="266">pytania Claude'a</text></g>
+    <g class="lbl" style="animation-delay:.85s"><circle class="dot" cx="400" cy="180" r="7"/><text class="step-name" x="414" y="166">Makieta</text><text class="step-note" x="414" y="206">podgląd ekranów</text></g>
+    <g class="lbl" style="animation-delay:1.1s"><circle class="dot" cx="600" cy="120" r="7"/><text class="step-name" x="614" y="106">Moduły</text><text class="step-note" x="614" y="146">aplikacja w częściach</text></g>
+    <g class="lbl" style="animation-delay:1.35s"><circle class="dot" cx="800" cy="60" r="7"/><text class="step-name" x="814" y="46">Publikacja</text><text class="step-note" x="814" y="86">serwer, domena, e-mail</text></g>
+    <g class="lbl" style="animation-delay:1.7s"><text class="flag" x="868" y="14">twojafirma.pl</text></g>
+  </svg>
+  <ol class="stairs-mobile" aria-label="Pięć kroków">
+    <li style="--i:0"><b>Opis</b><span>Twój pomysł</span></li>
+    <li style="--i:1"><b>Wywiad</b><span>pytania Claude'a</span></li>
+    <li style="--i:2"><b>Makieta</b><span>podgląd ekranów</span></li>
+    <li style="--i:3"><b>Moduły</b><span>aplikacja w częściach</span></li>
+    <li style="--i:4"><b>Publikacja</b><span>serwer, domena, e-mail</span></li>
+  </ol>
+</div>
+
+<section class="wrap" id="dlaczego">
+  <h2>Jedna długa rozmowa nie zbuduje aplikacji</h2>
+  <p>Jeśli próbowałeś już budować coś z AI, znasz ten scenariusz. Rozmowa rośnie, każda wiadomość kosztuje coraz więcej, a po godzinie Claude gubi to, co ustaliliście na początku. Poprawka w jednym miejscu psuje coś w innym, a Ty nie wiesz, co właściwie już działa.</p>
+  <p>stepkit dzieli pracę tak, jak robi to zespół programistów: na małe części, z planem, testami i zapisem postępów w plikach.</p>
+  <div class="versus">
+    <div class="bad">
+      <h3>Bez stepkit</h3>
+      <ul>
+        <li>cała aplikacja w jednej, coraz dłuższej rozmowie</li>
+        <li>ustalenia giną, gdy rozmowa robi się za długa</li>
+        <li>kod powstaje, zanim zobaczysz, jak ma wyglądać</li>
+        <li>sprawdzasz wszystko sam, klikając na ślepo</li>
+        <li>po przerwie nie wiadomo, gdzie skończyliście</li>
+      </ul>
+    </div>
+    <div class="good">
+      <h3>Ze stepkit</h3>
+      <ul>
+        <li>aplikacja podzielona na moduły, każdy w krótkich rozmowach</li>
+        <li>ustalenia zapisane w plikach projektu, nowa rozmowa je czyta</li>
+        <li>najpierw klikalna makieta, potem kod</li>
+        <li>Claude sam testuje swoją pracę, zanim poprosi o to Ciebie</li>
+        <li>po tygodniu przerwy wpisujesz jedno polecenie i wracasz do pracy</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" id="jak">
+  <h2>Trzy polecenia na cały projekt</h2>
+  <p>Nie musisz znać się na programowaniu ani pamiętać, co było dalej. Wystarczą trzy polecenia wpisywane w Claude Code.</p>
+  <div class="commands">
+    <div class="cmd">
+      <div><span class="cmd-name">/stepkit:start</span><span class="cmd-when">raz, na początku</span></div>
+      <p>Sprawdza, czy komputer ma potrzebne programy, i pomaga je zainstalować. Prosi o opis pomysłu własnymi słowami, potem zadaje pytania: kto się loguje, jakie są role, czy aplikacja wysyła e-maile, czy potrzebna jest historia zmian. Na koniec pokazuje makietę całej aplikacji i dzieli ją na moduły.</p>
+    </div>
+    <div class="cmd">
+      <div><span class="cmd-name">/stepkit:dalej</span><span class="cmd-when">za każdym razem, gdy siadasz do pracy</span></div>
+      <p>Czyta stan projektu i prowadzi przez bieżący moduł albo wraca dokładnie tam, gdzie skończyliście. Po każdej skończonej części zaczynasz nową rozmowę (<code>/clear</code>) i wpisujesz to samo polecenie.</p>
+    </div>
+    <div class="cmd">
+      <div><span class="cmd-name">/stepkit:zglos</span><span class="cmd-when">gdy coś przyjdzie Ci do głowy</span></div>
+      <p>Przyjmuje pomysł, zmianę albo błąd opisany zwykłymi słowami, ze zrzutem ekranu lub bez. Claude sam rozpoznaje, czym to jest, dopytuje i decyduje razem z Tobą, kiedy to zrobić.</p>
+    </div>
+  </div>
+</section>
+
+<section class="wrap" id="modul">
+  <h2>Każdy moduł przechodzi te same etapy</h2>
+  <p>Moduł to jedna część aplikacji, np. logowanie, lista pracowników albo urlopy. Claude nie przejdzie do następnego, dopóki bieżący nie działa, chyba że świadomie go wstrzymasz.</p>
+  <ol class="stages">
+    <li><div><h3>Makieta</h3><p>Claude projektuje ekrany modułu. Pytania zbiera w panelu nad makietą, więc odpowiadasz, patrząc na ekran.</p></div><span class="you">oglądasz w przeglądarce</span></li>
+    <li><div><h3>Pytania</h3><p>Doprecyzowanie szczegółów: kto co widzi, co jest obowiązkowe, co się dzieje w nietypowych sytuacjach.</p></div><span class="you">odpowiadasz</span></li>
+    <li><div><h3>Spec</h3><p>Dokładny opis tego, co moduł robi, zapisany w pliku. To umowa między Tobą a Claude.</p></div><span class="you">akceptujesz</span></li>
+    <li><div><h3>Plan</h3><p>Lista małych kroków, każdy z testem, który sprawdzi, że krok działa.</p></div><span class="you">akceptujesz</span></li>
+    <li><div><h3>Implementacja</h3><p>Claude pisze kod: najpierw test, potem kod, który ten test spełnia. Na końcu przegląd kodu.</p></div><span class="you">możesz odpocząć</span></li>
+    <li><div><h3>Testy</h3><p>Claude próbuje obejść uprawnienia i zajrzeć do cudzych danych, potem sam klika w aplikacji. Dopiero wtedy dostajesz krótką listę do sprawdzenia.</p></div><span class="you">potwierdzasz „działa”</span></li>
+    <li><div><h3>Zamknięcie</h3><p>Zapis na GitHubie, do którego zawsze można wrócić, i znaczek „zrobione” na makiecie modułu.</p></div><span class="you">nowa rozmowa, kolejny moduł</span></li>
+  </ol>
+
+  <div class="example">
+    <h3>Przykład: system urlopów i zadań dla firmy</h3>
+    <p>Właścicielka firmy sprzątającej opisuje, czego potrzebuje: pracownicy składają wnioski o urlop, kierownik je akceptuje i rozdziela zadania na kolejne dni. Po wywiadzie stepkit proponuje taką kolejność modułów:</p>
+    <ul class="modules">
+      <li class="done">Wygląd</li>
+      <li class="done">Logowanie</li>
+      <li class="done">Pracownicy</li>
+      <li class="now">Urlopy</li>
+      <li>Zadania</li>
+      <li>E-mail</li>
+      <li>Publikacja</li>
+    </ul>
+    <p class="legend">Granatowe są gotowe, żółty jest w toku. Postęp widać w każdej chwili na stronie „Postęp” w makietach.</p>
+    <p style="margin:0">Pierwszy jest zawsze <b>Wygląd</b>: porównujesz trzy warianty na swoich ekranach i dopracowujesz wybrany. Ustalony wygląd trafia do księgi wyglądu, więc każdy kolejny moduł pasuje do reszty.</p>
+  </div>
+</section>
+
+<section class="wrap" id="zgloszenia">
+  <h2>Pomysły i błędy w trakcie pracy</h2>
+  <p>W trakcie budowy zawsze coś przychodzi do głowy. Wpisujesz <code>/stepkit:zglos</code>, opisujesz to po swojemu, a Claude rozpoznaje rodzaj zgłoszenia. Nie musisz wiedzieć, czy to „moduł”, „zmiana” czy „błąd”.</p>
+  <div class="reports">
+    <div class="report"><span class="say">„nie zapisuje się”</span><h3>Błąd</h3><p>Claude pyta, gdzie i kiedy to widać, i naprawia od razu: najpierw test, który pokazuje błąd, potem poprawka. Dopisz „na później”, a zapisze go i naprawi po bieżącym module.</p></div>
+    <div class="report"><span class="say">„dodaj kolumnę z telefonem”</span><h3>Drobna zmiana</h3><p>Mówi jednym zdaniem, co zmieni, i po Twojej zgodzie robi to w tej samej rozmowie. Jeśli trwa inny moduł, zapisuje zmianę na listę poprawek i robi ją zaraz po nim.</p></div>
+    <div class="report"><span class="say">„przydałby się grafik zmian”</span><h3>Nowa funkcja</h3><p>Pyta, kto z niej korzysta i czy jest pilna. Trafia do kolejki modułów albo na listę pomysłów na koniec. Bieżąca praca nie zostaje przerwana.</p></div>
+    <div class="report"><span class="say">„a gdzie są faktury?”</span><h3>Coś, co już jest w planie</h3><p>Dowiesz się, w którym module to jest i kiedy przyjdzie jego kolej.</p></div>
+  </div>
+</section>
+
+<section class="wrap" id="co-dostajesz">
+  <h2>Co dostajesz na końcu</h2>
+  <p>Aplikację działającą w internecie, którą otwiera się w przeglądarce, także na telefonie: system dla firmy, panel klienta, usługę na abonament, rezerwacje albo zamówienia.</p>
+  <div class="gets">
+    <div><h3>Trzy części do wyboru</h3><p>Strona dla odwiedzających, konto użytkownika i panel administracyjny. Bierzesz tylko te, których potrzebujesz.</p></div>
+    <div><h3>Logowanie i role</h3><p>Administrator, kierownik, pracownik albo własne role. Każda widzi tylko to, co do niej należy.</p></div>
+    <div><h3>Baza danych</h3><p>MySQL z poprawnymi powiązaniami, archiwum zamiast trwałego usuwania i, jeśli chcesz, historia „kto, co i kiedy zmienił”.</p></div>
+    <div><h3>E-maile</h3><p>Na komputerze podgląd każdej wiadomości bez wysyłania, w internecie wysyłka przez Mailgun.</p></div>
+    <div><h3>Testy</h3><p>Automatyczne testy kodu, formularzy i całych ścieżek w przeglądarce, uruchamiane jednym poleceniem.</p></div>
+    <div><h3>Próby nadużyć</h3><p>Przy każdym module Claude sprawdza, czy da się zajrzeć do cudzych danych, ominąć uprawnienia albo zepsuć coś podwójnym kliknięciem. Każda próba zostaje w projekcie jako test.</p></div>
+    <div><h3>Teksty w osobnych plikach</h3><p>Kolejna wersja językowa to tłumaczenie, a nie przepisywanie aplikacji.</p></div>
+    <div><h3>Publikacja z kopiami</h3><p>Serwer VPS (domyślnie OVH), certyfikat HTTPS i zaszyfrowane kopie zapasowe bazy i plików poza serwerem, z próbnym odtworzeniem.</p></div>
+    <div><h3>Nowe wersje jednym poleceniem</h3><p>Kopia przed wgraniem, test po wgraniu i powrót do poprzedniej wersji, gdy coś nie działa. Także przyciskiem w GitHubie.</p></div>
+  </div>
+  <div class="honest">
+    <h3>Uczciwie o jakości</h3>
+    <p>stepkit nie gwarantuje bezbłędnego kodu: pisze go Claude, a Claude też się myli. stepkit pilnuje <mark>procesu</mark>: makieta przed kodem, spec i plan przed implementacją, test przed każdym kawałkiem kodu, przegląd i sprawdzenie w przeglądarce na końcu każdej części. Taki kod jest wyraźnie lepszy i łatwiejszy do poprawiania niż aplikacja z jednego długiego promptu.</p>
+    <p>Zanim udostępnisz aplikację klientom, zwłaszcza gdy przechowuje dane osobowe albo płatności, pokaż ją doświadczonemu programiście.</p>
+  </div>
+</section>
+
+<section class="wrap" id="instalacja">
+  <h2>Instalacja</h2>
+  <div class="needs">
+    <b>Potrzebujesz:</b>
+    <ul>
+      <li>komputera z Windows 10/11 albo macOS,</li>
+      <li>płatnego planu Claude (np. Pro albo Max),</li>
+      <li>darmowego edytora <a href="https://code.visualstudio.com">VS Code</a>.</li>
+    </ul>
+  </div>
+  <ol class="install">
+    <li>
+      <h3>Załóż folder i otwórz go w VS Code</h3>
+      <p>Utwórz pusty folder na aplikację, <b>poza OneDrive</b> (np. <code>C:\projekty\moja-aplikacja</code>), bo OneDrive spowalnia i blokuje pliki projektu. W VS Code wybierz <b>File → Open Folder</b>, a potem <b>Terminal → New Terminal</b>. Terminal otworzy się na dole, od razu w tym folderze.</p>
+    </li>
+    <li>
+      <h3>Zainstaluj Claude Code</h3>
+      <p>Wklej do terminala polecenie dla swojego systemu i naciśnij Enter.</p>
+      <div class="tabs" role="tablist" aria-label="System">
+        <button role="tab" id="t-win" aria-selected="true" aria-controls="p-win">Windows</button>
+        <button role="tab" id="t-mac" aria-selected="false" aria-controls="p-mac" tabindex="-1">macOS</button>
+      </div>
+      <div id="p-win" role="tabpanel" aria-labelledby="t-win">
+        <div class="code"><pre>irm https://claude.ai/install.ps1 | iex</pre><button class="copy" type="button">Kopiuj</button></div>
+        <p class="tip">Potem drugie polecenie, które dopisuje Claude Code do programów widocznych w terminalu:</p>
+        <div class="code solo"><pre>$p = [Environment]::GetEnvironmentVariable('Path', 'User'); if ($p -notlike "*\.local\bin*") { [Environment]::SetEnvironmentVariable('Path', "$p;$env:USERPROFILE\.local\bin", 'User') }</pre><button class="copy" type="button">Kopiuj</button></div>
+      </div>
+      <div id="p-mac" role="tabpanel" aria-labelledby="t-mac" hidden>
+        <div class="code"><pre>curl -fsSL https://claude.ai/install.sh | bash</pre><button class="copy" type="button">Kopiuj</button></div>
+      </div>
+    </li>
+    <li>
+      <h3>Uruchom VS Code ponownie i zaloguj się</h3>
+      <p>Zamknij całe VS Code i otwórz je z tym samym folderem. Dopiero wtedy terminal „widzi” nowy program. Otwórz terminal, wpisz <code>claude</code> i naciśnij Enter. Za pierwszym razem otworzy się przeglądarka z logowaniem do konta Claude.</p>
+    </li>
+    <li>
+      <h3>Dodaj stepkit i trzy dodatki</h3>
+      <p>W Claude Code wpisz po kolei:</p>
+      <div class="code solo"><pre>/plugin marketplace add Maciej86/stepkit
+/plugin install stepkit@stepkit
+/plugin install superpowers@claude-plugins-official
+/plugin install playwright@claude-plugins-official
+/plugin install frontend-design@claude-plugins-official</pre><button class="copy" type="button">Kopiuj</button></div>
+      <p>Zamknij Claude Code (<code>/exit</code>) i uruchom go ponownie (<code>claude</code>).</p>
+    </li>
+    <li>
+      <h3>Zacznij</h3>
+      <p>Wpisz <code>/stepkit:start</code> i opisz swój pomysł własnymi słowami. Resztę programów (Node.js, Docker, Git) stepkit pomoże zainstalować po kolei.</p>
+    </li>
+  </ol>
+  <p class="tip">Jest też oficjalna wtyczka <a href="https://marketplace.visualstudio.com/items?itemName=anthropic.claude-code">Claude Code for VS Code</a> od Anthropic z panelem graficznym. Nie wszystkie polecenia działają w niej tak samo, więc do stepkit polecamy terminal. Uważaj na podobne, nieoficjalne wtyczki z tą samą ikoną.</p>
+
+  <h3 style="margin-top:36px">Po co te programy?</h3>
+  <p>To głównie narzędzia pracy Claude'a. Instalujesz je raz i nie musisz się ich uczyć.</p>
+  <div class="tools">
+    <div><b>Node.js</b><p>silnik aplikacji; Claude sam ją uruchamia i testuje, zamiast zgadywać</p></div>
+    <div><b>Docker Desktop</b><p>„pudełko” z bazą danych, które działa tak samo na komputerze i na serwerze</p></div>
+    <div><b>Git i GitHub</b><p>punkty zapisu jak w grze: do każdej działającej części możesz wrócić</p></div>
+    <div><b>superpowers</b><p>sprawdzone sposoby pracy: specyfikacja, plan, przegląd kodu</p></div>
+    <div><b>Playwright</b><p>Claude sam klika w Twojej aplikacji i sprawdza, czy działa</p></div>
+    <div><b>frontend-design</b><p>wiedza projektanta, dzięki której ekrany nie wyglądają jak szablon</p></div>
+  </div>
+</section>
+
+<section class="wrap" id="bezpieczenstwo">
+  <h2>Bezpieczeństwo i Twoje dane</h2>
+  <div class="safety">
+    <div>
+      <h3>Hasła</h3>
+      <ul>
+        <li>Hasła i klucze są w pliku <code>.env</code>, który nigdy nie trafia na GitHub.</li>
+        <li>Claude nie prosi o hasła w rozmowie. Polecenia, które ich wymagają, wpisujesz sam w terminalu.</li>
+        <li>Hasła na serwerze powstają na serwerze i nigdzie się nie wyświetlają.</li>
+        <li>Repozytorium Twojej aplikacji na GitHubie jest prywatne.</li>
+      </ul>
+    </div>
+    <div>
+      <h3>Co uruchamia stepkit</h3>
+      <ul>
+        <li>stepkit to same instrukcje dla Claude'a i szablon projektu. Nie ma własnych serwerów ani programów uruchamianych przy instalacji.</li>
+        <li>Nie wysyła niczego autorowi, nie zbiera statystyk.</li>
+        <li>Dane aplikacji trafiają tylko do usług, które wybierzesz (GitHub, serwer, Mailgun), na Twoje konta.</li>
+        <li>Kopie zapasowe są szyfrowane kluczem, który masz tylko Ty.</li>
+      </ul>
+    </div>
+  </div>
+  <p style="margin-top:20px">Pełna lista poleceń i miejsc, do których trafia ruch, jest w <a href="https://github.com/Maciej86/stepkit#-co-stepkit-uruchamia-i-dokąd-trafiają-dane">README na GitHubie</a>.</p>
+</section>
+
+<section class="wrap" id="pytania">
+  <h2>Częste pytania</h2>
+  <div class="faq">
+    <details><summary>Czy muszę umieć programować albo znać Linuksa?</summary><p>Nie. Wystarczy, że potrafisz opisać, co aplikacja ma robić, i odpowiadać na pytania. Raz na jakiś czas wkleisz w terminalu polecenie podane przez Claude'a, np. przy zakładaniu konta administratora. Wszystko działa na zwykłym Windowsie i macOS.</p></details>
+    <details><summary>Dlaczego po każdej części mam otwierać nową rozmowę?</summary><p>Każda wiadomość kosztuje tym więcej, im dłuższa jest cała rozmowa, a w bardzo długiej rozmowie AI gubi wcześniejsze ustalenia. stepkit zapisuje stan w pliku <code>docs/STATUS.md</code>, więc nowa rozmowa czyta krótki plik zamiast całej historii. Taniej i dokładniej.</p></details>
+    <details><summary>Co, jeśli przerwę pracę w połowie?</summary><p>Nic się nie stanie. Wpisz <code>/stepkit:dalej</code> w nowej rozmowie, nawet po tygodniu, a Claude wróci dokładnie do miejsca, w którym skończyliście.</p></details>
+    <details><summary>Jakie aplikacje da się zbudować?</summary><p>Takie, które działają w internecie pod własnym adresem i otwiera się je w przeglądarce, także na telefonie: systemy dla firm, panele klienta, usługi na abonament, rezerwacje, zamówienia, magazyn, faktury. Nie zbudujesz aplikacji do pobrania ze sklepu (App Store, Google Play) ani programu instalowanego na komputerze.</p></details>
+    <details><summary>Ile to kosztuje?</summary><p>stepkit jest darmowy (licencja MIT). Płacisz za swój plan Claude, a jeśli publikujesz aplikację, także za serwer (VPS) i domenę.</p></details>
+    <details><summary>Czy mogę użyć innego serwera niż OVH?</summary><p>Tak. OVH jest domyślną propozycją z instrukcją krok po kroku, ale przy publikacji możesz wybrać inny serwer VPS.</p></details>
+    <details><summary>Co, jeśli stepkit dostanie nową wersję?</summary><p>Zaktualizuj plugin w Claude Code (<code>/plugin marketplace update stepkit</code>, potem <code>/reload-plugins</code>). Przy następnym <code>/stepkit:dalej</code> Claude sam powie, co trzeba przenieść do Twojego projektu, i zrobi to po Twojej zgodzie, bez zmiany tego, co już działa.</p></details>
+  </div>
+</section>
+</main>
+
+<section class="dev" id="programisci">
+  <div class="wrap">
+    <h2>Dla programistów</h2>
+    <p>Aplikacja ze stepkit to zwykły projekt w jednym repozytorium, bez zależności od pluginu. Działa także bez niego, bo zasady pracy są w <code>CLAUDE.md</code> i <code>docs/CONVENTIONS.md</code> projektu.</p>
+    <div class="stack">
+      <div><b>Przeglądarka</b><span>React, Vite, TypeScript, Mantine, React Query, ikony Lucide</span></div>
+      <div><b>Serwer</b><span>Node.js, Express 5, TypeScript, sesja w ciasteczku z JWT</span></div>
+      <div><b>Baza</b><span>MySQL 8 w Dockerze, migracje SQL, phpMyAdmin</span></div>
+      <div><b>Walidacja i teksty</b><span>zod wspólny dla obu stron, i18next</span></div>
+      <div><b>Testy</b><span>Vitest, Testing Library, supertest, Playwright</span></div>
+      <div><b>Produkcja</b><span>Docker Compose, Caddy z HTTPS, kopie szyfrowane age</span></div>
+    </div>
+    <p>Biblioteki spoza szablonu są dokładane tylko z zatwierdzonej listy (PDF, Excel, wykresy, kalendarze, edytor treści, zdjęcia, kody QR i inne), każda z własnymi zasadami. Pełna lista pakietów, opis plików skilli i sposób pracy nad pluginem są w <a href="https://github.com/Maciej86/stepkit#-dla-programistów">README, w części „Dla programistów”</a>.</p>
+  </div>
+</section>
+
+<footer class="wrap">
+  <p>stepkit jest darmowy i udostępniany „tak jak jest”, bez gwarancji (<a href="https://github.com/Maciej86/stepkit/blob/main/LICENSE">licencja MIT</a>). Programy i usługi, które poleca (VS Code, Node.js, Docker, GitHub, OVH, Mailgun i inne), rozwijają inne firmy, na ich własnych zasadach. Aplikację budujesz Ty, z pomocą Claude'a: sprawdź ją, zanim zaczniesz jej używać w firmie.</p>
+  <p>stepkit jest we wczesnej wersji. Coś nie działa albo masz pomysł? <a href="https://github.com/Maciej86/stepkit/issues">Zgłoś to w Issues</a>.</p>
+</footer>
+
+<script>
+(() => {
+  const tabs = [...document.querySelectorAll('[role="tab"]')];
+  const select = (tab) => {
+    tabs.forEach((t) => {
+      const on = t === tab;
+      t.setAttribute('aria-selected', on);
+      t.tabIndex = on ? 0 : -1;
+      document.getElementById(t.getAttribute('aria-controls')).hidden = !on;
+    });
+  };
+  tabs.forEach((t, i) => {
+    t.addEventListener('click', () => select(t));
+    t.addEventListener('keydown', (e) => {
+      if (e.key !== 'ArrowRight' && e.key !== 'ArrowLeft') return;
+      const next = tabs[(i + (e.key === 'ArrowRight' ? 1 : tabs.length - 1)) % tabs.length];
+      select(next); next.focus();
+    });
+  });
+  // polska typografia: jednoliterowe słowa nie zostają na końcu wiersza
+  const walker = document.createTreeWalker(document.querySelector('main'), NodeFilter.SHOW_TEXT);
+  for (let n; (n = walker.nextNode()); ) {
+    if (n.parentElement.closest('pre, code, svg')) continue;
+    n.nodeValue = n.nodeValue.replace(/(^|[\s(„])([aiouwzAIOUWZ]) /g, '$1$2\u00a0');
+  }
+  if (/Mac/i.test(navigator.platform || navigator.userAgent)) select(document.getElementById('t-mac'));
+
+  document.querySelectorAll('.copy').forEach((btn) => {
+    btn.addEventListener('click', async () => {
+      const text = btn.parentElement.querySelector('pre').textContent;
+      try {
+        await navigator.clipboard.writeText(text);
+        btn.textContent = 'Skopiowano';
+      } catch {
+        btn.textContent = 'Zaznacz i skopiuj';
+      }
+      setTimeout(() => { btn.textContent = 'Kopiuj'; }, 1800);
+    });
+  });
+})();
+</script>
+</body>
+</html>

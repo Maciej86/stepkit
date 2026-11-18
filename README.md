@@ -9,6 +9,8 @@
 ![Claude Code](https://img.shields.io/badge/Claude%20Code-plugin-d97757.svg)
 ![Język](https://img.shields.io/badge/język-polski-red.svg)
 
+**[🌐 Strona stepkit z dokładnym opisem](https://maciej86.github.io/stepkit/)**
+
 [Instalacja](#-instalacja) · [Jak to działa](#-jak-to-działa) · [Co dostajesz](#-co-dostajesz) · [Pytania](#-częste-pytania)
 
 </div>
@@ -356,6 +358,8 @@ plugins/stepkit/
 └── evals/                        scenariusze sprawdzające zachowanie skilli
 tests/                            testy spójności pluginu (Vitest)
 docs/superpowers/                 specyfikacje i plany zmian w samym stepkit
+site/                             strona na GitHub Pages (jeden plik index.html)
+.github/workflows/pages.yml       publikacja strony po zmianie w site/
 ```
 
 **Skille** (`SKILL.md` to instrukcja główna, `references/` to pliki czytane tylko na danym etapie):
