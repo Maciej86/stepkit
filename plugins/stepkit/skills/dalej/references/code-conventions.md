@@ -62,10 +62,22 @@ z motywu (`color: 'violet.6'`, `'teal.5'` …), żeby wykresy pasowały do aplik
 
 **Przeciąganie** (kolejność, kanban): `@dnd-kit/core` z `@dnd-kit/sortable`, w obu miejscach naraz
 (`npm install -w @app/frontend -w @app/mockups @dnd-kit/core @dnd-kit/sortable`). Czujniki: `PointerSensor`
-z `activationConstraint: { distance: 5 }` (kliknięcie nie zaczyna przeciągania), `TouchSensor` z `{ delay: 200,
-tolerance: 5 }` (palcem da się przewijać stronę, przytrzymanie chwyta kartę) i `KeyboardSensor`. Każdą zmianę
-zrobioną przeciąganiem da się też zrobić bez niego (np. pole „Status” albo przyciski ↑/↓). Nową kolejność zapisuje
-backend jedną transakcją i sam sprawdza uprawnienia. Test sprawdza zapis kolejności, nie samo przeciąganie. Wspólny
+z `activationConstraint: { distance: 5 }` (kliknięcie nie zaczyna przeciągania) i `TouchSensor` z `{ delay: 200,
+tolerance: 5 }` (palcem da się przewijać stronę, przytrzymanie chwyta kartę). Każdą zmianę zrobioną przeciąganiem da
+się też zrobić bez niego, także klawiaturą (np. pole „Status”, menu „Przenieś do” albo przyciski ↑/↓). Przy kilku
+listach (kanban):
+- **Cel to miejsce pod kursorem:** własne `collisionDetection`: `pointerWithin`, w którym karty mają pierwszeństwo
+  przed kolumnami, a poza kolumnami `rectIntersection`. Kolumna, do której trafi karta, ma widoczną ramkę.
+- **W trakcie przeciągania karta przeskakuje tylko do innej kolumny.** Kolejność wewnątrz kolumny ustala dopiero
+  upuszczenie. Inaczej karta skacze w tę i z powrotem i aplikacja pada („Maximum update depth exceeded”).
+  `onDragOver` zmienia stan funkcją (`set(current => …)`) i pracuje na kopii, której odświeżenia z serwera nie ruszają.
+- **Pod kursorem jest kopia** (`DragOverlay` z `dropAnimation={null}`), w liście zostaje przygaszony zarys.
+  Przesunięcie przez `CSS.Translate`, bez skalowania.
+- **Po upuszczeniu nowe ułożenie zostaje na ekranie,** dopóki nie przyjdą nowe dane, a przy błędzie serwera się cofa.
+
+Nową kolejność zapisuje backend jedną transakcją i sam sprawdza uprawnienia. Testy: obliczanie celu i miejsca jako
+czyste funkcje z testami jednostkowymi, zapis kolejności w API, a w e2e jedno prawdziwe przeciągnięcie myszą
+(`page.mouse` z `steps`, szerokie okno) na nagłówek i na kartę innej kolumny, bez błędów w konsoli. Wspólny
 komponent wydzielasz, gdy przeciąganie pojawi się w drugim miejscu („Wspólne zamiast kopii”).
 
 **Edytor treści:** `@mantine/tiptap` w tej samej wersji co `@mantine/core`, w obu miejscach naraz
@@ -475,6 +487,12 @@ kilkanaście sekund nie potrzebuje WebSocketu. Biblioteka: `socket.io`.
   Przy `RESTRICT` makieta pyta, co ma się stać, a interfejs przed usunięciem mówi, dlaczego nie można (np. „Ten klient
   ma 3 zamówienia. Najpierw przenieś go do archiwum.”). Przy `CASCADE` okno potwierdzenia mówi, ile rzeczy zniknie.
 - Test backendu dla każdej relacji `CASCADE` i `RESTRICT` (usunięcie rodzica → dzieci znikają / błąd 409).
+- **Sprawdź, potem zapisz.** Gdy zapis zależy od sprawdzenia innych wierszy (limit, pula, czy rodzic istnieje i nie
+  jest zamknięty, pozycje w kolejności), sprawdzenie i zapis idą w jednej `withTransaction`. Na początku jest
+  `SELECT … FOR UPDATE` na wierszu rodzica (projekt, pracownik w danym roku, magazyn). Blokuj zawsze w tej samej
+  kolejności, od rodzica do dziecka (np. projekt → zadanie → komentarz), także przy usuwaniu: dwa zapisy naraz wtedy
+  czekają, a nie zakleszczają się. W specu przy takiej operacji wpisz, co blokuje. Test: kilka takich zapisów naraz
+  (`Promise.all`) daje poprawny wynik bez błędu serwera (w `describe('abuse')`).
 
 ## Archiwum (miękkie usuwanie)
 
@@ -624,6 +642,7 @@ w poleceniu, bez superpowers przechodzisz ją sam.
 - [ ] numer z adresu przez `idParam`, odpowiedź usługi przez `reply`
 - [ ] listy: `validateQuery(listQuerySchema(...))`, sortowanie tylko po kolumnach z listy, stan w adresie
 - [ ] kilka zapisów naraz przez `withTransaction`
+- [ ] zapis zależny od sprawdzenia: blokada rodzica (`FOR UPDATE`), stała kolejność blokad od rodzica do dziecka
 - [ ] nic skopiowanego między modułami: wspólne w `common/` albo `core/`
 - [ ] każde `// rule-ok:` ma konkretny, prawdziwy powód; testy zasad niezmienione
 - [ ] pliki przez `saveUpload` / `sendUpload`, pobieranie z kontrolą dostępu, tabela plików z kluczem obcym

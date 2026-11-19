@@ -170,6 +170,7 @@
         <li><b>Tabele:</b> InnoDB, <code>utf8mb4_polish_ci</code>, <code>id INT UNSIGNED</code>, <code>created_at</code> i <code>updated_at</code>.</li>
         <li><b>Relacje:</b> każda ma klucz obcy z regułą zapisaną w specu: <code>CASCADE</code> dla dzieci bez sensu bez rodzica, <code>SET NULL</code> z kopią nazwy dla autorstwa, <code>RESTRICT</code> tam, gdzie usunięcie skasowałoby ważne dane. Każda reguła ma test.</li>
         <li><b>Transakcje:</b> kilka zapisów naraz tylko przez <code>withTransaction</code>; zapytania przyjmują wspólny typ <code>Db</code>.</li>
+        <li><b>Sprawdź, potem zapisz:</b> gdy zapis zależy od sprawdzenia innych wierszy (limit, pula, rodzic), sprawdzenie i zapis są w jednej transakcji z <code>SELECT … FOR UPDATE</code> na rodzicu, blokady zawsze od rodzica do dziecka; test z kilkoma zapisami naraz.</li>
         <li><b>Archiwum:</b> „Usuń” w interfejsie to archiwizacja (<code>archived_at</code>, <code>archived_by</code>), z przywracaniem i archiwizacją dzieci razem z rodzicem. Usunięcie na stałe tylko z archiwum.</li>
         <li><b>Historia zmian</b> (opcjonalna): tabela <code>activity_log</code>, wpis z parami „przed → po” w tej samej transakcji co zmiana.</li>
         <li><b>Wzorce opcjonalne</b> z wywiadu: wiele firm (<code>company_id</code> w każdym zapytaniu z sesji) i dostęp do modułów nadawany przez administratora.</li>
