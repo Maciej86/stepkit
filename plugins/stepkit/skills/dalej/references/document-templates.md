@@ -28,7 +28,7 @@ kolumn, wartości statusów), bo strona „Postęp” go odczytuje. Maks. ok. 60
 ```markdown
 # Stan projektu: Sklep z zamówieniami
 
-**Wersja stepkit:** 0.1.47
+**Wersja stepkit:** 0.1.48
 
 **Następny krok:** Moduł Logowanie, implementacja: krok 3 z 7 (formularz logowania).
 

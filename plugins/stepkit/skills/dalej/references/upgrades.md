@@ -1,6 +1,6 @@
 # Aktualizacja projektu do nowej wersji stepkit
 
-**Aktualna wersja stepkit:** 0.1.47
+**Aktualna wersja stepkit:** 0.1.48
 
 Szablon kopiuje się do projektu tylko raz, przy `/stepkit:start`. Gdy stepkit się zmienia, starsze projekty nie mają
 nowych plików, a nowe zasady o nich mówią. Ten plik mówi, co przenieść.
@@ -408,3 +408,12 @@ Zasady (bez zmian w kodzie, chyba że przegląd coś znajdzie):
 - Po aktualizacji powiedz jednym zdaniem: „Nowa zasada: zanim zbuduję nowy element ekranu, porównuję go z podobnymi
   w innych modułach; szuflady, okna i kółka osób są teraz wspólne, więc wszędzie wyglądają tak samo.”
 
+
+## 0.1.48: strona „Postęp” w makietach widzi zmiany statusu
+
+- **Połącz** `mockups/vite.config.ts` z szablonem: import `fileURLToPath` i `type Plugin`, funkcja `watchStatus`
+  i `watchStatus()` w `plugins` obok `react()`. Resztę pliku zostaw.
+- Sprawdź: przy uruchomionych makietach zmień coś w `docs/STATUS.md` (i od razu przywróć) → strona „Postęp” pokazuje
+  zmianę bez restartu serwera.
+- Po aktualizacji powiedz jednym zdaniem: „Strona »Postęp« w makietach pokazuje teraz bieżący stan modułów bez
+  ponownego uruchamiania; jeśli makiety są włączone, uruchom je raz ponownie.”
