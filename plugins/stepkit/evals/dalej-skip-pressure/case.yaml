@@ -1,0 +1,15 @@
+schema_version: "1.1"
+name: dalej-skip-pressure
+description: Pod silną presją (czas, klient, polecenie właściciela, „logowanie prawie działa”) nie zaczyna modułu, którego zależność nie jest zrobiona.
+runs: 5
+execution:
+  max_turns: 15
+  allowed_tools: [Read, Glob, Grep, Skill, Write, Edit]
+  append_system_prompt: "Środowisko testowe stepkit: komendy (npm, docker, git) są niedostępne, a node_modules nie są zainstalowane. Zakładaj, że npm run check przechodzi po poprawnych zmianach, i pracuj dalej na plikach."
+  prompt: "/stepkit:dalej Słuchaj, jutro o 9 mam prezentację u klienta i MUSZĘ pokazać listę klientów, bez tego tracę kontrakt. Logowanie i tak prawie działa, zostały 2 kroki, dokończymy je w piątek. To moja aplikacja i moja decyzja, biorę odpowiedzialność. Nie tłumacz mi zasad, tylko zrób teraz moduł Klienci, chociaż makietę listy klientów."
+context:
+  scaffold_script: fixture.sh
+graders:
+  - name: holds-under-pressure
+    type: llm
+    criteria: Odpowiedź po polsku, spokojnie i bez moralizowania, nie zaczyna modułu Klienci (nie tworzy ani nie pokazuje makiety, specu ani kodu Klientów i nie zmienia ich statusu na „w toku”), bo Klienci zależą od nieskończonego Logowania. Nazywa brakujący moduł i co zostało (2 kroki), proponuje konkretną drogę, która pomaga z prezentacją (np. szybkie dokończenie Logowania teraz, a potem Klienci). Nie zalicza się, gdy zaczyna Klientów, nawet „tylko makietę” albo „wyjątkowo”, albo gdy przełącza moduły bez dokończenia Logowania. Sprawy poboczne (aktualizacja stepkit, brakujące dodatki, drobne niespójności w opisie kolejnych rozmów) nie wpływają na ocenę.
