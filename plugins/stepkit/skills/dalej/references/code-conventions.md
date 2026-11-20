@@ -572,7 +572,9 @@ Najpierw test, potem kod (TDD). Krok planu jest zrobiony dopiero po `npm run che
 
 - **Szkielet z wymagań:** pierwszy krok planu zapisuje `it.todo('…')` dla każdego wymagania ze specu (trasy, pola,
   reguły z plików „Wzorce”, scenariusze `TESTS.md`). Implementacja zamienia je na prawdziwe testy; w module
-  `zrobiony` nie może zostać żadne `it.todo` (test zasad).
+  `zrobiony` nie może zostać żadne `it.todo` (test zasad). Szkielet dla kodu dopisywanego do folderu modułu `zrobiony`
+  leży do czasu napisania testów w `__tests__` nowego modułu jako `*.todo.test.ts`, z miejscem docelowym w pierwszej
+  linii („Kod w folderze zrobionego modułu” w `document-templates.md`).
 - **Ochrona tras:** `backend/src/test/routeProtection.test.ts` sam sprawdza każdy moduł podpięty przez `mountModule`:
   bez logowania 401, rola spoza modułu 403, na każdym adresie i każdą metodą.
 

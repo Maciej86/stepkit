@@ -28,7 +28,7 @@ kolumn, wartości statusów), bo strona „Postęp” go odczytuje. Maks. ok. 60
 ```markdown
 # Stan projektu: Sklep z zamówieniami
 
-**Wersja stepkit:** 0.1.46
+**Wersja stepkit:** 0.1.47
 
 **Następny krok:** Moduł Logowanie, implementacja: krok 3 z 7 (formularz logowania).
 
@@ -187,13 +187,22 @@ Każda część: `SPEC-<n>.md`, `PLAN-<n>.md`, `TESTS-<n>.md` (wzory jak niżej)
 
 ## `docs/modules/<module>/PLAN.md`
 
-Kroki małe, każdy kończy się czymś do sprawdzenia. Odhaczaj `- [x]` po `npm run check`. **Krok 1 to zawsze szkielet
+Kroki małe, każdy kończy się czymś do sprawdzenia. Odhaczaj `- [x]` po `npm run check`. **Krok 0 to zawsze szkielet
 testów z wymagań:** pliki testów modułu z `it.todo('…')` po jednym na każde wymaganie ze specu: każda trasa z tabeli
 API (sukces, złe dane → 400, cudze dane → 404, reguły z „Zasad serwera”), każde pole z „Pól formularzy” (wartości
 graniczne), każda reguła z plików z kolumny „Wzorce” (np. limit logowań → 429), każdy scenariusz z `TESTS.md`
 (w `e2e/<module>.spec.ts`). Kolejne kroki zamieniają `it.todo` na prawdziwe testy. Ochronę tras (401, 403) sprawdza
 sam `routeProtection.test.ts`; w module zostaje po jednym teście 401 i 403 w pliku tras. Przy zamknięciu modułu
 test zasad nie przepuści żadnego `it.todo` w jego folderach.
+
+**Kod w folderze zrobionego modułu.** Gdy nowy moduł dopisuje funkcje do modułu `zrobionego` (np. Archiwum do
+`employees.service.ts`), szkielet ich testów nie może leżeć w folderze tamtego modułu, bo test zasad nie przepuszcza
+`it.todo` w zrobionym module. Kładziesz go w `__tests__` nowego modułu, w pliku z dopiskiem `.todo`, np.
+`backend/src/modules/archive/__tests__/employees.todo.test.ts`. W pierwszej linii pliku zapisujesz miejsce docelowe:
+`// Docelowo: backend/src/modules/employees/__tests__/archived.service.test.ts`. Krok, który pisze te funkcje, pisze
+prawdziwe testy od razu w pliku docelowym i usuwa z pliku `.todo` załatwione `it.todo`; pusty plik `.todo` usuwasz.
+Plik `.todo` leży w folderze nowego modułu, więc przy jego zamknięciu test zasad złapie każdy zapomniany szkielet.
+Konfliktu nie omijasz przez `rule-ok`, pominięcie szkieletu ani chwilową zmianę statusu modułu.
 
 **Przed krokami: przegląd istniejących rozwiązań.** Przejrzyj zrobione moduły (`frontend/src/modules/`
 razem z ich `components/`, `backend/src/modules/`, `common/`, `core/`, `shared/src/`, makiety w `mockups/src/modules/`) pod kątem tego, czego nowy moduł potrzebuje (lista
@@ -208,7 +217,8 @@ modułach, które mają kopię (nie odkładasz jej na później i nie pytasz o n
 **Używam ponownie:** `ConfirmModal` (common), `useListParams` (core), `isDuplicateKey` (db) | brak
 **Wydzielam:** okno „Ukryj” z Typów urlopów → `common/ConfirmModal` (parametry: tytuł, przycisk, `danger`) | brak
 
-- [ ] 0. Szkielet testów: `it.todo` dla każdego wymagania ze specu (lista w krokach niżej) → `npm run check`
+- [ ] 0. Szkielet testów: `it.todo` dla każdego wymagania ze specu (lista w krokach niżej); testy funkcji dopisywanych
+  do zrobionych modułów w `orders/__tests__/*.todo.test.ts` (miejsce docelowe w pierwszej linii) → `npm run check`
 - [ ] 1. Wydzielenie `ConfirmModal` do `common/` + test, podmiana we wszystkich kopiach (Typy urlopów, …) → `npm run check`
 - [ ] 2. Migracja `003_orders.sql` + test: … → `npm run migrate`, `npm run check`
 - [ ] 3. Schemat `shared/src/schemas/orders.ts` + testy
