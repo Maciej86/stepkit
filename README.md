@@ -400,7 +400,8 @@ bez pluginu), `README.md` (ściągawka projektu).
 ### Praca nad pluginem
 
 - Testy spójności: `npx vitest run --dir tests` (numer wersji wszędzie ten sam, ściągawka zgodna z szablonem,
-  wzorce dziedzin w spisie, CLAUDE.md szablonu odsyła do istniejących plików).
+  wzorce dziedzin w spisie, CLAUDE.md szablonu odsyła do istniejących plików, zasady rozmowy takie same w `start`
+  i `dalej`).
 - Evale (z `plugins/stepkit`): `claude plugin eval . --case '<glob>' -j 4 --trust-plugin --scaffold --allow-tools Write Edit`.
 - Każda zmiana podnosi wersję w `plugin.json`, `marketplace.json`, `upgrades.md`, `template/docs/STATUS.md`,
   przykładzie w `document-templates.md` i odznace tego README. Zmiana w `template/` wymaga nowej sekcji w
