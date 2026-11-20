@@ -57,8 +57,9 @@ Zmiana działa po kilku minutach do kilku godzin: `nslookup <domena>` musi zwró
 
 ## 5. Aplikacja na serwerze
 
-Najpierw, na komputerze: próby nadużyć dla całej aplikacji według `abuse.md` („W module »Publikacja«”), poprawki
-z testem, `npm run check`, zapis i `git push`.
+Najpierw, na komputerze: próby nadużyć dla całej aplikacji i przegląd tras według `abuse.md` („W module
+»Publikacja«”), potwierdzenie listy „bez logowania” przez użytkownika, poprawki z testem, `npm run check`, zapis
+i `git push`.
 
 1. Kod: repo jest prywatne, więc na serwerze utwórz klucz tylko do odczytu:
    `ssh-keygen -t ed25519 -f ~/.ssh/github -N ""`, pokaż `~/.ssh/github.pub` i poproś: „Na GitHubie: repo →

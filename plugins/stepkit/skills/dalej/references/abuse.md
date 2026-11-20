@@ -41,3 +41,26 @@ Pomijasz tylko to, czego moduł nie ma (np. statusów).
 Przed wgraniem na serwer przejdź całą aplikację naraz. Każdy zrobiony moduł ma blok `abuse` (brakujący dopisz według
 listy wyżej). Potem sprawdź punkty 1–3 **między modułami**: dane jednego modułu widziane z ekranów i list innego
 (np. wnioski urlopowe w kalendarzu zadań, klienci w wyszukiwarce faktur).
+
+### Przegląd tras
+
+Zanim wgrasz aplikację na serwer, zrób spis wszystkich tras API z kodu: `backend/src/app.ts` (trasy przed
+`api.use(requireAuth)` i każde `mountModule`) oraz każdy `*.routes.ts`. Porównaj spis z „Mapą dostępu”
+w `SPEC-GENERAL.md` w obie strony:
+
+1. **Każda trasa jest w Mapie.** Trasa, której tam nie ma, to błąd: dopisz ją do Mapy (publiczną tylko po zgodzie
+   użytkownika) albo ją usuń.
+2. **Każdy wiersz Mapy ma trasę.** Wiersz bez trasy usuń z Mapy.
+3. **Trasy publiczne** (przed `requireAuth`): każda ma powód w Mapie, limit prób i `validateBody` przy zapisie. Nie
+   zwraca danych, które wymagają logowania (np. listy użytkowników, adresów e-mail, rekordów innych firm).
+4. **Trasy za logowaniem:** każda ma w testach 401 bez logowania i 403 dla złej roli. Trasa węższa niż moduł
+   (`requireRole`) ma test 403 dla roli, która widzi moduł, ale nie tę trasę.
+5. **Pliki i PDF** pobiera się tylko przez trasę z kontrolą dostępu. Folder z przesłanymi plikami nie jest dostępny
+   pod bezpośrednim adresem.
+6. **Wyjątki `rule-ok`:** wypisz wszystkie z całego projektu i przy każdym sprawdź, czy powód nadal jest prawdziwy.
+
+Brak testu albo dziura to błąd: najpierw czerwony test, potem poprawka, na końcu `npm run check`.
+
+Użytkownikowi pokaż zwykłymi słowami, co jest dostępne **bez logowania** (np. „Bez logowania można: otworzyć stronę
+główną i cennik, zalogować się, wysłać formularz kontaktowy”), i poproś o potwierdzenie. Wynik zapisz w `TESTS.md`
+modułu Publikacja, w sekcji „Przegląd tras” (liczba tras, publiczne, znalezione i naprawione).
