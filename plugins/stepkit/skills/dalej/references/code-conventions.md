@@ -165,7 +165,23 @@ polami czy kształtem danych. Różnice zamieniasz w parametry (props, argumenty
 zachowanie (np. okno potwierdzenia przy błędzie zawsze zostaje otwarte); gdy dwa moduły robiły to samo różnie, wybierz
 jedno i powiedz o tym użytkownikowi.
 
-**Bez wydzielania na siłę.** Zostaw osobno, gdy: wspólna część to kilka linii; klocek potrzebowałby więcej
+**Przed nowym komponentem porównaj.** Zanim utworzysz nowy plik komponentu (także w makiecie) albo wstawisz
+szufladę, okno, kółko osoby, zakładki, znacznik, kartę czy pusty stan, poszukaj tego samego elementu w całym
+projekcie: dla każdego komponentu Mantine, którego użyjesz, `grep -rlE "<Drawer($|[ >])" frontend/src mockups/src`
+(z jego nazwą), a w makietach innych modułów także po wyglądzie. Otwórz znalezione pliki i porównaj **ramę, nie
+treść**: położenie i rozmiar, zachowanie na telefonie, tytuł, przyciski na dole, kolory stanów (np. szare = w
+archiwum). Ta sama rama z inną treścią to jeden klocek w `common/`, a treść idzie w `children`: szuflada z prawej do
+oglądania i do edycji, okno formularza z Anuluj/Zapisz przy różnych polach. Inna treść nie jest powodem do kopii.
+
+Wynik zapisujesz w planie przy kroku jednym zdaniem: „Porównane z: `TaskDrawer` (tasks), `DetailsDrawer`
+(leave-requests) → wspólna rama `common/SideDrawer`” albo „Porównane z: `X` (moduł); inna rama, bo …”. Krok bez tego
+zdania nie jest skończony, a recenzent sprawdza każde z nich. Ramy `Drawer`, `Modal`, `Avatar` i `Tabs` użyte wprost
+w dwóch modułach zatrzymuje test zasad (punkt 14). Wyjątek tylko dla naprawdę innej ramy, komentarzem w znaczniku:
+`<Modal // rule-ok: <powód>`.
+
+**Bez wydzielania na siłę.** Zostaw osobno, gdy: wspólna część to kilka linii **logiki** (nie dotyczy wyglądu:
+element, który użytkownik widzi w dwóch miejscach, np. kółko osoby, znacznik roli, ramka pustej listy, ma wyglądać
+tak samo, więc jest jeden, nawet gdy to trzy linie); klocek potrzebowałby więcej
 parametrów i warunków niż ma wspólnego kodu; podobieństwo jest przypadkowe (dziś wygląda tak samo, ale każdy moduł
 będzie zmieniał się z innego powodu). Dobry wspólny klocek da się opisać jednym zdaniem bez „chyba że”. Plik ekranu dłuższy niż ok. 250 linii rozbijasz na komponenty w `components/`.
 
@@ -590,7 +606,7 @@ w całości). Czerwony test zasad znaczy: popraw kod, nie test.
 |---|---|
 | `backend/src/test/conventions.test.ts` | SQL tylko z `?`; transakcje tylko przez `withTransaction`; `validateBody` przy każdej trasie zapisu; kto i jaka rola tylko z `req.user`; moduły za logowaniem tylko przez `mountModule`; w `__tests__` obok każdego `*.routes.ts` test z 401 i 403; pliki `*.test.ts(x)` tylko w `__tests__` albo `src/test/` (backend, front, shared, makiety); każdy klucz obcy z `ON DELETE`; w module `zrobiony` (według `docs/STATUS.md`) żadnego `it.todo`; funkcje tylko strzałkowe (backend, front, shared, makiety, e2e); numer z adresu tylko przez `idParam` |
 | `backend/src/test/routeProtection.test.ts` | każdy moduł z `mountModule`: bez logowania 401, rola spoza modułu 403 |
-| `frontend/src/test/conventions.test.ts` | zapytania tylko przez `api`; w modułach `api` tylko w `*.api.ts`; brak importów z innego modułu; dymki przez `notify`; brak polskich tekstów w kodzie; schematy w `shared/src/schemas/` bez własnych `.regex(` |
+| `frontend/src/test/conventions.test.ts` | zapytania tylko przez `api`; w modułach `api` tylko w `*.api.ts`; brak importów z innego modułu; dymki przez `notify`; brak polskich tekstów w kodzie; schematy w `shared/src/schemas/` bez własnych `.regex(`; `Drawer`, `Modal`, `Avatar`, `Tabs` wprost w najwyżej jednym module (drugi = rama do `common/`) |
 | `frontend/src/test/colors.test.ts`, `formatting.test.ts`, `tables.test.ts` | kolory z motywu; daty i liczby przez `@app/shared`; tabele w `Table.ScrollContainer` |
 
 **Wyjątek** tylko tam, gdzie zasada naprawdę nie pasuje: na końcu linii komentarz `// rule-ok: <powód>` (np. sortowanie
@@ -644,6 +660,8 @@ w poleceniu, bez superpowers przechodzisz ją sam.
 - [ ] kilka zapisów naraz przez `withTransaction`
 - [ ] zapis zależny od sprawdzenia: blokada rodzica (`FOR UPDATE`), stała kolejność blokad od rodzica do dziecka
 - [ ] nic skopiowanego między modułami: wspólne w `common/` albo `core/`
+- [ ] każdy nowy komponent ma w planie „Porównane z: …”; ta sama rama w innym module (także „prawie”) = jeden
+  klocek w `common/`; test ram (14) zielony bez nowego `rule-ok`
 - [ ] każde `// rule-ok:` ma konkretny, prawdziwy powód; testy zasad niezmienione
 - [ ] pliki przez `saveUpload` / `sendUpload`, pobieranie z kontrolą dostępu, tabela plików z kluczem obcym
 - [ ] testy dla każdej trasy i formularza, `npm run check` zielony

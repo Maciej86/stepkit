@@ -28,7 +28,7 @@ kolumn, wartości statusów), bo strona „Postęp” go odczytuje. Maks. ok. 60
 ```markdown
 # Stan projektu: Sklep z zamówieniami
 
-**Wersja stepkit:** 0.1.45
+**Wersja stepkit:** 0.1.46
 
 **Następny krok:** Moduł Logowanie, implementacja: krok 3 z 7 (formularz logowania).
 
@@ -195,8 +195,8 @@ graniczne), każda reguła z plików z kolumny „Wzorce” (np. limit logowań 
 sam `routeProtection.test.ts`; w module zostaje po jednym teście 401 i 403 w pliku tras. Przy zamknięciu modułu
 test zasad nie przepuści żadnego `it.todo` w jego folderach.
 
-**Przed krokami: przegląd istniejących rozwiązań.** Przejrzyj zrobione moduły (`frontend/src/modules/`,
-`backend/src/modules/`, `common/`, `core/`, `shared/src/`) pod kątem tego, czego nowy moduł potrzebuje (lista
+**Przed krokami: przegląd istniejących rozwiązań.** Przejrzyj zrobione moduły (`frontend/src/modules/`
+razem z ich `components/`, `backend/src/modules/`, `common/`, `core/`, `shared/src/`, makiety w `mockups/src/modules/`) pod kątem tego, czego nowy moduł potrzebuje (lista
 z filtrami, okno potwierdzenia, pusty stan, stronicowanie, obsługa powtórzonej nazwy…), szukając po tym, co kod robi,
 nie po nazwie („Wspólne zamiast kopii” w `code-conventions.md`). Wynik w sekcjach „Używam ponownie” i „Wydzielam”.
 Wydzielenie to pierwszy krok po szkielecie testów: przeniesienie z parametrami, test, podmiana we wszystkich
@@ -213,6 +213,8 @@ modułach, które mają kopię (nie odkładasz jej na później i nie pytasz o n
 - [ ] 2. Migracja `003_orders.sql` + test: … → `npm run migrate`, `npm run check`
 - [ ] 3. Schemat `shared/src/schemas/orders.ts` + testy
 - [ ] 4. Trasa `GET /api/orders` + testy (dane, 401, 403)
+- [ ] 5. Podgląd zamówienia z prawej. Porównane z: `SideDrawer` (common), `DetailsDrawer` (leave-requests) → używam
+  `SideDrawer`, treść w `children` → `npm run check`
 - [ ] …
 - [ ] N. Test e2e `e2e/orders.spec.ts` ze scenariuszy `TESTS.md`
 ```

@@ -1,6 +1,6 @@
 # Aktualizacja projektu do nowej wersji stepkit
 
-**Aktualna wersja stepkit:** 0.1.45
+**Aktualna wersja stepkit:** 0.1.46
 
 Szablon kopiuje się do projektu tylko raz, przy `/stepkit:start`. Gdy stepkit się zmienia, starsze projekty nie mają
 nowych plików, a nowe zasady o nich mówią. Ten plik mówi, co przenieść.
@@ -392,3 +392,19 @@ Zasady (bez zmian w kodzie, chyba że przegląd coś znajdzie):
   i prawdziwe konta.
 - Po aktualizacji powiedz jednym zdaniem: „Testy w przeglądarce używają teraz kilku stałych kont i sprzątają po
   sobie, więc lista użytkowników nie będzie już rosła.”
+
+## 0.1.46: wspólne ramy szuflady, okna i kółka osoby
+
+- Podmień `frontend/src/test/conventions.test.ts` na ten z szablonu (plik stepkit: nowy test 14, „ta sama rama
+  w dwóch modułach”).
+- W `CLAUDE.md` projektu podmień punkt „Wspólne zamiast kopii” na ten z szablonu (dochodzi „Przed nowym komponentem”).
+- `npm run check`. Gdy test 14 jest czerwony, każdą wymienioną ramę (`Drawer`, `Modal`, `Avatar`, `Tabs`) wydziel
+  według „Przed nowym komponentem porównaj” w `code-conventions.md`: jeden klocek w `frontend/src/common/` i ten sam
+  w `mockups/src/common/`, treść przez `children`, z testem, i podmień **wszystkie** użycia w modułach, bez pytania
+  użytkownika (np. szuflada z prawej → `SideDrawer`, okno formularza z Anuluj/Zapisz → `FormModal`, kółko osoby →
+  `PersonAvatar`). Gdy kopie wyglądały różnie, wybierz wersję z `docs/DESIGN.md` (albo tę z większej liczby miejsc)
+  i powiedz o tym jednym zdaniem. Makiet zrobionych modułów nie ruszasz. W `docs/DESIGN.md` przy wzorcach wpisz nazwy
+  nowych klocków.
+- Po aktualizacji powiedz jednym zdaniem: „Nowa zasada: zanim zbuduję nowy element ekranu, porównuję go z podobnymi
+  w innych modułach; szuflady, okna i kółka osób są teraz wspólne, więc wszędzie wyglądają tak samo.”
+
