@@ -85,7 +85,7 @@ Nigdy nie przeskakujesz nieskończonego modułu i nigdy nie masz dwóch modułó
 | spec | `references/superpowers.md`, `references/code-conventions.md` + pliki z kolumny „Wzorce” modułu w `SPEC-GENERAL.md` (`references/domains/`), `references/document-templates.md` | `SPEC.md` | akceptuje |
 | plan | jak wyżej | `PLAN.md` z testami w każdym kroku | akceptuje |
 | implementacja | `references/superpowers.md`, `references/code-conventions.md` + pliki z kolumny „Wzorce” | kod; **najpierw test, potem kod**, po każdym kroku `npm run check` i odhaczenie w `PLAN.md`; na koniec przegląd kodu | — |
-| testy | `references/abuse.md`, `references/browser.md` | próby nadużyć jako testy (`describe('abuse')`), potem Ty klikasz w przeglądarce, `npm run test:e2e`, potem użytkownik przechodzi `TESTS.md` | potwierdza „działa” |
+| testy | `references/abuse.md`, `references/browser.md`, `references/final-review.md` | próby nadużyć jako testy (`describe('abuse')`), potem Ty klikasz w przeglądarce, `npm run test:e2e`, przegląd przed oddaniem, potem użytkownik przechodzi `TESTS.md` | potwierdza „działa” |
 | zamknięcie | `references/mockups.md` | `<Done labelKey=…>` w `mockups/src/screens.tsx`, `STATUS.md` (`zrobiony`, nowy „Następny krok”: pierwsza poprawka z `FIXES.md`, gdy jakaś czeka, inaczej następny moduł), zapis „Moduł <nazwa> gotowy” + `git push` | — |
 
 Moduły specjalne: **Wygląd** → `references/appearance.md` (własne etapy: makieta z wariantami, pytania, zamknięcie);

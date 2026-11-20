@@ -5,7 +5,7 @@
 **Zbuduj własną aplikację www z Claude, krok po kroku, bez programowania.**
 
 [![Licencja: MIT](https://img.shields.io/badge/licencja-MIT-green.svg)](LICENSE)
-![Wersja](https://img.shields.io/badge/wersja-0.1.49-blue.svg)
+![Wersja](https://img.shields.io/badge/wersja-0.1.50-blue.svg)
 ![Claude Code](https://img.shields.io/badge/Claude%20Code-plugin-d97757.svg)
 ![Język](https://img.shields.io/badge/język-polski-red.svg)
 
@@ -132,7 +132,7 @@ potrzebna jest historia zmian…), pokazuje makietę całej aplikacji i rozpisuj
 | 📋 **Spec** | dokładny opis, co moduł robi | akceptujesz |
 | 🗺️ **Plan** | lista kroków, każdy z testem | akceptujesz |
 | ⚙️ **Implementacja** | Claude pisze kod: najpierw test, potem kod | — |
-| 🧪 **Testy** | Claude klika w aplikacji, potem lista do sprawdzenia dla Ciebie | potwierdzasz „działa” |
+| 🧪 **Testy** | Claude klika w aplikacji, sprawdza moduł jeszcze raz z opisem, makietą i zasadami, potem lista do sprawdzenia dla Ciebie | potwierdzasz „działa” |
 | 🏁 **Zamknięcie** | zapis na GitHubie, makieta modułu oznaczona jako wykonana | — |
 
 **`/stepkit:zglos`** przyjmuje wszystko, co przyjdzie Ci do głowy w trakcie. Opisujesz to własnymi słowami
@@ -395,6 +395,7 @@ site/                             strona na GitHub Pages (index.html, programisc
 | `dalej/references/superpowers.md` | jak stepkit używa skilli superpowers na etapach spec, plan i implementacja |
 | `dalej/references/abuse.md` | próby nadużyć na etapie testów i przed publikacją |
 | `dalej/references/browser.md` | sprawdzanie modułu w przeglądarce |
+| `dalej/references/final-review.md` | przegląd przed oddaniem modułu: zgodność ze specem, makietą, planem, wspólnymi klockami i dokumentami |
 | `dalej/references/changes.md` | zgłoszenia: rozpoznanie rodzaju, zapis w `FIXES.md` albo `IDEAS.md`, naprawa |
 | `dalej/references/email-mailgun.md` | moduł „E-mail” (Mailpit lokalnie, Mailgun w internecie) |
 | `dalej/references/deploy-ovh.md` | moduł „Publikacja”: serwer, domena, HTTPS, kopie zapasowe, wdrożenia |
