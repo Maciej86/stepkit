@@ -121,7 +121,7 @@
         <li><div><b>Plan</b><code>PLAN.md</code>: małe kroki, każdy z testem. Zaczyna się od szkieletu testów <code>it.todo</code> z wymagań; w zamkniętym module nie zostaje żaden <code>todo</code>.</div></li>
         <li><div><b>Implementacja</b>Test, który nie przechodzi, potem kod, potem <code>npm run check</code>. Na koniec przegląd całego modułu (skill <code>superpowers:requesting-code-review</code>) z listą kontrolną z zasad kodu.</div></li>
         <li><div><b>Testy</b>Najpierw próby nadużyć (cudze rekordy, ominięcie ról, podwójne kliknięcie, złe dane), każda zostaje jako test. Potem Claude klika w aplikacji przez Playwright, a użytkownik dostaje krótką listę w <code>TESTS.md</code>.</div></li>
-        <li><div><b>Zamknięcie</b>Commit i push, makieta modułu oznaczona jako zrobiona, <code>STATUS.md</code> wskazuje następny krok.</div></li>
+        <li><div><b>Zamknięcie</b>Commit i push, makieta modułu oznaczona jako zrobiona, <code>STATUS.md</code> wskazuje następny krok. Strona „Postęp” (<code>/progress</code> w makietach) czyta <code>docs/STATUS.md</code> na żywo, bo <code>watchStatus</code> w <code>mockups/vite.config.ts</code> pilnuje tego pliku.</div></li>
       </ol>
       <p style="margin-top:18px">Kolejność modułów zawsze zaczyna się od <b>Wyglądu</b> (trzy warianty na ekranach użytkownika, wybrany trafia do <code>docs/DESIGN.md</code> i <code>shared/src/theme.ts</code>), potem <b>Logowanie</b>, moduły dziedzinowe, opcjonalnie <b>E-mail</b>, a na końcu <b>Publikacja</b>.</p>
     </section>

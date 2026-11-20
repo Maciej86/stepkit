@@ -153,7 +153,16 @@ wybrany, choćby przez kilka rozmów), potem logowanie, kolejne części, na ko�
 „księgi wyglądu” (`docs/DESIGN.md`), więc każda kolejna część wygląda spójnie z resztą.
 Nie da się przeskoczyć do następnego modułu, zanim obecny nie będzie gotowy (chyba że świadomie go wstrzymasz).
 
-Postęp całego projektu widzisz w każdej chwili na stronie **Postęp** w makietach.
+📊 **Postęp prac widzisz na bieżąco** na stronie **Postęp** w makietach: http://localhost:5174/progress (makiety działają,
+gdy w terminalu chodzi `npm run dev`, o czym przypomina Claude). Strona pokazuje:
+
+- **następny krok**, czyli co wpisać albo zrobić teraz,
+- **kroki startu** (od sprawdzenia komputera do pliku stanu) z zaznaczeniem, które są już zrobione,
+- **tabelę modułów**: numer, nazwę, status (*zrobiony*, *w toku*, *wstrzymany*, *czeka*), bieżący etap (np. makieta,
+  testy) i moduły, od których dany moduł zależy.
+
+Strona czyta `docs/STATUS.md`, który Claude aktualizuje po każdym etapie. Zmiany widać po odświeżeniu, bez ponownego
+uruchamiania.
 
 ## 📦 Co dostajesz
 
