@@ -16,9 +16,10 @@ const projectVersion = (status: string) => /\*\*Wersja stepkit:\*\* (\d+\.\d+\.\
 const plugin = JSON.parse(read('plugins/stepkit/.claude-plugin/plugin.json')).version as string;
 const upgrades = read('plugins/stepkit/skills/dalej/references/upgrades.md');
 const upgradesDir = resolve(root, 'plugins/stepkit/skills/dalej/references/upgrades');
-const sections = (/\*\*Pliki aktualizacji\*\*[^:]*: (.+)/.exec(upgrades)?.[1] ?? '').split(', ').filter(Boolean);
+const listed = /\*\*Pliki aktualizacji\*\*[^:]*: (.+)/.exec(upgrades)?.[1] ?? '';
+const sections = listed === 'brak' ? [] : listed.split(', ').filter(Boolean);
 const files = readdirSync(upgradesDir).filter((f) => f.endsWith('.md')).map((f) => f.replace(/\.md$/, ''));
-const newestSection = sections.at(-1)!;
+const newestSection = sections.at(-1) ?? '0.0.0';
 
 describe('stepkit version', () => {
   it('is the same in plugin.json, marketplace.json and upgrades.md', () => {
@@ -32,7 +33,7 @@ describe('stepkit version', () => {
   });
 
   it('has no upgrade file newer than the plugin', () => {
-    expect(sections.length).toBeGreaterThan(0);
+    expect(listed).not.toBe('');
     expect(compare(newestSection, plugin)).toBeLessThanOrEqual(0);
   });
 
@@ -51,17 +52,11 @@ describe('stepkit version', () => {
 
   const evalDir = resolve(root, 'plugins/stepkit/evals');
   const fixtures = readdirSync(evalDir)
-    .filter((name) => !['results', 'dalej-upgrade', 'dalej-no-status'].includes(name))
+    .filter((name) => !['results', 'dalej-no-status'].includes(name))
     .map((name) => [name, read(`plugins/stepkit/evals/${name}/fixture.sh`)] as const)
     .filter(([, text]) => text.includes('docs/STATUS.md'));
 
-  it.each(fixtures)('eval fixture %s does not need an upgrade', (_name, text) => {
-    const version = projectVersion(text);
-    expect(version).toBeDefined();
-    expect(compare(version!, newestSection)).toBeGreaterThanOrEqual(0);
-  });
-
-  it('keeps the dalej-upgrade fixture old on purpose', () => {
-    expect(projectVersion(read('plugins/stepkit/evals/dalej-upgrade/fixture.sh'))).toBeUndefined();
+  it.each(fixtures)('eval fixture %s is on the current version', (_name, text) => {
+    expect(projectVersion(text)).toBe(plugin);
   });
 });

@@ -1,6 +1,6 @@
 schema_version: "1.1"
 name: dalej-version-current
-description: Projekt na wersji równej ostatniemu plikowi aktualizacji (lista w upgrades.md) nie dostaje propozycji aktualizacji, choć „Aktualna wersja stepkit” jest wyższa.
+description: Projekt na aktualnej wersji stepkit nie dostaje propozycji aktualizacji.
 runs: 5
 execution:
   max_turns: 10
