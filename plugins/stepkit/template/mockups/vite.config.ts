@@ -1,3 +1,4 @@
+import { unwatchFile, watchFile } from 'node:fs';
 import { fileURLToPath } from 'node:url';
 import { defineConfig } from 'vitest/config';
 import type { Plugin } from 'vite';
@@ -10,13 +11,22 @@ try {
   // brak .env: wartości domyślne
 }
 
-/** Strona „Postęp” czyta ../docs/STATUS.md spoza folderu makiet: bez tego serwer nie widzi zmian statusu. */
-const watchStatus = (): Plugin => ({
-  name: 'watch-status',
-  configureServer: (server) => {
-    server.watcher.add(fileURLToPath(new URL('../docs/STATUS.md', import.meta.url)));
-  },
-});
+/**
+ * Strona „Postęp” czyta ../docs/STATUS.md spoza folderu makiet. Serwer sprawdza plik co sekundę: powiadomienia
+ * systemu plików (zwłaszcza w WSL) potrafią się urwać po większej zmianie plików, a wtedy strona stała w miejscu.
+ */
+const watchStatus = (): Plugin => {
+  const file = fileURLToPath(new URL('../docs/STATUS.md', import.meta.url));
+  return {
+    name: 'watch-status',
+    // Tylko serwer makiet, nie budowanie i nie testy (vitest zostawiałby otwarte sprawdzanie pliku).
+    apply: (_config, env) => env.command === 'serve' && !process.env.VITEST,
+    configureServer: (server) => {
+      watchFile(file, { interval: 1000 }, () => server.watcher.emit('change', file));
+    },
+    closeBundle: () => unwatchFile(file),
+  };
+};
 
 export default defineConfig({
   plugins: [react(), watchStatus()],

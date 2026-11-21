@@ -2,7 +2,7 @@ mkdir -p docs
 cat > docs/STATUS.md <<'MD'
 # Stan projektu: Sklep
 
-**Wersja stepkit:** 0.1.51
+**Wersja stepkit:** 0.1.54
 
 **Następny krok:** Poprawka z FIXES.md: link „Nie pamiętasz hasła?” pod polem hasła.
 
