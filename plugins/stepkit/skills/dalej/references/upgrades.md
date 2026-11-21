@@ -1,6 +1,6 @@
 # Aktualizacja projektu do nowej wersji stepkit
 
-**Aktualna wersja stepkit:** 0.1.50
+**Aktualna wersja stepkit:** 0.1.51
 
 Szablon kopiuje się do projektu tylko raz, przy `/stepkit:start`. Gdy stepkit się zmienia, starsze projekty nie mają
 nowych plików, a nowe zasady o nich mówią. Ten plik mówi, co przenieść.
@@ -417,3 +417,21 @@ Zasady (bez zmian w kodzie, chyba że przegląd coś znajdzie):
   zmianę bez restartu serwera.
 - Po aktualizacji powiedz jednym zdaniem: „Strona »Postęp« w makietach pokazuje teraz bieżący stan modułów bez
   ponownego uruchamiania; jeśli makiety są włączone, uruchom je raz ponownie.”
+
+
+## 0.1.51: wspólne klocki także w makietach
+
+- Podmień `frontend/src/test/conventions.test.ts` na ten z szablonu (plik stepkit: nowy test 15, „klocek z
+  `common/` jest też w makietach”).
+- W pierwszej linii `frontend/src/common/AppLayout.tsx`, `AccountLayout.tsx`, `PublicLayout.tsx`,
+  `SideMenuLayout.tsx`, `NavMenu.tsx`, `NoAccess.tsx` i `DataState.tsx` dopisz komentarz z szablonu
+  (`// rule-ok: tylko w aplikacji, <powód>`).
+- `npm run check`. Każdy plik, który wskaże test 15:
+  - makieta pokazuje ten element → przenieś klocek do `mockups/src/common/` pod tą samą ścieżką i nazwą (ten sam kod,
+    bez wywołań API) i podmień na niego **wszystkie** kopie w makietach, także modułów zrobionych, bez pytania
+    użytkownika. Gdy w makietach jest już taki klocek pod inną nazwą albo w innym folderze, zmień jego nazwę i ścieżkę
+    na te z frontu;
+  - makieta go nie potrzebuje (układ, sesja, dane z API) → `// rule-ok: tylko w aplikacji, <powód>` w pierwszej linii.
+- Moduł `w toku` dokańczasz dopiero przy zielonym `npm run check`.
+- Po aktualizacji powiedz jednym zdaniem: „Nowa zasada: każdy wspólny element ekranu jest też w makietach pod tą
+  samą nazwą, więc nowe makiety pokazują go tak samo jak aplikacja.”

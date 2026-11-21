@@ -19,9 +19,10 @@ wniosków ani opisu, co zrobiłeś. Bez narzędzia Agent przechodzisz listę sam
 3. **Plan → kod.** Każdy krok odhaczony, a każda „Uwaga” i notatka z przeglądu kodu jest prawdziwa w kodzie (np.
    „używa wspólnej listy kolumn” = naprawdę jej używa).
 4. **Wspólne zamiast kopii w całym projekcie.** Każdy klocek z „Wydzielam” jest w `frontend/src/common/` **i**
-   w `mockups/src/common/` (albo ma zapisany powód, dlaczego makieta go nie potrzebuje). W żadnej makiecie, także
+   w `mockups/src/common/` pod tą samą ścieżką i nazwą (albo ma `rule-ok: tylko w aplikacji, <powód>`). W żadnej makiecie, także
    w makiecie tego modułu, nie zostaje kopia. Przy każdym nowym komponencie jest „Porównane z: …”, a recenzent sam
-   otwiera wymienione pliki i szuka podobnych po wyglądzie.
+   otwiera wymienione pliki i szuka podobnych po wyglądzie. Test zasad 15 zielony, a każde `rule-ok: tylko
+   w aplikacji` ma prawdziwy powód (makieta naprawdę nie pokazuje tego elementu).
 5. **Dokumenty.** `STATUS.md` (etap, decyzje), Mapa dostępu w `SPEC-GENERAL.md`, `FIXES.md` (błędy odłożone
    w trakcie są zapisane), `TESTS.md` (próby nadużyć z wynikiem). W `shared/locales` nie ma nieużywanych kluczy
    tego modułu.
