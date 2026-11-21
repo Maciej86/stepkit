@@ -296,7 +296,7 @@ site/                             <i>ta strona (GitHub Pages)</i></div>
 
     <section id="wersje">
       <h2>Wersje i aktualizacje projektów</h2>
-      <p>Szablon kopiuje się do projektu tylko raz, a stepkit się zmienia. Dlatego <code>docs/STATUS.md</code> ma linię <code>**Wersja stepkit:** X.Y.Z</code>, a <code>upgrades.md</code> sekcję dla każdej wersji, która zmieniła szablon. <code>/stepkit:dalej</code> porównuje numery i proponuje aktualizację: nowe pliki kopiuje, pliki zmienione przez projekt łączy, a <code>docs/CONVENTIONS.md</code> i <code>docs/conventions/</code> podmienia w całości (wyjątki projektu są w <code>SPEC-GENERAL.md</code>). Po każdej sekcji <code>npm run check</code> i commit. Działającej, opublikowanej aplikacji nie przebudowuje dla samych nowości, tylko dla poprawek bezpieczeństwa albo przy nowym module.</p>
+      <p>Szablon kopiuje się do projektu tylko raz, a stepkit się zmienia. Dlatego <code>docs/STATUS.md</code> ma linię <code>**Wersja stepkit:** X.Y.Z</code>, a <code>upgrades.md</code> spis plików <code>upgrades/&lt;wersja&gt;.md</code>, po jednym dla każdej wersji, która zmieniła szablon (projekt czyta tylko te, których potrzebuje). <code>/stepkit:dalej</code> porównuje numery i proponuje aktualizację: nowe pliki kopiuje, pliki zmienione przez projekt łączy, a <code>docs/CONVENTIONS.md</code> i <code>docs/conventions/</code> podmienia w całości (wyjątki projektu są w <code>SPEC-GENERAL.md</code>). Po każdej sekcji <code>npm run check</code> i commit. Działającej, opublikowanej aplikacji nie przebudowuje dla samych nowości, tylko dla poprawek bezpieczeństwa albo przy nowym module.</p>
     </section>
 
     <section id="rozwoj">
@@ -304,7 +304,7 @@ site/                             <i>ta strona (GitHub Pages)</i></div>
       <ul>
         <li><b>Testy spójności:</b> <code>npx vitest run --dir tests</code>. Sprawdzają m.in., że numer wersji jest wszędzie ten sam, ściągawka README szablonu zgadza się z portami, wzorce dziedzin są w spisie, a <code>CLAUDE.md</code> szablonu odsyła do istniejących plików.</li>
         <li><b>Evale</b> (z <code>plugins/stepkit</code>): <code>claude plugin eval . --case '&lt;glob&gt;' -j 4 --trust-plugin --scaffold --allow-tools Write Edit</code>. Każdy scenariusz ma <code>fixture.sh</code> (projekt w danym stanie) i <code>case.yaml</code> (polecenie i oceny).</li>
-        <li><b>Wersja:</b> każda zmiana podnosi numer w <code>plugin.json</code>, <code>marketplace.json</code>, <code>upgrades.md</code>, <code>template/docs/STATUS.md</code>, przykładzie w <code>document-templates.md</code> i odznace README. Zmiana w <code>template/</code> wymaga nowej sekcji w <code>upgrades.md</code>.</li>
+        <li><b>Wersja:</b> każda zmiana podnosi numer w <code>plugin.json</code>, <code>marketplace.json</code>, <code>upgrades.md</code>, <code>template/docs/STATUS.md</code>, przykładzie w <code>document-templates.md</code> i odznace README. Zmiana w <code>template/</code> wymaga nowego pliku <code>upgrades/&lt;wersja&gt;.md</code> i numeru na liście w <code>upgrades.md</code>.</li>
         <li><b>Zgłoszenia i pomysły:</b> <a href="https://github.com/Maciej86/stepkit/issues">Issues na GitHubie</a>.</li>
       </ul>
     </section>

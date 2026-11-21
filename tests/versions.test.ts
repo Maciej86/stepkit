@@ -15,8 +15,10 @@ const projectVersion = (status: string) => /\*\*Wersja stepkit:\*\* (\d+\.\d+\.\
 
 const plugin = JSON.parse(read('plugins/stepkit/.claude-plugin/plugin.json')).version as string;
 const upgrades = read('plugins/stepkit/skills/dalej/references/upgrades.md');
-const sections = [...upgrades.matchAll(/^## (\d+\.\d+\.\d+):/gm)].map((m) => m[1]);
-const newestSection = [...sections].sort(compare).at(-1)!;
+const upgradesDir = resolve(root, 'plugins/stepkit/skills/dalej/references/upgrades');
+const sections = (/\*\*Pliki aktualizacji\*\*[^:]*: (.+)/.exec(upgrades)?.[1] ?? '').split(', ').filter(Boolean);
+const files = readdirSync(upgradesDir).filter((f) => f.endsWith('.md')).map((f) => f.replace(/\.md$/, ''));
+const newestSection = sections.at(-1)!;
 
 describe('stepkit version', () => {
   it('is the same in plugin.json, marketplace.json and upgrades.md', () => {
@@ -29,9 +31,22 @@ describe('stepkit version', () => {
     expect(projectVersion(read('plugins/stepkit/skills/dalej/references/document-templates.md'))).toBe(plugin);
   });
 
-  it('has no upgrade section newer than the plugin', () => {
+  it('has no upgrade file newer than the plugin', () => {
     expect(sections.length).toBeGreaterThan(0);
     expect(compare(newestSection, plugin)).toBeLessThanOrEqual(0);
+  });
+
+  it('lists every upgrade file in upgrades.md, oldest first, and nothing else', () => {
+    expect([...sections].sort(compare)).toEqual(sections);
+    expect([...files].sort(compare)).toEqual(sections);
+  });
+
+  it('starts each upgrade file with its own version as the title', () => {
+    for (const v of files) expect(readFileSync(resolve(upgradesDir, `${v}.md`), 'utf8')).toMatch(new RegExp(`^# ${v.replace(/\./g, '\\.')}: \\S`));
+  });
+
+  it('keeps upgrades.md short (details live in upgrades/<version>.md)', () => {
+    expect(upgrades).not.toMatch(/^## \d+\.\d+\.\d+:/m);
   });
 
   const evalDir = resolve(root, 'plugins/stepkit/evals');

@@ -5,7 +5,7 @@
 **Zbuduj własną aplikację www z Claude, krok po kroku, bez programowania.**
 
 [![Licencja: MIT](https://img.shields.io/badge/licencja-MIT-green.svg)](LICENSE)
-![Wersja](https://img.shields.io/badge/wersja-0.1.52-blue.svg)
+![Wersja](https://img.shields.io/badge/wersja-0.1.53-blue.svg)
 ![Claude Code](https://img.shields.io/badge/Claude%20Code-plugin-d97757.svg)
 ![Język](https://img.shields.io/badge/język-polski-red.svg)
 
@@ -399,7 +399,8 @@ site/                             strona na GitHub Pages (index.html, programisc
 | `dalej/references/changes.md` | zgłoszenia: rozpoznanie rodzaju, zapis w `FIXES.md` albo `IDEAS.md`, naprawa |
 | `dalej/references/email-mailgun.md` | moduł „E-mail” (Mailpit lokalnie, Mailgun w internecie) |
 | `dalej/references/deploy-ovh.md` | moduł „Publikacja”: serwer, domena, HTTPS, kopie zapasowe, wdrożenia |
-| `dalej/references/upgrades.md` | aktualna wersja stepkit i co przenieść do starszych projektów |
+| `dalej/references/upgrades.md` | aktualna wersja stepkit i spis plików aktualizacji |
+| `dalej/references/upgrades/<wersja>.md` | co przenieść do starszych projektów, jeden plik na wersję zmieniającą szablon |
 | `zglos/SKILL.md` | przyjęcie zgłoszenia, dalej według `changes.md` |
 
 **Szablon** (`template/`): `shared/` (schematy, stałe, teksty, motyw), `backend/` (API, migracje, pliki, sesja),
@@ -414,8 +415,8 @@ bez pluginu), `README.md` (ściągawka projektu).
   i `dalej`).
 - Evale (z `plugins/stepkit`): `claude plugin eval . --case '<glob>' -j 4 --trust-plugin --scaffold --allow-tools Write Edit`.
 - Każda zmiana podnosi wersję w `plugin.json`, `marketplace.json`, `upgrades.md`, `template/docs/STATUS.md`,
-  przykładzie w `document-templates.md` i odznace tego README. Zmiana w `template/` wymaga nowej sekcji w
-  `upgrades.md`, żeby starsze projekty dostały nowe pliki.
+  przykładzie w `document-templates.md` i odznace tego README. Zmiana w `template/` wymaga nowego pliku
+  `upgrades/<wersja>.md` i numeru na liście „Pliki aktualizacji” w `upgrades.md`, żeby starsze projekty dostały nowe pliki.
 
 ## 🛠️ Stan projektu
 
