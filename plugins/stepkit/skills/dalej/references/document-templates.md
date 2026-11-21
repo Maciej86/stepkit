@@ -28,7 +28,7 @@ kolumn, wartości statusów), bo strona „Postęp” go odczytuje. Maks. ok. 60
 ```markdown
 # Stan projektu: Sklep z zamówieniami
 
-**Wersja stepkit:** 0.1.51
+**Wersja stepkit:** 0.1.52
 
 **Następny krok:** Moduł Logowanie, implementacja: krok 3 z 7 (formularz logowania).
 
@@ -179,8 +179,8 @@ Plik `shared/locales/pl/<module>.json`: najważniejsze klucze.
 ## Części (tylko duży moduł, `SKILL.md` „Duży moduł dzielisz na części”)
 | # | Część | Zakres | Dlaczego osobno |
 |---|---|---|---|
-| 1 | Rozpatrywanie | lista wniosków, filtry, zatwierdzenie, odrzucenie z komentarzem, odjęcie dni | bez tego moduł nie działa; sama część 1 jest już używalna |
-| 2 | Anulowanie i wydruk | prośba o anulowanie, decyzja, zwrot dni, wydruk wniosku | rzadsze czynności, mogą dojść później |
+| 1 | Przyjęcie i wydanie | dokument przyjęcia, dokument wydania, zmiana stanu | bez tego moduł nie działa; sama część 1 jest już używalna |
+| 2 | Inwentaryzacja i wydruk | spis z natury, różnice, wydruk dokumentu | rzadsze czynności, mogą dojść później |
 Każda część: `SPEC-<n>.md`, `PLAN-<n>.md`, `TESTS-<n>.md` (wzory jak niżej). Ten plik zostaje specem ogólnym modułu.
 ## Poza zakresem
 ```
@@ -195,11 +195,11 @@ graniczne), każda reguła z plików z kolumny „Wzorce” (np. limit logowań 
 sam `routeProtection.test.ts`; w module zostaje po jednym teście 401 i 403 w pliku tras. Przy zamknięciu modułu
 test zasad nie przepuści żadnego `it.todo` w jego folderach.
 
-**Kod w folderze zrobionego modułu.** Gdy nowy moduł dopisuje funkcje do modułu `zrobionego` (np. Archiwum do
-`employees.service.ts`), szkielet ich testów nie może leżeć w folderze tamtego modułu, bo test zasad nie przepuszcza
+**Kod w folderze zrobionego modułu.** Gdy nowy moduł dopisuje funkcje do modułu `zrobionego` (np. Faktury do
+`clients.service.ts`), szkielet ich testów nie może leżeć w folderze tamtego modułu, bo test zasad nie przepuszcza
 `it.todo` w zrobionym module. Kładziesz go w `__tests__` nowego modułu, w pliku z dopiskiem `.todo`, np.
-`backend/src/modules/archive/__tests__/employees.todo.test.ts`. W pierwszej linii pliku zapisujesz miejsce docelowe:
-`// Docelowo: backend/src/modules/employees/__tests__/archived.service.test.ts`. Krok, który pisze te funkcje, pisze
+`backend/src/modules/invoices/__tests__/clients.todo.test.ts`. W pierwszej linii pliku zapisujesz miejsce docelowe:
+`// Docelowo: backend/src/modules/clients/__tests__/billing.service.test.ts`. Krok, który pisze te funkcje, pisze
 prawdziwe testy od razu w pliku docelowym i usuwa z pliku `.todo` załatwione `it.todo`; pusty plik `.todo` usuwasz.
 Plik `.todo` leży w folderze nowego modułu, więc przy jego zamknięciu test zasad złapie każdy zapomniany szkielet.
 Konfliktu nie omijasz przez `rule-ok`, pominięcie szkieletu ani chwilową zmianę statusu modułu.
@@ -211,20 +211,24 @@ nie po nazwie („Wspólne zamiast kopii” w `code-conventions.md`). Wynik w se
 Wydzielenie to pierwszy krok po szkielecie testów: przeniesienie z parametrami, test, podmiana we wszystkich
 modułach, które mają kopię (nie odkładasz jej na później i nie pytasz o nią użytkownika), `npm run check`.
 
+Nazwy klocków we wzorze to przykład z wymyślonego projektu. W „Używam ponownie” wpisujesz tylko to, co naprawdę jest
+w Twoim projekcie (szablon ma w `common/` m.in. `InfoCard`, `DateText`, `DateField`, `ButtonIcon`, `PageSection`).
+
 ```markdown
 # Plan: <moduł>
 
-**Używam ponownie:** `ConfirmModal` (common), `useListParams` (core), `isDuplicateKey` (db) | brak
-**Wydzielam:** okno „Ukryj” z Typów urlopów → `common/ConfirmModal` (parametry: tytuł, przycisk, `danger`) | brak
+**Używam ponownie:** `InfoCard`, `DateText` (common, z szablonu), `useListParams` (core, wydzielony w module Klienci) | brak
+**Wydzielam:** okno „Ukryj” z Kategorii produktów → `common/ConfirmModal` (parametry: tytuł, przycisk, `danger`) | brak
 
 - [ ] 0. Szkielet testów: `it.todo` dla każdego wymagania ze specu (lista w krokach niżej); testy funkcji dopisywanych
   do zrobionych modułów w `orders/__tests__/*.todo.test.ts` (miejsce docelowe w pierwszej linii) → `npm run check`
-- [ ] 1. Wydzielenie `ConfirmModal` do `common/` + test, podmiana we wszystkich kopiach (Typy urlopów, …) → `npm run check`
+- [ ] 1. Wydzielenie `ConfirmModal` do `common/` i `mockups/src/common/` + test, podmiana we wszystkich kopiach
+  (Kategorie produktów, …) → `npm run check`
 - [ ] 2. Migracja `003_orders.sql` + test: … → `npm run migrate`, `npm run check`
 - [ ] 3. Schemat `shared/src/schemas/orders.ts` + testy
 - [ ] 4. Trasa `GET /api/orders` + testy (dane, 401, 403)
-- [ ] 5. Podgląd zamówienia z prawej. Porównane z: `SideDrawer` (common), `DetailsDrawer` (leave-requests) → używam
-  `SideDrawer`, treść w `children` → `npm run check`
+- [ ] 5. Podgląd zamówienia z prawej. Porównane z: `ClientDrawer` (clients) → wspólna rama `common/SideDrawer`
+  w obu miejscach, treść w `children`, `ClientDrawer` podmieniony → `npm run check`
 - [ ] …
 - [ ] N. Test e2e `e2e/orders.spec.ts` ze scenariuszy `TESTS.md`
 ```
